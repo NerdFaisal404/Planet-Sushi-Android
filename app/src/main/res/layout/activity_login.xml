@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_home_background"
+        android:fitsSystemWindows="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_darker_gray_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:drawableLeft="@drawable/ic_horizontal_pink"
+                    android:drawablePadding="@dimen/dp10"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Connexion"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp24" />
+
+                <TextView
+                    android:id="@+id/tv_subHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Veuillez remplir les champs ci-dessous"
+                    android:textColor="#627588"
+                    android:textSize="@dimen/sp15" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginBottom="@dimen/dp5"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/input_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_lock"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Mot de passe"
+                        android:inputType="textPassword"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_forget_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Mot de passe oublié ?"
+                    android:textColor="@color/color_darker_gray"
+                    android:paddingLeft="2dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tvSignup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp55"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp20"
+            android:background="@drawable/bg_unselected_pink"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="CONTINUER"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp16" />
+
+    </RelativeLayout>
+
+
+</layout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bottom_home"
+    android:orientation="vertical"
+    android:padding="@dimen/dp16">
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Adresse"
+        android:textColor="#394F61"
+        android:textSize="@dimen/sp24" />
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/color_EDEDED" />
+
+    <TextView
+        android:id="@+id/tvNewAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:padding="@dimen/dp_four"
+        android:text="+   Ajouter une nouvelle adresse"
+        android:textColor="@color/colorPink"
+        android:textSize="@dimen/sp15" />
+
+    <View
+        android:id="@+id/view_dividerBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/color_EDEDED" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/address_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topLayout" />
+
+</LinearLayout>

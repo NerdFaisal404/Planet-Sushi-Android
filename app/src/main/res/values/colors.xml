@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#394F61</color>
+    <color name="colorPrimaryDark">#394F61</color>
+    <color name="colorAccent">#394F61</color>
+    <color name="colorLightGray">#99A8AF</color>
+    <color name="color_394F61">#394F61</color>
+    <color name="colorGray">#979797</color>
+    <color name="colorPink">#EA148A</color>
+    <color name="red">#F44336</color>
+    <color name="transparent_white">#33FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorFadedWhite">#FAFAFA</color>
+    <color name="color_627588">#627588</color>
+    <color name="color_EDEDED">#EDEDED</color>
+    <color name="color_D8D8D8">#D8D8D8</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorDarkBlue">#394F61</color>
+    <color name="colorDarkGrey">#AAAAAA</color>
+    <color name="colorLightGrey">#F9F9F9</color>
+    <color name="colorDivider">#D8D8D8</color>
+    <color name="color_darker_gray">#394F61</color>
+    <color name="color_darker_gray_70">#B3394F61</color>
+    <color name="color_FC3E2F">#FC3E2F</color>
+    <color name="color_facebook">#5E6CC4</color>
+    <color name="color_separator">#D5DCE0</color>
+    <color name="color_profile_circle">#2C3D4A</color>
+    <color name="color_gold">#B28F4D</color>
+</resources>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_home_background"
+        android:fitsSystemWindows="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp16">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_darker_gray_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_headline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:drawableLeft="@drawable/ic_horizontal_pink"
+                    android:drawablePadding="@dimen/dp10"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Mon Compte"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp24" />
+
+                <TextView
+                    android:id="@+id/tv_subHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Remplissez vos informations personnelles"
+                    android:textColor="#627588"
+                    android:textSize="@dimen/sp15" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginBottom="@dimen/dp5"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/edt_first_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Nom"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:layout_marginBottom="@dimen/dp5"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/edt_last_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Prénom"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:layout_marginBottom="@dimen/dp5"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/edt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:drawableLeft="@drawable/ic_email"
+                        android:drawablePadding="@dimen/dp10"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Date de naissance"
+                        android:inputType="none"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </android.support.design.widget.TextInputLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/layoutLeft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <com.rilixtech.CountryCodePicker
+                            android:id="@+id/countyCodePciker"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:ccp_hideNameCode="true" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@color/color_darker_gray" />
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/edtPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/layoutLeft"
+                        android:hint="Numéro de téléphone"
+                        android:inputType="phone"
+                        android:textColor="@color/color_darker_gray"
+                        android:textSize="@dimen/sp17" />
+                </RelativeLayout>
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-5dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:fontFamily="@font/robot_regular"
+                    android:text="Je souhaite m’inscrire au programme de fidélité"
+                    android:textColor="@color/color_darker_gray"
+                    android:textSize="@dimen/sp14" />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tvSignup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp55"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp20"
+            android:background="@drawable/bg_unselected_pink"
+            android:enabled="false"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="CONTINUER"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp16" />
+
+    </RelativeLayout>
+
+
+</layout>

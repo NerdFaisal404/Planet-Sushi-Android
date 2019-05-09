@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/dp_sixteen"
+    android:background="@drawable/bg_light_gray_all_side_four_dp"
+    android:padding="10dp">
+
+
+        <TextView
+            android:layout_width="197dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/ic_location"
+            android:drawablePadding="15dp"
+            android:fontFamily="@font/robot_regular"
+            tools:text="75008 Paris  16 Cours Albert 1 er COde 2713, Etage 5"
+            android:textSize="@dimen/sp16" />
+
+        <ImageView
+            android:id="@+id/imageViewTick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_selected_location" />
+
+
+</RelativeLayout>

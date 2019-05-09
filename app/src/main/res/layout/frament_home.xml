@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_home_background">
+
+        <ImageView
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomLayout"
+            android:layout_alignParentTop="true"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_place_holder"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp50"
+            android:background="@drawable/bg_parcel_way_round"
+            android:drawableLeft="@drawable/ic_delivery"
+            android:drawableRight="@drawable/ic_down_arrow"
+            android:drawablePadding="8dp"
+            android:elevation="1dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingTop="@dimen/dp4"
+            android:paddingRight="@dimen/dp10"
+            android:paddingBottom="@dimen/dp4"
+            android:text="Livraison"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/sp15" />
+
+        <LinearLayout
+            android:id="@+id/bottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="-20dp"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp16"
+            android:paddingRight="@dimen/dp16"
+            android:paddingBottom="@dimen/dp16">
+
+
+            <RelativeLayout
+                android:id="@+id/layoutAddress"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/bg_location_search"
+                android:padding="@dimen/dp_tweleve">
+
+                <TextView
+                    android:id="@+id/destination_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp10"
+                    android:layout_marginRight="@dimen/dp_four"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_medium"
+                    android:singleLine="true"
+                    android:text="Quelle est votre adresse ?"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/dp_sixteen" />
+
+                <ImageView
+                    android:id="@+id/ivView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp16"
+                    android:layout_toLeftOf="@+id/ivClock"
+                    android:src="@drawable/ic_vertical_line" />
+
+
+                <ImageView
+                    android:id="@+id/ivClock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:src="@drawable/ic_home_clock" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/layoutSignup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/layoutRegistraion"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/bg_create_account"
+                    android:padding="@dimen/dp_tweleve">
+
+                    <ImageView
+                        android:id="@+id/ivFish"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:src="@drawable/ic_fish" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp10"
+                        android:layout_marginRight="@dimen/dp_four"
+                        android:layout_toRightOf="@+id/ivFish"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:singleLine="true"
+                        android:text="Créer un compte"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/dp_sixteen" />
+
+
+                    <ImageView
+                        android:id="@+id/ivRightArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:src="@drawable/ic_white_rightt_arrow" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layoutLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="@drawable/bg_login"
+                    android:padding="@dimen/dp_tweleve">
+
+                    <ImageView
+                        android:id="@+id/ivPeople"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:background="@drawable/bg_black_oval"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_account" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp15"
+                        android:layout_marginRight="@dimen/dp_four"
+                        android:layout_toRightOf="@+id/ivPeople"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:singleLine="true"
+                        android:text="Se connecter"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/dp_sixteen" />
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:src="@drawable/ic_white_rightt_arrow" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/layoutRecentAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/addressOne"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="2dp"
+                android:padding="@dimen/dp_tweleve">
+
+                <ImageView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="@dimen/dp32"
+                    android:layout_height="@dimen/dp32"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="centerCrop"
+                    android:padding="7dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_black_oval"
+                    android:src="@drawable/ic_clock" />
+
+                <LinearLayout
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_icon"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recent_addr_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="75008 Paris"
+                        android:textSize="@dimen/sp16" />
+
+                    <TextView
+                        android:id="@+id/tvAddresTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/robot_regular"
+                        android:text="16 Cours Albert 1er"
+                        android:textSize="@dimen/sp16" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/colorPink"
+                    android:layout_marginRight="5dp" />
+
+                    <TextView
+                        android:id="@+id/tvTimeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Min"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorPink"
+                        android:layout_marginRight="5dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:background="#D8D8D8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:id="@+id/addressOneTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="2dp"
+                android:padding="@dimen/dp_tweleve">
+
+                <ImageView
+                    android:id="@+id/iv_icon_two"
+                    android:layout_width="@dimen/dp32"
+                    android:layout_height="@dimen/dp32"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="centerCrop"
+                    android:padding="7dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_black_oval"
+                    android:src="@drawable/ic_clock" />
+
+                <LinearLayout
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_icon_two"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/recent_addr_tv_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="75008 Paris"
+                        android:textSize="@dimen/sp16" />
+
+                    <TextView
+                        android:id="@+id/tvAddresTwoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/robot_regular"
+                        android:text="16 Cours Albert 1er"
+                        android:textSize="@dimen/sp16" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTimeTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="45"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorPink"
+                        android:layout_marginRight="5dp" />
+
+                    <TextView
+                        android:id="@+id/tvTimeTextTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Min"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorPink"
+                        android:layout_marginRight="5dp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</layout>

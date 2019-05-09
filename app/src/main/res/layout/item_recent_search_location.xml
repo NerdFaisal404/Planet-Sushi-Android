@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_sixteen"
+        android:background="@drawable/bg_light_gray_all_side_four_dp"
+        android:padding="10dp">
+
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/ic_location" />
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/dp16"
+            android:id="@+id/layoutAddress"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recent_addr_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="#627588"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:text="75008 Paris"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:id="@+id/tvAddresTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="#627588"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/robot_regular"
+                android:text="16 Cours Albert 1er"
+                android:textSize="@dimen/sp13" />
+
+            <TextView
+                android:id="@+id/tvAddressThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textColor="#627588"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/robot_regular"
+                android:text="Code 2713, Étage 5"
+                android:textSize="@dimen/sp13" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageViewTick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_selected_location" />
+
+    </RelativeLayout>
+
+</layout>
