@@ -83,7 +83,6 @@ dependencies {
     implementation 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
 
 
-
 }
 //Test dependency
 dependencies {
@@ -94,3 +93,18 @@ dependencies {
 
 apply plugin: 'io.objectbox'
 
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}

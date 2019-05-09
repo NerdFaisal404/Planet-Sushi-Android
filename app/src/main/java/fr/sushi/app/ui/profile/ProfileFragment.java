@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.profile;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import fr.sushi.app.data.model.ProfileItemModel;
 import fr.sushi.app.databinding.FragmentProfileBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.editprofile.EditProfileActivity;
 
 public class ProfileFragment extends BaseFragment implements ItemClickListener<ProfileItemModel> {
     private FragmentProfileBinding mBinding;
@@ -75,6 +77,8 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
     @Override
     public void onItemClick(View view, ProfileItemModel item) {
-
+        if (item.getItemName().equals(itemName[0])) {
+            startActivity(new Intent(getActivity(), EditProfileActivity.class));
+        }
     }
 }
