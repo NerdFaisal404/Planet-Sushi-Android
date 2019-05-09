@@ -152,7 +152,7 @@
                 android:singleLine="true"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp15"
-                tools:text="VOIR LA COMMANDE" />
+                android:text="VOIR LA COMMANDE" />
 
             <TextView
                 android:id="@+id/tvPrice"

@@ -18,6 +18,7 @@
             android:paddingRight="@dimen/dp16">
 
             <RelativeLayout
+                android:id="@+id/topLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true">
@@ -45,17 +46,19 @@
 
 
             <com.badoualy.stepperindicator.StepperIndicator
+                android:layout_below="@+id/topLayout"
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/bottomLayout"
                 android:layout_marginLeft="@dimen/dp16"
                 android:layout_marginTop="@dimen/dp20"
-                android:layout_above="@+id/bottomLayout"
                 android:layout_marginRight="@dimen/dp16"
                 app:stpi_circleColor="@color/colorDarkGrey"
                 app:stpi_circleRadius="@dimen/dp5"
                 app:stpi_indicatorColor="@color/colorPink"
                 app:stpi_indicatorRadius="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp20"
                 app:stpi_lineColor="@color/colorWhite"
                 app:stpi_lineDoneColor="@color/colorPink"
                 app:stpi_stepCount="3" />
@@ -63,32 +66,41 @@
 
             <LinearLayout
                 android:id="@+id/bottomLayout"
-                android:layout_alignParentBottom="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp5"
+                android:layout_alignParentBottom="true">
 
                 <TextView
+                    android:gravity="left"
                     android:id="@+id/tvStepOne"
-                    android:text="Commande"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:text="Commande"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp15" />
+
                 <TextView
+                    android:gravity="center"
                     android:id="@+id/tvStepTwo"
-                    android:text="Commande"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:text="Accompagnements"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp15" />
+
                 <TextView
+                    android:gravity="right"
                     android:id="@+id/tvStepThree"
-                    android:text="Commande"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:text="Paiement"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/sp15" />
 

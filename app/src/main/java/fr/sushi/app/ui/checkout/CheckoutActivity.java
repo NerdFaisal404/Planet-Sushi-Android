@@ -37,11 +37,8 @@ public class CheckoutActivity extends AppCompatActivity {
         });
 
 
-        /*binding.tvTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.viewpager.setCurrentItem(2);
-            }
-        });*/
+        binding.tvStepOne.setOnClickListener(v -> binding.viewpager.setCurrentItem(0));
+        binding.tvStepTwo.setOnClickListener(v -> binding.viewpager.setCurrentItem(1));
+        binding.tvStepThree.setOnClickListener(v -> binding.viewpager.setCurrentItem(2));
     }
 }
