@@ -96,6 +96,18 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)){
+           binding.layoutSignup.setVisibility(View.GONE);
+           binding.layoutRecentAddress.setVisibility(View.VISIBLE);
+        }else {
+            binding.layoutSignup.setVisibility(View.VISIBLE);
+            binding.layoutRecentAddress.setVisibility(View.GONE);
+        }
+    }
+
     private void initListener() {
         binding.layoutSignup.setOnClickListener(v -> startActivity(new Intent(getActivity(), CreateAccountActivity.class)));
 
