@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
+import fr.sushi.app.ui.checkout.commade.CommadeFragment;
 
 class PagerAdapter extends FragmentPagerAdapter {
 
@@ -22,7 +23,7 @@ class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new AccompagnementsFragment();
+                return new CommadeFragment();
             case 1:
                 return new AccompagnementsFragment();
             case 2:
