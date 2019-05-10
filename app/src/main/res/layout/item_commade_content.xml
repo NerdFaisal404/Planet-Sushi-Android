@@ -53,6 +53,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="TOP' HOTATE"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textColor="@color/color_394F61"
                     android:textSize="@dimen/sp16" />
 
