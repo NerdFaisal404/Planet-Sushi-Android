@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
+
 class PagerAdapter extends FragmentPagerAdapter {
 
     public PagerAdapter(FragmentManager fm) {
@@ -17,7 +19,18 @@ class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PageFragment.newInstance(position + 1, position == getCount() - 1);
+
+        switch (position) {
+            case 0:
+                return new AccompagnementsFragment();
+            case 1:
+                return new AccompagnementsFragment();
+            case 2:
+                return new AccompagnementsFragment();
+            default:
+                return null;
+
+        }
     }
 
     @Override
