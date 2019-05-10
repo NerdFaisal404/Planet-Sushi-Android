@@ -12,5 +12,11 @@ public interface IntentKey {
     String KEY_POST_ID = "KEY_POST_ID";
     String KEY_USER_NAME = "KEY_USER_NAME";
     String KEY_USER_PASSWORD = "KEY_USER_PASSWORD";
-    String KEY_IS_LIVARSION ="KEY_IS_LIVARSION";
+    String KEY_IS_LIVARSION = "KEY_IS_LIVARSION";
+
+    String KEY_IS_CREATE_ADDRESS = "KEY_IS_CREATE_ADDRESS";
+    String ADDRESS = "ADDRESS";
+    String ZIP_CODE = "ZIP_CODE";
+    String CITY = "CITY";
+
 }

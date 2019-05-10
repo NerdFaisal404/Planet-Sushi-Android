@@ -1,70 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/ic_home_background"
-    tools:context=".ui.profileaddress.ProfileAddressActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/image_view_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp16"
-        android:padding="@dimen/dp5"
-        android:src="@drawable/ic_darker_gray_arrow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_home_background"
+        tools:context=".ui.profileaddress.ProfileAddressActivity">
 
-    <TextView
-        android:id="@+id/tv_headline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp20"
-        android:drawableLeft="@drawable/ic_horizontal_pink"
-        android:drawablePadding="@dimen/dp10"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Mes Adresses"
-        android:textColor="#394F61"
-        android:textSize="@dimen/sp24"
-        app:layout_constraintStart_toStartOf="@+id/image_view_back"
-        app:layout_constraintTop_toBottomOf="@+id/image_view_back" />
+        <ImageView
+            android:id="@+id/image_view_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:padding="@dimen/dp5"
+            android:src="@drawable/ic_darker_gray_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_subHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Ajoutez ou modifiez vos adresses"
-        android:textColor="#627588"
-        android:textSize="@dimen/sp15"
-        app:layout_constraintStart_toStartOf="@+id/tv_headline"
-        app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
+        <TextView
+            android:id="@+id/tv_headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:drawableLeft="@drawable/ic_horizontal_pink"
+            android:drawablePadding="@dimen/dp10"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Mes Adresses"
+            android:textColor="#394F61"
+            android:textSize="@dimen/sp24"
+            app:layout_constraintStart_toStartOf="@+id/image_view_back"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_back" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp8"
-        android:layout_marginEnd="@dimen/dp16"
-        android:layout_marginBottom="@dimen/dp4"
-        app:layout_constraintBottom_toTopOf="@+id/button_add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tv_subHeader"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subHeader" />
+        <TextView
+            android:id="@+id/tv_subHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Ajoutez ou modifiez vos adresses"
+            android:textColor="#627588"
+            android:textSize="@dimen/sp15"
+            app:layout_constraintStart_toStartOf="@+id/tv_headline"
+            app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
 
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp16"
-        android:background="@drawable/bg_unselected_pink"
-        android:fontFamily="@font/roboto_bold"
-        android:text="+ AJOUTER UNE ADRESSE"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/sp16"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_address"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp4"
+            app:layout_constraintBottom_toTopOf="@+id/button_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_subHeader"
+            app:layout_constraintTop_toBottomOf="@+id/tv_subHeader" />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/bg_unselected_pink"
+            android:fontFamily="@font/roboto_bold"
+            android:text="+ AJOUTER UNE ADRESSE"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

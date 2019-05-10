@@ -1,49 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    tools:context=".ui.profileaddress.AddressAddActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <View
-        android:id="@+id/view_header"
-        android:layout_width="0dp"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="#F9F9F9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        tools:context=".ui.profileaddress.AddressAddActivity">
 
-    <ImageView
-        android:id="@+id/image_view_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp16"
-        android:padding="@dimen/dp5"
-        android:src="@drawable/ic_cross_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/view_header"
+            android:layout_width="0dp"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="#F9F9F9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_view_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ajouter une adresse"
-        android:textColor="@color/colorDarkBlue"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_view_back"
-        app:layout_constraintTop_toTopOf="@+id/image_view_back" />
+        <ImageView
+            android:id="@+id/image_view_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:padding="@dimen/dp5"
+            android:src="@drawable/ic_cross_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#D1D1D1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_header" />
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajouter une adresse"
+            android:textColor="@color/colorDarkBlue"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_view_back"
+            app:layout_constraintTop_toTopOf="@+id/image_view_back" />
+
+        <View
+            android:id="@+id/view_top"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#D1D1D1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_header" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp16"
+            app:layout_constraintBottom_toTopOf="@+id/button_add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_top">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/text_view_address_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:text="Address"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_view_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location_black"
+                    android:drawablePadding="@dimen/dp10"
+                    android:fontFamily="@font/robot_regular"
+                    android:paddingTop="@dimen/dp10"
+                    android:paddingBottom="@dimen/dp10"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_address_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_address_title"
+                    tools:text="France" />
+
+                <TextView
+                    android:id="@+id/text_view_address_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/icon_house2x"
+                    android:drawableEnd="@drawable/ic_down_arrow"
+                    android:drawablePadding="@dimen/dp10"
+                    android:fontFamily="@font/robot_regular"
+                    android:paddingTop="@dimen/dp10"
+                    android:paddingEnd="@dimen/dp16"
+                    android:paddingBottom="@dimen/dp10"
+                    android:text="Maison"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_address_title"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_address" />
+
+            </android.support.constraint.ConstraintLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/bg_unselected_pink"
+            android:fontFamily="@font/roboto_bold"
+            android:text="+ AJOUTER UNE ADRESSE"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

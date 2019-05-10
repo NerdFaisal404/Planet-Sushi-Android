@@ -22,6 +22,7 @@ import fr.sushi.app.databinding.FragmentProfileBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.editprofile.EditProfileActivity;
+import fr.sushi.app.ui.profileaddress.ProfileAddressActivity;
 
 public class ProfileFragment extends BaseFragment implements ItemClickListener<ProfileItemModel> {
     private FragmentProfileBinding mBinding;
@@ -79,6 +80,8 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
     public void onItemClick(View view, ProfileItemModel item) {
         if (item.getItemName().equals(itemName[0])) {
             startActivity(new Intent(getActivity(), EditProfileActivity.class));
+        } else if (item.getItemName().equals(itemName[1])) {
+            startActivity(new Intent(getActivity(), ProfileAddressActivity.class));
         }
     }
 }
