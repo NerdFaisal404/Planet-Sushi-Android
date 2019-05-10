@@ -100,7 +100,7 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/layoutSignup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
             </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/layoutRecentAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -248,9 +248,9 @@
                         android:singleLine="true"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_thin"
                         android:text="75008 Paris"
-                        android:textSize="@dimen/sp16" />
+                        android:textSize="@dimen/sp14" />
 
                     <TextView
                         android:id="@+id/tvAddresTwo"
@@ -300,7 +300,9 @@
             </RelativeLayout>
 
             <View
-                android:background="#D8D8D8"
+                android:background="#E0E0E0"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginRight="@dimen/dp16"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
@@ -339,9 +341,9 @@
                         android:singleLine="true"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/roboto_thin"
                         android:text="75008 Paris"
-                        android:textSize="@dimen/sp16" />
+                        android:textSize="@dimen/sp14"  />
 
                     <TextView
                         android:id="@+id/tvAddresTwoText"
