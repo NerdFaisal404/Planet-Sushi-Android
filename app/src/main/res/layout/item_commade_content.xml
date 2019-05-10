@@ -43,7 +43,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_eight"
                 android:layout_marginRight="@dimen/dp_eight"
-                android:layout_toLeftOf="@+id/imageViewPlus"
+                android:layout_toLeftOf="@+id/tvPrice"
                 android:layout_toRightOf="@+id/imageViewItem"
                 android:orientation="vertical">
 
@@ -63,28 +63,38 @@
                     android:layout_marginTop="2dp">
 
                     <TextView
-                        android:id="@+id/itemCount"
+                        android:id="@+id/tvCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dp_eight"
-                        android:fontFamily="@font/roboto_light"
-                        android:text="1 Pieces "
-                        android:textColor="@color/color_627588"
-                        android:textSize="11sp" />
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="1X "
+                        android:textColor="@color/colorPink"
+                        android:textSize="@dimen/sp15" />
 
                     <TextView
-                        android:id="@+id/itemPrice"
+                        android:id="@+id/tvPiece"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="7.90 $"
-                        android:textColor="#336C93"
+                        android:fontFamily="@font/roboto_light"
+                        android:text="1 PIÈCE"
+                        android:textColor="#627588"
                         android:textSize="@dimen/sp13" />
                 </LinearLayout>
 
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robot_regular"
+                android:text="5,20 €"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:textColor="#394F61"
+                android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
@@ -96,6 +106,7 @@
             android:layout_marginTop="@dimen/dp5"
             android:layout_marginBottom="@dimen/dp5"
             android:background="@color/colorWhite" />
+
     </LinearLayout>
 
 </RelativeLayout>

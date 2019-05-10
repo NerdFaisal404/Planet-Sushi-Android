@@ -106,25 +106,23 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class BaseHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemPrice, itemCount;
+        TextView itemName,itemPrice, itemCount, tvPice;
         View mViewContent, selectedView;
         View mActionContainer;
-        ImageView imageViewItem,imageViewItemAnim, imageViewPlus;
+        ImageView imageViewItem;
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
             mViewContent = itemView.findViewById(R.id.view_list_main_content);
             mActionContainer = itemView.findViewById(R.id.view_list_repo_action_container);
             itemName = itemView.findViewById(R.id.itemName);
-            itemPrice = itemView.findViewById(R.id.itemPrice);
-            selectedView = itemView.findViewById(R.id.select_view);
-            imageViewItem = itemView.findViewById(R.id.imageViewItem);
-            imageViewItemAnim = itemView.findViewById(R.id.imageViewItemAnim);
-            imageViewPlus = itemView.findViewById(R.id.imageViewPlus);
-            itemCount = itemView.findViewById(R.id.itemCount);
+            itemPrice = itemView.findViewById(R.id.tvPrice);
+            imageViewItem =itemView.findViewById(R.id.imageViewItem);
+
+            itemCount = itemView.findViewById(R.id.tvCount);
+            tvPice = itemView.findViewById(R.id.tvPiece);
         }
         private void bind(ProductsItem item){
             Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItem);
-            Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItemAnim);
 
             String[] title = item.getName().split("\\s");
 
@@ -154,7 +152,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt())) + "€");
-            itemCount.setText(item.getNbrePiece() + " Pieces ");
+            tvPice.setText(item.getNbrePiece() + " Pieces ");
 
         }
     }

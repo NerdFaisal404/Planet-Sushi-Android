@@ -10,21 +10,22 @@
         tools:context=".ui.checkout.commade.CommadeFragment">
 
         <ScrollView
+            android:layout_above="@+id/layoutBottomCheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp16">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvCartItem"
+                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_menu_main" />
+                    tools:listitem="@layout/item_menu_commade" />
 
                 <View
                     android:layout_width="match_parent"
