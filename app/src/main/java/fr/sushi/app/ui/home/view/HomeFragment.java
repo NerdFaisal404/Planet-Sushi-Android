@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
@@ -18,11 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.jaeger.library.StatusBarUtil;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
@@ -34,7 +31,6 @@ import fr.sushi.app.databinding.AdapterPalceAutoCompleteBinding;
 import fr.sushi.app.databinding.FramentHomeBinding;
 import fr.sushi.app.databinding.ItemRecentSearchLocationBinding;
 import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
-import fr.sushi.app.ui.adressPicker.ShopAddressAdapter;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.BaseViewHolder;
@@ -45,8 +41,6 @@ import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
-import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
-import fr.sushi.app.util.Glider;
 import fr.sushi.app.util.HandlerUtil;
 import fr.sushi.app.util.PicassoUtil;
 
@@ -74,7 +68,7 @@ public class HomeFragment extends BaseFragment {
     protected void startUI() {
         binding = (FramentHomeBinding) getViewDataBinding();
         binding.layoutAddress.setOnClickListener(this::onClick);
-      //  StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 20, null);
+        //  StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 20, null);
         observeData();
 
         /*boolean isImporterPressed = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
@@ -99,12 +93,20 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)){
-           binding.layoutSignup.setVisibility(View.GONE);
-           binding.layoutRecentAddress.setVisibility(View.VISIBLE);
-        }else {
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+            binding.layoutSignup.setVisibility(View.GONE);
+            binding.layoutRecentAddress.setVisibility(View.VISIBLE);
+        } else {
             binding.layoutSignup.setVisibility(View.VISIBLE);
             binding.layoutRecentAddress.setVisibility(View.GONE);
+        }
+
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+        if (isLivarsion) {
+            showImporter();
+        } else if (isExporter) {
+            showExporter();
         }
     }
 
@@ -437,24 +439,20 @@ public class HomeFragment extends BaseFragment {
         LinearLayout aemporterView = bottomSheet.findViewById(R.id.aemporter);
         liversionView.setOnClickListener(view -> {
             dialog.dismiss();
-            binding.tvDelivery.setText("Livraison");
-            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_delivery );
-            Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
-            binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
+            showImporter();
             Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_LIVARSION,true);
+            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
             startActivity(intent);
 
         });
 
         aemporterView.setOnClickListener(view -> {
             dialog.dismiss();
-            binding.tvDelivery.setText("A emporter");
-            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_pickup );
-            Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
-            binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
+            showExporter();
             Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_LIVARSION,false);
+            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
             startActivity(intent);
         });
 
@@ -464,5 +462,18 @@ public class HomeFragment extends BaseFragment {
         dialog.show();
     }
 
+    private void showImporter() {
+        binding.tvDelivery.setText("Livraison");
+        Drawable img = getContext().getResources().getDrawable(R.drawable.ic_delivery);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
+    }
+
+    private void showExporter() {
+        binding.tvDelivery.setText("A emporter");
+        Drawable img = getContext().getResources().getDrawable(R.drawable.ic_pickup);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
+    }
 
 }

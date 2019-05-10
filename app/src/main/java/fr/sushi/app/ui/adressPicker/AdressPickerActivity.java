@@ -45,7 +45,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.intentkey.IntentKey;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
@@ -76,7 +78,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private ErrorResponse errorResponse;
     private AddressResponse addressResponse;
     ShopAddressAdapter addressAdapter;
-    private boolean isLivarsion;
+    private boolean isLivarsion,isExporter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +101,15 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 }
         );
 
-        getIntentValue();
+        initPrefvalue();
     }
 
-    private void getIntentValue() {
-        Intent intent = getIntent();
-        isLivarsion = intent.getBooleanExtra(IntentKey.KEY_IS_LIVARSION, false);
+    private void initPrefvalue() {
+        isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED,false);
+        isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED,false);
         if (isLivarsion) {
             showPlaceAddress();
-        } else {
+        } else if (isExporter){
             loadShopAddressList();
         }
     }
@@ -217,10 +219,14 @@ public class AdressPickerActivity extends AppCompatActivity implements
         LinearLayout liversionView = bottomSheet.findViewById(R.id.livrasion);
         LinearLayout aemporterView = bottomSheet.findViewById(R.id.aemporter);
         liversionView.setOnClickListener(view -> {
+            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
             showPlaceAddress();
         });
 
         aemporterView.setOnClickListener(view -> {
+            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
             loadShopAddressList();
         });
 

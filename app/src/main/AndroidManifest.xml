@@ -65,7 +65,11 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
-        <activity android:name=".ui.adressPicker.AdressPickerActivity" />
+        <activity android:name=".ui.adressPicker.AdressPickerActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAddressPicker"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".ui.menu.MenuDetailsActivity"
             android:configChanges="locale"
