@@ -441,6 +441,9 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 addressNameAdapter.setSelectedPosition(position);
                 Log.e("Selected_item", "Selected title =" + data.get(position));
                 wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
+                String title = addressNameAdapter.getItem(position);
+                Toast.makeText(AdressPickerActivity.this,"Title ="+title,
+                        Toast.LENGTH_SHORT).show();
             }
         });
         addressNameAdapter.setListener(new AddressNameAdapter.Listener() {
@@ -467,6 +470,8 @@ public class AdressPickerActivity extends AppCompatActivity implements
             public void onItemSelected(int position) {
                 wheelTimeAdapter.setSelectedPosition(position);
                 String time = wheelTimeAdapter.getSelectedTime(position);
+                Toast.makeText(AdressPickerActivity.this,"Time ="+time,
+                        Toast.LENGTH_SHORT).show();
             }
         });
         wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
