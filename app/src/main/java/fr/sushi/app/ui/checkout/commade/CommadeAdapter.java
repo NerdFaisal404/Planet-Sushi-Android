@@ -75,7 +75,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_menu_main, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_menu_commade, viewGroup, false);
         if(viewType == ITEM_WITH_SWIPE){
             return new CommadeAdapter.ItemSwipeViewHolder(view);
         }
@@ -87,14 +87,6 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ProductsItem item = productsItems.get(index);
         CommadeAdapter.BaseHolder holder = (CommadeAdapter.BaseHolder)viewHolder;
 
-        holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                item.setSelected(true);
-                notifyDataSetChanged();
-                itemClickListener.onItemClick(item, holder.imageViewItemAnim);
-            }
-        });
         if(holder instanceof CommadeAdapter.ItemSwipeViewHolder){
             CommadeAdapter.ItemSwipeViewHolder swipeViewHolder = (CommadeAdapter.ItemSwipeViewHolder)holder;
             swipeViewHolder.mActionViewRefresh.setOnClickListener(v -> {

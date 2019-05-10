@@ -56,11 +56,6 @@ public class CommadeFragment extends Fragment {
         selectedProducts = MenuPrefUtil.getSaveItems();
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
-        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(binding.rvCartItem.getContext(),
-                DividerItemDecoration.VERTICAL);
-        Drawable horizontalDivider = ContextCompat.getDrawable(getActivity(), R.drawable.bg_divider);
-        horizontalDecoration.setDrawable(horizontalDivider);
-        binding.rvCartItem.addItemDecoration(horizontalDecoration);
 
         CommadeAdapter commadeAdapter = new CommadeAdapter(getActivity(), selectedProducts);
         mCallback = new ItemTouchHelperCallback();
