@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_bottom_home"
-    android:padding="@dimen/dp10"
+    android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
+    android:gravity="center_horizontal"
     tools:context=".ui.adressPicker.AdressPickerActivity">
 
-    <TextView
-        android:id="@+id/tv_selected_item_title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Selected Item:"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/bg_bottom_recent_search"
+        android:padding="@dimen/dp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/tv_selected_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp50"
-        android:src="@drawable/ic_scooter_black"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_selected_item_title" />
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Heure de livraison"
+            android:textColor="#394F61"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:id="@+id/tvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/robot_regular"
+            android:text="Fermer"
+            android:textColor="@color/colorPink"
+            android:textSize="@dimen/sp14" />
+
+
+    </RelativeLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_bike"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_width="@dimen/dp60"
+        android:layout_height="@dimen/dp60"
+        android:padding="@dimen/dp10"
+        android:src="@drawable/icon_bike_large"
+        app:civ_border_color="@color/color_627588"
+        app:civ_border_width="2dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_horizontal_picker"
@@ -54,39 +76,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_horizontal_picker" />
 
-    <!--<ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorAccent"
-        android:alpha="0.2"/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_margin="@dimen/dp16"
+        android:background="@drawable/bg_pink_round"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:text="VALIDER"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp17" />
 
-</android.support.constraint.ConstraintLayout><!--
+</LinearLayout>
 
-    <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/bg_bottom_home"
-android:orientation="vertical"
-android:padding="@dimen/dp16">
-<ImageView
-    android:background="@drawable/ic_oval_light"
-    android:layout_width="41dp"
-    android:layout_gravity="center"
-    android:padding="12dp"
-    android:layout_marginBottom="@dimen/dp50"
-    android:src="@drawable/ic_scooter_black"
-    android:layout_height="41dp" />
-
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/address_rv"
-    android:layout_width="wrap_content"
-    android:layout_gravity="center"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/topLayout" />
-
-</LinearLayout>-->
