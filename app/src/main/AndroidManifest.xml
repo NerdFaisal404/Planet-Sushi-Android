@@ -78,6 +78,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSignup"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
     </application>
 
 </manifest>

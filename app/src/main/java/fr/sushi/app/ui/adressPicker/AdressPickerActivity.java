@@ -1,10 +1,8 @@
 package fr.sushi.app.ui.adressPicker;
 
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,11 +18,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -53,12 +48,13 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
-import fr.sushi.app.data.model.address_picker.Schedules;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityAdressPickerBinding;
-import fr.sushi.app.databinding.AdapterPalceAutoCompleteBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
+import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
+import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
+import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
@@ -94,6 +90,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
         StatusBarUtil.setTranslucentForImageViewInFragment(this, 20, null);
         setUpAdapter();
         binding.tvDelivery.setOnClickListener(v -> {
+            //startActivity(new Intent(this, ActivityBottonSheet.class));
             showBottomSheet();
         });
         binding.ivClose.setOnClickListener(v -> {
@@ -407,16 +404,87 @@ public class AdressPickerActivity extends AppCompatActivity implements
             String[] displayValue = item.getDisplayValue().split(" ");
 
             List<String> existList = scheduleOrderMap.get(displayValue[0]);
+
+            Log.e("Orders", "value =" + item.getDisplayValue()+" time ="+item.getSchedule());
+
             if (existList == null) {
                 List<String> newList = new ArrayList<>();
-                newList.add(item.getSchedule());
+                newList.add(displayValue[displayValue.length-1]);
                 scheduleOrderMap.put(displayValue[0], newList);
             } else {
-                existList.add(item.getSchedule());
+                existList.add(displayValue[displayValue.length-1]);
             }
-            Log.e("Orders", "value =" + item.getDisplayValue());
+
+
         }
+        showSavedAddressBottomSheet();
     }
+
+    private AddressNameAdapter addressNameAdapter;
+    private WheelTimeAdapter wheelTimeAdapter;
+    private RecyclerView titleRv, timeRv;
+    void showSavedAddressBottomSheet() {
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
+        titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
+        timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
+        int padding = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 40);
+        titleRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(this);
+
+        //Title adapter
+        List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+        addressNameAdapter = new AddressNameAdapter(this, data);
+        sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                addressNameAdapter.setSelectedPosition(position);
+                Log.e("Selected_item", "Selected title =" + data.get(position));
+                wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
+            }
+        });
+        addressNameAdapter.setListener(new AddressNameAdapter.Listener() {
+            @Override
+            public void onItemClick(int position, String item) {
+                titleRv.smoothScrollToPosition(position);
+            }
+        });
+
+        titleRv.setLayoutManager(sliderLayoutManager);
+        titleRv.setAdapter(addressNameAdapter);
+
+
+        //Wheel time adapter
+
+        timeRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(this);
+
+        List<String> timeList = scheduleOrderMap.get(data.get(0));
+
+        wheelTimeAdapter = new WheelTimeAdapter(this, timeList);
+        timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                wheelTimeAdapter.setSelectedPosition(position);
+                String time = wheelTimeAdapter.getSelectedTime(position);
+            }
+        });
+        wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
+            @Override
+            public void onItemClick(int position, String item) {
+                timeRv.smoothScrollToPosition(position);
+            }
+        });
+        timeRv.setLayoutManager(timeSliderLayoutManger);
+        timeRv.setAdapter(wheelTimeAdapter);
+
+
+        dialog = new BottomSheetDialog(this, R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+    }
+
 
 
 }
