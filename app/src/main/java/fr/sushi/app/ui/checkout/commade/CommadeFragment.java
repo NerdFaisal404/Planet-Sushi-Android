@@ -2,11 +2,8 @@ package fr.sushi.app.ui.checkout.commade;
 
 
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +15,6 @@ import java.util.List;
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
-import fr.sushi.app.ui.menu.ItemTouchHelperCallback;
-import fr.sushi.app.ui.menu.MenuItemSwipeAdapter;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
-import fr.sushi.app.ui.menu.MenuItemSwipeAdapter;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -37,7 +36,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int ITEM_WITH_SWIPE = 1;
     private List<ProductsItem> productsItems;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
-    private MenuItemSwipeAdapter.Listener itemClickListener;
+   // private CommadeAdapter.Listener itemClickListener;
 
     private BottomSheetDialog dialog;
     double totalPrice;
@@ -91,7 +90,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CommadeAdapter.ItemSwipeViewHolder swipeViewHolder = (CommadeAdapter.ItemSwipeViewHolder)holder;
             swipeViewHolder.mActionViewRefresh.setOnClickListener(v -> {
                 mItemTouchHelperExtension.closeOpened();
-                itemClickListener.onItemDeselect(item);
+               // itemClickListener.onItemDeselect(item);
                 item.setSelected(false);
                 notifyItemChanged(index);
             });
@@ -157,11 +156,6 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt())) + "€");
             itemCount.setText(item.getNbrePiece() + " Pieces ");
 
-            if (item.isSelected()) {
-                selectedView.setVisibility(View.VISIBLE);
-            } else {
-                selectedView.setVisibility(View.GONE);
-            }
         }
     }
 
