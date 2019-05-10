@@ -3,7 +3,7 @@ package fr.sushi.app.data.model.address_picker;
 import com.google.gson.annotations.SerializedName;
 
 public class Order {
-    @SerializedName("Schedules")
+    @SerializedName("Schedule")
     private String schedule;
 
     @SerializedName("delay")

@@ -170,6 +170,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
+                        prepareDataForBottomSheet();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -409,10 +410,10 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
             if (existList == null) {
                 List<String> newList = new ArrayList<>();
-                newList.add(displayValue[displayValue.length-1]);
+                newList.add(item.getSchedule());
                 scheduleOrderMap.put(displayValue[0], newList);
             } else {
-                existList.add(displayValue[displayValue.length-1]);
+                existList.add(item.getSchedule());
             }
 
 
