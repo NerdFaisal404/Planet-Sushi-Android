@@ -45,6 +45,13 @@ public class LoginActivity extends AppCompatActivity {
 
         initCreateAccountViewMode();
 
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void initCreateAccountViewMode() {

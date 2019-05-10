@@ -5,6 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/dp20"
         android:background="@drawable/ic_home_background"
         android:fitsSystemWindows="true">
 
@@ -22,6 +23,10 @@
                 android:padding="@dimen/dp16">
 
                 <ImageView
+                    android:id="@+id/ivBack"
+                    android:paddingRight="@dimen/dp10"
+                    android:paddingBottom="@dimen/dp10"
+                    android:paddingTop="@dimen/dp10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_darker_gray_arrow" />

@@ -86,6 +86,8 @@ public class CreateAccountActivity extends BaseActivity {
             intent.putExtra(IntentKey.KEY_USER_PASSWORD, password);
             startActivity(intent);
         });
+
+        binding.ivBack.setOnClickListener(v -> finish());
     }
 
     private void signUp() {

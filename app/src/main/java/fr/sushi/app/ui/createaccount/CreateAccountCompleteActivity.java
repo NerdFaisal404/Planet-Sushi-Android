@@ -62,6 +62,12 @@ public class CreateAccountCompleteActivity extends BaseActivity {
         parseIntent();
 
         observeListener();
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void observeListener() {

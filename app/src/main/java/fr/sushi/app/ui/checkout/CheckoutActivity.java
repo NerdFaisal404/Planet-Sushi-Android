@@ -36,6 +36,12 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
+        binding.ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         binding.tvStepOne.setOnClickListener(v -> binding.viewpager.setCurrentItem(0));
         binding.tvStepTwo.setOnClickListener(v -> binding.viewpager.setCurrentItem(1));
