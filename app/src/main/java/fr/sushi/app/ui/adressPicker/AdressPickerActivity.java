@@ -58,6 +58,7 @@ import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
+import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
 import fr.sushi.app.util.Utils;
@@ -78,7 +79,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private ErrorResponse errorResponse;
     private AddressResponse addressResponse;
     ShopAddressAdapter addressAdapter;
-    private boolean isLivarsion,isExporter;
+    private boolean isLivarsion, isExporter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +106,11 @@ public class AdressPickerActivity extends AppCompatActivity implements
     }
 
     private void initPrefvalue() {
-        isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED,false);
-        isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED,false);
+        isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
         if (isLivarsion) {
             showPlaceAddress();
-        } else if (isExporter){
+        } else if (isExporter) {
             loadShopAddressList();
         }
     }
@@ -162,7 +163,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
         viewModel.getTakeWayAddressLiveData().observe(this, response -> {
             if (response != null) {
-
+                DialogUtils.hideDialog();
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
@@ -187,7 +188,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
         viewModel.getDeliveryAddressLiveData().observe(this, response -> {
 
             if (response != null) {
-
+                DialogUtils.hideDialog();
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
@@ -315,6 +316,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                                 Log.e("Place_cliec", "code =" + zipCode);
                                 Log.e("Place_cliec", "city =" + city);
                                 Log.e("Place_cliec", "address =" + address);
+                                DialogUtils.showDialog(AdressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
                             } else {
                                 Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
@@ -400,6 +402,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     }
 
     private ShopAddressAdapter.Listener listener = responseItem -> {
+        DialogUtils.showDialog(this);
         viewModel.setTakeawayStore(responseItem.getIdStore());
     };
 
@@ -412,7 +415,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
             List<String> existList = scheduleOrderMap.get(displayValue[0]);
 
-            Log.e("Orders", "value =" + item.getDisplayValue()+" time ="+item.getSchedule());
+            Log.e("Orders", "value =" + item.getDisplayValue() + " time =" + item.getSchedule());
 
             if (existList == null) {
                 List<String> newList = new ArrayList<>();
@@ -430,6 +433,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private AddressNameAdapter addressNameAdapter;
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
+
     void showSavedAddressBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
@@ -448,7 +452,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 Log.e("Selected_item", "Selected title =" + data.get(position));
                 wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
                 String title = addressNameAdapter.getItem(position);
-                Toast.makeText(AdressPickerActivity.this,"Title ="+title,
+                Toast.makeText(AdressPickerActivity.this, "Title =" + title,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -476,7 +480,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
             public void onItemSelected(int position) {
                 wheelTimeAdapter.setSelectedPosition(position);
                 String time = wheelTimeAdapter.getSelectedTime(position);
-                Toast.makeText(AdressPickerActivity.this,"Time ="+time,
+                Toast.makeText(AdressPickerActivity.this, "Time =" + time,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -496,7 +500,6 @@ public class AdressPickerActivity extends AppCompatActivity implements
         dialog.show();
 
     }
-
 
 
 }

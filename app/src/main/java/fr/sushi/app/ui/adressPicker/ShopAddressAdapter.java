@@ -64,7 +64,9 @@ public class ShopAddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (item == null) return;
         String fullAddress = item.getPostcode() + " " + item.getCity() + "-" + item.getName();
         placeHolder.address.setText(fullAddress);
-        placeHolder.address.setOnClickListener(v -> itemClickListener.onItemClick(item));
+        placeHolder.address.setOnClickListener(v -> {
+            itemClickListener.onItemClick(item);
+        });
 
     }
 
