@@ -18,13 +18,15 @@ import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
 
 public class ShopAddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public interface Listener{
+    public interface Listener {
         void onItemClick(ResponseItem responseItem);
     }
+
     private List<ResponseItem> responseItemList;
     private Context context;
     private Listener itemClickListener;
-    public ShopAddressAdapter(Context context, List<ResponseItem> responseItems, Listener listener){
+
+    public ShopAddressAdapter(Context context, List<ResponseItem> responseItems, Listener listener) {
         this.context = context;
         this.responseItemList = responseItems;
         itemClickListener = listener;
@@ -35,12 +37,12 @@ public class ShopAddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return responseItemList.size();
     }
 
-    private ResponseItem getItem(int index){
+    private ResponseItem getItem(int index) {
         return responseItemList.get(index);
     }
 
-    public void addNewList( List<ResponseItem> responseItems){
-        if (responseItemList==null){
+    public void addNewList(List<ResponseItem> responseItems) {
+        if (responseItemList == null) {
             this.responseItemList = responseItems;
             notifyDataSetChanged();
         }
@@ -56,22 +58,19 @@ public class ShopAddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        PlaceHolder placeHolder = (PlaceHolder)viewHolder;
-        ResponseItem item  = getItem(position);
+        PlaceHolder placeHolder = (PlaceHolder) viewHolder;
+        ResponseItem item = getItem(position);
 
-        if(item == null) return;
-        placeHolder.address.setText(item.getAddress());
-        placeHolder.address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(item);
-            }
-        });
+        if (item == null) return;
+        String fullAddress = item.getPostcode() + " " + item.getCity() + "-" + item.getName();
+        placeHolder.address.setText(fullAddress);
+        placeHolder.address.setOnClickListener(v -> itemClickListener.onItemClick(item));
 
     }
 
     private class PlaceHolder extends RecyclerView.ViewHolder {
         private TextView address;
+
         public PlaceHolder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.address);

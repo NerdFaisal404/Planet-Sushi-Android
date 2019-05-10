@@ -22,6 +22,8 @@
                 android:fontFamily="@font/robot_regular"
                 android:paddingTop="@dimen/dp10"
                 android:paddingBottom="@dimen/dp10"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textColor="#627588"
                 android:textSize="@dimen/sp16"
                 tools:text="France" />
