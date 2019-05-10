@@ -1,19 +1,37 @@
 package fr.sushi.app.ui.checkout.commade;
 
 
+import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.sushi.app.R;
+import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.databinding.FragmentCommadeBinding;
+import fr.sushi.app.ui.menu.ItemTouchHelperCallback;
+import fr.sushi.app.ui.menu.MenuItemSwipeAdapter;
+import fr.sushi.app.ui.menu.MenuPrefUtil;
+import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CommadeFragment extends Fragment {
-
+    private FragmentCommadeBinding binding;
+    private List<ProductsItem> selectedProducts = new ArrayList<>();
+    private LinearLayoutManager itemViewLayoutManager;
+    public ItemTouchHelperExtension mItemTouchHelper;
+    public ItemTouchHelperExtension.Callback mCallback;
 
     public CommadeFragment() {
         // Required empty public constructor
@@ -23,8 +41,34 @@ public class CommadeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_commade, container, false);
+
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_commade, container, false);
+        View view = binding.getRoot();
+
+        initView();
+
+        return view;
+    }
+
+    private void initView() {
+
+        selectedProducts = MenuPrefUtil.getSaveItems();
+        itemViewLayoutManager = new LinearLayoutManager(getActivity());
+        binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
+        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(binding.rvCartItem.getContext(),
+                DividerItemDecoration.VERTICAL);
+        Drawable horizontalDivider = ContextCompat.getDrawable(getActivity(), R.drawable.bg_divider);
+        horizontalDecoration.setDrawable(horizontalDivider);
+        binding.rvCartItem.addItemDecoration(horizontalDecoration);
+
+        CommadeAdapter commadeAdapter = new CommadeAdapter(getActivity(), selectedProducts);
+        mCallback = new ItemTouchHelperCallback();
+        mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+        mItemTouchHelper.attachToRecyclerView(binding.rvCartItem);
+        commadeAdapter.setItemTouchHelperExtension(mItemTouchHelper);
+        binding.rvCartItem.setAdapter(commadeAdapter);
+
     }
 
 }
