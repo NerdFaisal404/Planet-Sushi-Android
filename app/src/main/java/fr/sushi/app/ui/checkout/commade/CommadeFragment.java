@@ -44,6 +44,7 @@ public class CommadeFragment extends Fragment {
         View view = binding.getRoot();
 
         initView();
+        observeData();
 
         return view;
     }
