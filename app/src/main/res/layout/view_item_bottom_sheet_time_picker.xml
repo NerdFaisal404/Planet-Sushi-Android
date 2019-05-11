@@ -44,15 +44,14 @@
     </RelativeLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/iv_bike"
-        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp20"
         android:layout_width="@dimen/dp60"
         android:layout_height="@dimen/dp60"
         android:padding="@dimen/dp10"
-        android:src="@drawable/icon_bike_large"
-        app:civ_border_color="@color/color_627588"
-        app:civ_border_width="2dp" />
+        android:background="@drawable/bg_round_white"
+        android:src="@drawable/icon_bike_large" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_horizontal_picker"
