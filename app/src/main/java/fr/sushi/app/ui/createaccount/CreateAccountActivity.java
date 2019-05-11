@@ -29,6 +29,7 @@ public class CreateAccountActivity extends BaseActivity {
     private CreateAccountViewModel accountViewModel;
     private boolean isEmailvalid, isPasswordValid;
     public static CreateAccountActivity sInstance;
+    private CreateAccountResponse addressResponse;
 
     @Override
     protected int getLayoutId() {
@@ -57,7 +58,7 @@ public class CreateAccountActivity extends BaseActivity {
                     if (error == true) {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
                     } else {
-                        CreateAccountResponse addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
+                        addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
 
                     }
                 } catch (JSONException e) {

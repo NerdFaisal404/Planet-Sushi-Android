@@ -6,6 +6,7 @@ import android.util.Log;
 
 import fr.sushi.app.data.remote.network.ApiResponseError;
 import fr.sushi.app.data.remote.network.Repository;
+import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -23,14 +24,14 @@ public class AccompagnementViewModel extends ViewModel {
 
 
     private void onError(Throwable throwable, ApiResponseError errorType) {
-        Log.d("F_Error",throwable.toString());
+        Log.d("F_Error", throwable.toString());
     }
 
 
     private void onSuccessShopRequest(ResponseBody responseBody) {
 
 
-
+        sideProductMutableLiveData.postValue(responseBody);
 
     }
 
