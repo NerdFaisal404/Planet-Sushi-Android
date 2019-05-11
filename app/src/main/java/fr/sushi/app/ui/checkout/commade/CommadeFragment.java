@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.checkout.commade;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ public class CommadeFragment extends Fragment {
     private LinearLayoutManager itemViewLayoutManager;
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
+    private CommadeViewModel commadeViewModel;
 
     public CommadeFragment() {
         // Required empty public constructor
@@ -44,6 +46,11 @@ public class CommadeFragment extends Fragment {
         initView();
 
         return view;
+    }
+
+    private void observeData() {
+
+        commadeViewModel = ViewModelProviders.of(this).get(CommadeViewModel.class);
     }
 
     private void initView() {

@@ -4,166 +4,171 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.profile.ProfileFragment">
+        android:layout_height="match_parent">
+
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/layout_header"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@color/colorDarkBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.profile.ProfileFragment">
 
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_header"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:background="@color/colorDarkBlue"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <View
+                    android:id="@+id/profile_container"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp32"
+                    android:layout_marginBottom="@dimen/dp8"
+                    android:background="@drawable/drawable_profile_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <ImageView
+                    android:id="@+id/image_view_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_profile_white"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_container"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_container"
+                    app:layout_constraintStart_toStartOf="@+id/profile_container"
+                    app:layout_constraintTop_toTopOf="@+id/profile_container" />
+
+
+                <TextView
+                    android:id="@+id/text_view_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp8"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_container"
+                    app:layout_constraintStart_toEndOf="@+id/profile_container"
+                    app:layout_constraintTop_toTopOf="@+id/profile_container" />
+
+                <ImageView
+                    android:id="@+id/image_view_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp16"
+                    android:padding="@dimen/dp5"
+                    android:src="@drawable/icon_settings2x"
+                    android:tint="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profile_container"
+                    app:layout_goneMarginEnd="@dimen/dp8" />
+            </android.support.constraint.ConstraintLayout>
 
             <View
-                android:id="@+id/profile_container"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="@dimen/dp16"
-                android:layout_marginTop="@dimen/dp32"
-                android:layout_marginBottom="@dimen/dp8"
-                android:background="@drawable/drawable_profile_circle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
-                android:id="@+id/image_view_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile_white"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_container"
-                app:layout_constraintEnd_toEndOf="@+id/profile_container"
-                app:layout_constraintStart_toStartOf="@+id/profile_container"
-                app:layout_constraintTop_toTopOf="@+id/profile_container" />
-
+                android:id="@+id/middle_view"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:background="@drawable/ic_home_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
             <TextView
-                android:id="@+id/text_view_name"
+                android:id="@+id/text_view_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp8"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_container"
-                app:layout_constraintStart_toEndOf="@+id/profile_container"
-                app:layout_constraintTop_toTopOf="@+id/profile_container" />
+                android:layout_marginBottom="@dimen/dp16"
+                android:text="322"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_view_card"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
-                android:id="@+id/image_view_settings"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp4"
+                android:layout_marginBottom="@dimen/dp8"
+                android:text="pts"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_view_point"
+                app:layout_constraintStart_toEndOf="@+id/text_view_point" />
+
+            <ImageView
+                android:id="@+id/image_view_card"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/dp16"
                 android:layout_marginEnd="@dimen/dp16"
-                android:padding="@dimen/dp5"
-                android:src="@drawable/icon_settings2x"
-                android:tint="@color/colorWhite"
-                app:layout_constraintBottom_toBottomOf="@+id/profile_container"
+                android:src="@drawable/card_gold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/profile_container"
-                app:layout_goneMarginEnd="@dimen/dp8" />
+                app:layout_constraintTop_toTopOf="@+id/middle_view" />
+
+            <TextView
+                android:id="@+id/text_view_progress_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp4"
+                android:text="Prochain niveau Black"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+                app:layout_constraintStart_toStartOf="@+id/progress_bar" />
+
+            <TextView
+                android:id="@+id/text_view_point_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp4"
+                android:text="131 pts manquants"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+                app:layout_constraintEnd_toEndOf="@+id/progress_bar" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_margin="@dimen/dp16"
+                android:max="100"
+                android:progress="79"
+                android:progressDrawable="@drawable/drawable_progress"
+                app:layout_constraintBottom_toBottomOf="@+id/middle_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp20"
+                android:text="Paramètres"
+                android:textColor="@color/colorDarkBlue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/middle_view" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_profile"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_title" />
+
         </android.support.constraint.ConstraintLayout>
-
-        <View
-            android:id="@+id/middle_view"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:background="@drawable/ic_home_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_header" />
-
-        <TextView
-            android:id="@+id/text_view_point"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp8"
-            android:layout_marginBottom="@dimen/dp16"
-            android:text="322"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image_view_card"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp4"
-            android:layout_marginBottom="@dimen/dp8"
-            android:text="pts"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/text_view_point"
-            app:layout_constraintStart_toEndOf="@+id/text_view_point" />
-
-        <ImageView
-            android:id="@+id/image_view_card"
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="@dimen/dp16"
-            android:layout_marginEnd="@dimen/dp16"
-            android:src="@drawable/card_gold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/middle_view" />
-
-        <TextView
-            android:id="@+id/text_view_progress_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp4"
-            android:text="Prochain niveau Black"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
-            app:layout_constraintStart_toStartOf="@+id/progress_bar" />
-
-        <TextView
-            android:id="@+id/text_view_point_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp4"
-            android:text="131 pts manquants"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
-            app:layout_constraintEnd_toEndOf="@+id/progress_bar" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_margin="@dimen/dp16"
-            android:max="100"
-            android:progress="79"
-            android:progressDrawable="@drawable/drawable_progress"
-            app:layout_constraintBottom_toBottomOf="@+id/middle_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/text_view_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp20"
-            android:text="Paramètres"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/middle_view" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view_profile"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp8"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_title" />
-
-    </android.support.constraint.ConstraintLayout>
-
+    </ScrollView>
 </layout>

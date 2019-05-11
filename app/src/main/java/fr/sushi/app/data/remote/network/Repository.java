@@ -89,4 +89,9 @@ public class Repository {
         jsonObject.addProperty("password", password);
         return apiInterface.login(jsonObject);
     }
+
+    public static Flowable<ResponseBody> getCheckoutSideProducts() {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+        return apiInterface.getCheckoutSideProducts();
+    }
 }
