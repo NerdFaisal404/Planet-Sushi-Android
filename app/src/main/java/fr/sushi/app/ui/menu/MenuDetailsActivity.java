@@ -84,7 +84,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.recyclerViewItems.setLayoutManager(itemViewLayoutManager);
         DividerItemDecoration horizontalDecoration = new DividerItemDecoration(binding.recyclerViewItems.getContext(),
                 DividerItemDecoration.VERTICAL);
-        Drawable horizontalDivider = ContextCompat.getDrawable(this, R.drawable.bg_divider);
+        Drawable horizontalDivider = ContextCompat.getDrawable(this, R.drawable.bg_divider_white);
         horizontalDecoration.setDrawable(horizontalDivider);
         binding.recyclerViewItems.addItemDecoration(horizontalDecoration);
     }
