@@ -55,6 +55,10 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
         return new CustomViewHolder(v);
     }
 
+    private CategoriesItem getItem(int position){
+        return items.get(position);
+    }
+
     @Override
     public void onBindFooterViewHolder(RecyclerView.ViewHolder holder, int position) {
         CategoriesItem customObject = items.get(position);
@@ -124,7 +128,7 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
         ((CustomViewHolder) viewHolder).subtitleTextView.setAlpha(ALPHA_SUBTITLE);
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView image;
         TextView titleTextView;
@@ -137,6 +141,13 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
             titleTextView = (TextView) v.findViewById(R.id.title_custom_item);
             subtitleTextView = (TextView) v.findViewById(R.id.subtitle_custom_item);
             viewOpacity = (View) v.findViewById(R.id.viewOpacity);
+            image.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemClickListener.onItemClicked(getAdapterPosition(),getItem(getAdapterPosition()));
         }
     }
 }
