@@ -4,27 +4,41 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SearchPlace implements Parcelable {
+    private String postalCode;
+    private String city;
     private String address;
-    private double lat;
-    private double lng;
 
-    public SearchPlace(String address, double lat, double lng) {
+    public SearchPlace(String postalCode, String city,String address){
+        this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
-        this.lat = lat;
-        this.lng = lng;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public double getLat() {
-        return lat;
+
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public double getLng() {
-        return lng;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
     @Override
     public int describeContents() {
@@ -33,15 +47,13 @@ public class SearchPlace implements Parcelable {
 
     public SearchPlace(Parcel parcel){
         address = parcel.readString();
-        lat = parcel.readDouble();
-        lng = parcel.readDouble();
+
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(address);
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lng);
+
     }
 
     public static Creator<SearchPlace> CREATOR = new Creator<SearchPlace>() {
