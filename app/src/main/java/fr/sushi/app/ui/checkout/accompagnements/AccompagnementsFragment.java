@@ -34,8 +34,8 @@ import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
  * A simple {@link Fragment} subclass.
  */
 public class AccompagnementsFragment extends Fragment {
-    private AccompagnementViewModel accompagnementViewModel;
 
+    private AccompagnementViewModel accompagnementViewModel;
     private RecyclerView recycler_view_accompagnements;
     private AccompagnementsAdapter adapter;
     private LinearLayout llSauces;
@@ -50,8 +50,7 @@ public class AccompagnementsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_accompagnements, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_accompagnements, container, false);
         View view = binding.getRoot();
         return view;
     }

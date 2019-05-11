@@ -23,8 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dp_eight"
-            android:layout_marginRight="@dimen/dp_eight"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
             android:layout_toRightOf="@+id/imageViewItem"
             android:orientation="vertical">
 
@@ -36,7 +36,7 @@
                 android:fontFamily="@font/roboto_medium"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="TOP' HOTATE"
+                android:text="SAUCE SALEE"
                 android:textColor="@color/color_394F61"
                 android:textSize="@dimen/sp16" />
 
@@ -44,8 +44,7 @@
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:text="1 PIÈCE"
+                android:text="GRATUIT !"
                 android:textColor="#627588"
                 android:textSize="@dimen/sp13" />
 
@@ -70,8 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/tv_count"
-                android:layout_marginStart="@dimen/dp4"
-                android:layout_marginEnd="@dimen/dp4"
+                android:textSize="@dimen/sp16"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dp5"
+                android:layout_marginEnd="@dimen/dp5"
                 android:text="1" />
 
             <ImageView

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,8 +42,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_sauce_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -74,8 +76,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_rice_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -105,8 +109,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_soda_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -150,8 +156,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_icecream_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -182,8 +190,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_wasabi_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -213,8 +223,10 @@
                             android:padding="@dimen/dp8">
 
                             <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="36dp"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginBottom="@dimen/dp8"
+                                app:srcCompat="@drawable/icon_rice_colored"
                                 android:layout_gravity="center" />
 
                             <TextView
@@ -250,7 +262,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/dp16"
-            android:background="@color/colorPink"
+            android:textSize="17sp"
+            android:fontFamily="@font/roboto_bold"
+            android:background="@drawable/bg_pink_round"
             android:text="Suivant"
             android:textColor="@color/colorWhite" />
 
