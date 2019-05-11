@@ -42,7 +42,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
     @Override
     protected void startUI() {
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+       // getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         mBinding = (FragmentProfileBinding) getViewDataBinding();
 
         initRecyclerView();
