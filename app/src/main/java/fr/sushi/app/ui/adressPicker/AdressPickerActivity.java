@@ -180,7 +180,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         prepareDataForBottomSheet();
-                        PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        if(currentSearchPlace != null) {
+                            currentSearchPlace.setTitle(selectedTitle);
+                            currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -208,7 +213,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
                         prepareDataForBottomSheet();
-                        PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        if(currentSearchPlace != null) {
+                            currentSearchPlace.setTitle(selectedTitle);
+                            currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -447,7 +457,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private AddressNameAdapter addressNameAdapter;
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
-
+    private String selectedTitle, selectedTime;
 
     void showSavedAddressBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
@@ -460,15 +470,21 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+
+        selectedTitle = data.get(0);
+
         addressNameAdapter = new AddressNameAdapter(this, data);
         sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 addressNameAdapter.setSelectedPosition(position);
                 Log.e("Selected_item", "Selected title =" + data.get(position));
-                wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
-                String title = addressNameAdapter.getItem(position);
+                List<String> timeList =  scheduleOrderMap.get(data.get(position));
 
+                wheelTimeAdapter.setNewDataList(timeList);
+                String title = addressNameAdapter.getItem(position);
+                selectedTime = timeList.get(0);
+                selectedTitle = title;
             }
         });
         addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
@@ -477,7 +493,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
         titleRv.setAdapter(addressNameAdapter);
 
 
-        //tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
+        tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
 
         //Wheel time adapter
 
@@ -485,15 +501,14 @@ public class AdressPickerActivity extends AppCompatActivity implements
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(this);
 
         List<String> timeList = scheduleOrderMap.get(data.get(0));
-
+        selectedTime = timeList.get(0);
         wheelTimeAdapter = new WheelTimeAdapter(this, timeList);
         timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 wheelTimeAdapter.setSelectedPosition(position);
                 String time = wheelTimeAdapter.getSelectedTime(position);
-                Toast.makeText(AdressPickerActivity.this, "Time =" + time,
-                        Toast.LENGTH_SHORT).show();
+                selectedTime = time;
             }
         });
         wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
