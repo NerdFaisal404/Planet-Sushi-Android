@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -70,6 +71,8 @@ public class HomeFragment extends BaseFragment {
     protected void startUI() {
         binding = (FramentHomeBinding) getViewDataBinding();
         binding.layoutAddress.setOnClickListener(this::onClick);
+        binding.addressOne.setOnClickListener(this::onClick);
+        binding.addressOneTwo.setOnClickListener(this::onClick);
         observeData();
 
         initListener();
@@ -209,6 +212,12 @@ public class HomeFragment extends BaseFragment {
             case R.id.layoutAddress:
                 startActivityForResult(new Intent(getActivity(), AdressPickerActivity.class), PALACE_SEARCH_ACTION);
                 getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
+                break;
+            case R.id.addressOne:
+                Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.addressOneTwo:
+                Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
                 break;
 
 
