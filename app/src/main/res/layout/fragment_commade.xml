@@ -112,25 +112,6 @@
 
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/layoutBottomCheckout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/dp16">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="51dp"
-                android:background="@drawable/bg_pink_round"
-                android:fontFamily="@font/roboto_bold"
-                android:gravity="center"
-                android:text="SUIVANT"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp17" />
-
-
-        </LinearLayout>
 
     </RelativeLayout>
 
