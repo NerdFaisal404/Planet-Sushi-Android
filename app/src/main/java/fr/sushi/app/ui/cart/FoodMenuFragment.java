@@ -2,15 +2,10 @@ package fr.sushi.app.ui.cart;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+
+import com.example.library.FocusResizeScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +14,18 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.databinding.FragmentCartBinding;
 import fr.sushi.app.ui.base.BaseFragment;
-import fr.sushi.app.ui.cart.adapter.RestaurantMenuAdapter;
+import fr.sushi.app.ui.cart.adapter.FoodMenuAdapterFocus;
 import fr.sushi.app.ui.cart.viewmodel.FoodMenuViewModel;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
-import fr.sushi.app.util.focuslib.FocusResizeScrollListener;
-import fr.sushi.app.util.menu_recyclerview_utils.FeatureLinearLayoutManager;
 
-public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Listener {
+public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFocus.Listener {
     List<String> dummyData = new ArrayList<>();
     private FragmentCartBinding binding;
     private FoodMenuViewModel foodMenuViewModel;
     private List<CategoriesItem> categoriesItems;
 
-    private FoodMenuAdapter foodMenuAdapter;
+    //private FoodMenuAdapter foodMenuAdapter;
+    private FoodMenuAdapterFocus foodMenuAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cart;
@@ -69,7 +63,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
     void setAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.featuredRecyclerView.setLayoutManager(linearLayoutManager);
-        foodMenuAdapter = new FoodMenuAdapter(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
+        foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
         binding.featuredRecyclerView.setAdapter(foodMenuAdapter);
         binding.featuredRecyclerView.addOnScrollListener(new FocusResizeScrollListener<>(foodMenuAdapter, linearLayoutManager));
     }

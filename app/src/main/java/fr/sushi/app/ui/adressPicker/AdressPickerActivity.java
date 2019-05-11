@@ -58,6 +58,8 @@ import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.DialogUtils;
@@ -83,6 +85,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     ShopAddressAdapter addressAdapter;
     private boolean isLivarsion, isExporter;
 
+    private SearchPlace currentSearchPlace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +180,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         prepareDataForBottomSheet();
+                        PlaceUtil.saveCurrentPlace(currentSearchPlace);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -204,6 +208,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
                         prepareDataForBottomSheet();
+                        PlaceUtil.saveCurrentPlace(currentSearchPlace);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -321,6 +326,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                                 Log.e("Place_cliec", "address =" + address);
                                 DialogUtils.showDialog(AdressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
+                                currentSearchPlace = new SearchPlace(zipCode, city, address);
                             } else {
                                 Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -411,6 +417,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private ShopAddressAdapter.Listener listener = responseItem -> {
         DialogUtils.showDialog(this);
         viewModel.setTakeawayStore(responseItem.getIdStore());
+        currentSearchPlace = new SearchPlace(responseItem.getPostcode(), responseItem.getCity(), responseItem.getAddress());
     };
 
     private Map<String, List<String>> scheduleOrderMap = new HashMap<>();

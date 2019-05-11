@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
-import fr.sushi.app.ui.cart.adapter.RestaurantMenuAdapter;
 import fr.sushi.app.util.focuslib.FocusResizeAdapter;
 
 public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder> {
@@ -25,11 +23,13 @@ public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder>
     }
     private List<CategoriesItem> categoriesItems;
     private Listener itemClickListener;
+    private Context context;
 
     public FoodMenuAdapter(Context context, Listener listener,int height) {
         super(context, height);
         categoriesItems = new ArrayList<>();
         this.itemClickListener = listener;
+        this.context = context;
     }
 
     public void swapData(List<CategoriesItem> categoriesItems) {
@@ -70,10 +70,11 @@ public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder>
     private class FeaturedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView ivBackground;
         TextView tvHeading;
+        View viewOpacity;
 
         FeaturedViewHolder(View itemView) {
             super(itemView);
-
+            viewOpacity = (View) itemView.findViewById(R.id.viewOpacity);
             ivBackground = (ImageView) itemView.findViewById(R.id.iv_background);
             tvHeading = (TextView) itemView.findViewById(R.id.tv_heading);
             ivBackground.setOnClickListener(this);
@@ -87,22 +88,25 @@ public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder>
 
     @Override
     public void onItemBigResize(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
+        ( (FeaturedViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse_expand));
 
     }
 
     @Override
     public void onItemBigResizeScrolled(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
+        ( (FeaturedViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse_expand));
 
     }
 
     @Override
     public void onItemSmallResizeScrolled(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
+        ( (FeaturedViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse));
 
     }
 
     @Override
     public void onItemSmallResize(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
-
+        ( (FeaturedViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse));
     }
 
     @Override
