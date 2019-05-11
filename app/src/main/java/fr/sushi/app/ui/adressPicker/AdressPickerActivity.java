@@ -470,7 +470,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
         titleRv.setAdapter(addressNameAdapter);
 
 
-        tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
+        //tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
 
         //Wheel time adapter
 

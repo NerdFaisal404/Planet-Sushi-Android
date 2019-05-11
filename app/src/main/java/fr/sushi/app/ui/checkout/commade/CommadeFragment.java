@@ -51,6 +51,11 @@ public class CommadeFragment extends Fragment {
     private void observeData() {
 
         commadeViewModel = ViewModelProviders.of(this).get(CommadeViewModel.class);
+        commadeViewModel.getCheckoutSideProducts();
+
+        commadeViewModel.getSideProductMutableLiveData().observe(this, responseBody -> {
+
+        });
     }
 
     private void initView() {

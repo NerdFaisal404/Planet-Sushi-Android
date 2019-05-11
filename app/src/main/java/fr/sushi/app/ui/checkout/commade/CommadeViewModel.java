@@ -1,5 +1,6 @@
 package fr.sushi.app.ui.checkout.commade;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
@@ -10,6 +11,8 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 public class CommadeViewModel extends ViewModel {
+
+    private MutableLiveData<ResponseBody> sideProductMutableLiveData = new MutableLiveData<>();
 
     public void getCheckoutSideProducts() {
         Repository.getCheckoutSideProducts().subscribeOn(Schedulers.io())
@@ -31,4 +34,7 @@ public class CommadeViewModel extends ViewModel {
 
     }
 
+    public MutableLiveData<ResponseBody> getSideProductMutableLiveData() {
+        return sideProductMutableLiveData;
+    }
 }
