@@ -142,15 +142,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
 
                 List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
-
+                List<ResponseItem> sectionsItemList = new ArrayList<>();
                 int section = 0;
 
                 for (Map.Entry<String, List<ResponseItem>> items : responseItemGroup.entrySet()) {
                     sections.add(new SectionedRecyclerViewAdapter.Section(section, items.getKey()));
                     section = section + items.getValue().size();
+                    sectionsItemList.addAll(items.getValue());
                 }
 
-                addressAdapter = new ShopAddressAdapter(this, responseItemList, listener);
+                addressAdapter = new ShopAddressAdapter(this, sectionsItemList, listener);
                 sectionedRecyclerViewAdapter = new SectionedRecyclerViewAdapter(this, R.layout.item_menu_section,
                         R.id.section_tv, binding.recyclerView, addressAdapter);
 
@@ -358,15 +359,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
         Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
 
         List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
-
+        List<ResponseItem> sectionsItemList = new ArrayList<>();
         int section = 0;
 
         for (Map.Entry<String, List<ResponseItem>> item : responseItemGroup.entrySet()) {
             sections.add(new SectionedRecyclerViewAdapter.Section(section, item.getKey()));
             section = section + item.getValue().size();
+            sectionsItemList.addAll(item.getValue());
         }
 
-        addressAdapter = new ShopAddressAdapter(this, responseItemList, listener);
+        addressAdapter = new ShopAddressAdapter(this, sectionsItemList, listener);
         sectionedRecyclerViewAdapter = new SectionedRecyclerViewAdapter(this, R.layout.item_menu_section,
                 R.id.section_tv, binding.recyclerView, addressAdapter);
 
@@ -388,6 +390,9 @@ public class AdressPickerActivity extends AppCompatActivity implements
             if (TextUtils.isEmpty(item.getCity()) || TextUtils.isEmpty(item.getAddress())) {
                 continue;
             }
+
+            Log.e("Prepare-group", "city =" + item.getCity() + " Code=" + item.getPostcode() + " Name ="
+                    + item.getName());
 
             List<ResponseItem> responseItems = responseItemMap.get(item.getCity());
             if (responseItems == null) {
