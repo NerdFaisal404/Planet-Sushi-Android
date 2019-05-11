@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -57,6 +58,7 @@ import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
@@ -439,10 +441,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
 
+
     void showSavedAddressBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
         timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
+        TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
         int padding = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 40);
         titleRv.setPadding(padding, 0, padding, 0);
         SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(this);
@@ -457,20 +461,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 Log.e("Selected_item", "Selected title =" + data.get(position));
                 wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
                 String title = addressNameAdapter.getItem(position);
-                Toast.makeText(AdressPickerActivity.this, "Title =" + title,
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
-        addressNameAdapter.setListener(new AddressNameAdapter.Listener() {
-            @Override
-            public void onItemClick(int position, String item) {
-                titleRv.smoothScrollToPosition(position);
-            }
-        });
+        addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
 
         titleRv.setLayoutManager(sliderLayoutManager);
         titleRv.setAdapter(addressNameAdapter);
 
+
+        tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
 
         //Wheel time adapter
 
