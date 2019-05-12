@@ -2,39 +2,27 @@ package fr.sushi.app.ui.home.view;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.ViewDataBinding;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
-import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
-import fr.sushi.app.data.model.restuarents.ResponseItem;
+import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
-import fr.sushi.app.databinding.AdapterPalceAutoCompleteBinding;
 import fr.sushi.app.databinding.FramentHomeBinding;
-import fr.sushi.app.databinding.ItemRecentSearchLocationBinding;
 import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
-import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseFragment;
-import fr.sushi.app.ui.base.BaseViewHolder;
-import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
@@ -61,6 +49,8 @@ public class HomeFragment extends BaseFragment {
 
     private  List<SearchPlace> recentSearchPlace;
 
+    private List<CategoriesItem> categoriesItems = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.frament_home;
@@ -70,6 +60,8 @@ public class HomeFragment extends BaseFragment {
     protected void startUI() {
         binding = (FramentHomeBinding) getViewDataBinding();
         binding.layoutAddress.setOnClickListener(this::onClick);
+        binding.addressOne.setOnClickListener(this::onClick);
+        binding.addressOneTwo.setOnClickListener(this::onClick);
         observeData();
 
         initListener();
@@ -167,6 +159,12 @@ public class HomeFragment extends BaseFragment {
 
         mHomeViewModel.getShopList();
         mHomeViewModel.getHomeConfigData();
+        mHomeViewModel.getFoodMenu();
+
+        mHomeViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
+            //this.foodMenuResponse = foodMenuResponse;
+            categoriesItems = foodMenuResponse.getResponse().getCategories();
+        });
 
 
     }
@@ -209,6 +207,12 @@ public class HomeFragment extends BaseFragment {
             case R.id.layoutAddress:
                 startActivityForResult(new Intent(getActivity(), AdressPickerActivity.class), PALACE_SEARCH_ACTION);
                 getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
+                break;
+            case R.id.addressOne:
+                Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.addressOneTwo:
+                Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
                 break;
 
 

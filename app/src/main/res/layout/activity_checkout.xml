@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_home_background"
@@ -12,6 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:id="@+id/rlTop"
             android:background="@drawable/bg_checkout"
             android:orientation="vertical"
             android:paddingLeft="@dimen/dp16"
@@ -113,10 +114,31 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
+            android:layout_below="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <LinearLayout
+            android:id="@+id/layoutBottomCheckout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="@dimen/dp16">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:background="@drawable/bg_pink_round"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="SUIVANT"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp17" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </layout>

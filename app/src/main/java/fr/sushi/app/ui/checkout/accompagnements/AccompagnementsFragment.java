@@ -27,7 +27,6 @@ import java.io.IOException;
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentAccompagnementsBinding;
-import fr.sushi.app.ui.checkout.commade.CommadeViewModel;
 import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
 
 /**
@@ -41,6 +40,8 @@ public class AccompagnementsFragment extends Fragment {
     private LinearLayout llSauces;
     private TextView tvSauces;
     private FragmentAccompagnementsBinding binding;
+
+
 
     public AccompagnementsFragment() {
         // Required empty public constructor
@@ -76,6 +77,7 @@ public class AccompagnementsFragment extends Fragment {
         recycler_view_accompagnements.setAdapter(adapter);
 
     }
+
 
     private void observeData() {
 
