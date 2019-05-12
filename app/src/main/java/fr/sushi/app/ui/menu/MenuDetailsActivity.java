@@ -34,6 +34,8 @@ import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.flyanim.CircleAnimationUtil;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -41,7 +43,7 @@ import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.MenuItemClickListener {
     private ActivityMenuListDetailBinding binding;
     private int currentIndex;
-    private ArrayList<CategoriesItem> categoriesItems;
+    private List<CategoriesItem> categoriesItems;
     private LinearLayoutManager itemViewLayoutManager;
 
     private MenuItemAdapter menuItemAdapter;
@@ -52,6 +54,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private MenuItemSwipeAdapter menuItemSwipeAdapter;
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
+
+    private SearchPlace mSearchPlace;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_menu_list_detail;
@@ -63,8 +67,16 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         selectedProducts = MenuPrefUtil.getSaveItems();
         showBottomView();
         Intent intent = getIntent();
-        currentIndex = intent.getIntExtra("index", 0);
-        categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
+
+        if(intent.hasExtra("index")) {
+            currentIndex = intent.getIntExtra("index", 0);
+        }
+        if(intent.hasExtra(SearchPlace.class.getName())){
+            mSearchPlace = (SearchPlace)intent.getSerializableExtra(SearchPlace.class.getName());
+        }
+        //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
+        categoriesItems = DataCacheUtil.getCategoryItemFromCache();
+
         setUpToMenuAdapter();
         loadCategoryItems();
 

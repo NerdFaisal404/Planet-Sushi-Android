@@ -86,6 +86,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private boolean isLivarsion, isExporter;
 
     private SearchPlace currentSearchPlace;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +181,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         prepareDataForBottomSheet();
-                        if(currentSearchPlace != null) {
+                        if (currentSearchPlace != null) {
                             currentSearchPlace.setTitle(selectedTitle);
                             currentSearchPlace.setTime(selectedTime);
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
@@ -213,7 +214,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
                         prepareDataForBottomSheet();
-                        if(currentSearchPlace != null) {
+                        if (currentSearchPlace != null) {
                             currentSearchPlace.setTitle(selectedTitle);
                             currentSearchPlace.setTime(selectedTime);
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
@@ -479,7 +480,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
             public void onItemSelected(int position) {
                 addressNameAdapter.setSelectedPosition(position);
                 Log.e("Selected_item", "Selected title =" + data.get(position));
-                List<String> timeList =  scheduleOrderMap.get(data.get(position));
+                List<String> timeList = scheduleOrderMap.get(data.get(position));
 
                 wheelTimeAdapter.setNewDataList(timeList);
                 String title = addressNameAdapter.getItem(position);
@@ -493,7 +494,17 @@ public class AdressPickerActivity extends AppCompatActivity implements
         titleRv.setAdapter(addressNameAdapter);
 
 
-        tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
+        tvValider.setOnClickListener(v -> {
+            currentSearchPlace.setTitle(selectedTitle);
+            currentSearchPlace.setTime(selectedTime);
+            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+            Intent intent = new Intent(AdressPickerActivity.this,
+                    MenuDetailsActivity.class);
+            intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
+            startActivity(intent);
+            dialog.dismiss();
+        });
 
         //Wheel time adapter
 

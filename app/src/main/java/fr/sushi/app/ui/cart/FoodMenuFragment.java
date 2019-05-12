@@ -17,6 +17,7 @@ import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.cart.adapter.FoodMenuAdapterFocus;
 import fr.sushi.app.ui.cart.viewmodel.FoodMenuViewModel;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
+import fr.sushi.app.util.DataCacheUtil;
 
 public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFocus.Listener {
     List<String> dummyData = new ArrayList<>();
@@ -52,6 +53,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         foodMenuViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
             categoriesItems = foodMenuResponse.getResponse().getCategories();
+            DataCacheUtil.addCategoryItemInCache(categoriesItems);
             foodMenuAdapter.swapData(categoriesItems);
             binding.progressCircular.setVisibility(View.GONE);
             //Log.e("Food_menu","Count =="+foodMenuResponse.getResponse().getCategories().size());
@@ -72,7 +74,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
     public void onItemClicked(int index, CategoriesItem categoriesItem) {
         Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
         intent.putExtra("index", index);
-        intent.putExtra("items",(ArrayList)categoriesItems);
+        //intent.putExtra("items",(ArrayList)categoriesItems);
         startActivity(intent);
     }
 }
