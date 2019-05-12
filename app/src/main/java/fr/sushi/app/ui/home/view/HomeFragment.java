@@ -159,6 +159,7 @@ public class HomeFragment extends BaseFragment {
 
         mHomeViewModel.getShopList();
         mHomeViewModel.getHomeConfigData();
+        mHomeViewModel.getFoodMenu();
 
         mHomeViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
