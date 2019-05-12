@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -32,30 +33,51 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
-                            android:id="@+id/llSauces"
+                        <RelativeLayout
+                            android:id="@+id/rlSauces"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewSauces"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_sauce_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_sauce_colored" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlCountForSauces"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:visibility="gone"
+                                android:layout_toEndOf="@+id/imgViewSauces"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:id="@+id/tvCountSauces"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:id="@+id/tvSauces"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgViewSauces"
                                 android:gravity="center"
                                 android:text="SAUCES"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </android.support.v7.widget.CardView>
 
@@ -67,28 +89,51 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:id="@+id/rlAccompagnements"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewAccompagnements"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_rice_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_rice_colored" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlCountForAccompagnements"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:visibility="gone"
+                                android:layout_toEndOf="@+id/imgViewAccompagnements"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:id="@+id/tvCountAccompagnements"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgViewAccompagnements"
                                 android:gravity="center"
+                                android:id="@+id/tvAccompagnements"
                                 android:text="ACCOMPAGNEMENTS"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </android.support.v7.widget.CardView>
@@ -100,28 +145,51 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:id="@+id/rlBoissons"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewBoissons"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_soda_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_soda_colored" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlCountForBoissons"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:visibility="gone"
+                                android:layout_toEndOf="@+id/imgViewBoissons"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tvCountBoissons"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:id="@+id/tvBoissons"
+                                android:layout_below="@+id/imgViewBoissons"
                                 android:gravity="center"
                                 android:text="BOISSONS"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </android.support.v7.widget.CardView>
@@ -147,28 +215,47 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewDesserts"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_gravity="center"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_icecream_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_icecream_colored" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlCountForDesserts"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_toEndOf="@+id/imgViewDesserts"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgViewDesserts"
                                 android:gravity="center"
                                 android:text="DESSERTS"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </android.support.v7.widget.CardView>
@@ -181,28 +268,46 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewWasbi"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_wasabi_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_wasabi_colored" />
+
+                            <RelativeLayout
+                                android:id="@+id/rlCountForWasbi"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_toEndOf="@+id/imgViewWasbi"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgViewWasbi"
                                 android:gravity="center"
-                                android:text=" WASBI GINGEMBRE"
+                                android:text="WASBI GINGEMBRE"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </android.support.v7.widget.CardView>
@@ -214,7 +319,7 @@
                         android:layout_weight="1"
                         android:elevation="@dimen/dp4">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -223,19 +328,37 @@
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
+                                android:id="@+id/imgViewBaguettes"
+                                android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_rice_colored"
-                                android:layout_gravity="center" />
+                                app:srcCompat="@drawable/icon_rice_colored" />
 
+                            <RelativeLayout
+                                android:id="@+id/rlCountForBaguettes"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_toEndOf="@+id/imgViewBaguettes"
+                                android:background="@drawable/bg_pink_ova">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="1"
+                                    android:textColor="@color/colorWhite"
+                                    android:textSize="@dimen/dp10" />
+                            </RelativeLayout>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
+                                android:layout_below="@+id/imgViewBaguettes"
                                 android:text="BAGUETTES"
                                 android:textSize="@dimen/dp8" />
 
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </android.support.v7.widget.CardView>

@@ -21,10 +21,7 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
     }
 
     public interface ClickListener  {
-        /*void onPositionClicked(int index);*/
-
         void iconImageViewPlusOnClick( int position);
-
         void iconImageViewMinusOnClick( int position);
     }
 

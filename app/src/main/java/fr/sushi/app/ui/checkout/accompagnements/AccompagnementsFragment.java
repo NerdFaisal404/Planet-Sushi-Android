@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,14 +34,23 @@ import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AccompagnementsFragment extends Fragment {
+public class AccompagnementsFragment extends Fragment implements View.OnClickListener {
 
+    private static final String TAG=AccompagnementsFragment.class.getSimpleName();
     private AccompagnementViewModel accompagnementViewModel;
     private RecyclerView recycler_view_accompagnements;
     private AccompagnementsAdapter adapter;
-    private LinearLayout llSauces;
-    private TextView tvSauces;
+    private RelativeLayout rlSauces,rlAccompagnements,rlBoissons;
+    private RelativeLayout rlCountForSauces,rlCountForAccompagnements,rlCountForBoissons;
+    private TextView tvCountSauces,tvCountAccompagnements,tvCountBoissons;
+    private TextView tvSauces,tvAccompagnements,tvBoissons;
     private FragmentAccompagnementsBinding binding;
+    
+    private int selectedAccompagnements;
+    private static final int SAUCES = 1;
+    private static final int ACCOMPAGNEMENTS = 2;
+    private static final int BOISSONS = 3;
+    private int countSauces = 0, countAccompagnements = 0, countBoissons = 0;
 
 
 
@@ -63,13 +73,25 @@ public class AccompagnementsFragment extends Fragment {
 
         observeData();
 
-        llSauces = view.findViewById(R.id.llSauces);
+        rlSauces = view.findViewById(R.id.rlSauces);
+        rlSauces.setOnClickListener(this);
+        rlCountForSauces = view.findViewById(R.id.rlCountForSauces);
+        tvCountSauces = view.findViewById(R.id.tvCountSauces);
         tvSauces = view.findViewById(R.id.tvSauces);
-        llSauces.setOnClickListener(view1 -> {
-            tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-            llSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-            recycler_view_accompagnements.setVisibility(View.VISIBLE);
-        });
+
+
+        rlAccompagnements=view.findViewById(R.id.rlAccompagnements);
+        rlAccompagnements.setOnClickListener(this);
+        rlCountForAccompagnements=view.findViewById(R.id.rlCountForAccompagnements);
+        tvCountAccompagnements=view.findViewById(R.id.tvCountAccompagnements);
+        tvAccompagnements=view.findViewById(R.id.tvAccompagnements);
+
+        rlBoissons=view.findViewById(R.id.rlBoissons);
+        rlBoissons.setOnClickListener(this);
+        rlCountForBoissons=view.findViewById(R.id.rlCountForBoissons);
+        tvCountBoissons=view.findViewById(R.id.tvCountBoissons);
+        tvBoissons=view.findViewById(R.id.tvBoissons);
+
 
         recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -77,12 +99,74 @@ public class AccompagnementsFragment extends Fragment {
         adapter = new AccompagnementsAdapter(getContext(), new AccompagnementsAdapter.ClickListener() {
             @Override
             public void iconImageViewPlusOnClick(int position) {
-               Toast.makeText(getContext(), "plus button clicked"+position, Toast.LENGTH_SHORT).show();
+               switch (selectedAccompagnements){
+                   case SAUCES:
+                       Log.e(TAG, "iconImageViewPlusOnClick: SAUCES clicked");
+                       countSauces+=1;
+                       tvCountSauces.setText(String.valueOf(countSauces));
+                       if (countSauces>0){
+                           rlCountForSauces.setVisibility(View.VISIBLE);
+                       }else {
+                           rlCountForSauces.setVisibility(View.GONE);
+                       }
+                       break;
+                   case ACCOMPAGNEMENTS:
+                       Log.e(TAG, "iconImageViewPlusOnClick: ACCOMPAGNEMENTS clicked");
+                       countAccompagnements+=1;
+                       tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
+                       if (countAccompagnements>0){
+                           rlCountForAccompagnements.setVisibility(View.VISIBLE);
+                       }else {
+                           rlCountForAccompagnements.setVisibility(View.GONE);
+                       }
+                       break;
+                   case BOISSONS:
+                       Log.e(TAG, "iconImageViewPlusOnClick: BOISSONS clicked");
+                       countBoissons+=1;
+                       tvCountBoissons.setText(String.valueOf(countBoissons));
+                       if (countBoissons>0){
+                           rlCountForBoissons.setVisibility(View.VISIBLE);
+                       }else {
+                           rlCountForBoissons.setVisibility(View.GONE);
+                       }
+                       break;
+               }
             }
 
             @Override
             public void iconImageViewMinusOnClick(int position) {
-                Toast.makeText(getContext(), "minus button clicked"+position, Toast.LENGTH_SHORT).show();
+                switch (selectedAccompagnements){
+                    case SAUCES:
+                        Log.e(TAG, "iconImageViewPlusOnClick: SAUCES clicked");
+                        countSauces-=1;
+                        tvCountSauces.setText(String.valueOf(countSauces));
+                        if (countAccompagnements>0){
+                            rlCountForAccompagnements.setVisibility(View.VISIBLE);
+                        }else {
+                            rlCountForAccompagnements.setVisibility(View.GONE);
+                        }
+                        break;
+                    case ACCOMPAGNEMENTS:
+                        Log.e(TAG, "iconImageViewPlusOnClick: ACCOMPAGNEMENTS clicked");
+                        countAccompagnements-=1;
+                        tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
+                        if (countAccompagnements>0){
+                            rlCountForAccompagnements.setVisibility(View.VISIBLE);
+                        }else {
+                            rlCountForAccompagnements.setVisibility(View.GONE);
+                        }
+                        break;
+                    case BOISSONS:
+                        Log.e(TAG, "iconImageViewPlusOnClick: BOISSONS clicked");
+                        countBoissons-=1;
+                        tvCountBoissons.setText(String.valueOf(countBoissons));
+                        if (countBoissons>0){
+                            rlCountForBoissons.setVisibility(View.VISIBLE);
+                        }else {
+                            rlCountForBoissons.setVisibility(View.GONE);
+                        }
+                        break;
+                }
             }
         });
         recycler_view_accompagnements.setAdapter(adapter);
@@ -112,5 +196,47 @@ public class AccompagnementsFragment extends Fragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.rlSauces:
+                selectedAccompagnements=1;
+                tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+                rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+                recycler_view_accompagnements.setVisibility(View.VISIBLE);
+            break;
+            case R.id.rlAccompagnements:
+                selectedAccompagnements=2;
+                tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+                rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+                recycler_view_accompagnements.setVisibility(View.VISIBLE);
+                break;
+            case R.id.rlBoissons:
+                selectedAccompagnements=3;
+                tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+                rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+                rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+                rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+                recycler_view_accompagnements.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }
