@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -73,7 +74,17 @@ public class AccompagnementsFragment extends Fragment {
         recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycler_view_accompagnements.setLayoutManager(layoutManager);
-        adapter = new AccompagnementsAdapter(getContext());
+        adapter = new AccompagnementsAdapter(getContext(), new AccompagnementsAdapter.ClickListener() {
+            @Override
+            public void iconImageViewPlusOnClick(int position) {
+               Toast.makeText(getContext(), "plus button clicked"+position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void iconImageViewMinusOnClick(int position) {
+                Toast.makeText(getContext(), "minus button clicked"+position, Toast.LENGTH_SHORT).show();
+            }
+        });
         recycler_view_accompagnements.setAdapter(adapter);
 
     }

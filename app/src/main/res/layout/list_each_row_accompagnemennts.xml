@@ -59,8 +59,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="@dimen/dp20"
-                android:layout_height="@dimen/dp20"
+                android:layout_width="@dimen/dp24"
+                android:layout_height="@dimen/dp24"
                 android:id="@+id/imgViewMinus"
                 app:srcCompat="@drawable/ic_minus" />
 
@@ -69,16 +69,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/tv_count"
-                android:textSize="@dimen/sp16"
+                android:textSize="@dimen/sp18"
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/dp5"
                 android:layout_marginEnd="@dimen/dp5"
                 android:text="1" />
 
             <ImageView
-                android:layout_width="@dimen/dp20"
+                android:layout_width="@dimen/dp24"
                 android:id="@+id/imgViewPlus"
-                android:layout_height="@dimen/dp20"
+                android:layout_height="@dimen/dp24"
                 app:srcCompat="@drawable/ic_normal_plus" />
         </LinearLayout>
 

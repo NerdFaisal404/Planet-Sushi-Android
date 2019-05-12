@@ -6,15 +6,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import fr.sushi.app.R;
 
 public class AccompagnementsAdapter extends RecyclerView.Adapter<AccompagnementsAdapter.ViewHolder>{
 
     private Context mContext;
+    private ClickListener  clickListener;
 
-    public AccompagnementsAdapter(Context mContext) {
+    public AccompagnementsAdapter(Context mContext,ClickListener listener) {
         this.mContext = mContext;
+        this.clickListener=listener;
+    }
+
+    public interface ClickListener  {
+        /*void onPositionClicked(int index);*/
+
+        void iconImageViewPlusOnClick( int position);
+
+        void iconImageViewMinusOnClick( int position);
     }
 
     @NonNull
@@ -26,7 +37,7 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
+        viewHolder.bind(i, clickListener);
     }
 
     @Override
@@ -36,8 +47,28 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imgViewPlus;
+        private ImageView imgViewMinus;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgViewPlus=itemView.findViewById(R.id.imgViewPlus);
+            imgViewMinus=itemView.findViewById(R.id.imgViewMinus);
+        }
+
+        public void bind(int index, ClickListener clickListener) {
+            imgViewPlus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.iconImageViewPlusOnClick(index);
+                }
+            });
+
+            imgViewMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickListener.iconImageViewMinusOnClick(index);
+                }
+            });
         }
     }
 }
