@@ -29,6 +29,8 @@ import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.HandlerUtil;
 import fr.sushi.app.util.PicassoUtil;
 
@@ -164,6 +166,8 @@ public class HomeFragment extends BaseFragment {
         mHomeViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
             categoriesItems = foodMenuResponse.getResponse().getCategories();
+
+            DataCacheUtil.addCategoryItemInCache(categoriesItems);
         });
 
 
@@ -209,10 +213,16 @@ public class HomeFragment extends BaseFragment {
                 getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
                 break;
             case R.id.addressOne:
-                Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
+                intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(0));
+                startActivity(intent);
                 break;
             case R.id.addressOneTwo:
-                Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
+                intent = new Intent(getActivity(), MenuDetailsActivity.class);
+                intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(1));
+                startActivity(intent);
                 break;
 
 
