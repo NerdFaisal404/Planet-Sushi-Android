@@ -80,8 +80,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
-        setUpToMenuAdapter();
         if (categoriesItems != null && categoriesItems.size() > 0) {
+            setUpToMenuAdapter();
             loadCategoryItems();
         }
 
@@ -95,6 +95,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
 
     private void setUpToMenuAdapter() {
+
         binding.recyclerViewMenuTop.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         itemViewLayoutManager = new LinearLayoutManager(this);
