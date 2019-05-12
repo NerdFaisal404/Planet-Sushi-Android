@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.food_menu.TopMenuItem;
@@ -83,13 +85,12 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             loadCategoryItems();
         }
 
+      /*  String titleHeader = SharedPref.read(PrefKey.)
 
-        binding.priceLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class));
-            }
-        });
+        binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
+*/
+
+        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
     }
 
 
@@ -202,7 +203,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
         Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }

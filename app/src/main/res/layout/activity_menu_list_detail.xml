@@ -66,7 +66,7 @@
                             android:singleLine="true"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/sp16"
-                            tools:text="Livrasion au 16 Cours ALber 1er" />
+                            android:text="Livraison prévue pour 21:30" />
 
                         <TextView
                             android:id="@+id/tvLocationInfo"
@@ -76,8 +76,8 @@
                             android:fontFamily="@font/robot_regular"
                             android:gravity="center_horizontal"
                             android:textColor="@color/colorWhite"
-                            android:textSize="@dimen/sp14"
-                            tools:text="Location" />
+                            android:textSize="@dimen/sp15"
+                            android:text="16 Cours Albert 1er, 75008" />
 
 
                     </LinearLayout>

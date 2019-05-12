@@ -20,34 +20,48 @@
             android:layout_centerHorizontal="true"/>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/colorPink"
             android:padding="@dimen/dp16">
 
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_toLeftOf="@+id/imageViewFilter"
+                android:layout_toRightOf="@+id/imageViewBackArrow"
+                android:orientation="vertical">
 
                 <TextView
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="@dimen/sp16"
-                    android:textColor="@color/colorWhite"
+                    android:id="@+id/tvDeliveryInfo"
                     android:layout_width="wrap_content"
-                    android:singleLine="true"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/dp10"
                     android:ellipsize="end"
-                    android:layout_height="wrap_content" />
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp16"
+                    android:text="Livraison prévue pour 21:30" />
 
                 <TextView
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="@dimen/sp16"
-                    android:textColor="@color/colorWhite"
+                    android:id="@+id/tvLocationInfo"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/robot_regular"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp15"
+                    android:text="16 Cours Albert 1er, 75008" />
+
 
             </LinearLayout>
+
 
             <ImageView
                 android:layout_alignParentRight="true"
