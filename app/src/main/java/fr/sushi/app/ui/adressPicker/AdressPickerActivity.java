@@ -170,7 +170,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
         viewModel.getTakeWayAddressLiveData().observe(this, response -> {
             if (response != null) {
-               // DialogUtils.hideDialog();
+                // DialogUtils.hideDialog();
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
@@ -337,12 +337,13 @@ public class AdressPickerActivity extends AppCompatActivity implements
                                 String zipCode = addresses.get(0).getPostalCode();
                                 String city = addresses.get(0).getLocality();
                                 String address = addresses.get(0).getThoroughfare();
+                                String featureName = addresses.get(0).getFeatureName();
                                 Log.e("Place_cliec", "code =" + zipCode);
                                 Log.e("Place_cliec", "city =" + city);
                                 Log.e("Place_cliec", "address =" + address);
                                 DialogUtils.showDialog(AdressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
-                                currentSearchPlace = new SearchPlace(zipCode, city, address);
+                                currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address);
                             } else {
                                 Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -471,6 +472,8 @@ public class AdressPickerActivity extends AppCompatActivity implements
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
         timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
         TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(v -> dialog.dismiss());
         int padding = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 40);
         titleRv.setPadding(padding, 0, padding, 0);
         SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(this);
