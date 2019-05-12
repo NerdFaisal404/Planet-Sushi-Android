@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import fr.sushi.app.R;
 
@@ -14,6 +15,7 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
 
     private Context mContext;
     private ClickListener  clickListener;
+    private int count=0;
 
     public AccompagnementsAdapter(Context mContext,ClickListener listener) {
         this.mContext = mContext;
@@ -46,10 +48,12 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgViewPlus;
         private ImageView imgViewMinus;
+        private TextView tvCount;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgViewPlus=itemView.findViewById(R.id.imgViewPlus);
             imgViewMinus=itemView.findViewById(R.id.imgViewMinus);
+            tvCount=itemView.findViewById(R.id.tvCount);
         }
 
         public void bind(int index, ClickListener clickListener) {
@@ -57,6 +61,8 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
                 @Override
                 public void onClick(View view) {
                     clickListener.iconImageViewPlusOnClick(index);
+                    count+=1;
+                    tvCount.setText(String.valueOf(count));
                 }
             });
 
@@ -64,6 +70,8 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
                 @Override
                 public void onClick(View view) {
                     clickListener.iconImageViewMinusOnClick(index);
+                    count-=1;
+                    tvCount.setText(String.valueOf(count));
                 }
             });
         }
