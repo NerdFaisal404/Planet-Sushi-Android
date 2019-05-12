@@ -5,18 +5,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -338,5 +344,29 @@ public class Utils {
         Spannable spannable = new SpannableString(mString+" ");
         spannable.setSpan(new ForegroundColorSpan(colorId), 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
+    }
+
+    public static void showAlert(Context context, String title, String content) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        TextView textView = new TextView(context);
+        textView.setText(title);
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(18);
+        textView.setPadding(16, 16, 16, 16);
+        textView.setGravity(Gravity.CENTER);
+        alertDialogBuilder.setCustomTitle(textView);
+        alertDialogBuilder.setMessage(content);
+        alertDialogBuilder.setPositiveButton("D'accord",
+                (dialogInterface, arg1) -> dialogInterface.dismiss());
+
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setTextColor(Color.BLUE);
+        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+        positiveButtonLL.gravity = Gravity.CENTER;
+        positiveButton.setLayoutParams(positiveButtonLL);
     }
 }

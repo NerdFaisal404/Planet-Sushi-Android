@@ -82,7 +82,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private Geocoder mGeocoder;
     private ErrorResponse errorResponse;
     private AddressResponse addressResponse;
-    ShopAddressAdapter addressAdapter;
+    private ShopAddressAdapter addressAdapter;
     private boolean isLivarsion, isExporter;
 
     private SearchPlace currentSearchPlace;
@@ -169,13 +169,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
 
         viewModel.getTakeWayAddressLiveData().observe(this, response -> {
             if (response != null) {
-                DialogUtils.hideDialog();
+               // DialogUtils.hideDialog();
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
                     Log.e("JsonObject", "value =" + responseObject.toString());
                     if (error == true) {
+                        DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
@@ -200,14 +203,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
         viewModel.getDeliveryAddressLiveData().observe(this, response -> {
 
             if (response != null) {
-                DialogUtils.hideDialog();
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
 
                     Log.e("JsonObject", "" + responseObject.toString());
                     if (error == true) {
+                        DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
@@ -460,6 +465,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private String selectedTitle, selectedTime;
 
     void showSavedAddressBottomSheet() {
+        DialogUtils.hideDialog();
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
         timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
