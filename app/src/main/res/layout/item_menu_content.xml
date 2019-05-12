@@ -84,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="7.90 $"
+                        android:layout_marginRight="@dimen/dp5"
                         android:textColor="#336C93"
                         android:textSize="@dimen/sp13" />
                 </LinearLayout>

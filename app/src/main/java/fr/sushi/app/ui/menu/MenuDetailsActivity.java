@@ -56,6 +56,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     public ItemTouchHelperExtension.Callback mCallback;
 
     private SearchPlace mSearchPlace;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_menu_list_detail;
@@ -68,17 +69,20 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         showBottomView();
         Intent intent = getIntent();
 
-        if(intent.hasExtra("index")) {
+        if (intent.hasExtra("index")) {
             currentIndex = intent.getIntExtra("index", 0);
         }
-        if(intent.hasExtra(SearchPlace.class.getName())){
-            mSearchPlace = (SearchPlace)intent.getSerializableExtra(SearchPlace.class.getName());
+        if (intent.hasExtra(SearchPlace.class.getName())) {
+            mSearchPlace = (SearchPlace) intent.getSerializableExtra(SearchPlace.class.getName());
         }
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
         setUpToMenuAdapter();
-        loadCategoryItems();
+        if (categoriesItems != null && categoriesItems.size() > 0) {
+            loadCategoryItems();
+        }
+
 
         binding.priceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +106,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     }
 
 
-
     private void loadCategoryItems() {
         List<ProductsItem> productsItems = new ArrayList<>();
         List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
@@ -121,14 +124,14 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
         List<String> selectedItemIds = getSelectedItemIds();
 
-        for(ProductsItem item : productsItems){
-            if(selectedItemIds.contains(item.getIdProduct())){
+        for (ProductsItem item : productsItems) {
+            if (selectedItemIds.contains(item.getIdProduct())) {
                 item.setSelected(true);
-                Log.e("ItemSelect","Item selected ="+item.getIdProduct());
+                Log.e("ItemSelect", "Item selected =" + item.getIdProduct());
             }
         }
         //menuItemAdapter = new MenuItemAdapter(this, productsItems, listener);
-        menuItemSwipeAdapter = new MenuItemSwipeAdapter(this,productsItems, selectListener);
+        menuItemSwipeAdapter = new MenuItemSwipeAdapter(this, productsItems, selectListener);
         mCallback = new ItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
         mItemTouchHelper.attachToRecyclerView(binding.recyclerViewItems);
@@ -253,7 +256,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
                                     imageView.setVisibility(View.GONE);
                                     ObjectAnimator
                                             .ofFloat(binding.tvCount, "translationX", 0, 25, -25, 25,
-                                                    -25,15, -15, 6, -6, 0)
+                                                    -25, 15, -15, 6, -6, 0)
                                             .setDuration(200)
                                             .start();
                                 }
@@ -274,8 +277,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         public void onItemDeselect(ProductsItem item) {
             MenuPrefUtil.removeItem(item);
             List<ProductsItem> list = new ArrayList<>();
-            for(ProductsItem pItem : selectedProducts){
-                if(pItem.getIdProduct().equals(item.getIdProduct())){
+            for (ProductsItem pItem : selectedProducts) {
+                if (pItem.getIdProduct().equals(item.getIdProduct())) {
                     list.add(pItem);
                 }
             }
@@ -285,8 +288,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     };
 
 
-    private void showBottomView(){
-        if(selectedProducts.isEmpty()){
+    private void showBottomView() {
+        if (selectedProducts.isEmpty()) {
             binding.priceLayout.setVisibility(View.GONE);
             return;
         }
@@ -295,9 +298,9 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.tvPrice.setText(getTotalPrice());
     }
 
-    private List<String> getSelectedItemIds(){
+    private List<String> getSelectedItemIds() {
         List<String> list = new ArrayList<>();
-        for(ProductsItem item : selectedProducts){
+        for (ProductsItem item : selectedProducts) {
             list.add(item.getIdProduct());
         }
         return list;
