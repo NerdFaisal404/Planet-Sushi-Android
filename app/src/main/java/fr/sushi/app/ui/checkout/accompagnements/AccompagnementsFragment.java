@@ -140,10 +140,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                         Log.e(TAG, "iconImageViewPlusOnClick: SAUCES clicked");
                         countSauces-=1;
                         tvCountSauces.setText(String.valueOf(countSauces));
-                        if (countAccompagnements>0){
-                            rlCountForAccompagnements.setVisibility(View.VISIBLE);
+                        if (countSauces>0){
+                            rlCountForSauces.setVisibility(View.VISIBLE);
                         }else {
-                            rlCountForAccompagnements.setVisibility(View.GONE);
+                            rlCountForSauces.setVisibility(View.GONE);
                         }
                         break;
                     case ACCOMPAGNEMENTS:

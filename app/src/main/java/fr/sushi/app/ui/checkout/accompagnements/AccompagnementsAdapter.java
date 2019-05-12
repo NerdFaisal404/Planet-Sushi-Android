@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import fr.sushi.app.R;
 
 public class AccompagnementsAdapter extends RecyclerView.Adapter<AccompagnementsAdapter.ViewHolder>{
@@ -16,6 +20,7 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
     private Context mContext;
     private ClickListener  clickListener;
     private int count=0;
+    List<Integer> arr = Arrays.asList(new Integer[10]);
 
     public AccompagnementsAdapter(Context mContext,ClickListener listener) {
         this.mContext = mContext;
@@ -41,7 +46,7 @@ public class AccompagnementsAdapter extends RecyclerView.Adapter<Accompagnements
 
     @Override
     public int getItemCount() {
-        return 5;
+        return arr.size();
     }
 
 
