@@ -3,116 +3,106 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_home_background"
-        tools:context=".ui.checkout.commade.CommadeFragment">
+        android:padding="@dimen/dp16">
 
-        <ScrollView
-            android:layout_above="@+id/layoutBottomCheckout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp16">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvCartItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:nestedScrollingEnabled="false" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvCartItem"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_width="match_parent"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp16"
+                android:background="#59627588" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_menu_commade" />
+                    android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/robot_regular"
+                    android:text="Sous-total"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp15" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/dp16"
-                    android:layout_marginBottom="@dimen/dp16"
-                    android:background="#59627588" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="Sous-total"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:fontFamily="@font/robot_regular"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp15"
-                        tools:text="21,00 €" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp5">
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/robot_regular"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp15"
+                    tools:text="21,00 €" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="Frais de gestion"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp15" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:fontFamily="@font/robot_regular"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp15"
-                        tools:text="0,95 €" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5">
 
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp5">
+                    android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/robot_regular"
+                    android:text="Frais de gestion"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp15" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Total"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp16" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/robot_regular"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp15"
+                    tools:text="0,95 €" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp16"
-                        tools:text="0,95 €" />
+            </RelativeLayout>
 
-                </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp5">
 
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Total"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16" />
 
-        </ScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16"
+                    tools:text="0,95 €" />
 
+            </RelativeLayout>
 
-    </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </layout>
