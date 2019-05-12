@@ -3,56 +3,70 @@ package fr.sushi.app.ui.home;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SearchPlace implements Parcelable {
-    private String address;
-    private double lat;
-    private double lng;
+import java.io.Serializable;
 
-    public SearchPlace(String address, double lat, double lng) {
+public class SearchPlace implements Serializable {
+    private String postalCode;
+    private String city;
+    private String address;
+    private String title;
+    private String time;
+    private String type;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public SearchPlace(String postalCode, String city, String address){
+        this.postalCode = postalCode;
+        this.city = city;
         this.address = address;
-        this.lat = lat;
-        this.lng = lng;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public double getLat() {
-        return lat;
+
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public double getLng() {
-        return lng;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getCity() {
+        return city;
     }
 
-    public SearchPlace(Parcel parcel){
-        address = parcel.readString();
-        lat = parcel.readDouble();
-        lng = parcel.readDouble();
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(address);
-        parcel.writeDouble(lat);
-        parcel.writeDouble(lng);
+    public String getType() {
+        return type;
     }
 
-    public static Creator<SearchPlace> CREATOR = new Creator<SearchPlace>() {
-        @Override
-        public SearchPlace createFromParcel(Parcel parcel) {
-            return new SearchPlace(parcel);
-        }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-        @Override
-        public SearchPlace[] newArray(int size) {
-            return new SearchPlace[size];
-        }
-    };
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+
 }

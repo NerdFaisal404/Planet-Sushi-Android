@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.data.remote.network.ApiResponseError;
 import fr.sushi.app.data.remote.network.Repository;
@@ -18,6 +19,7 @@ public class HomeViewModel extends ViewModel {
     public HomeViewModel(){
         homeConfigurationDataMutableLiveData = new MutableLiveData<>();
     }
+    private MutableLiveData<FoodMenuResponse> foodMenuListMutableLiveData = new MutableLiveData<>();
 
     public void getShopList() {
         Repository.getAppShops().subscribeOn(Schedulers.io())
@@ -38,6 +40,31 @@ public class HomeViewModel extends ViewModel {
         restuarentListMutableLiveData.setValue(restuarentsResponse);
 
 
+    }
+
+
+
+    public void getFoodMenu() {
+        Repository.getFoodMenu().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccessMenuRequest,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+
+
+
+    private void onSuccessMenuRequest(FoodMenuResponse restuarentsResponse) {
+
+        if (restuarentsResponse == null) return;
+
+        foodMenuListMutableLiveData.setValue(restuarentsResponse);
+
+
+    }
+
+    public MutableLiveData<FoodMenuResponse> getFoodMenuListMutableLiveData() {
+        return foodMenuListMutableLiveData;
     }
 
     public MutableLiveData<RestuarentsResponse> getRestuarentListMutableLiveData() {

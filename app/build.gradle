@@ -81,7 +81,9 @@ dependencies {
 
     implementation 'com.tapadoo.android:alerter:2.0.4'
     implementation 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+    implementation 'com.borjabravo:focusresize:1.0.0'
+
 
 
 

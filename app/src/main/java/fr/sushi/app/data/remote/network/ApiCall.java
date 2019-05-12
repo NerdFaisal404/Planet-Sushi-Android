@@ -39,4 +39,7 @@ public interface ApiCall {
 
     @POST("setDeliveryAddress")
     Flowable<ResponseBody> setDeliveryAddress(@Query("params") JsonObject url);
+
+    @GET("getCheckoutSideProducts")
+    Flowable<ResponseBody> getCheckoutSideProducts();
 }

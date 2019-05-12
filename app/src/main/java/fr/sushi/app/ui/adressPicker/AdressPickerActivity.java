@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -57,6 +58,9 @@ import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
@@ -81,6 +85,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     ShopAddressAdapter addressAdapter;
     private boolean isLivarsion, isExporter;
 
+    private SearchPlace currentSearchPlace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,15 +147,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
 
                 List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
-
+                List<ResponseItem> sectionsItemList = new ArrayList<>();
                 int section = 0;
 
                 for (Map.Entry<String, List<ResponseItem>> items : responseItemGroup.entrySet()) {
                     sections.add(new SectionedRecyclerViewAdapter.Section(section, items.getKey()));
                     section = section + items.getValue().size();
+                    sectionsItemList.addAll(items.getValue());
                 }
 
-                addressAdapter = new ShopAddressAdapter(this, responseItemList, listener);
+                addressAdapter = new ShopAddressAdapter(this, sectionsItemList, listener);
                 sectionedRecyclerViewAdapter = new SectionedRecyclerViewAdapter(this, R.layout.item_menu_section,
                         R.id.section_tv, binding.recyclerView, addressAdapter);
 
@@ -174,6 +180,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         prepareDataForBottomSheet();
+                        if(currentSearchPlace != null) {
+                            currentSearchPlace.setTitle(selectedTitle);
+                            currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -201,6 +213,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
                         prepareDataForBottomSheet();
+                        if(currentSearchPlace != null) {
+                            currentSearchPlace.setTitle(selectedTitle);
+                            currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -318,6 +336,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                                 Log.e("Place_cliec", "address =" + address);
                                 DialogUtils.showDialog(AdressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
+                                currentSearchPlace = new SearchPlace(zipCode, city, address);
                             } else {
                                 Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -358,15 +377,16 @@ public class AdressPickerActivity extends AppCompatActivity implements
         Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
 
         List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
-
+        List<ResponseItem> sectionsItemList = new ArrayList<>();
         int section = 0;
 
         for (Map.Entry<String, List<ResponseItem>> item : responseItemGroup.entrySet()) {
             sections.add(new SectionedRecyclerViewAdapter.Section(section, item.getKey()));
             section = section + item.getValue().size();
+            sectionsItemList.addAll(item.getValue());
         }
 
-        addressAdapter = new ShopAddressAdapter(this, responseItemList, listener);
+        addressAdapter = new ShopAddressAdapter(this, sectionsItemList, listener);
         sectionedRecyclerViewAdapter = new SectionedRecyclerViewAdapter(this, R.layout.item_menu_section,
                 R.id.section_tv, binding.recyclerView, addressAdapter);
 
@@ -389,6 +409,9 @@ public class AdressPickerActivity extends AppCompatActivity implements
                 continue;
             }
 
+            Log.e("Prepare-group", "city =" + item.getCity() + " Code=" + item.getPostcode() + " Name ="
+                    + item.getName());
+
             List<ResponseItem> responseItems = responseItemMap.get(item.getCity());
             if (responseItems == null) {
                 List<ResponseItem> itemList = new ArrayList<>();
@@ -404,6 +427,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private ShopAddressAdapter.Listener listener = responseItem -> {
         DialogUtils.showDialog(this);
         viewModel.setTakeawayStore(responseItem.getIdStore());
+        currentSearchPlace = new SearchPlace(responseItem.getPostcode(), responseItem.getCity(), responseItem.getAddress());
     };
 
     private Map<String, List<String>> scheduleOrderMap = new HashMap<>();
@@ -433,39 +457,43 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private AddressNameAdapter addressNameAdapter;
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
+    private String selectedTitle, selectedTime;
 
     void showSavedAddressBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
         timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
+        TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
         int padding = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 40);
         titleRv.setPadding(padding, 0, padding, 0);
         SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(this);
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+
+        selectedTitle = data.get(0);
+
         addressNameAdapter = new AddressNameAdapter(this, data);
         sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 addressNameAdapter.setSelectedPosition(position);
                 Log.e("Selected_item", "Selected title =" + data.get(position));
-                wheelTimeAdapter.setNewDataList(scheduleOrderMap.get(data.get(position)));
+                List<String> timeList =  scheduleOrderMap.get(data.get(position));
+
+                wheelTimeAdapter.setNewDataList(timeList);
                 String title = addressNameAdapter.getItem(position);
-                Toast.makeText(AdressPickerActivity.this, "Title =" + title,
-                        Toast.LENGTH_SHORT).show();
+                selectedTime = timeList.get(0);
+                selectedTitle = title;
             }
         });
-        addressNameAdapter.setListener(new AddressNameAdapter.Listener() {
-            @Override
-            public void onItemClick(int position, String item) {
-                titleRv.smoothScrollToPosition(position);
-            }
-        });
+        addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
 
         titleRv.setLayoutManager(sliderLayoutManager);
         titleRv.setAdapter(addressNameAdapter);
 
+
+        tvValider.setOnClickListener(v -> startActivity(new Intent(AdressPickerActivity.this, MenuDetailsActivity.class)));
 
         //Wheel time adapter
 
@@ -473,15 +501,14 @@ public class AdressPickerActivity extends AppCompatActivity implements
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(this);
 
         List<String> timeList = scheduleOrderMap.get(data.get(0));
-
+        selectedTime = timeList.get(0);
         wheelTimeAdapter = new WheelTimeAdapter(this, timeList);
         timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 wheelTimeAdapter.setSelectedPosition(position);
                 String time = wheelTimeAdapter.getSelectedTime(position);
-                Toast.makeText(AdressPickerActivity.this, "Time =" + time,
-                        Toast.LENGTH_SHORT).show();
+                selectedTime = time;
             }
         });
         wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {

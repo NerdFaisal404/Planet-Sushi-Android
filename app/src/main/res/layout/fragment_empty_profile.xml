@@ -2,169 +2,182 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/ic_home_background">
 
-        <View
-            android:id="@+id/top_container"
-            android:layout_width="0dp"
-            android:layout_height="?android:attr/actionBarSize"
+        <LinearLayout
             android:layout_marginTop="@dimen/dp20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/image_view_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp16"
-            android:padding="@dimen/dp5"
-            android:src="@drawable/icon_settings2x"
-            app:layout_constraintBottom_toBottomOf="@+id/top_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/top_container" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-        <View
-            android:id="@+id/profile_container"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="@dimen/dp32"
-            android:background="@drawable/drawable_circle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/top_container" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_view_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_profile"
-            app:layout_constraintBottom_toBottomOf="@+id/profile_container"
-            app:layout_constraintEnd_toEndOf="@+id/profile_container"
-            app:layout_constraintStart_toStartOf="@+id/profile_container"
-            app:layout_constraintTop_toTopOf="@+id/profile_container" />
+                <View
+                    android:id="@+id/top_container"
+                    android:layout_width="0dp"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:layout_marginTop="@dimen/dp20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
-            android:id="@+id/text_view_my_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp16"
-            android:text="@string/my_profile"
-            android:textColor="@color/colorDarkBlue"
-            android:textSize="@dimen/sp24"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_container" />
-
-        <TextView
-            android:id="@+id/text_view_details"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp32"
-            android:layout_marginTop="@dimen/dp8"
-            android:layout_marginEnd="@dimen/dp32"
-            android:lines="2"
-            android:text="@string/account_create_details"
-            android:textColor="@color/colorDarkBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_my_profile" />
-
-        <Button
-            android:id="@+id/button_google"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp16"
-            android:background="@drawable/bg_google_login"
-            android:drawableLeft="@drawable/icon_google2x"
-            android:paddingStart="@dimen/dp16"
-            android:text="@string/google_login"
-            android:textColor="@color/colorDarkBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_details" />
+                <ImageView
+                    android:id="@+id/image_view_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp16"
+                    android:padding="@dimen/dp5"
+                    android:src="@drawable/icon_settings2x"
+                    app:layout_constraintBottom_toBottomOf="@+id/top_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/top_container" />
 
 
-        <Button
-            android:id="@+id/button_facebook"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp8"
-            android:background="@drawable/bg_facebook_login"
-            android:drawableLeft="@drawable/icon_facebook2x"
-            android:paddingStart="@dimen/dp16"
-            android:text="@string/facebook_login"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="@+id/button_google"
-            app:layout_constraintStart_toStartOf="@+id/button_google"
-            app:layout_constraintTop_toBottomOf="@+id/button_google" />
+                <View
+                    android:id="@+id/profile_container"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/dp32"
+                    android:background="@drawable/drawable_circle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/top_container" />
+
+                <ImageView
+                    android:id="@+id/image_view_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_profile"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile_container"
+                    app:layout_constraintEnd_toEndOf="@+id/profile_container"
+                    app:layout_constraintStart_toStartOf="@+id/profile_container"
+                    app:layout_constraintTop_toTopOf="@+id/profile_container" />
 
 
-        <TextView
-            android:id="@+id/text_view_or"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp20"
-            android:text="@string/or"
-            android:textColor="@color/colorDarkBlue"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_facebook" />
+                <TextView
+                    android:id="@+id/text_view_my_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:text="@string/my_profile"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="@dimen/sp24"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_container" />
 
-        <View
-            android:id="@+id/separator_1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginEnd="@dimen/dp4"
-            android:background="@color/color_separator"
-            app:layout_constraintBottom_toBottomOf="@+id/text_view_or"
-            app:layout_constraintEnd_toStartOf="@+id/text_view_or"
-            app:layout_constraintStart_toStartOf="@+id/button_facebook"
-            app:layout_constraintTop_toTopOf="@+id/text_view_or" />
+                <TextView
+                    android:id="@+id/text_view_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp32"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp32"
+                    android:lines="2"
+                    android:text="@string/account_create_details"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_my_profile" />
 
-        <View
-            android:id="@+id/separator_2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/dp4"
-            android:layout_marginEnd="@dimen/dp4"
-            android:background="@color/color_separator"
-            app:layout_constraintBottom_toBottomOf="@+id/text_view_or"
-            app:layout_constraintEnd_toEndOf="@+id/button_facebook"
-            app:layout_constraintStart_toEndOf="@+id/text_view_or"
-            app:layout_constraintTop_toTopOf="@+id/text_view_or" />
-
-        <Button
-            android:id="@+id/button_create_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp20"
-            android:background="@drawable/bg_create_account"
-            android:text="@string/create_account"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="@+id/button_facebook"
-            app:layout_constraintStart_toStartOf="@+id/button_facebook"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_or" />
+                <Button
+                    android:id="@+id/button_google"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:background="@drawable/bg_google_login"
+                    android:drawableLeft="@drawable/icon_google2x"
+                    android:paddingStart="@dimen/dp16"
+                    android:text="@string/google_login"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_details" />
 
 
-        <TextView
-            android:id="@+id/text_view_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp16"
-            android:padding="@dimen/dp5"
-            android:text="@string/already_have_account"
-            android:textColor="@color/colorPink"
-            app:layout_constraintEnd_toEndOf="@+id/button_create_account"
-            app:layout_constraintStart_toStartOf="@+id/button_create_account"
-            app:layout_constraintTop_toBottomOf="@+id/button_create_account" />
+                <Button
+                    android:id="@+id/button_facebook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:background="@drawable/bg_facebook_login"
+                    android:drawableLeft="@drawable/icon_facebook2x"
+                    android:paddingStart="@dimen/dp16"
+                    android:text="@string/facebook_login"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintEnd_toEndOf="@+id/button_google"
+                    app:layout_constraintStart_toStartOf="@+id/button_google"
+                    app:layout_constraintTop_toBottomOf="@+id/button_google" />
 
-    </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/text_view_or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:text="@string/or"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button_facebook" />
+
+                <View
+                    android:id="@+id/separator_1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="@dimen/dp4"
+                    android:background="@color/color_separator"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_view_or"
+                    app:layout_constraintEnd_toStartOf="@+id/text_view_or"
+                    app:layout_constraintStart_toStartOf="@+id/button_facebook"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_or" />
+
+                <View
+                    android:id="@+id/separator_2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/dp4"
+                    android:layout_marginEnd="@dimen/dp4"
+                    android:background="@color/color_separator"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_view_or"
+                    app:layout_constraintEnd_toEndOf="@+id/button_facebook"
+                    app:layout_constraintStart_toEndOf="@+id/text_view_or"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_or" />
+
+                <Button
+                    android:id="@+id/button_create_account"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:background="@drawable/bg_create_account"
+                    android:text="@string/create_account"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintEnd_toEndOf="@+id/button_facebook"
+                    app:layout_constraintStart_toStartOf="@+id/button_facebook"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_or" />
+
+
+                <TextView
+                    android:id="@+id/text_view_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:padding="@dimen/dp5"
+                    android:text="@string/already_have_account"
+                    android:textColor="@color/colorPink"
+                    app:layout_constraintEnd_toEndOf="@+id/button_create_account"
+                    app:layout_constraintStart_toStartOf="@+id/button_create_account"
+                    app:layout_constraintTop_toBottomOf="@+id/button_create_account" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

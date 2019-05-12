@@ -44,21 +44,20 @@
     </RelativeLayout>
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/iv_bike"
-        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginTop="@dimen/dp20"
         android:layout_width="@dimen/dp60"
         android:layout_height="@dimen/dp60"
         android:padding="@dimen/dp10"
-        android:src="@drawable/icon_bike_large"
-        app:civ_border_color="@color/color_627588"
-        app:civ_border_width="2dp" />
+        android:background="@drawable/bg_round_white"
+        android:src="@drawable/icon_bike_large" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_horizontal_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp50"
+        android:layout_marginTop="@dimen/dp20"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -77,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_horizontal_picker" />
 
     <TextView
+        android:id="@+id/tvValider"
         android:layout_width="match_parent"
         android:layout_height="51dp"
         android:layout_margin="@dimen/dp16"
