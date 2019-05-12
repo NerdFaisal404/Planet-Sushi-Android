@@ -6,7 +6,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/dp16">
+        android:scrollbars="none"
+        android:background="@drawable/ic_home_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -15,6 +16,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvCartItem"
+                android:scrollbars="none"
+                android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
@@ -22,9 +25,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp16"
-                android:layout_marginBottom="@dimen/dp16"
                 android:background="#59627588" />
+
+            <LinearLayout
+                android:padding="@dimen/dp16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -49,6 +56,8 @@
                     tools:text="21,00 €" />
 
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -99,6 +108,8 @@
                     tools:text="0,95 €" />
 
             </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

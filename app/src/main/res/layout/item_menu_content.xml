@@ -59,6 +59,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="TOP' HOTATE"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/color_394F61"
                     android:textSize="@dimen/sp16" />
 
@@ -84,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:text="7.90 $"
+                        android:layout_marginRight="@dimen/dp5"
                         android:textColor="#336C93"
                         android:textSize="@dimen/sp13" />
                 </LinearLayout>

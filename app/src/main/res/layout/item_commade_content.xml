@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:paddingLeft="@dimen/dp16"
+    android:paddingRight="@dimen/dp16"
+    android:background="@drawable/ic_home_background"
     android:id="@+id/view_list_main_content"
-    android:layout_height="match_parent">
+    android:layout_height="70dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
             android:paddingTop="@dimen/dp5"
             android:paddingBottom="@dimen/dp5">
 
@@ -97,19 +96,11 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:textColor="#394F61"
+                android:layout_marginRight="@dimen/dp5"
                 android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_one"
-            android:layout_below="@+id/imageViewItem"
-            android:layout_marginLeft="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp5"
-            android:layout_marginBottom="@dimen/dp5"
-            android:background="@color/colorWhite" />
 
-    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

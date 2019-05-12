@@ -15,7 +15,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:background="@color/red"
-            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/sp16"
             android:padding="@dimen/dp10"
             android:text="Supprimer"
             android:textColor="@color/colorWhite"/>

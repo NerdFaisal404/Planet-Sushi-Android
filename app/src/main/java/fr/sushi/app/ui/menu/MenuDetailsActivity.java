@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.food_menu.TopMenuItem;
@@ -56,6 +58,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     public ItemTouchHelperExtension.Callback mCallback;
 
     private SearchPlace mSearchPlace;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_menu_list_detail;
@@ -68,24 +71,26 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         showBottomView();
         Intent intent = getIntent();
 
-        if(intent.hasExtra("index")) {
+        if (intent.hasExtra("index")) {
             currentIndex = intent.getIntExtra("index", 0);
         }
-        if(intent.hasExtra(SearchPlace.class.getName())){
-            mSearchPlace = (SearchPlace)intent.getSerializableExtra(SearchPlace.class.getName());
+        if (intent.hasExtra(SearchPlace.class.getName())) {
+            mSearchPlace = (SearchPlace) intent.getSerializableExtra(SearchPlace.class.getName());
         }
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
         setUpToMenuAdapter();
-        loadCategoryItems();
+        if (categoriesItems != null && categoriesItems.size() > 0) {
+            loadCategoryItems();
+        }
 
-        binding.priceLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class));
-            }
-        });
+      /*  String titleHeader = SharedPref.read(PrefKey.)
+
+        binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
+*/
+
+        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
     }
 
 
@@ -100,7 +105,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         horizontalDecoration.setDrawable(horizontalDivider);
         binding.recyclerViewItems.addItemDecoration(horizontalDecoration);
     }
-
 
 
     private void loadCategoryItems() {
@@ -121,14 +125,14 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
         List<String> selectedItemIds = getSelectedItemIds();
 
-        for(ProductsItem item : productsItems){
-            if(selectedItemIds.contains(item.getIdProduct())){
+        for (ProductsItem item : productsItems) {
+            if (selectedItemIds.contains(item.getIdProduct())) {
                 item.setSelected(true);
-                Log.e("ItemSelect","Item selected ="+item.getIdProduct());
+                Log.e("ItemSelect", "Item selected =" + item.getIdProduct());
             }
         }
         //menuItemAdapter = new MenuItemAdapter(this, productsItems, listener);
-        menuItemSwipeAdapter = new MenuItemSwipeAdapter(this,productsItems, selectListener);
+        menuItemSwipeAdapter = new MenuItemSwipeAdapter(this, productsItems, selectListener);
         mCallback = new ItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
         mItemTouchHelper.attachToRecyclerView(binding.recyclerViewItems);
@@ -199,7 +203,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
         Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }
@@ -252,7 +255,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
                                     imageView.setVisibility(View.GONE);
                                     ObjectAnimator
                                             .ofFloat(binding.tvCount, "translationX", 0, 25, -25, 25,
-                                                    -25,15, -15, 6, -6, 0)
+                                                    -25, 15, -15, 6, -6, 0)
                                             .setDuration(200)
                                             .start();
                                 }
@@ -289,7 +292,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.tvPrice.setText(getTotalPrice());
     }
 
-    private List<String> getSelectedItemIds(){
+    private List<String> getSelectedItemIds() {
         List<String> list = new ArrayList<>();
         for(MyCartProduct item : selectedProducts){
             list.add(item.getProductId());
