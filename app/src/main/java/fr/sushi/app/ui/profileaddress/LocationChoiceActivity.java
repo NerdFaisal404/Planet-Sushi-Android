@@ -141,6 +141,12 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
         if (intent.hasExtra(IntentKey.IS_FROM_ADD_REQUEST)) {
             isFromAdd = intent.getBooleanExtra(IntentKey.IS_FROM_ADD_REQUEST, false);
         }
+
+        if(isFromAdd){
+            binding.tvDelivery.setText("Ajouter une adresse");
+        }else{
+            binding.tvDelivery.setText("Modifier l’adresse");
+        }
     }
 
     private void setUpAdapter() {
