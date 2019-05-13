@@ -52,7 +52,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private SectionedRecyclerViewAdapter sectionedRecyclerViewAdapter;
     private TopMenuAdapter topMenuAdapter;
     private int visiblePosition;
-    private List<ProductsItem> selectedProducts = new ArrayList<>();
+    private List<MyCartProduct> selectedProducts = new ArrayList<>();
     private MenuItemSwipeAdapter menuItemSwipeAdapter;
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
@@ -67,7 +67,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     @Override
     protected void startUI() {
         binding = (ActivityMenuListDetailBinding) getViewDataBinding();
-        selectedProducts = MenuPrefUtil.getSaveItems();
+
         showBottomView();
         Intent intent = getIntent();
 
@@ -80,8 +80,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
-        setUpToMenuAdapter();
         if (categoriesItems != null && categoriesItems.size() > 0) {
+            setUpToMenuAdapter();
             loadCategoryItems();
         }
 
@@ -95,6 +95,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
 
     private void setUpToMenuAdapter() {
+
         binding.recyclerViewMenuTop.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         itemViewLayoutManager = new LinearLayoutManager(this);
@@ -237,7 +238,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         public void onItemClick(ProductsItem item, ImageView imageView) {
             imageView.setVisibility(View.VISIBLE);
             MenuPrefUtil.saveItem(item);
-            selectedProducts.add(item);
             showBottomView();
             new CircleAnimationUtil().attachActivity(MenuDetailsActivity.this)
                     .setTargetView(imageView)
@@ -276,41 +276,42 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         @Override
         public void onItemDeselect(ProductsItem item) {
             MenuPrefUtil.removeItem(item);
-            List<ProductsItem> list = new ArrayList<>();
-            for (ProductsItem pItem : selectedProducts) {
-                if (pItem.getIdProduct().equals(item.getIdProduct())) {
-                    list.add(pItem);
-                }
-            }
-            selectedProducts.removeAll(list);
             showBottomView();
         }
     };
 
 
-    private void showBottomView() {
-        if (selectedProducts.isEmpty()) {
+    private void showBottomView(){
+        selectedProducts = MenuPrefUtil.getSaveItems();
+
+        if(selectedProducts.isEmpty()){
             binding.priceLayout.setVisibility(View.GONE);
             return;
         }
         binding.priceLayout.setVisibility(View.VISIBLE);
-        binding.tvCount.setText("" + selectedProducts.size());
+        binding.tvCount.setText("" + getItemCount());
         binding.tvPrice.setText(getTotalPrice());
     }
 
     private List<String> getSelectedItemIds() {
         List<String> list = new ArrayList<>();
-        for (ProductsItem item : selectedProducts) {
-            list.add(item.getIdProduct());
+        for(MyCartProduct item : selectedProducts){
+            list.add(item.getProductId());
         }
         return list;
     }
 
-
+    private int getItemCount(){
+        int totalCount = 0;
+        for (MyCartProduct item : selectedProducts) {
+            totalCount = totalCount+item.getItemCount();
+        }
+        return totalCount;
+    }
     private String getTotalPrice() {
         double total = 0.0;
-        for (ProductsItem item : selectedProducts) {
-            total = total + Double.valueOf(item.getPriceHt());
+        for (MyCartProduct item : selectedProducts) {
+            total = total + (Double.valueOf(item.getPriceHt())*item.getItemCount());
         }
         return Utils.getDecimalFormat(total) + " €";
     }

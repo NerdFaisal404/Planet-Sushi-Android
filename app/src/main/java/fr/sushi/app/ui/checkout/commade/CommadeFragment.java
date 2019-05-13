@@ -57,7 +57,7 @@ public class CommadeFragment extends Fragment {
 
     private void initView() {
 
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
 

@@ -252,13 +252,17 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             totalPrice += Double.parseDouble(item.getPriceHt());
             tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
             tvCount.setText(count + "");
+
         });
 
         tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
 
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
-        adjustLayout.setOnClickListener(v -> dialog.dismiss());
+        adjustLayout.setOnClickListener(v ->{
+            MenuPrefUtil.saveItem(item, count);
+            dialog.dismiss();
+        });
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
 
