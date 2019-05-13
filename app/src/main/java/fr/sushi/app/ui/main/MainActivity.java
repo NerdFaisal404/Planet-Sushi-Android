@@ -118,10 +118,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void goProfilePage() {
-        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)){
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
             FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new ProfileFragment());
         }
         binding.fragmentContainer.findViewById(R.id.fragment_container).performClick();
+    }
+
+    public void gotoEmptyProfilePage() {
+        FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyProfileFragment());
     }
 }
 

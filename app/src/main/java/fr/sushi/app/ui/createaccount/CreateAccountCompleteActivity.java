@@ -105,6 +105,8 @@ public class CreateAccountCompleteActivity extends BaseActivity {
                         //int day = bDayObj.getInt("day");
 
                         SharedPref.write(PrefKey.USER_NAME, (firstName + " " + lastName));
+                        SharedPref.write(PrefKey.USER_FIRST_NAME, firstName);
+                        SharedPref.write(PrefKey.USER_LAST_NAME, lastName);
                         SharedPref.write(PrefKey.USER_EMAIL, email);
                         SharedPref.write(PrefKey.USER_PHONE, phone);
                         SharedPref.write(PrefKey.USER_ID, id);

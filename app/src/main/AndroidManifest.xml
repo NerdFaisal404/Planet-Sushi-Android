@@ -17,9 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:usesCleartextTraffic="true">
-
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.profileaddress.ProfileAddressActivity"></activity>
+        <activity android:name=".ui.profileaddress.AddressAddActivity" />
+        <activity android:name=".ui.profileaddress.LocationChoiceActivity" />
+        <activity android:name=".ui.editprofile.EditProfileActivity" />
         <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:configChanges="locale"
@@ -55,7 +58,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDFm8A0_dHw79C8ENpYju0VPtczj56Vsr8" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

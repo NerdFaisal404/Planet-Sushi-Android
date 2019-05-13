@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        tools:context=".ui.adressPicker.AdressPickerActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9F9F9"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingTop="@dimen/dp40"
+            android:paddingRight="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10">
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvDelivery"
+                android:layout_alignBottom="@+id/tvDelivery"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/ic_cross_gray" />
+
+            <TextView
+                android:id="@+id/tvDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_delivery"
+                android:drawableRight="@drawable/ic_down_arrow"
+                android:drawablePadding="8dp"
+                android:elevation="1dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp10"
+                android:paddingTop="@dimen/dp4"
+                android:paddingRight="@dimen/dp10"
+                android:paddingBottom="@dimen/dp4"
+                android:text="Livraison"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/sp15" />
+
+            <com.loopeer.shadow.ShadowView
+                android:id="@+id/shadow_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDelivery"
+                android:layout_marginTop="20dp"
+                android:elevation="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="3dp"
+                app:cornerRadius="4dp"
+                app:shadowMargin="5dp"
+                app:shadowRadius="14dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_location_search">
+
+                    <EditText
+                        android:id="@+id/editTextSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:drawableLeft="@drawable/ic_search"
+                        android:drawablePadding="8dp"
+                        android:hint="Rechercher une adresse"
+                        android:imeOptions="actionNone"
+                        android:padding="8dp"
+                        android:singleLine="true" />
+
+
+                </RelativeLayout>
+
+            </com.loopeer.shadow.ShadowView>
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:background="@color/colorWhite"
+            android:padding="@dimen/dp16" />
+
+    </LinearLayout>
+</layout>

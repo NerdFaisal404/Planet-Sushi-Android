@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bottom_home"
+    android:padding="@dimen/dp10"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp">
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:text="Type d'adresse"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_title_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp16"
+        android:layout_marginEnd="@dimen/dp8"
+        android:text="Fermer"
+        android:textColor="@color/colorPink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view_maison"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp32"
+        android:background="@drawable/drawable_profile_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_title" />
+
+    <ImageView
+        android:id="@+id/image_view_maison"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_house2x"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/view_maison"
+        app:layout_constraintEnd_toEndOf="@+id/view_maison"
+        app:layout_constraintStart_toStartOf="@+id/view_maison"
+        app:layout_constraintTop_toTopOf="@+id/view_maison" />
+
+    <TextView
+        android:id="@+id/text_view_maison"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:text="Maison"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/view_maison"
+        app:layout_constraintStart_toEndOf="@+id/view_maison"
+        app:layout_constraintTop_toTopOf="@+id/view_maison" />
+
+
+    <View
+        android:id="@+id/view_bureau"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
+        android:background="@drawable/drawable_profile_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_maison" />
+
+    <ImageView
+        android:id="@+id/image_view_bureau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_house2x"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/view_bureau"
+        app:layout_constraintEnd_toEndOf="@+id/view_bureau"
+        app:layout_constraintStart_toStartOf="@+id/view_bureau"
+        app:layout_constraintTop_toTopOf="@+id/view_bureau" />
+
+    <TextView
+        android:id="@+id/text_view_bureau"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:text="Bureau"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/view_bureau"
+        app:layout_constraintStart_toEndOf="@+id/view_bureau"
+        app:layout_constraintTop_toTopOf="@+id/view_bureau" />
+
+    <View
+        android:id="@+id/view_cher"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
+        android:background="@drawable/drawable_profile_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_bureau" />
+
+    <ImageView
+        android:id="@+id/image_view_cher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_house2x"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/view_cher"
+        app:layout_constraintEnd_toEndOf="@+id/view_cher"
+        app:layout_constraintStart_toStartOf="@+id/view_cher"
+        app:layout_constraintTop_toTopOf="@+id/view_cher" />
+
+    <TextView
+        android:id="@+id/text_view_cher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:text="Cher mes parents"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/view_cher"
+        app:layout_constraintStart_toEndOf="@+id/view_cher"
+        app:layout_constraintTop_toTopOf="@+id/view_cher" />
+
+    <View
+        android:id="@+id/view_cez"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
+        android:background="@drawable/drawable_profile_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_cher" />
+
+    <ImageView
+        android:id="@+id/image_view_cez"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_house2x"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/view_cez"
+        app:layout_constraintEnd_toEndOf="@+id/view_cez"
+        app:layout_constraintStart_toStartOf="@+id/view_cez"
+        app:layout_constraintTop_toTopOf="@+id/view_cez" />
+
+    <TextView
+        android:id="@+id/text_view_cez"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:text="cez un (e) ami (e)"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/view_cez"
+        app:layout_constraintStart_toEndOf="@+id/view_cez"
+        app:layout_constraintTop_toTopOf="@+id/view_cez" />
+
+    <View
+        android:id="@+id/view_autre"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp16"
+        android:layout_marginTop="@dimen/dp16"
+        android:background="@drawable/drawable_profile_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_cez" />
+
+    <ImageView
+        android:id="@+id/image_view_autre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_house2x"
+        android:tint="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/view_autre"
+        app:layout_constraintEnd_toEndOf="@+id/view_autre"
+        app:layout_constraintStart_toStartOf="@+id/view_autre"
+        app:layout_constraintTop_toTopOf="@+id/view_autre" />
+
+    <TextView
+        android:id="@+id/text_view_autre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp16"
+        android:text="Autre"
+        android:textColor="@color/colorDarkBlue"
+        app:layout_constraintBottom_toBottomOf="@+id/view_autre"
+        app:layout_constraintStart_toEndOf="@+id/view_autre"
+        app:layout_constraintTop_toTopOf="@+id/view_autre" />
+
+</android.support.constraint.ConstraintLayout>

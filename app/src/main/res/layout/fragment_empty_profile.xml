@@ -52,7 +52,7 @@
                     android:id="@+id/image_view_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_profile"
+                    android:src="@drawable/ic_profile_white"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_container"
                     app:layout_constraintEnd_toEndOf="@+id/profile_container"
                     app:layout_constraintStart_toStartOf="@+id/profile_container"
