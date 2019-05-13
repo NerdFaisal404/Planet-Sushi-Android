@@ -28,6 +28,7 @@
     <string name="or">Ou</string>
     <string name="create_account">CRÉER UN COMPTE</string>
     <string name="already_have_account">Déjà un compte ? Se connecte</string>
+    <string name="free_text">Choisissez vos (freeItems) sauce(s) gratuite(s), wasabi, gingembre et baguettes. Compléter votre commande d\'un accompagnement, d\'une boisson ou d\'un dessert. Sauce(s) offertes</string>
 
     <string-array name="stepLabels">
         <item>Approval</item>

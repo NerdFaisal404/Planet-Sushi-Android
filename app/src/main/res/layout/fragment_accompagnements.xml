@@ -12,17 +12,75 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/topLayout"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_horizontal_pink"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="COMPLÉTEZ  "
+                        android:textColor="#394F61"
+                        android:textSize="@dimen/sp18" />
+
+                    <TextView
+                        android:id="@+id/tv_heading_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="VOTRE COMMANDE"
+                        android:textColor="@color/colorPink"
+                        android:textSize="@dimen/sp18" />
+
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:layout_below="@+id/topLayout"
+                    android:id="@+id/tvSubtitle"
+                    android:fontFamily="@font/robot_regular"
+                    android:textSize="@dimen/sp15"
+                    android:textColor="#394F61"
+                    android:layout_marginBottom="@dimen/dp16"
+                    android:text="@string/free_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_below="@+id/tvSubtitle"
+                    android:id="@+id/viewSingle"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
+                    android:layout_marginBottom="@dimen/dp16"
+                    android:background="#D8D8D8" />
+
                 <!-- grid 1 -->
                 <LinearLayout
+                    android:layout_below="@+id/viewSingle"
                     android:id="@+id/rlGridView1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp8"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:layout_marginEnd="@dimen/dp8"
+                    android:layout_marginStart="@dimen/dp10"
+                    android:layout_marginEnd="@dimen/dp10"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.CardView
@@ -52,17 +110,17 @@
                                 android:id="@+id/rlCountForSauces"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewSauces"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountSauces"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
-                                    android:id="@+id/tvCountSauces"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
@@ -90,9 +148,9 @@
                         android:elevation="@dimen/dp4">
 
                         <RelativeLayout
+                            android:id="@+id/rlAccompagnements"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rlAccompagnements"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -108,15 +166,15 @@
                                 android:id="@+id/rlCountForAccompagnements"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewAccompagnements"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountAccompagnements"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
-                                    android:id="@+id/tvCountAccompagnements"
                                     android:layout_centerVertical="true"
                                     android:text="1"
                                     android:textColor="@color/colorWhite"
@@ -124,11 +182,11 @@
                             </RelativeLayout>
 
                             <TextView
+                                android:id="@+id/tvAccompagnements"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/imgViewAccompagnements"
                                 android:gravity="center"
-                                android:id="@+id/tvAccompagnements"
                                 android:text="ACCOMPAGNEMENTS"
                                 android:textSize="@dimen/dp8" />
 
@@ -146,9 +204,9 @@
                         android:elevation="@dimen/dp4">
 
                         <RelativeLayout
+                            android:id="@+id/rlBoissons"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rlBoissons"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -164,14 +222,14 @@
                                 android:id="@+id/rlCountForBoissons"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewBoissons"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountBoissons"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/tvCountBoissons"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
@@ -180,9 +238,9 @@
                             </RelativeLayout>
 
                             <TextView
+                                android:id="@+id/tvBoissons"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/tvBoissons"
                                 android:layout_below="@+id/imgViewBoissons"
                                 android:gravity="center"
                                 android:text="BOISSONS"
@@ -216,9 +274,9 @@
                         android:elevation="@dimen/dp4">
 
                         <RelativeLayout
+                            android:id="@+id/rlDesserts"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rlDesserts"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -234,28 +292,28 @@
                                 android:id="@+id/rlCountForDesserts"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewDesserts"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountDesserts"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
-                                    android:id="@+id/tvCountDesserts"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
 
                             <TextView
+                                android:id="@+id/tvDesserts"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/imgViewDesserts"
                                 android:gravity="center"
                                 android:text="DESSERTS"
-                                android:id="@+id/tvDesserts"
                                 android:textSize="@dimen/dp8" />
 
 
@@ -273,9 +331,9 @@
                         android:elevation="@dimen/dp4">
 
                         <RelativeLayout
+                            android:id="@+id/rlWasbi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rlWasbi"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -290,27 +348,27 @@
                                 android:id="@+id/rlCountForWasbi"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewWasbi"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountWasbi"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
-                                    android:id="@+id/tvCountWasbi"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
 
                             <TextView
+                                android:id="@+id/tvWasbi"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/imgViewWasbi"
                                 android:gravity="center"
-                                android:id="@+id/tvWasbi"
                                 android:text="WASBI GINGEMBRE"
                                 android:textSize="@dimen/dp8" />
 
@@ -328,15 +386,15 @@
                         android:elevation="@dimen/dp4">
 
                         <RelativeLayout
+                            android:id="@+id/rlBaguettes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/rlBaguettes"
                             android:padding="@dimen/dp8">
 
                             <ImageView
+                                android:id="@+id/imgViewBaguettes"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
-                                android:id="@+id/imgViewBaguettes"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/dp8"
                                 app:srcCompat="@drawable/icon_rice_colored" />
@@ -345,27 +403,28 @@
                                 android:id="@+id/rlCountForBaguettes"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewBaguettes"
-                                android:background="@drawable/bg_pink_oval">
+                                android:background="@drawable/bg_pink_oval"
+                                android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/tvCountBaguettes"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
-                                    android:id="@+id/tvCountBaguettes"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
+
                             <TextView
+                                android:id="@+id/tvBaguettes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
                                 android:layout_below="@+id/imgViewBaguettes"
+                                android:gravity="center"
                                 android:text="BAGUETTES"
-                                android:id="@+id/tvBaguettes"
                                 android:textSize="@dimen/dp8" />
 
 
