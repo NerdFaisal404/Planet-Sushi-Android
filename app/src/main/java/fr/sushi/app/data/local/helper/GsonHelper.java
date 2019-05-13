@@ -31,7 +31,7 @@ public class GsonHelper {
 
     public String convertAddressToJson(List<ProfileAddressModel> addressList) {
         Gson gson = new Gson();
-        Type type = new TypeToken<ProfileAddressModel>() {
+        Type type = new TypeToken<List<ProfileAddressModel>>() {
         }.getType();
         return gson.toJson(addressList, type);
     }

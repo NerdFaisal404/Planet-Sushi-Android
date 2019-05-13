@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.databinding.ActivityProfileAddressBinding;
 import fr.sushi.app.ui.base.BaseActivity;
@@ -35,12 +36,17 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
 
         initViewModel();
 
-        mAddressViewModel.parseUserProfileAddress();
-
         mAddressViewModel.getAddressList().observe(this, addressList -> {
             mAdapter.clear();
             mAdapter.addItems(addressList);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mAddressViewModel.parseUserProfileAddress();
     }
 
     @Override
@@ -51,6 +57,9 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
     @Override
     public void onItemClick(View view, ProfileAddressModel item) {
         // go to edit page or AddressAddActivity
+        Intent intent = new Intent(ProfileAddressActivity.this, AddressAddActivity.class);
+        intent.putExtra(IntentKey.ADDRESS_MODEL, item);
+        startActivity(intent);
     }
 
     @Override
@@ -58,7 +67,9 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
         super.onClick(view);
         switch (view.getId()) {
             case R.id.button_add:
-                startActivity(new Intent(ProfileAddressActivity.this, LocationChoiceActivity.class));
+                Intent intent = new Intent(ProfileAddressActivity.this, LocationChoiceActivity.class);
+                intent.putExtra(IntentKey.IS_FROM_ADD_REQUEST, true);
+                startActivity(intent);
                 break;
             case R.id.image_view_back:
                 finish();

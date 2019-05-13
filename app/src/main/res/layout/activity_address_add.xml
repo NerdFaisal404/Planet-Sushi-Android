@@ -13,6 +13,7 @@
             android:id="@+id/view_header"
             android:layout_width="0dp"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_marginTop="@dimen/dp40"
             android:background="#F9F9F9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,11 +23,11 @@
             android:id="@+id/image_view_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp16"
+            android:layout_marginStart="@dimen/dp16"
             android:padding="@dimen/dp5"
             android:src="@drawable/ic_cross_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/view_header"
+            app:layout_constraintTop_toTopOf="@+id/view_header" />
 
         <TextView
             android:id="@+id/text_view_title"
@@ -106,6 +107,154 @@
                     app:layout_constraintStart_toStartOf="@+id/text_view_address_title"
                     app:layout_constraintTop_toBottomOf="@+id/text_view_address" />
 
+                <TextView
+                    android:id="@+id/text_view_building"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:gravity="start"
+                    android:text="Bâtiment"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintEnd_toStartOf="@+id/text_view_floor"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_address_type"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_address_type" />
+
+                <TextView
+                    android:id="@+id/text_view_floor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Étage"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="@dimen/sp14"
+                    app:layout_constraintEnd_toStartOf="@+id/text_view_blank"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/text_view_building"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_building" />
+
+                <TextView
+                    android:id="@+id/text_view_blank"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:gravity="start"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/text_view_floor"
+                    app:layout_constraintTop_toTopOf="@+id/text_view_floor" />
+
+                <EditText
+                    android:id="@+id/edit_text_building"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toStartOf="@+id/edit_text_floor"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_building"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_building" />
+
+                <EditText
+                    android:id="@+id/edit_text_floor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toStartOf="@+id/edit_text_apartment"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/edit_text_building"
+                    app:layout_constraintTop_toTopOf="@+id/edit_text_building" />
+
+                <EditText
+                    android:id="@+id/edit_text_apartment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:background="@null"
+                    android:hint="Ñ appart"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/edit_text_floor"
+                    app:layout_constraintTop_toTopOf="@+id/edit_text_building" />
+
+                <EditText
+                    android:id="@+id/edit_text_company"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="société (optionnel)"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edit_text_building"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_building" />
+
+                <TextView
+                    android:id="@+id/text_view_interphone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:text="Interphone"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/edit_text_company"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_company" />
+
+                <EditText
+                    android:id="@+id/edit_text_interphone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:background="@null"
+                    android:gravity="start"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_interphone"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_interphone" />
+
+
+                <TextView
+                    android:id="@+id/text_view_access_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:text="code d'accès"
+                    android:textColor="@color/colorDarkBlue"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/edit_text_interphone"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_interphone" />
+
+                <EditText
+                    android:id="@+id/edit_text_access_code"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_view_access_code"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_access_code" />
+
+                <EditText
+                    android:id="@+id/edit_text_information"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:layout_marginEnd="@dimen/dp8"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="Information utiles au livreur"
+                    android:textColor="@color/colorDarkBlue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/edit_text_access_code"
+                    app:layout_constraintTop_toBottomOf="@+id/edit_text_access_code" />
+
+
             </android.support.constraint.ConstraintLayout>
 
 
@@ -118,7 +267,8 @@
             android:layout_margin="@dimen/dp16"
             android:background="@drawable/bg_unselected_pink"
             android:fontFamily="@font/roboto_bold"
-            android:text="+ AJOUTER UNE ADRESSE"
+            android:text="Mettre à jour"
+            android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp16"
             app:layout_constraintBottom_toBottomOf="parent"

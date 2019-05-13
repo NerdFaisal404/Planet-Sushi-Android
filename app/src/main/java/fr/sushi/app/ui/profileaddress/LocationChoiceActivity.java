@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.databinding.ActivityLocationChoiceBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
@@ -43,6 +44,7 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
     private PlaceAutocompleteAdapter mAdapter;
     private GoogleApiClient mGoogleApiClient;
     private Geocoder mGeocoder;
+    private boolean isFromAdd;
     private static final LatLngBounds BOUNDS = new LatLngBounds(
             new LatLng(-0, 0), new LatLng(0, 0));
 
@@ -55,6 +57,8 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
     @Override
     protected void startUI() {
         binding = (ActivityLocationChoiceBinding) getViewDataBinding();
+
+        parseIntent();
 
         initGoogleClient();
 
@@ -103,12 +107,19 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
                                 Log.e("Place_cliec", "city =" + city);
                                 Log.e("Place_cliec", "address =" + address);
 
-                                Intent intent = new Intent(LocationChoiceActivity.this, AddressAddActivity.class);
-                                intent.putExtra(IntentKey.KEY_IS_CREATE_ADDRESS, true);
-                                intent.putExtra(IntentKey.ADDRESS, address);
-                                intent.putExtra(IntentKey.CITY, city);
-                                intent.putExtra(IntentKey.ZIP_CODE, zipCode);
-                                startActivity(intent);
+                                if (isFromAdd) {
+                                    Intent intent = new Intent(LocationChoiceActivity.this, AddressAddActivity.class);
+                                    intent.putExtra(IntentKey.KEY_IS_CREATE_ADDRESS, true);
+                                    intent.putExtra(IntentKey.ADDRESS, address);
+                                    intent.putExtra(IntentKey.CITY, city);
+                                    intent.putExtra(IntentKey.ZIP_CODE, zipCode);
+                                    startActivity(intent);
+                                } else {
+                                    CommonUtility.LOCATION = address;
+                                    CommonUtility.CITY = city;
+                                    CommonUtility.ZIP_CODE = zipCode;
+                                }
+
                                 finish();
                                 // viewModel.setDeliveryAddress(address, zipCode, city);
                             } else {
@@ -122,6 +133,13 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void parseIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(IntentKey.IS_FROM_ADD_REQUEST)) {
+            isFromAdd = intent.getBooleanExtra(IntentKey.IS_FROM_ADD_REQUEST, false);
         }
     }
 

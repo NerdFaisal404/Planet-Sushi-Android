@@ -22,6 +22,7 @@ import fr.sushi.app.databinding.FragmentProfileBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.editprofile.EditProfileActivity;
+import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.ui.profileaddress.ProfileAddressActivity;
 
 public class ProfileFragment extends BaseFragment implements ItemClickListener<ProfileItemModel> {
@@ -54,11 +55,22 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
         mBinding.textViewName.setText(userName);
 
+        setClickListener(mBinding.imageViewSettings);
+
     }
 
     @Override
     protected void stopUI() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+        if (view.getId() == R.id.image_view_settings) {
+            SharedPref.write(PrefKey.IS_LOGINED, false);
+            ((MainActivity) getActivity()).gotoEmptyProfilePage();
+        }
     }
 
     private void initRecyclerView() {

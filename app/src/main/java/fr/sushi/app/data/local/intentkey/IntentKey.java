@@ -19,4 +19,7 @@ public interface IntentKey {
     String ZIP_CODE = "ZIP_CODE";
     String CITY = "CITY";
 
+    String IS_FROM_ADD_REQUEST = "IS_FROM_ADD_REQUEST";
+    String ADDRESS_MODEL = "ADDRESS_MODEL";
+
 }

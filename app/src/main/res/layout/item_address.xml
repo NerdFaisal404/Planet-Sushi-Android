@@ -12,8 +12,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp16"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:paddingBottom="@dimen/dp16">
 
         <ImageView
             android:id="@+id/image_view_icon"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp8"
-            android:text="MAISON"
+            android:text="@{address.addressType}"
             android:textColor="@color/color_627588"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/image_view_icon"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
-            android:text="16 Cours Albert 1er"
+            android:text="@{address.location}"
             android:textColor="@color/color_627588"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
@@ -51,7 +51,7 @@
             android:id="@+id/text_view_sub_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="75008 Paris"
+            android:text="@{address.zipCode+` `+ address.city}"
             android:textColor="@color/color_627588"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
@@ -62,9 +62,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp20"
-            android:text="Code 2459, Interphone Rimane, Étage 3"
+            android:text="@{`Code `+ address.accessCode+`, Interphone `+ address.interphone+`, Étage `+  address.floor}"
             android:textColor="@color/color_627588"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
             app:layout_constraintTop_toBottomOf="@+id/text_view_sub_location" />
 
