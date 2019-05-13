@@ -2,6 +2,7 @@ package fr.sushi.app.ui.checkout.paiement;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
+import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.util.PermissionUtil;
@@ -58,6 +60,13 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        binding.addressView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              startActivity(new Intent(getActivity(), AdressPickerActivity.class));
+            }
+        });
         return view;
     }
 
