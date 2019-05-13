@@ -115,45 +115,6 @@
             android:layout_marginTop="@dimen/dp10"
             android:background="#D8D8D8" />
 
-        <RelativeLayout
-            android:id="@+id/layoutAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10">
-
-            <ImageView
-                android:id="@+id/ivDelivery"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_marginRight="@dimen/dp10"
-                android:background="@drawable/bg_oval_darker_grey"
-                android:padding="@dimen/dp8"
-                android:src="@drawable/ic_scooter_white" />
-
-            <TextView
-                android:id="@+id/tvDeliveryTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:fontFamily="@font/robot_regular"
-                android:textColor="#394F61"
-                android:text="Livraison prévue pour 21h30"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/sp16"
-                android:layout_toLeftOf="@+id/ivDownArrow"
-                android:layout_toRightOf="@+id/ivDelivery" />
-
-            <ImageView
-                android:layout_marginLeft="@dimen/dp10"
-                android:id="@+id/ivDownArrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_down_arrow" />
-
-        </RelativeLayout>
 
 
     </LinearLayout>
