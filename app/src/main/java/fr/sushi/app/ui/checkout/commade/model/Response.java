@@ -6,9 +6,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class Response{
 
+
+	//let collectionViewDataKeys: [String] = ["paying_sauces", "upsell", "drinks", "desserts", "paying_wasabi_ginger", "chopsticks"]
+
+	//FWasbi and ginger 5th item
 	@SerializedName("paying_wasabi_ginger")
 	private List<PayingWasabiGingerItem> payingWasabiGinger;
 
+	//4th Item Deserts
 	@SerializedName("desserts")
 	private List<DessertsItem> desserts;
 
@@ -18,18 +23,22 @@ public class Response{
 	@SerializedName("mapping_wasabi_ginger")
 	private MappingWasabiGinger mappingWasabiGinger;
 
+	//Bossons third item
 	@SerializedName("drinks")
 	private List<DrinksItem> drinks;
 
+	//6Th item baguettes
 	@SerializedName("chopsticks")
 	private List<ChopsticksItem> chopsticks;
 
 	@SerializedName("free_sauces")
 	private List<FreeSaucesItem> freeSauces;
 
+	//sauces for 1st item
 	@SerializedName("paying_sauces")
 	private List<PayingSaucesItem> payingSauces;
 
+	//Accompagements 2nd item
 	@SerializedName("upsell")
 	private List<UpsellItem> upsell;
 
