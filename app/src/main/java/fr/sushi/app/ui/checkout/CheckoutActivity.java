@@ -29,19 +29,9 @@ public class CheckoutActivity extends AppCompatActivity {
         // We keep last page for a "finishing" page
         binding.indicator.setViewPager(binding.viewpager, true);
         binding.indicator.setStepCount(3);
-        binding.indicator.addOnStepClickListener(new StepperIndicator.OnStepClickListener() {
-            @Override
-            public void onStepClicked(int step) {
-                binding.viewpager.setCurrentItem(step, true);
-            }
-        });
+        binding.indicator.addOnStepClickListener(step -> binding.viewpager.setCurrentItem(step, true));
 
-        binding.ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        binding.ivBack.setOnClickListener(v -> finish());
 
         binding.tvStepOne.setOnClickListener(v -> binding.viewpager.setCurrentItem(0));
         binding.tvStepTwo.setOnClickListener(v -> binding.viewpager.setCurrentItem(1));
