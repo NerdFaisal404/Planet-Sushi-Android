@@ -434,7 +434,8 @@ public class AdressPickerActivity extends AppCompatActivity implements
     private ShopAddressAdapter.Listener listener = responseItem -> {
         DialogUtils.showDialog(this);
         viewModel.setTakeawayStore(responseItem.getIdStore());
-        currentSearchPlace = new SearchPlace(responseItem.getPostcode(), responseItem.getCity(), responseItem.getAddress());
+        currentSearchPlace = new SearchPlace(responseItem.getPostcode(),
+                responseItem.getCity(), responseItem.getAddress());
     };
 
     private Map<String, List<String>> scheduleOrderMap = new HashMap<>();

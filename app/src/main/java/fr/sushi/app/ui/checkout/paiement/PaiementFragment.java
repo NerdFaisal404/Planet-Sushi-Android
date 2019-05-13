@@ -31,6 +31,8 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.util.PermissionUtil;
 
 
@@ -93,6 +95,19 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
+        if(!currentSearchPlace.isEmpty()) {
+            SearchPlace latestSearchPlace = currentSearchPlace.get(0);
+            binding.tvCountryCode.setText(latestSearchPlace.getPostalCode()+" "+latestSearchPlace.getCity());
+            binding.tvAddress.setText(latestSearchPlace.getAddress());
+            String time = latestSearchPlace.getTime().replace(":","h");
+            binding.tvDeliveryTime.setText("Livraison prévue pour "+time);
+        }
+    }
 
     @Override
     public void onPause() {
