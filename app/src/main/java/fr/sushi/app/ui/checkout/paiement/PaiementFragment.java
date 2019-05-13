@@ -1,18 +1,45 @@
 package fr.sushi.app.ui.checkout.paiement;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
+import fr.sushi.app.util.PermissionUtil;
 
 
-public class PaiementFragment extends Fragment {
+public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private FragmentPaiementBinding binding;
+    private GoogleMap mGoogleMap;
+    private Location mLastLocation;
+    private Marker mCurrLocationMarker;
+    FusedLocationProviderClient mFusedLocationClient;
 
     public PaiementFragment() {
         // Required empty public constructor
@@ -24,8 +51,81 @@ public class PaiementFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_paiement, container, false);
         View view = binding.getRoot();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapView);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
         return view;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
 
+        try {
+            mGoogleMap = googleMap;
+            boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity(), R.raw.custom_style_json));
+            if (!success) {
+                Log.e("MapFragment", "Style parsing failed.");
+            }
+
+            checkPermissionAndPrepareClient();
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private void checkPermissionAndPrepareClient() {
+        @SuppressLint("RestrictedApi")
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(120000); // two minute interval
+        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (PermissionUtil.init(getActivity()).request(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+           // mGoogleMap.setMyLocationEnabled(true);
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        }
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            List<Location> locationList = locationResult.getLocations();
+            if (locationList.size() > 0) {
+                //The last location in the list is the newest
+                Location location = locationList.get(locationList.size() - 1);
+                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                mLastLocation = location;
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+                //Place current location marker
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("Current Position");
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
+                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+                //move map camera
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+            }
+        }
+    };
 }
