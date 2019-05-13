@@ -21,6 +21,7 @@ import fr.sushi.app.data.model.ProfileItemModel;
 import fr.sushi.app.databinding.FragmentProfileBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.carddetails.CardDetailsActivity;
 import fr.sushi.app.ui.editprofile.EditProfileActivity;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.ui.profileaddress.ProfileAddressActivity;
@@ -94,6 +95,8 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             startActivity(new Intent(getActivity(), EditProfileActivity.class));
         } else if (item.getItemName().equals(itemName[1])) {
             startActivity(new Intent(getActivity(), ProfileAddressActivity.class));
+        } else if (item.getItemName().equals(itemName[4])) {
+            startActivity(new Intent(getActivity(), CardDetailsActivity.class));
         }
     }
 }
