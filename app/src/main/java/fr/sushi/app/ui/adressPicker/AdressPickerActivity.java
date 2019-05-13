@@ -509,11 +509,12 @@ public class AdressPickerActivity extends AppCompatActivity implements
             currentSearchPlace.setTime(selectedTime);
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
             PlaceUtil.saveCurrentPlace(currentSearchPlace);
-            Intent intent = new Intent(AdressPickerActivity.this,
+            /*Intent intent = new Intent(AdressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            startActivity(intent);
+            startActivity(intent);*/
             dialog.dismiss();
+            finish();
         });
 
         //Wheel time adapter
