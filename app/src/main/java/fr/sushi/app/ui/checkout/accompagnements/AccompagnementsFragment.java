@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -312,6 +313,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleBaguettes() {
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 6;
 
         tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
@@ -333,6 +338,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleWasbi() {
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 5;
 
         tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
@@ -354,6 +363,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleDesserts() {
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 4;
 
         tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
@@ -374,6 +387,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleBoissons() {
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 3;
         tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -393,6 +410,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleAccompanements() {
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 2;
         tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -412,6 +433,11 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void handleSauce() {
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
         selectedAccompagnements = 1;
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
