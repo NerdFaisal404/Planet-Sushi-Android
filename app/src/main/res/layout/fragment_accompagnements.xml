@@ -54,7 +54,7 @@
                                 android:layout_height="16dp"
                                 android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewSauces"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                                 android:layout_height="16dp"
                                 android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewAccompagnements"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
                                 android:layout_height="16dp"
                                 android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewBoissons"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -218,6 +218,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/rlDesserts"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -233,8 +234,9 @@
                                 android:id="@+id/rlCountForDesserts"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewDesserts"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -242,6 +244,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
+                                    android:id="@+id/tvCountDesserts"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
@@ -252,6 +255,7 @@
                                 android:layout_below="@+id/imgViewDesserts"
                                 android:gravity="center"
                                 android:text="DESSERTS"
+                                android:id="@+id/tvDesserts"
                                 android:textSize="@dimen/dp8" />
 
 
@@ -271,6 +275,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/rlWasbi"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -285,8 +290,9 @@
                                 android:id="@+id/rlCountForWasbi"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewWasbi"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -294,6 +300,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
+                                    android:id="@+id/tvCountWasbi"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
@@ -303,6 +310,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/imgViewWasbi"
                                 android:gravity="center"
+                                android:id="@+id/tvWasbi"
                                 android:text="WASBI GINGEMBRE"
                                 android:textSize="@dimen/dp8" />
 
@@ -322,7 +330,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:id="@+id/rlBaguettes"
                             android:padding="@dimen/dp8">
 
                             <ImageView
@@ -337,8 +345,9 @@
                                 android:id="@+id/rlCountForBaguettes"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
+                                android:visibility="gone"
                                 android:layout_toEndOf="@+id/imgViewBaguettes"
-                                android:background="@drawable/bg_pink_ova">
+                                android:background="@drawable/bg_pink_oval">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -346,6 +355,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:text="1"
+                                    android:id="@+id/tvCountBaguettes"
                                     android:textColor="@color/colorWhite"
                                     android:textSize="@dimen/dp10" />
                             </RelativeLayout>
@@ -355,6 +365,7 @@
                                 android:gravity="center"
                                 android:layout_below="@+id/imgViewBaguettes"
                                 android:text="BAGUETTES"
+                                android:id="@+id/tvBaguettes"
                                 android:textSize="@dimen/dp8" />
 
 
