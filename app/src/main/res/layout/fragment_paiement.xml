@@ -20,11 +20,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.gms.maps.MapView
+                <fragment
                     android:id="@+id/mapView"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="86dp"
                     android:layout_height="86dp"
-                    android:layout_alignParentLeft="true" />
+                    android:layout_alignParentLeft="true"
+                    tools:context=".ui.main.MainActivity" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

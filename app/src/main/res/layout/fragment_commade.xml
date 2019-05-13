@@ -82,7 +82,7 @@
                     android:fontFamily="@font/robot_regular"
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp15"
-                    tools:text="0,95 €" />
+                    android:text="0,95 €" />
 
             </RelativeLayout>
 
