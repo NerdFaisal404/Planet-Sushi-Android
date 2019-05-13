@@ -48,7 +48,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private List<CategoriesItem> categoriesItems;
     private LinearLayoutManager itemViewLayoutManager;
 
-    private MenuItemAdapter menuItemAdapter;
+    //private MenuItemAdapter menuItemAdapter;
     private SectionedRecyclerViewAdapter sectionedRecyclerViewAdapter;
     private TopMenuAdapter topMenuAdapter;
     private int visiblePosition;
