@@ -47,6 +47,7 @@
                     android:textSize="@dimen/sp15" />
 
                 <TextView
+                    android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -74,6 +75,7 @@
                     android:textSize="@dimen/sp15" />
 
                 <TextView
+                    android:id="@+id/delivery_fee_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -99,6 +101,7 @@
                     android:textSize="@dimen/sp16" />
 
                 <TextView
+                    android:id="@+id/total_price_with_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

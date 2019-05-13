@@ -68,7 +68,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     protected void startUI() {
         binding = (ActivityMenuListDetailBinding) getViewDataBinding();
 
-        showBottomView();
+        //showBottomView();
         Intent intent = getIntent();
 
         if (intent.hasExtra("index")) {
@@ -80,10 +80,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
-        if (categoriesItems != null && categoriesItems.size() > 0) {
-            setUpToMenuAdapter();
-            loadCategoryItems();
-        }
+
 
       /*  String titleHeader = SharedPref.read(PrefKey.)
 
@@ -130,6 +127,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             if (selectedItemIds.contains(item.getIdProduct())) {
                 item.setSelected(true);
                 Log.e("ItemSelect", "Item selected =" + item.getIdProduct());
+            }else {
+                item.setSelected(false);
             }
         }
         //menuItemAdapter = new MenuItemAdapter(this, productsItems, listener);
@@ -148,7 +147,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         topMenuAdapter = new TopMenuAdapter(this, topMenuList);
         binding.recyclerViewMenuTop.setAdapter(topMenuAdapter);
         setScrollListener();
-
 
         /**
          * Scroll expected position
@@ -228,6 +226,16 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (categoriesItems != null && categoriesItems.size() > 0) {
+            setUpToMenuAdapter();
+            loadCategoryItems();
+        }
+        showBottomView();
+    }
+
+    @Override
     protected void stopUI() {
 
     }
@@ -294,6 +302,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     }
 
     private List<String> getSelectedItemIds() {
+        selectedProducts = MenuPrefUtil.getSaveItems();
         List<String> list = new ArrayList<>();
         for(MyCartProduct item : selectedProducts){
             list.add(item.getProductId());

@@ -15,6 +15,8 @@ public class MyCartProduct implements Serializable {
     private int itemCount;
     private String sellingProductInfo;
 
+    private boolean isSelected;
+
     public MyCartProduct(){}
 
     public MyCartProduct(String productId, String name, String coderUrl,
@@ -32,6 +34,14 @@ public class MyCartProduct implements Serializable {
         this.priceTtc = priceTtc;
         this.itemCount = item_count;
         this.sellingProductInfo = sellingProductInfo;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     public String getProductId() {

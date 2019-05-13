@@ -17,14 +17,16 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
+import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CommadeFragment extends Fragment {
+public class CommadeFragment extends Fragment implements CommadeAdapter.Listener {
     private FragmentCommadeBinding binding;
-    private List<ProductsItem> selectedProducts = new ArrayList<>();
+    private List<MyCartProduct> selectedProducts = new ArrayList<>();
     private LinearLayoutManager itemViewLayoutManager;
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
@@ -39,8 +41,7 @@ public class CommadeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_commade, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_commade, container, false);
         View view = binding.getRoot();
 
         initView();
@@ -54,20 +55,40 @@ public class CommadeFragment extends Fragment {
         commadeViewModel = ViewModelProviders.of(this).get(CommadeViewModel.class);
 
     }
-
+    CommadeAdapter commadeAdapter;
     private void initView() {
 
-        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = MenuPrefUtil.getSaveItems();
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
 
-        CommadeAdapter commadeAdapter = new CommadeAdapter(getActivity(), selectedProducts);
+        commadeAdapter = new CommadeAdapter(getActivity(), selectedProducts, this);
         mCallback = new ItemTouchHelperCallback();
         mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
         mItemTouchHelper.attachToRecyclerView(binding.rvCartItem);
         commadeAdapter.setItemTouchHelperExtension(mItemTouchHelper);
         binding.rvCartItem.setAdapter(commadeAdapter);
 
+        setTotalPrice();
     }
 
+    private void setTotalPrice(){
+        double total = 0.0;
+
+        for(MyCartProduct item : selectedProducts){
+            total = total+(Double.parseDouble(item.getPriceHt()) * item.getItemCount());
+        }
+
+        binding.totalPrice.setText(Utils.getDecimalFormat(total)+"€");
+        binding.deliveryFeeTv.setText("0.95€");
+        binding.totalPriceWithFee.setText(Utils.getDecimalFormat(total+0.95)+"€");
+    }
+
+    @Override
+    public void onItemDeselect(MyCartProduct item, int index) {
+        selectedProducts.remove(index);
+        commadeAdapter.notifyDataSetChanged();
+        setTotalPrice();
+        MenuPrefUtil.removeItem(item);
+    }
 }

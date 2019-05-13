@@ -123,6 +123,36 @@ public class MenuPrefUtil {
         }
     }
 
+
+    public static void removeItem(MyCartProduct item) {
+        Gson gson = new Gson();
+        String existIteString = SharedPref.read(KEY_MENU_SELECT, "");
+
+        if (!TextUtils.isEmpty(existIteString)) {
+            String[] itemArray = existIteString.split(SPLITTER);
+            List<String> itemList = new ArrayList<>();
+            for (String pItem : itemArray) {
+                MyCartProduct existItem = gson.fromJson(pItem, MyCartProduct.class);
+                if (!item.getProductId().equals(existItem.getProductId())) {
+                    itemList.add(pItem);
+                }
+            }
+
+            if (!itemList.isEmpty()) {
+                String saveAgain = itemList.get(0);
+
+                if (itemList.size() > 1) {
+                    for (int i = 1; i < itemList.size(); i++) {
+                        saveAgain = saveAgain + SPLITTER + itemList.get(i);
+                    }
+                }
+                SharedPref.write(KEY_MENU_SELECT, saveAgain);
+            } else {
+                SharedPref.write(KEY_MENU_SELECT, "");
+            }
+        }
+    }
+
     public static void removeSingle(ProductsItem item) {
         String existItems = SharedPref.read(KEY_MENU_SELECT, "");
         int existItemCount = ifExistReturnCount(item, existItems);

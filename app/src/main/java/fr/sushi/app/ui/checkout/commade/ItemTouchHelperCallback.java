@@ -12,15 +12,13 @@ public class ItemTouchHelperCallback extends ItemTouchHelperExtension.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (viewHolder instanceof CommadeAdapter.ItemNoSwipeViewHolder) {
-            return 0;
-        }
+
         return makeMovementFlags(ItemTouchHelper.UP| ItemTouchHelper.DOWN, ItemTouchHelper.START);
     }
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        MenuItemSwipeAdapter adapter = (MenuItemSwipeAdapter) recyclerView.getAdapter();
+        CommadeAdapter adapter = (CommadeAdapter) recyclerView.getAdapter();
         adapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }

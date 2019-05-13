@@ -21,48 +21,51 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 
 public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface Listener {
-        void onItemClick(ProductsItem item, ImageView imageView);
-        void onItemDeselect(ProductsItem item);
+        void onItemDeselect(MyCartProduct item, int index);
     }
 
     private Context mContext;
     private final int ITEM_NO_SWIPE = 0;
     private final int ITEM_WITH_SWIPE = 1;
-    private List<ProductsItem> productsItems;
+    private List<MyCartProduct> productsItems;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
-   // private CommadeAdapter.Listener itemClickListener;
+    // private CommadeAdapter.Listener itemClickListener;
 
     private BottomSheetDialog dialog;
     double totalPrice;
     int count = 1;
 
-    public CommadeAdapter(Context context, List<ProductsItem> itemList){
+    private Listener itemClickListener;
+    public CommadeAdapter(Context context, List<MyCartProduct> itemList, Listener listener) {
         this.mContext = context;
         this.productsItems = itemList;
+        itemClickListener = listener;
     }
 
-    @Override
+    /*@Override
     public int getItemViewType(int position) {
-        ProductsItem item = productsItems.get(position);
+        MyCartProduct item = productsItems.get(position);
 
-        if(item.isSelected()){
+        if (item.isSelected()) {
             return ITEM_WITH_SWIPE;
         }
         return ITEM_NO_SWIPE;
-    }
+    }*/
+
     @Override
     public int getItemCount() {
         return productsItems.size();
     }
 
     public void move(int from, int to) {
-        ProductsItem prev = productsItems.remove(from);
+        MyCartProduct prev = productsItems.remove(from);
         productsItems.add(to > from ? to - 1 : to, prev);
         notifyItemMoved(from, to);
     }
@@ -75,57 +78,56 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_menu_commade, viewGroup, false);
-        if(viewType == ITEM_WITH_SWIPE){
-            return new CommadeAdapter.ItemSwipeViewHolder(view);
-        }
-        return new CommadeAdapter.ItemNoSwipeViewHolder(view);
+        return new CommadeAdapter.ItemSwipeViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int index) {
-        ProductsItem item = productsItems.get(index);
-        CommadeAdapter.BaseHolder holder = (CommadeAdapter.BaseHolder)viewHolder;
+        MyCartProduct item = productsItems.get(index);
+        CommadeAdapter.BaseHolder holder = (CommadeAdapter.BaseHolder) viewHolder;
 
-        if(holder instanceof CommadeAdapter.ItemSwipeViewHolder){
-            CommadeAdapter.ItemSwipeViewHolder swipeViewHolder = (CommadeAdapter.ItemSwipeViewHolder)holder;
+        if (holder instanceof CommadeAdapter.ItemSwipeViewHolder) {
+            CommadeAdapter.ItemSwipeViewHolder swipeViewHolder = (CommadeAdapter.ItemSwipeViewHolder) holder;
             swipeViewHolder.mActionViewRefresh.setOnClickListener(v -> {
                 mItemTouchHelperExtension.closeOpened();
-               // itemClickListener.onItemDeselect(item);
-                item.setSelected(false);
-                notifyItemChanged(index);
+                itemClickListener.onItemDeselect(item, index);
             });
         }
 
         holder.mViewContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomSheet(item);
+                //showBottomSheet(item);
             }
         });
         holder.bind(item);
     }
 
-    class BaseHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemPrice, itemCount, tvPice;
+    class BaseHolder extends RecyclerView.ViewHolder {
+        TextView itemName, itemPrice, itemCount, tvPice;
         View mViewContent, selectedView;
         View mActionContainer;
         ImageView imageViewItem;
+
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
             mViewContent = itemView.findViewById(R.id.view_list_main_content);
             mActionContainer = itemView.findViewById(R.id.view_list_repo_action_container);
             itemName = itemView.findViewById(R.id.itemName);
             itemPrice = itemView.findViewById(R.id.tvPrice);
-            imageViewItem =itemView.findViewById(R.id.imageViewItem);
+            imageViewItem = itemView.findViewById(R.id.imageViewItem);
 
             itemCount = itemView.findViewById(R.id.tvCount);
             tvPice = itemView.findViewById(R.id.tvPiece);
         }
-        private void bind(ProductsItem item){
-            Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItem);
+
+        private void bind(MyCartProduct item) {
+            Glide.with(mContext).load(item.getCoderUrl()).into(imageViewItem);
 
             String[] title = item.getName().split("\\s");
 
+            itemCount.setText(item.getItemCount() + "X");
             if (title.length > 0) {
                 String value = null;
                 for (int i = 0; i < title.length; i++) {
@@ -151,14 +153,15 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemName.setText(item.getName());
             }
 
-            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt())) + "€");
-            tvPice.setText(item.getNbrePiece() + " Pieces ");
+            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt()) * item.getItemCount()) + "€");
+            tvPice.setText(item.getPiece() + " Pieces ");
 
         }
     }
 
     class ItemSwipeViewHolder extends CommadeAdapter.BaseHolder implements Extension {
         View mActionViewRefresh;
+
         public ItemSwipeViewHolder(@NonNull View itemView) {
             super(itemView);
             mActionViewRefresh = itemView.findViewById(R.id.view_list_repo);
@@ -170,12 +173,6 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    class ItemNoSwipeViewHolder extends CommadeAdapter.BaseHolder {
-
-        public ItemNoSwipeViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
 
     private void showBottomSheet(ProductsItem item) {
         count = 1;
@@ -243,12 +240,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> dialog.dismiss());
-
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
-
-
-
-
     }
 
 }
