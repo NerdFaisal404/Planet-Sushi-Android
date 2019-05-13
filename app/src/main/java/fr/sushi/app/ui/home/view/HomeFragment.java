@@ -46,6 +46,7 @@ import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
+import fr.sushi.app.ui.login.LoginActivity;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
@@ -148,9 +149,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initListener() {
-        binding.layoutSignup.setOnClickListener(v -> startActivity(new Intent(getActivity(),
+        binding.layoutRegistraion.setOnClickListener(v -> startActivity(new Intent(getActivity(),
                 CreateAccountActivity.class)));
-
+        binding.layoutLogin.setOnClickListener(v -> startActivity(new Intent(getActivity(),
+                LoginActivity.class)));
         binding.tvDelivery.setOnClickListener(v -> {
             showBottomSheet();
         });
