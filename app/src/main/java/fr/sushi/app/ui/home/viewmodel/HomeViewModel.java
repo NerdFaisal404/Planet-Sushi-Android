@@ -11,6 +11,7 @@ import fr.sushi.app.data.remote.network.Repository;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class HomeViewModel extends ViewModel {
 
@@ -20,6 +21,7 @@ public class HomeViewModel extends ViewModel {
         homeConfigurationDataMutableLiveData = new MutableLiveData<>();
     }
     private MutableLiveData<FoodMenuResponse> foodMenuListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> deliveryAddressLiveData =new MutableLiveData<>();
 
     public void getShopList() {
         Repository.getAppShops().subscribeOn(Schedulers.io())
@@ -88,4 +90,21 @@ public class HomeViewModel extends ViewModel {
         return homeConfigurationDataMutableLiveData;
     }
 
+    public MutableLiveData<ResponseBody> getDeliveryAddressLiveData(){
+        return deliveryAddressLiveData;
+    }
+
+    public void setDeliveryAddress(String address,
+                                   String postcode, String city) {
+        Repository.setDeliveryAddress(address, postcode, city).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccesssetDeliveryAddress,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+    private void onSuccesssetDeliveryAddress(ResponseBody responseBody) {
+        if(responseBody != null){
+            deliveryAddressLiveData.setValue(responseBody);
+        }
+    }
 }

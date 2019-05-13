@@ -7,21 +7,38 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.address_picker.AddressResponse;
+import fr.sushi.app.data.model.address_picker.Order;
+import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FramentHomeBinding;
 import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
+import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
+import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
+import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
@@ -31,8 +48,12 @@ import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.HandlerUtil;
 import fr.sushi.app.util.PicassoUtil;
+import fr.sushi.app.util.ScheduleParser;
+import fr.sushi.app.util.ScreenUtil;
+import fr.sushi.app.util.Utils;
 
 public class HomeFragment extends BaseFragment {
     private Button buttonAddAddres;
@@ -52,6 +73,11 @@ public class HomeFragment extends BaseFragment {
     private  List<SearchPlace> recentSearchPlace;
 
     private List<CategoriesItem> categoriesItems = new ArrayList<>();
+
+    private ErrorResponse errorResponse;
+    private AddressResponse addressResponse;
+
+    private SearchPlace currentSearchPlace;
 
     @Override
     protected int getLayoutId() {
@@ -170,6 +196,40 @@ public class HomeFragment extends BaseFragment {
             DataCacheUtil.addCategoryItemInCache(categoriesItems);
         });
 
+        mHomeViewModel.getDeliveryAddressLiveData().observe(this, response -> {
+
+            if (response != null) {
+                try {
+                    JSONObject responseObject = new JSONObject(response.string());
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+
+                    Log.e("JsonObject", "" + responseObject.toString());
+                    if (error == true) {
+                        DialogUtils.hideDialog();
+                        errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(getActivity(), "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                    } else {
+                        addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
+                        addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
+                        Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
+                        prepareDataForBottomSheet();
+                        if (currentSearchPlace != null) {
+                            currentSearchPlace.setTitle(selectedTitle);
+                            currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
 
     }
 
@@ -214,15 +274,21 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.addressOne:
                 //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
+                DialogUtils.showDialog(getActivity());
+                currentSearchPlace = new SearchPlace(recentSearchPlace.get(0).getPostalCode(), recentSearchPlace.get(0).getCity(), recentSearchPlace.get(0).getAddress());
+                mHomeViewModel.setDeliveryAddress(recentSearchPlace.get(0).getAddress(), recentSearchPlace.get(0).getPostalCode(), recentSearchPlace.get(0).getCity());
+               /* Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
                 intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(0));
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
             case R.id.addressOneTwo:
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
-                intent = new Intent(getActivity(), MenuDetailsActivity.class);
+                DialogUtils.showDialog(getActivity());
+                currentSearchPlace = new SearchPlace(recentSearchPlace.get(1).getPostalCode(), recentSearchPlace.get(1).getCity(), recentSearchPlace.get(1).getAddress());
+                mHomeViewModel.setDeliveryAddress(recentSearchPlace.get(1).getAddress(), recentSearchPlace.get(1).getPostalCode(), recentSearchPlace.get(1).getCity());
+              /*  intent = new Intent(getActivity(), MenuDetailsActivity.class);
                 intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(1));
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
 
 
@@ -278,6 +344,117 @@ public class HomeFragment extends BaseFragment {
         Drawable img = getContext().getResources().getDrawable(R.drawable.ic_pickup);
         Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
+    }
+
+    private Map<String, List<String>> scheduleOrderMap = new HashMap<>();
+
+    private void prepareDataForBottomSheet() {
+        List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
+        for (Order item : schedulesList) {
+            String[] displayValue = item.getDisplayValue().split(" ");
+
+            List<String> existList = scheduleOrderMap.get(displayValue[0]);
+
+            Log.e("Orders", "value =" + item.getDisplayValue() + " time =" + item.getSchedule());
+
+            if (existList == null) {
+                List<String> newList = new ArrayList<>();
+                newList.add(item.getSchedule());
+                scheduleOrderMap.put(displayValue[0], newList);
+            } else {
+                existList.add(item.getSchedule());
+            }
+
+
+        }
+        showSavedAddressBottomSheet();
+    }
+
+    private AddressNameAdapter addressNameAdapter;
+    private WheelTimeAdapter wheelTimeAdapter;
+    private RecyclerView titleRv, timeRv;
+    private String selectedTitle, selectedTime;
+
+    void showSavedAddressBottomSheet() {
+        DialogUtils.hideDialog();
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
+        titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
+        timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
+        TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(v -> dialog.dismiss());
+        int padding = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 40);
+        titleRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(getActivity());
+
+        //Title adapter
+        List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+
+        selectedTitle = data.get(0);
+
+        addressNameAdapter = new AddressNameAdapter(getActivity(), data);
+        sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                addressNameAdapter.setSelectedPosition(position);
+                Log.e("Selected_item", "Selected title =" + data.get(position));
+                List<String> timeList = scheduleOrderMap.get(data.get(position));
+
+                wheelTimeAdapter.setNewDataList(timeList);
+                String title = addressNameAdapter.getItem(position);
+                selectedTime = timeList.get(0);
+                selectedTitle = title;
+            }
+        });
+        addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
+
+        titleRv.setLayoutManager(sliderLayoutManager);
+        titleRv.setAdapter(addressNameAdapter);
+
+
+        tvValider.setOnClickListener(v -> {
+            currentSearchPlace.setTitle(selectedTitle);
+            currentSearchPlace.setTime(selectedTime);
+            currentSearchPlace.setType(binding.tvDelivery.getText().toString());
+            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+            Intent intent = new Intent(getActivity(),
+                    MenuDetailsActivity.class);
+            intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
+            startActivity(intent);
+            dialog.dismiss();
+        });
+
+        //Wheel time adapter
+
+        timeRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
+
+        List<String> timeList = scheduleOrderMap.get(data.get(0));
+        selectedTime = timeList.get(0);
+        wheelTimeAdapter = new WheelTimeAdapter(getActivity(), timeList);
+        timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                wheelTimeAdapter.setSelectedPosition(position);
+                String time = wheelTimeAdapter.getSelectedTime(position);
+                selectedTime = time;
+            }
+        });
+        wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
+            @Override
+            public void onItemClick(int position, String item) {
+                timeRv.smoothScrollToPosition(position);
+            }
+        });
+        timeRv.setLayoutManager(timeSliderLayoutManger);
+        timeRv.setAdapter(wheelTimeAdapter);
+
+
+        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
     }
 
 }
