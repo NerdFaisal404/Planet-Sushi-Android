@@ -16,9 +16,11 @@ import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 
 public class DessertAdapter extends BaseAdapter<DessertsItem> {
     private Context context;
-    public DessertAdapter(Context context){
-        this.context =context;
+
+    public DessertAdapter(Context context) {
+        this.context = context;
     }
+
     @Override
     public boolean isEqual(DessertsItem left, DessertsItem right) {
         return false;
@@ -30,18 +32,19 @@ public class DessertAdapter extends BaseAdapter<DessertsItem> {
         return new ItemViewHolder(binding);
     }
 
-    private class ItemViewHolder extends BaseViewHolder<DessertsItem>{
+    private class ItemViewHolder extends BaseViewHolder<DessertsItem> {
         private ListEachRowAccompagnemenntsBinding binding;
+
         public ItemViewHolder(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
-            binding = (ListEachRowAccompagnemenntsBinding)viewDataBinding;
+            binding = (ListEachRowAccompagnemenntsBinding) viewDataBinding;
             setClickListener(binding.imgViewPlus, binding.imgViewMinus);
         }
 
         @Override
         public void bind(DessertsItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt());
+            binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             binding.tvCount.setText(String.valueOf(item.selectCount));
         }

@@ -43,7 +43,7 @@ public class WasbiGingerAdapter extends BaseAdapter<PayingWasabiGingerItem> {
         @Override
         public void bind(PayingWasabiGingerItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt());
+            binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             binding.tvCount.setText(String.valueOf(item.selectCount));
         }
