@@ -277,16 +277,16 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
 
         BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
-        dialog.setContentView(bottomSheet);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+        crossSellingBottomSheet.setContentView(bottomSheet);
+        crossSellingBottomSheet.setCanceledOnTouchOutside(true);
+        crossSellingBottomSheet.show();
 
-        TextView tvTitle = (TextView) bottomSheet.findViewById(R.id.tvItemName);
-        TextView tvCount = (TextView) bottomSheet.findViewById(R.id.tvCount);
+        TextView tvTitle = bottomSheet.findViewById(R.id.tvItemName);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
+        TextView tvCount = bottomSheet.findViewById(R.id.tvCount);
         ImageView ivMinus = bottomSheet.findViewById(R.id.ivMinus);
         ImageView ivPlus = bottomSheet.findViewById(R.id.ivPlus);
         TextView tvPrice = bottomSheet.findViewById(R.id.tvPrice);
-        ImageView ivDownArrow = bottomSheet.findViewById(R.id.ivDownArrow);
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
 
@@ -334,10 +334,10 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-        ivDownArrow.setOnClickListener(v -> dialog.dismiss());
+        tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
         adjustLayout.setOnClickListener(v ->{
             MenuPrefUtil.saveItem(item, count);
-            dialog.dismiss();
+            crossSellingBottomSheet.dismiss();
         });
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
