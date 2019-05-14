@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.profileaddress.ProfileAddressActivity"></activity>
+        <activity android:name=".ui.carddetails.CardDetailsActivity"></activity>
+        <activity android:name=".ui.profileaddress.ProfileAddressActivity" />
         <activity android:name=".ui.profileaddress.AddressAddActivity" />
         <activity android:name=".ui.profileaddress.LocationChoiceActivity" />
         <activity android:name=".ui.editprofile.EditProfileActivity" />
