@@ -1,4 +1,4 @@
-package fr.sushi.app.ui.carddetails;
+package fr.sushi.app.ui.carddetails.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.ui.carddetails.CardAdapter;
 
 public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 

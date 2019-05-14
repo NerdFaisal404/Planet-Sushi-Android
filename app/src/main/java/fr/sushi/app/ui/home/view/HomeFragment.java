@@ -74,7 +74,7 @@ public class HomeFragment extends BaseFragment {
     protected void startUI() {
         binding = (FramentHomeBinding) getViewDataBinding();
         binding.layoutAddress.setOnClickListener(this::onClick);
-      //  StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 20, null);
+        //  StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 20, null);
         observeData();
 
         /*boolean isImporterPressed = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
@@ -144,12 +144,15 @@ public class HomeFragment extends BaseFragment {
         if (homeSlidesItemList == null) return;
         String path = imageBaseUrl + homeSlidesItemList.get(nextImageIndex).getPicture();
         Log.e("Configdata", "path =" + path);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                PicassoUtil.loadImage(path, binding.topLayout);
-            }
-        });
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    PicassoUtil.loadImage(path, binding.topLayout);
+                }
+            });
+
+        }
 
         if (homeSlidesItemList.size() > 1) {
             HandlerUtil.postBackground(delayRunnable, 5000);
@@ -426,11 +429,11 @@ public class HomeFragment extends BaseFragment {
         liversionView.setOnClickListener(view -> {
             dialog.dismiss();
             binding.tvDelivery.setText("Livraison");
-            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_delivery );
+            Drawable img = getContext().getResources().getDrawable(R.drawable.ic_delivery);
             Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
             binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
             Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_LIVARSION,true);
+            intent.putExtra(IntentKey.KEY_IS_LIVARSION, true);
             startActivity(intent);
 
         });
@@ -438,11 +441,11 @@ public class HomeFragment extends BaseFragment {
         aemporterView.setOnClickListener(view -> {
             dialog.dismiss();
             binding.tvDelivery.setText("A emporter");
-            Drawable img = getContext().getResources().getDrawable( R.drawable.ic_pickup );
+            Drawable img = getContext().getResources().getDrawable(R.drawable.ic_pickup);
             Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
             binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
             Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_LIVARSION,false);
+            intent.putExtra(IntentKey.KEY_IS_LIVARSION, false);
             startActivity(intent);
         });
 

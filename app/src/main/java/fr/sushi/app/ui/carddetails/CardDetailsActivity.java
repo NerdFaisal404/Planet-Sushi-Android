@@ -1,16 +1,18 @@
 package fr.sushi.app.ui.carddetails;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ActivityCardDetailsBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.ui.carddetails.adapter.CardDetailsAdapter;
+import fr.sushi.app.ui.carddetails.adapter.CardPagerAdapter;
 
 public class CardDetailsActivity extends BaseActivity {
 
     private CardPagerAdapter mCardAdapter;
+    private CardDetailsAdapter mCardDetailsAdapter;
 
     private ActivityCardDetailsBinding mBinding;
     private int[] mCardList = {R.drawable.card_pink, R.drawable.card_gold, R.drawable.card_black};
@@ -36,6 +38,12 @@ public class CardDetailsActivity extends BaseActivity {
         mBinding.viewPagerCard.setOffscreenPageLimit(3);
 
         mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCard);
+
+
+        mCardDetailsAdapter = new CardDetailsAdapter(getSupportFragmentManager());
+        mBinding.viewPagerCardContent.setAdapter(mCardDetailsAdapter);
+
+        syncViewpager();
     }
 
     @Override
@@ -49,5 +57,59 @@ public class CardDetailsActivity extends BaseActivity {
         if (view.getId() == R.id.image_view_back) {
             finish();
         }
+    }
+
+    private void syncViewpager() {
+        mBinding.viewPagerCard.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private int mScrollState = ViewPager.SCROLL_STATE_IDLE;
+
+            @Override
+            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+                if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
+                    return;
+                }
+               // mBinding.viewPagerCardContent.scrollTo(mBinding.viewPagerCard.getScrollX(), mBinding.viewPagerCard.getScrollY());
+            }
+
+            @Override
+            public void onPageSelected(final int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int state) {
+                mScrollState = state;
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mBinding.viewPagerCardContent.setCurrentItem(mBinding.viewPagerCard.getCurrentItem(), false);
+                }
+            }
+        });
+
+        mBinding.viewPagerCardContent.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private int mScrollState = ViewPager.SCROLL_STATE_IDLE;
+
+            @Override
+            public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+                if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
+                    return;
+                }
+               // mBinding.viewPagerCard.scrollTo(mBinding.viewPagerCardContent.getScrollX(), mBinding.viewPagerCard.getScrollY());
+            }
+
+            @Override
+            public void onPageSelected(final int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(final int state) {
+                mScrollState = state;
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mBinding.viewPagerCard.setCurrentItem(mBinding.viewPagerCardContent.getCurrentItem(), false);
+                }
+            }
+        });
     }
 }
