@@ -105,11 +105,13 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
         }
 
-        holder.mViewContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.mViewContent.setOnClickListener(v -> {
+            if (item.getActiveCrossSelling()==1){
+                isActiveCrossSelling(item);
+            }else {
                 showBottomSheet(item);
             }
+
         });
         holder.bind(item);
     }
@@ -233,6 +235,81 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle.setText(item.getName());
         }
 
+        ivMinus.setOnClickListener(v -> {
+            if (count == 1) {
+                tvCount.setText(count + "");
+                return;
+            }
+            count -= 1;
+            totalPrice -= Double.parseDouble(item.getPriceHt());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            tvCount.setText(count + "");
+        });
+
+        ivPlus.setOnClickListener(v -> {
+            count += 1;
+            totalPrice += Double.parseDouble(item.getPriceHt());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            tvCount.setText(count + "");
+
+        });
+
+        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
+
+
+        ivDownArrow.setOnClickListener(v -> dialog.dismiss());
+        adjustLayout.setOnClickListener(v ->{
+            MenuPrefUtil.saveItem(item, count);
+            dialog.dismiss();
+        });
+
+        Picasso.get().load(item.getPictureUrl()).into(ivItem);
+
+
+
+
+    }
+
+
+    private void isActiveCrossSelling(ProductsItem item) {
+        count = 1;
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
+
+        BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        TextView tvTitle = (TextView) bottomSheet.findViewById(R.id.tvItemName);
+        TextView tvCount = (TextView) bottomSheet.findViewById(R.id.tvCount);
+        ImageView ivMinus = bottomSheet.findViewById(R.id.ivMinus);
+        ImageView ivPlus = bottomSheet.findViewById(R.id.ivPlus);
+        TextView tvPrice = bottomSheet.findViewById(R.id.tvPrice);
+        ImageView ivDownArrow = bottomSheet.findViewById(R.id.ivDownArrow);
+        ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
+        LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
+
+        String[] title = item.getName().split("\\s");
+
+        totalPrice = Double.parseDouble(item.getPriceHt());
+        tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+
+        if (title.length > 0) {
+
+            for (int i = 0; i < title.length; i++) {
+                if (i == 0) {
+                    tvTitle.append(Utils.getColoredString(title[i], ContextCompat.getColor(mContext, R.color.color_darker_gray)));
+                } else {
+                    tvTitle.append(Utils.getColoredString(title[i], ContextCompat.getColor(mContext, R.color.colorPink)));
+
+                }
+            }
+
+        } else {
+            tvTitle.setText(item.getName());
+        }
+
         ivMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -255,7 +332,6 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         });
 
-        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
 
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
