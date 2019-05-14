@@ -34,6 +34,7 @@ public class SaucesAdapter extends BaseAdapter<PayingSaucesItem> {
         public ItemViewHolder(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
             binding = (ListEachRowAccompagnemenntsBinding)viewDataBinding;
+            setClickListener(binding.imgViewPlus, binding.imgViewMinus);
         }
 
         @Override
@@ -41,11 +42,21 @@ public class SaucesAdapter extends BaseAdapter<PayingSaucesItem> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt());
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
+            binding.tvCount.setText(String.valueOf(item.selectCount));
         }
 
         @Override
         public void onClick(View v) {
-
+            PayingSaucesItem item = getItem(getAdapterPosition());
+            if (v.getId() == R.id.imgViewPlus) {
+                item.selectCount += 1;
+            } else {
+                if (item.selectCount > 0)
+                    item.selectCount -= 1;
+            }
+            binding.tvCount.setText(String.valueOf(item.selectCount));
+            if (mItemClickListener != null)
+                mItemClickListener.onItemClick(v, item);
         }
     }
 }

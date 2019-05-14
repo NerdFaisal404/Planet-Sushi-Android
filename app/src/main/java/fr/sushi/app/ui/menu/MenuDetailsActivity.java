@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -202,6 +203,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
+        if(!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
         Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }

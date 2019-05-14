@@ -15,9 +15,11 @@ import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
 
 public class WasbiGingerAdapter extends BaseAdapter<PayingWasabiGingerItem> {
     private Context context;
-    public WasbiGingerAdapter(Context context){
+
+    public WasbiGingerAdapter(Context context) {
         this.context = context;
     }
+
     @Override
     public boolean isEqual(PayingWasabiGingerItem left, PayingWasabiGingerItem right) {
         return false;
@@ -29,11 +31,13 @@ public class WasbiGingerAdapter extends BaseAdapter<PayingWasabiGingerItem> {
         return new ItemViewHolder(binding);
     }
 
-    private class ItemViewHolder extends BaseViewHolder<PayingWasabiGingerItem>{
+    private class ItemViewHolder extends BaseViewHolder<PayingWasabiGingerItem> {
         private ListEachRowAccompagnemenntsBinding binding;
+
         public ItemViewHolder(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
-            binding = (ListEachRowAccompagnemenntsBinding)viewDataBinding;
+            binding = (ListEachRowAccompagnemenntsBinding) viewDataBinding;
+            setClickListener(binding.imgViewMinus, binding.imgViewPlus);
         }
 
         @Override
@@ -41,11 +45,21 @@ public class WasbiGingerAdapter extends BaseAdapter<PayingWasabiGingerItem> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt());
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
+            binding.tvCount.setText(String.valueOf(item.selectCount));
         }
 
         @Override
         public void onClick(View v) {
-
+            PayingWasabiGingerItem item = getItem(getAdapterPosition());
+            if (v.getId() == R.id.imgViewPlus) {
+                item.selectCount += 1;
+            } else {
+                if (item.selectCount > 0)
+                    item.selectCount -= 1;
+            }
+            binding.tvCount.setText(String.valueOf(item.selectCount));
+            if (mItemClickListener != null)
+                mItemClickListener.onItemClick(v, item);
         }
     }
 }
