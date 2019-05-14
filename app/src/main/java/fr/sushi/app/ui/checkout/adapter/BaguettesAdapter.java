@@ -1,8 +1,12 @@
 package fr.sushi.app.ui.checkout.adapter;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
@@ -11,6 +15,11 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.ChopsticksItem;
 
 public class BaguettesAdapter extends BaseAdapter<ChopsticksItem> {
+    private Context context;
+    public BaguettesAdapter(Context context) {
+        this.context = context;
+    }
+
     @Override
     public boolean isEqual(ChopsticksItem left, ChopsticksItem right) {
         return false;
@@ -31,7 +40,9 @@ public class BaguettesAdapter extends BaseAdapter<ChopsticksItem> {
 
         @Override
         public void bind(ChopsticksItem item) {
-
+            binding.itemName.setText(item.getName());
+            binding.tvPrice.setText(item.getPriceHt());
+            Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
         }
 
         @Override

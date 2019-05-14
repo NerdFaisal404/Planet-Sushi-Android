@@ -16,10 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -31,7 +29,20 @@ import java.io.IOException;
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentAccompagnementsBinding;
+import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.checkout.adapter.AccomplishmentAdapter;
+import fr.sushi.app.ui.checkout.adapter.BaguettesAdapter;
+import fr.sushi.app.ui.checkout.adapter.BoissonAdapter;
+import fr.sushi.app.ui.checkout.adapter.DessertAdapter;
+import fr.sushi.app.ui.checkout.adapter.SaucesAdapter;
+import fr.sushi.app.ui.checkout.adapter.WasbiGingerAdapter;
 import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
+import fr.sushi.app.ui.checkout.commade.model.ChopsticksItem;
+import fr.sushi.app.ui.checkout.commade.model.DessertsItem;
+import fr.sushi.app.ui.checkout.commade.model.DrinksItem;
+import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
+import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
+import fr.sushi.app.ui.checkout.commade.model.UpsellItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +68,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private static final int BAGUETTES = 6;
     private int countSauces = 0, countAccompagnements = 0, countBoissons = 0, countDesserts = 0, countWasbi = 0, countBauettes = 0;
 
+    private AccompagnementResponse accompagnementResponse;
 
     public AccompagnementsFragment() {
         // Required empty public constructor
@@ -122,7 +134,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         binding.tvSubtitle.setText(Html.fromHtml(subTitle), TextView.BufferType.SPANNABLE);
 
 
-        recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
+       /* recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycler_view_accompagnements.setLayoutManager(layoutManager);
         adapter = new AccompagnementsAdapter(getContext(), new AccompagnementsAdapter.ClickListener() {
@@ -258,7 +270,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 }
             }
         });
-        recycler_view_accompagnements.setAdapter(adapter);
+        recycler_view_accompagnements.setAdapter(adapter);*/
 
     }
 
@@ -276,7 +288,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 if (error == true) {
                     ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
                 } else {
-                    AccompagnementResponse accompagnementResponse = new Gson().fromJson(responseObject.toString(), AccompagnementResponse.class);
+                    accompagnementResponse = new Gson().fromJson(responseObject.toString(), AccompagnementResponse.class);
 
                 }
             } catch (JSONException e) {
@@ -292,24 +304,101 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         switch (view.getId()) {
             case R.id.rlSauces:
                 handleSauce();
+                showSaucesData();
                 break;
             case R.id.rlAccompagnements:
                 handleAccompanements();
+                showAccomplishmentData();
                 break;
             case R.id.rlBoissons:
                 handleBoissons();
+                showCoissonData();
                 break;
             case R.id.rlDesserts:
                 handleDesserts();
+                showDessertData();
                 break;
             case R.id.rlWasbi:
                 handleWasbi();
+                showWasibData();
                 break;
             case R.id.rlBaguettes:
                 handleBaguettes();
+                showBaguettesData();
                 break;
 
         }
+    }
+    private void showSaucesData(){
+        SaucesAdapter saucesAdapter = new SaucesAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
+        saucesAdapter.addItem(accompagnementResponse.getResponse().getPayingSauces());
+        saucesAdapter.setItemClickListener(sasuItemClickListener);
+    }
+
+    private void handleSauce() {
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
+        selectedAccompagnements = 1;
+        tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+        rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlDesserts.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+        recycler_view_accompagnements.setVisibility(View.VISIBLE);
+    }
+
+    private void showAccomplishmentData(){
+        AccomplishmentAdapter accomplishmentAdapter = new AccomplishmentAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(accomplishmentAdapter);
+        accomplishmentAdapter.addItem(accompagnementResponse.getResponse().getUpsell());
+        accomplishmentAdapter.setItemClickListener(accomplishmentClickListener);
+    }
+
+    private void handleAccompanements() {
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.colorWhite)
+        );
+        selectedAccompagnements = 2;
+        tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+        rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlDesserts.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+        recycler_view_accompagnements.setVisibility(View.VISIBLE);
+    }
+
+
+    private void showBaguettesData(){
+        BaguettesAdapter baguettesAdapter = new BaguettesAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(baguettesAdapter);
+        baguettesAdapter.addItem(accompagnementResponse.getResponse().getChopsticks());
+        baguettesAdapter.setItemClickListener(baguettesItemClickListener);
     }
 
     private void handleBaguettes() {
@@ -337,6 +426,13 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         recycler_view_accompagnements.setVisibility(View.VISIBLE);
     }
 
+    private void showWasibData(){
+        WasbiGingerAdapter wasbiGingerAdapter = new WasbiGingerAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(wasbiGingerAdapter);
+        wasbiGingerAdapter.addItem(accompagnementResponse.getResponse().getPayingWasabiGinger());
+        wasbiGingerAdapter.setItemClickListener(wasbiItemClickListener);
+    }
     private void handleWasbi() {
         DrawableCompat.setTint(
                 binding.imgViewWasbi.getDrawable(),
@@ -362,6 +458,13 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         recycler_view_accompagnements.setVisibility(View.VISIBLE);
     }
 
+    private void showDessertData(){
+        DessertAdapter dessertAdapter = new DessertAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(dessertAdapter);
+        dessertAdapter.addItem(accompagnementResponse.getResponse().getDesserts());
+        dessertAdapter.setItemClickListener(dessertItemClickListener);
+    }
     private void handleDesserts() {
         DrawableCompat.setTint(
                 binding.imgViewDesserts.getDrawable(),
@@ -385,6 +488,14 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         recycler_view_accompagnements.setVisibility(View.VISIBLE);
     }
+    private void showCoissonData(){
+        BoissonAdapter boissonAdapter = new BoissonAdapter(getActivity());
+        binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.recyclerViewAccompagnements.setAdapter(boissonAdapter);
+        boissonAdapter.addItem(accompagnementResponse.getResponse().getDrinks());
+        boissonAdapter.setItemClickListener(boissonItemClickListener);
+    }
+
 
     private void handleBoissons() {
         DrawableCompat.setTint(
@@ -409,50 +520,31 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         recycler_view_accompagnements.setVisibility(View.VISIBLE);
     }
 
-    private void handleAccompanements() {
-        DrawableCompat.setTint(
-                binding.imgViewAccompagnements.getDrawable(),
-                ContextCompat.getColor(getActivity(), R.color.colorWhite)
-        );
-        selectedAccompagnements = 2;
-        tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
 
-        rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlDesserts.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
 
-        recycler_view_accompagnements.setVisibility(View.VISIBLE);
-    }
+    private ItemClickListener<PayingSaucesItem> sasuItemClickListener = (view, item) -> {
 
-    private void handleSauce() {
+    };
 
-        DrawableCompat.setTint(
-                binding.imgViewSauces.getDrawable(),
-                ContextCompat.getColor(getActivity(), R.color.colorWhite)
-        );
-        selectedAccompagnements = 1;
-        tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+    private ItemClickListener<DessertsItem> dessertItemClickListener  = (view, item) -> {
 
-        rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_627588));
-        rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlDesserts.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
-        rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+    };
 
-        recycler_view_accompagnements.setVisibility(View.VISIBLE);
-    }
+    private ItemClickListener<DrinksItem> boissonItemClickListener  = (view, item) -> {
+
+    };
+
+    private ItemClickListener<ChopsticksItem> baguettesItemClickListener  = (view, item) -> {
+
+    };
+    private ItemClickListener<UpsellItem> accomplishmentClickListener  = (view, item) -> {
+
+    };
+
+    private ItemClickListener<PayingWasabiGingerItem> wasbiItemClickListener  = (view, item) -> {
+
+    };
+
+
+
 }

@@ -1,16 +1,24 @@
 package fr.sushi.app.ui.checkout.adapter;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
+import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsAdapter;
 import fr.sushi.app.ui.checkout.commade.model.UpsellItem;
 
 public class AccomplishmentAdapter extends BaseAdapter<UpsellItem> {
+    private Context context;
+    public AccomplishmentAdapter(Context context){
+        this.context = context;
+    }
     @Override
     public boolean isEqual(UpsellItem left, UpsellItem right) {
         return false;
@@ -31,7 +39,9 @@ public class AccomplishmentAdapter extends BaseAdapter<UpsellItem> {
 
         @Override
         public void bind(UpsellItem item) {
-
+            binding.itemName.setText(item.getName());
+            binding.tvPrice.setText(item.getPriceHt());
+            Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
         }
 
         @Override

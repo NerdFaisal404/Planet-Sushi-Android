@@ -1,8 +1,11 @@
 package fr.sushi.app.ui.checkout.adapter;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bumptech.glide.Glide;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
@@ -11,6 +14,10 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 
 public class SaucesAdapter extends BaseAdapter<PayingSaucesItem> {
+    private Context context;
+    public SaucesAdapter(Context context){
+        this.context = context;
+    }
     @Override
     public boolean isEqual(PayingSaucesItem left, PayingSaucesItem right) {
         return false;
@@ -31,7 +38,9 @@ public class SaucesAdapter extends BaseAdapter<PayingSaucesItem> {
 
         @Override
         public void bind(PayingSaucesItem item) {
-
+            binding.itemName.setText(item.getName());
+            binding.tvPrice.setText(item.getPriceHt());
+            Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
         }
 
         @Override
