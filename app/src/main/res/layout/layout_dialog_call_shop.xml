@@ -7,12 +7,15 @@
 
 
     <TextView
+        android:id="@+id/tvPhoneNo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:text="+33 1 40 67 48 69"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/sp19" />
 
     <View
         android:layout_width="match_parent"
@@ -27,15 +30,17 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:alpha="0.7"
+            android:fontFamily="@font/robot_regular"
             android:gravity="center"
             android:text="Annuler"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="#007AFF"
+            android:textSize="@dimen/sp17" />
 
         <View
             android:layout_width="0.5dp"
@@ -45,14 +50,15 @@
         </View>
 
         <TextView
+            android:id="@+id/tvCall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="Appeler"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textStyle="bold" />
+            android:textColor="#007AFF"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/sp17"/>
     </LinearLayout>
 </LinearLayout>

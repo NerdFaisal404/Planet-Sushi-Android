@@ -55,5 +55,6 @@
     <dimen name="font_xxxlarge">20sp</dimen>
     <dimen name="font_medium">16sp</dimen>
     <dimen name="sp9">9sp</dimen>
+    <dimen name="sp19">19sp</dimen>
 
 </resources>
