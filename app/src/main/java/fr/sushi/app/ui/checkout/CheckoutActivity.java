@@ -22,6 +22,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private ActivityCheckoutBinding binding;
     private PagerAdapter pagerAdapter;
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +45,20 @@ public class CheckoutActivity extends AppCompatActivity {
 
         selectedProducts = MenuPrefUtil.getSaveItems();
 
-        if (selectedProducts.size()<1){
+        if (selectedProducts.size() < 1) {
             binding.viewpager.setVisibility(View.GONE);
             binding.tvStepOne.setClickable(false);
             binding.tvStepTwo.setClickable(false);
             binding.tvStepThree.setClickable(false);
             binding.tvEmptyView.setVisibility(View.VISIBLE);
-        }else {
+            binding.layoutBottomCheckout.setVisibility(View.GONE);
+        } else {
             binding.viewpager.setVisibility(View.VISIBLE);
             binding.tvStepOne.setClickable(true);
             binding.tvStepTwo.setClickable(true);
             binding.tvStepThree.setClickable(true);
             binding.tvEmptyView.setVisibility(View.GONE);
+            binding.layoutBottomCheckout.setVisibility(View.VISIBLE);
         }
 
 

@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
         android:orientation="vertical"
-        tools:context=".ui.adressPicker.AdressPickerActivity">
+        tools:context=".ui.adressPicker.AddressPickerActivity">
 
         <RelativeLayout
             android:paddingTop="@dimen/dp50"

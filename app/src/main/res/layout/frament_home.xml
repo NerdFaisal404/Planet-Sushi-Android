@@ -18,7 +18,7 @@
             android:background="@drawable/ic_place_holder"
             android:scaleType="centerCrop" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/tvDelivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,27 @@
             android:paddingBottom="@dimen/dp4"
             android:text="Livraison"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp15" />
+            android:textSize="@dimen/sp15" />-->
+
+        <TextView
+            android:id="@+id/tvDelivery"
+            android:layout_above="@+id/bottomLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:background="@drawable/bg_pickup_pink_round"
+            android:drawableLeft="@drawable/ic_emporter_white"
+            android:drawableRight="@drawable/ic_white_down_arrow"
+            android:drawablePadding="8dp"
+            android:elevation="1dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp16"
+            android:paddingRight="@dimen/dp16"
+            android:layout_marginLeft="@dimen/dp16"
+            android:text="Livraison"
+            android:layout_marginBottom="@dimen/dp30"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp17" />
 
         <LinearLayout
             android:id="@+id/bottomLayout"
@@ -50,6 +70,7 @@
             android:paddingLeft="@dimen/dp16"
             android:paddingRight="@dimen/dp16"
             android:paddingBottom="@dimen/dp16">
+
 
 
             <RelativeLayout
@@ -300,6 +321,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/viewSingle"
                 android:background="#E0E0E0"
                 android:layout_marginLeft="@dimen/dp16"
                 android:layout_marginRight="@dimen/dp16"

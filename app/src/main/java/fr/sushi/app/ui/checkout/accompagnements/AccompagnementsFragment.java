@@ -478,6 +478,34 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 binding.imgViewSauces.getDrawable(),
                 ContextCompat.getColor(getActivity(), R.color.colorWhite)
         );
+
+
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+
         selectedAccompagnements = 1;
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -502,6 +530,32 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 binding.imgViewAccompagnements.getDrawable(),
                 ContextCompat.getColor(getActivity(), R.color.colorWhite)
         );
+
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
         selectedAccompagnements = 2;
         tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -526,6 +580,32 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 binding.imgViewBaguettes.getDrawable(),
                 ContextCompat.getColor(getActivity(), R.color.colorWhite)
         );
+
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
         selectedAccompagnements = 6;
 
         tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
@@ -554,6 +634,31 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         );
         selectedAccompagnements = 5;
 
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
         tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
         tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -580,6 +685,31 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         );
         selectedAccompagnements = 4;
 
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
         tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
@@ -603,6 +733,32 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 binding.imgViewBoissons.getDrawable(),
                 ContextCompat.getColor(getActivity(), R.color.colorWhite)
         );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
         selectedAccompagnements = 3;
         tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));

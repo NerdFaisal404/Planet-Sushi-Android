@@ -6,6 +6,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/dp30"
+        android:fitsSystemWindows="true"
         android:background="@drawable/ic_home_background"
         tools:context=".ui.editprofile.EditProfileActivity">
 

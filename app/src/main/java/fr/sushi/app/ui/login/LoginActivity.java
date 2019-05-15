@@ -27,6 +27,7 @@ import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityLoginBinding;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
+import fr.sushi.app.util.Utils;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("JsonObject", "value =" + responseObject.toString());
                     if (error == true) {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(this,"Erreur!",errorResponse.getErrorString());
                     } else {
                         // CreateAccountResponse addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
 
