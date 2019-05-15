@@ -69,7 +69,8 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
     void setAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.featuredRecyclerView.setLayoutManager(linearLayoutManager);
-        foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this, (int) getResources().getDimension(R.dimen.custom_item_height));
+        foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
+        binding.featuredRecyclerView.setHasFixedSize(true);
         binding.featuredRecyclerView.setAdapter(foodMenuAdapter);
         binding.featuredRecyclerView.addOnScrollListener(new FocusResizeScrollListener<>(foodMenuAdapter, linearLayoutManager));
     }

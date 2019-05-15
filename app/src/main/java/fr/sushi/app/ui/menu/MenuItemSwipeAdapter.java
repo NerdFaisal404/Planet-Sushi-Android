@@ -332,7 +332,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.setAdapter(crossAdapter);
         RecyclerSectionItemDecoration sectionItemDecoration;
         sectionItemDecoration =
-                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp50),
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp70),
                         true,
                         getSectionCallback(crossSellingProductsItemList));
 
@@ -435,5 +435,4 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         };
     }
-
 }

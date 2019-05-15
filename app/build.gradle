@@ -1,4 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
