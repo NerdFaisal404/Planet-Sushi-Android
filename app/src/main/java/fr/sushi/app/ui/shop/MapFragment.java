@@ -78,6 +78,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
         observeData();
+
+        binding.etSearchContacts.setOnClickListener(v -> {
+            getActivity().startActivity(new Intent(getActivity(), MapAutoCompletePlaceActivity.class));
+        });
     }
 
     @Override
