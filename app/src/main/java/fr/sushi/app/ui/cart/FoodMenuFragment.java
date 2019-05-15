@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.example.library.FocusResizeScrollListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import fr.sushi.app.ui.cart.adapter.FoodMenuAdapterFocus;
 import fr.sushi.app.ui.cart.viewmodel.FoodMenuViewModel;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.focuslib.FocusResizeScrollListener;
 
 public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFocus.Listener {
     List<String> dummyData = new ArrayList<>();

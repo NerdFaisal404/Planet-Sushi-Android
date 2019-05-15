@@ -16,6 +16,7 @@
 
 package fr.sushi.app.util.focuslib;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,12 +37,12 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
     public FocusResizeScrollListener(T adapter, LinearLayoutManager linearLayoutManager) {
         this.adapter = adapter;
         heightCollapsedItem = adapter.getHeight();
-        heightExpandedItem = heightCollapsedItem * 3;
+        heightExpandedItem = heightCollapsedItem * 2;
         mLinearLayoutManager = linearLayoutManager;
     }
 
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         try {
             if (mLinearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
