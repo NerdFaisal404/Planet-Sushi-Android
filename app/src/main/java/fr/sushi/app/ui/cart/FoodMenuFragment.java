@@ -19,6 +19,7 @@ import fr.sushi.app.ui.cart.adapter.FoodMenuAdapterFocus;
 import fr.sushi.app.ui.cart.viewmodel.FoodMenuViewModel;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.focuslib.FocusResizeScrollListener;
 
 public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFocus.Listener {
     List<String> dummyData = new ArrayList<>();
@@ -70,6 +71,8 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.featuredRecyclerView.setLayoutManager(linearLayoutManager);
         foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this, (int) getResources().getDimension(R.dimen.custom_item_height));
+        foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
+        binding.featuredRecyclerView.setHasFixedSize(true);
         binding.featuredRecyclerView.setAdapter(foodMenuAdapter);
         binding.featuredRecyclerView.addOnScrollListener(new FocusResizeScrollListener<>(foodMenuAdapter, linearLayoutManager));
     }
