@@ -7,6 +7,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.helper.CommonUtility;
+import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
@@ -28,6 +31,7 @@ import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface Listener {
         void onItemClick(ProductsItem item, ImageView imageView);
+
         void onItemDeselect(ProductsItem item);
     }
 
@@ -42,7 +46,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     double totalPrice;
     int count = 1;
 
-    public MenuItemSwipeAdapter(Context context, List<ProductsItem> itemList, Listener listener){
+    public MenuItemSwipeAdapter(Context context, List<ProductsItem> itemList, Listener listener) {
         this.mContext = context;
         this.productsItems = itemList;
         this.itemClickListener = listener;
@@ -52,11 +56,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         ProductsItem item = productsItems.get(position);
 
-        if(item.isSelected()){
+        if (item.isSelected()) {
             return ITEM_WITH_SWIPE;
         }
         return ITEM_NO_SWIPE;
     }
+
     @Override
     public int getItemCount() {
         return productsItems.size();
@@ -76,7 +81,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_menu_main, viewGroup, false);
-        if(viewType == ITEM_WITH_SWIPE){
+        if (viewType == ITEM_WITH_SWIPE) {
             return new ItemSwipeViewHolder(view);
         }
         return new ItemNoSwipeViewHolder(view);
@@ -85,7 +90,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int index) {
         ProductsItem item = productsItems.get(index);
-        BaseHolder holder = (BaseHolder)viewHolder;
+        BaseHolder holder = (BaseHolder) viewHolder;
 
         holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +100,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 itemClickListener.onItemClick(item, holder.imageViewItemAnim);
             }
         });
-        if(holder instanceof ItemSwipeViewHolder){
-            ItemSwipeViewHolder swipeViewHolder = (ItemSwipeViewHolder)holder;
+        if (holder instanceof ItemSwipeViewHolder) {
+            ItemSwipeViewHolder swipeViewHolder = (ItemSwipeViewHolder) holder;
             swipeViewHolder.mActionViewRefresh.setOnClickListener(v -> {
                 mItemTouchHelperExtension.closeOpened();
                 itemClickListener.onItemDeselect(item);
@@ -106,9 +111,9 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         holder.mViewContent.setOnClickListener(v -> {
-            if (item.getActiveCrossSelling()==1){
+            if (item.getActiveCrossSelling() == 1) {
                 isActiveCrossSelling(item);
-            }else {
+            } else {
                 showBottomSheet(item);
             }
 
@@ -116,11 +121,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.bind(item);
     }
 
-    class BaseHolder extends RecyclerView.ViewHolder{
-        TextView itemName,itemPrice, itemCount;
+    class BaseHolder extends RecyclerView.ViewHolder {
+        TextView itemName, itemPrice, itemCount;
         View mViewContent, selectedView;
         View mActionContainer;
-        ImageView imageViewItem,imageViewItemAnim, imageViewPlus;
+        ImageView imageViewItem, imageViewItemAnim, imageViewPlus;
+
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
             mViewContent = itemView.findViewById(R.id.view_list_main_content);
@@ -133,7 +139,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             imageViewPlus = itemView.findViewById(R.id.imageViewPlus);
             itemCount = itemView.findViewById(R.id.itemCount);
         }
-        private void bind(ProductsItem item){
+
+        private void bind(ProductsItem item) {
             Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItem);
             Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItemAnim);
 
@@ -177,6 +184,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class ItemSwipeViewHolder extends BaseHolder implements Extension {
         View mActionViewRefresh;
+
         public ItemSwipeViewHolder(@NonNull View itemView) {
             super(itemView);
             mActionViewRefresh = itemView.findViewById(R.id.view_list_repo);
@@ -188,7 +196,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    class ItemNoSwipeViewHolder extends BaseHolder{
+    class ItemNoSwipeViewHolder extends BaseHolder {
 
         public ItemNoSwipeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -258,14 +266,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
-        adjustLayout.setOnClickListener(v ->{
+        adjustLayout.setOnClickListener(v -> {
             MenuPrefUtil.saveItem(item, count);
             dialog.dismiss();
         });
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
-
-
 
 
     }
@@ -289,6 +295,23 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvPrice = bottomSheet.findViewById(R.id.tvPrice);
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
+
+        if (CommonUtility.currentMenuResponse != null) {
+            List<CrossSellingCategoriesItem> crossSellingCategories = CommonUtility.currentMenuResponse.getResponse().getCrossSellingCategories();
+            Log.d("CrossCategoryTest", "Cross list" + crossSellingCategories.size());
+            for (CrossSellingCategoriesItem categoriesItem : crossSellingCategories) {
+                Log.d("CrossCategoryTest", "Cross product list" + categoriesItem.getProducts().size());
+                for (ProductsItem product : categoriesItem.getProducts()) {
+                    if (product.getIdCategory().equals(item.getIdCategory())) {
+                        Log.d("CrossCategoryTest", "Match true");
+                        Log.d("CrossCategoryTest", "item list: " + product.toString());
+                    }
+                }
+
+            }
+        }
+
+        RecyclerView recyclerView = bottomSheet.findViewById(R.id.rc_cross_selling);
 
         String[] title = item.getName().split("\\s");
 
@@ -333,17 +356,13 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
 
 
-
         tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
-        adjustLayout.setOnClickListener(v ->{
+        adjustLayout.setOnClickListener(v -> {
             MenuPrefUtil.saveItem(item, count);
             crossSellingBottomSheet.dismiss();
         });
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
-
-
-
 
     }
 
