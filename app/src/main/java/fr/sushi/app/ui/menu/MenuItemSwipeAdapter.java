@@ -1,10 +1,12 @@
 package fr.sushi.app.ui.menu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -18,12 +20,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
+import fr.sushi.app.data.model.food_menu.CrossSellingItem;
+import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -296,22 +302,44 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
 
+        // Cross selling part
+
+        List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();
         if (CommonUtility.currentMenuResponse != null) {
             List<CrossSellingCategoriesItem> crossSellingCategories = CommonUtility.currentMenuResponse.getResponse().getCrossSellingCategories();
             Log.d("CrossCategoryTest", "Cross list" + crossSellingCategories.size());
             for (CrossSellingCategoriesItem categoriesItem : crossSellingCategories) {
-                Log.d("CrossCategoryTest", "Cross product list" + categoriesItem.getProducts().size());
-                for (ProductsItem product : categoriesItem.getProducts()) {
-                    if (product.getIdCategory().equals(item.getIdCategory())) {
-                        Log.d("CrossCategoryTest", "Match true");
-                        Log.d("CrossCategoryTest", "item list: " + product.toString());
+                for (CrossSellingItem crossSellingItem : item.getCrossSelling()) {
+                    for (CrossSellingProductsItem product : categoriesItem.getProducts()) {
+                        if (product.getIdCategory().equals(String.valueOf(crossSellingItem.getIdCategory()))) {
+                            product.setMaxCount(crossSellingItem.getQuantityMax());
+                            crossSellingProductsItemList.add(product);
+                            Log.d("CrossCategoryTest", "item list: " + product.toString());
+                        }
                     }
                 }
-
             }
         }
 
+        CrossSellingAdapter crossAdapter = new CrossSellingAdapter();
+
         RecyclerView recyclerView = bottomSheet.findViewById(R.id.rc_cross_selling);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        crossAdapter.clear();
+        crossAdapter.addItems(crossSellingProductsItemList);
+
+        recyclerView.setAdapter(crossAdapter);
+        RecyclerSectionItemDecoration sectionItemDecoration;
+        sectionItemDecoration =
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp50),
+                        true,
+                        getSectionCallback(crossSellingProductsItemList));
+
+        recyclerView.addItemDecoration(sectionItemDecoration);
+
+
+        // Cross part end
 
         String[] title = item.getName().split("\\s");
 
@@ -364,6 +392,48 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
 
+    }
+
+    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<CrossSellingProductsItem> item) {
+        Log.w("CrossCategoryTest", "Cross list" + item.size());
+        return new RecyclerSectionItemDecoration.SectionCallback() {
+            @Override
+            public boolean isSection(int position) {
+                if (item.size() > 0) {
+                    if (position >= 0) {
+                        return position == 0
+                                || !item.get(position)
+                                .getCategoryName().equals(item.get(position - 1)
+                                        .getCategoryName());
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+
+            }
+
+            @Override
+            public String getSectionHeader(int position) {
+                if (position >= 0) {
+                    return item.get(position)
+                            .getCategoryName();
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public String getSectionSubHeader(int position) {
+                if (position >= 0) {
+                    return item.get(position)
+                            .getDescription();
+                } else {
+                    return "";
+                }
+            }
+        };
     }
 
 }
