@@ -348,14 +348,14 @@ public class HomeFragment extends BaseFragment {
     private void showImporter() {
         binding.tvDelivery.setText("Livraison");
         Drawable img = getContext().getResources().getDrawable(R.drawable.ic_scooter_white);
-        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_white_down_arrow);
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 
     private void showExporter() {
         binding.tvDelivery.setText("A emporter");
         Drawable img = getContext().getResources().getDrawable(R.drawable.ic_emporter_white);
-        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_white_down_arrow);
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 
