@@ -1,4 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -85,7 +92,7 @@ dependencies {
     implementation 'com.tapadoo.android:alerter:2.0.4'
     implementation 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
 
-    implementation 'com.borjabravo:focusresize:1.0.0'
+    //implementation 'com.borjabravo:focusresize:1.0.0'
 
 
     implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
