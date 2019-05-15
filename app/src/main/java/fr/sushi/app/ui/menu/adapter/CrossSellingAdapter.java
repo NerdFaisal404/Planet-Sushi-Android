@@ -87,6 +87,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                         binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
                     } else {
+                        item.setItemClickCount(0);
                         binding.emptyCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
                     }
