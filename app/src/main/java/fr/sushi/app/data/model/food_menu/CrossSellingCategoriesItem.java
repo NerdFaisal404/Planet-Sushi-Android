@@ -11,7 +11,7 @@ public class CrossSellingCategoriesItem{
 	private List<Object> subCategories;
 
 	@SerializedName("Products")
-	private List<ProductsItem> products;
+	private List<CrossSellingProductsItem> products;
 
 	@SerializedName("deleted")
 	private String deleted;
@@ -51,11 +51,11 @@ public class CrossSellingCategoriesItem{
 		return subCategories;
 	}
 
-	public void setProducts(List<ProductsItem> products){
+	public void setProducts(List<CrossSellingProductsItem> products){
 		this.products = products;
 	}
 
-	public List<ProductsItem> getProducts(){
+	public List<CrossSellingProductsItem> getProducts(){
 		return products;
 	}
 
