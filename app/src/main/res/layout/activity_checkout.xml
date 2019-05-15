@@ -139,14 +139,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_pink_round"
+            android:weightSum="2"
             android:padding="@dimen/dp16">
+            <TextView
+                android:id="@+id/total_price_tv"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="SUIVANT"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp17" />
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:id="@+id/tvSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@drawable/bg_pink_round"
                 android:fontFamily="@font/roboto_bold"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="SUIVANT"
                 android:textColor="@color/colorWhite"

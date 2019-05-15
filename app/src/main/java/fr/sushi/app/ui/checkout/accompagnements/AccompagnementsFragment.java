@@ -25,11 +25,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentAccompagnementsBinding;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.checkout.adapter.AccomplishmentAdapter;
 import fr.sushi.app.ui.checkout.adapter.BaguettesAdapter;
 import fr.sushi.app.ui.checkout.adapter.BoissonAdapter;
@@ -377,13 +380,22 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         baguettesAdapter.setItemClickListener(baguettesItemClickListener);
     }
 
+    private List<PayingSaucesItem> saucesItemList = new ArrayList<>();
+    private List<UpsellItem> accomplishmentitemList = new ArrayList<>();
+    private List<DrinksItem> boissonItemList = new ArrayList<>();
+    private List<DessertsItem> dessertItemList = new ArrayList<>();
+    private List<PayingWasabiGingerItem> wasbiItemClicList = new ArrayList<>();
+    private List<ChopsticksItem> baguettesItemList = new ArrayList<>();
 
     private ItemClickListener<PayingSaucesItem> saucesItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countSauces += 1;
+            saucesItemList.add(item);
         } else {
-            if (countSauces > 0)
+            if (countSauces > 0) {
                 countSauces -= 1;
+                saucesItemList.remove(0);
+            }
         }
 
         binding.tvCountSauces.setText(String.valueOf(countSauces));
@@ -392,14 +404,19 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             binding.rlCountForSauces.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
 
     private ItemClickListener<UpsellItem> accomplishmentClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countAccompagnements += 1;
+            accomplishmentitemList.add(item);
+
         } else {
-            if (countAccompagnements > 0)
+            if (countAccompagnements > 0) {
                 countAccompagnements -= 1;
+                accomplishmentitemList.remove(0);
+            }
         }
 
         binding.tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
@@ -408,14 +425,18 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             binding.rlCountForAccompagnements.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
 
     private ItemClickListener<DrinksItem> boissonItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countBoissons += 1;
+            boissonItemList.add(item);
         } else {
-            if (countBoissons > 0)
+            if (countBoissons > 0) {
                 countBoissons -= 1;
+                boissonItemList.remove(0);
+            }
         }
         binding.tvCountBoissons.setText(String.valueOf(countBoissons));
         if (countBoissons > 0) {
@@ -423,14 +444,18 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             binding.rlCountForBoissons.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
 
     private ItemClickListener<DessertsItem> dessertItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countDesserts += 1;
+            dessertItemList.add(item);
         } else {
-            if (countDesserts > 0)
+            if (countDesserts > 0) {
                 countDesserts -= 1;
+                dessertItemList.remove(0);
+            }
         }
 
         binding.tvCountDesserts.setText(String.valueOf(countDesserts));
@@ -439,13 +464,17 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             binding.rlCountForDesserts.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
     private ItemClickListener<PayingWasabiGingerItem> wasbiItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countWasbi += 1;
+            wasbiItemClicList.add(item);
         } else {
-            if (countWasbi > 0)
+            if (countWasbi > 0) {
                 countWasbi -= 1;
+                wasbiItemClicList.remove(0);
+            }
         }
         binding.tvCountWasbi.setText(String.valueOf(countWasbi));
         if (countWasbi > 0) {
@@ -453,15 +482,19 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             binding.rlCountForWasbi.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
 
 
     private ItemClickListener<ChopsticksItem> baguettesItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countBauettes += 1;
+            baguettesItemList.add(item);
         } else {
-            if (countBauettes > 0)
+            if (countBauettes > 0) {
                 countBauettes -= 1;
+                baguettesItemList.remove(0);
+            }
         }
         tvCountBaguettes.setText(String.valueOf(countBauettes));
         if (countBauettes > 0) {
@@ -469,7 +502,32 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         } else {
             rlCountForBaguettes.setVisibility(View.GONE);
         }
+        calculatePrice();
     };
+
+    private void calculatePrice(){
+        double priceSideProducts = 0.0;
+
+        for(PayingSaucesItem item : saucesItemList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        for(UpsellItem item : accomplishmentitemList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        for(DrinksItem item : boissonItemList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        for(DessertsItem item : dessertItemList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        for(PayingWasabiGingerItem item : wasbiItemClicList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        for(ChopsticksItem item : baguettesItemList){
+            priceSideProducts += Double.parseDouble(item.getPriceTtc());
+        }
+        ((CheckoutActivity)getActivity()).setPriceWithSideProducts(priceSideProducts);
+    }
 
 
     private void handleSauce() {

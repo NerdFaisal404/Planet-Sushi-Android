@@ -17,11 +17,14 @@ import fr.sushi.app.R;
 import fr.sushi.app.databinding.ActivityCheckoutBinding;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.util.Utils;
 
 public class CheckoutActivity extends AppCompatActivity {
     private ActivityCheckoutBinding binding;
     private PagerAdapter pagerAdapter;
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
+
+    private double totalPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,5 +65,14 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+    }
+
+    public void setPriceWithSideProducts(double priceSideProducts) {
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
     }
 }
