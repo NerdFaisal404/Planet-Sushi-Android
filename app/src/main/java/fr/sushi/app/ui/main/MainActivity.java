@@ -19,6 +19,7 @@ import fr.sushi.app.data.remote.network.RetrofitClient;
 import fr.sushi.app.databinding.ActivityMainBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.cart.FoodMenuFragment;
+import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
 import fr.sushi.app.ui.home.view.HomeFragment;
 import fr.sushi.app.ui.profile.ProfileFragment;
@@ -74,11 +75,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
             case R.id.navigation_panier:
-                baseFragment = (BaseFragment) getSupportFragmentManager()
+               /* baseFragment = (BaseFragment) getSupportFragmentManager()
                         .findFragmentByTag(ShoppingBagFragment.class.getName());
                 if (baseFragment == null) {
                     baseFragment = new ShoppingBagFragment();
-                }
+                }*/
+
+               startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
+
                 break;
 
             case R.id.navigation_profile:
