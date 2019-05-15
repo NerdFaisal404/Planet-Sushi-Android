@@ -23,11 +23,12 @@ public class DessertAdapter extends BaseAdapter<DessertsItem> {
         return new ItemViewHolder(binding);
     }
 
-    private class ItemViewHolder extends BaseViewHolder<PayingSaucesItem>{
+    private class ItemViewHolder extends BaseViewHolder<PayingSaucesItem> {
         private ListEachRowAccompagnemenntsBinding binding;
+
         public ItemViewHolder(ViewDataBinding viewDataBinding) {
             super(viewDataBinding);
-            binding = (ListEachRowAccompagnemenntsBinding)viewDataBinding;
+            binding = (ListEachRowAccompagnemenntsBinding) viewDataBinding;
         }
 
         @Override
