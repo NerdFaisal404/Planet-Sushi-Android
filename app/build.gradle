@@ -77,6 +77,9 @@ dependencies {
     // facebook
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
+    //indicator
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+
     implementation 'com.android.support.constraint:constraint-layout:+'
 
     implementation 'com.tapadoo.android:alerter:2.0.4'
@@ -85,6 +88,7 @@ dependencies {
     implementation 'com.borjabravo:focusresize:1.0.0'
 
 
+    implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
 
 }
 //Test dependency
@@ -95,6 +99,10 @@ dependencies {
 }
 
 apply plugin: 'io.objectbox'
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
 
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
