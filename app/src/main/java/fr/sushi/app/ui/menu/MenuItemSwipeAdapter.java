@@ -428,7 +428,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             public String getSectionSubHeader(int position) {
                 if (position >= 0) {
                     return item.get(position)
-                            .getDescription();
+                            .getDescriptionShort();
                 } else {
                     return "";
                 }
