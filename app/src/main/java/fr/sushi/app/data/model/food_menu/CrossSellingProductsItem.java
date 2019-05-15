@@ -162,6 +162,8 @@ public class CrossSellingProductsItem {
 
     private int maxCount;
 
+    int itemClickCount;
+
     public void setActiveSaucePicture(boolean activeSaucePicture) {
         this.activeSaucePicture = activeSaucePicture;
     }
@@ -584,6 +586,14 @@ public class CrossSellingProductsItem {
 
     public void setMaxCount(int maxCount) {
         this.maxCount = maxCount;
+    }
+
+    public int getItemClickCount() {
+        return itemClickCount;
+    }
+
+    public void setItemClickCount(int itemClickCount) {
+        this.itemClickCount = itemClickCount;
     }
 
     @Override
