@@ -4,11 +4,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -50,6 +52,7 @@ import fr.sushi.app.ui.shop.map.GetNearbyPlacesData;
 import fr.sushi.app.ui.shop.map.MapItem;
 import fr.sushi.app.ui.shop.viewmodel.MapViewModel;
 import fr.sushi.app.util.PermissionUtil;
+import fr.sushi.app.util.Utils;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private FragmentMapBinding binding;
@@ -75,6 +78,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
         observeData();
+
+        binding.etSearchContacts.setOnClickListener(v -> {
+            getActivity().startActivity(new Intent(getActivity(), MapAutoCompletePlaceActivity.class));
+        });
     }
 
     @Override
@@ -234,6 +241,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     }
 
     private class MapPagerAdapter extends PagerAdapter implements View.OnClickListener {
+        ResponseItem responseItem;
 
         @Override
         public int getCount() {
@@ -255,10 +263,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         public Object instantiateItem(ViewGroup container, int position) {
             ListEachRowShopsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()),
                     R.layout.list_each_row_shops, container, false);
-            ResponseItem responseItem = mapItemList.get(position);
-            binding.tvDistance.setText(responseItem.getDeliveryArea());
-            binding.tvAddress.setText(responseItem.getAddress());
+            responseItem = mapItemList.get(position);
+            Location location = mLastLocation;
+            String distance = Utils.getDistance(location, responseItem.getLat(), responseItem.getLng());
+            binding.tvDistance.setText(distance);
+            binding.tvAddressOne.setText(responseItem.getAddress());
+            binding.tvAddressOne.setText(responseItem.getPostcode() + " " + responseItem.getCity());
             binding.tvName.setText(responseItem.getName());
+            //  binding.tvOpeningTime.setText(responseItem.ge);
             binding.imgViewPhoneCall.setOnClickListener(this::onClick);
             container.addView(binding.getRoot());
             return binding.getRoot();
@@ -266,13 +278,28 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
         @Override
         public void onClick(View v) {
-            showDialogForCallShop();
+            showDialogForCallShop(responseItem);
         }
     }
 
-    private void showDialogForCallShop() {
+    private void showDialogForCallShop(ResponseItem responseItem) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.layout_dialog_call_shop);
+
+        TextView tvCall = dialog.findViewById(R.id.tvCall);
+        TextView tvCancel = dialog.findViewById(R.id.tvCancel);
+        TextView tvPhoneNo = dialog.findViewById(R.id.tvPhoneNo);
+
+        tvPhoneNo.setText(responseItem.getPhone());
+        tvCall.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+
+            intent.setData(Uri.parse("tel:" + responseItem.getPhone()));
+            getActivity().startActivity(intent);
+        });
+
+        tvCancel.setOnClickListener(v -> dialog.dismiss());
+
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }

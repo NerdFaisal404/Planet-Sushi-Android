@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
         android:orientation="vertical"
-        tools:context=".ui.adressPicker.AdressPickerActivity">
+        tools:context=".ui.adressPicker.AddressPickerActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,18 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:drawableLeft="@drawable/ic_delivery"
-                android:drawableRight="@drawable/ic_down_arrow"
-                android:drawablePadding="8dp"
-                android:elevation="1dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/dp10"
                 android:paddingTop="@dimen/dp4"
                 android:paddingRight="@dimen/dp10"
                 android:paddingBottom="@dimen/dp4"
-                android:text="Livraison"
-                android:textColor="@color/colorBlack"
+                android:text="Ajouter une adresse"
+                android:textColor="@color/colorDarkBlue"
                 android:textSize="@dimen/sp15" />
 
             <com.loopeer.shadow.ShadowView

@@ -272,6 +272,8 @@ public class DessertsItem{
 	@SerializedName("nbre_piece")
 	private String nbrePiece;
 
+	public int selectCount;
+
 	public void setActiveSaucePicture(boolean activeSaucePicture){
 		this.activeSaucePicture = activeSaucePicture;
 	}

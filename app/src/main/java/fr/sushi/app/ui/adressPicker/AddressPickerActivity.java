@@ -1,7 +1,6 @@
 package fr.sushi.app.ui.adressPicker;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -47,7 +46,6 @@ import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
-import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
@@ -60,14 +58,13 @@ import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
-import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
 import fr.sushi.app.util.Utils;
 
-public class AdressPickerActivity extends AppCompatActivity implements
+public class AddressPickerActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         PlaceAutocompleteAdapter.PlaceAutoCompleteInterface {
 
@@ -341,7 +338,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
                                 Log.e("Place_cliec", "code =" + zipCode);
                                 Log.e("Place_cliec", "city =" + city);
                                 Log.e("Place_cliec", "address =" + address);
-                                DialogUtils.showDialog(AdressPickerActivity.this);
+                                DialogUtils.showDialog(AddressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
                                 currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address);
                             } else {
@@ -509,7 +506,7 @@ public class AdressPickerActivity extends AppCompatActivity implements
             currentSearchPlace.setTime(selectedTime);
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
             PlaceUtil.saveCurrentPlace(currentSearchPlace);
-            /*Intent intent = new Intent(AdressPickerActivity.this,
+            /*Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
             startActivity(intent);*/

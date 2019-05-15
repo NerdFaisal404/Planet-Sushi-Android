@@ -128,6 +128,8 @@ public class ChopsticksItem{
 	@SerializedName("price_ttc")
 	private String priceTtc;
 
+	public int selectCount;
+
 	public void setCategoryName(String categoryName){
 		this.categoryName = categoryName;
 	}

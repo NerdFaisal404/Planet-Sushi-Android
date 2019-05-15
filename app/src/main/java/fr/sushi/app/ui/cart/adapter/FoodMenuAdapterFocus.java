@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.library.FocusResizeAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -68,9 +70,11 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
     private void fill(CustomViewHolder holder, CategoriesItem item) {
         holder.titleTextView.setText(item.getName());
         //holder.subtitleTextView.setText(customObject.getSubTitle());
+        if(item.getPictureUrl() == null) return;
         Picasso.get().load(item.getPictureUrl())
                 .placeholder(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_place_holder))
-                .into(holder.image);;
+                .into(holder.image);
+        //Glide.with(context).load(item.getPictureUrl()).into(holder.image);
     }
 
     @Override

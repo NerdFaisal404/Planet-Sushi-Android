@@ -1,5 +1,5 @@
 package fr.sushi.app.data.local.helper;
-
+import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 /*
  *  ****************************************************************************
  *  * Created by : Md Tariqul Islam on 5/13/2019 at 12:49 PM.
@@ -13,6 +13,8 @@ package fr.sushi.app.data.local.helper;
  *  ****************************************************************************
  */
 
+
+
 public class CommonUtility {
 
     /*
@@ -22,4 +24,6 @@ public class CommonUtility {
     public static String LOCATION;
     public static String CITY;
     public static String ZIP_CODE;
+
+    public static FoodMenuResponse currentMenuResponse;
 }

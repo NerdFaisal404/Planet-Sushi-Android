@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.databinding.FragmentCartBinding;
 import fr.sushi.app.ui.base.BaseFragment;
@@ -26,6 +27,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
 
     //private FoodMenuAdapter foodMenuAdapter;
     private FoodMenuAdapterFocus foodMenuAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_cart;
@@ -34,7 +36,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
 
     @Override
     protected void startUI() {
-        binding = (FragmentCartBinding)getViewDataBinding();
+        binding = (FragmentCartBinding) getViewDataBinding();
         observeData();
         setAdapter();
     }
@@ -51,6 +53,8 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
 
         foodMenuViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
+            CommonUtility.currentMenuResponse = foodMenuResponse;
+
             categoriesItems = foodMenuResponse.getResponse().getCategories();
             DataCacheUtil.addCategoryItemInCache(categoriesItems);
             foodMenuAdapter.swapData(categoriesItems);

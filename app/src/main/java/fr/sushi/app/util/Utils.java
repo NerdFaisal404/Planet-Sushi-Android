@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,6 +24,9 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.SphericalUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -368,5 +372,36 @@ public class Utils {
         LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
         positiveButtonLL.gravity = Gravity.CENTER;
         positiveButton.setLayoutParams(positiveButtonLL);
+    }
+
+    public static String getDistance(Location mLocation, double toLatitude, double toLongitude) {
+        if (mLocation != null) {
+            LatLng from = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
+            LatLng to = new LatLng(toLatitude, toLongitude);
+
+            //Calculating the distance in meters
+            Double distance = SphericalUtil.computeDistanceBetween(from, to);
+
+            //Displaying the distance
+            // Toast.makeText(this,String.valueOf(distance+" Meters"),Toast.LENGTH_SHORT).show();
+            return formatDistance(distance);
+        }
+
+        return null;
+
+    }
+
+    public static String formatDistance(double distance) {
+        String unit = "m";
+        if (distance < 1) {
+            distance *= 1000;
+            unit = "mm";
+        } else if (distance > 1000) {
+            distance /= 1000;
+            unit = "km";
+        }
+        DecimalFormat df = new DecimalFormat("#");
+        String formatted = df.format(distance);
+        return formatted + unit;
     }
 }
