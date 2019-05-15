@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.example.library.FocusResizeScrollListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +68,6 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
     void setAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.featuredRecyclerView.setLayoutManager(linearLayoutManager);
-        foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this, (int) getResources().getDimension(R.dimen.custom_item_height));
         foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
         binding.featuredRecyclerView.setHasFixedSize(true);
         binding.featuredRecyclerView.setAdapter(foodMenuAdapter);
