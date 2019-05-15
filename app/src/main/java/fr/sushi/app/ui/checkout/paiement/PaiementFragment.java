@@ -32,7 +32,7 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
-import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
+import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.util.PermissionUtil;
@@ -64,7 +64,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         binding.addressView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startActivity(new Intent(getActivity(), AdressPickerActivity.class));
+              startActivity(new Intent(getActivity(), AddressPickerActivity.class));
             }
         });
         return view;

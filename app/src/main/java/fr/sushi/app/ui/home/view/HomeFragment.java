@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -35,7 +34,7 @@ import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FramentHomeBinding;
-import fr.sushi.app.ui.adressPicker.AdressPickerActivity;
+import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
@@ -132,9 +131,17 @@ public class HomeFragment extends BaseFragment {
                 binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
 
+
+
                 SearchPlace place2 = recentSearchPlace.get(1);
-                binding.recentAddrTvTwo.setText(place2.getPostalCode()+" "+place2.getCity());
-                binding.tvAddresTwoText.setText(place2.getAddress());
+                if (place.getAddress().equalsIgnoreCase(place2.getAddress())){
+                    binding.viewSingle.setVisibility(View.GONE);
+                    binding.addressOneTwo.setVisibility(View.GONE);
+                }else {
+                    binding.recentAddrTvTwo.setText(place2.getPostalCode()+" "+place2.getCity());
+                    binding.tvAddresTwoText.setText(place2.getAddress());
+                }
+
 
             }
         }else {
@@ -275,7 +282,7 @@ public class HomeFragment extends BaseFragment {
         switch (view.getId()) {
 
             case R.id.layoutAddress:
-                startActivityForResult(new Intent(getActivity(), AdressPickerActivity.class), PALACE_SEARCH_ACTION);
+                startActivityForResult(new Intent(getActivity(), AddressPickerActivity.class), PALACE_SEARCH_ACTION);
                 getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
                 break;
             case R.id.addressOne:
@@ -316,7 +323,7 @@ public class HomeFragment extends BaseFragment {
         liversionView.setOnClickListener(view -> {
             dialog.dismiss();
             showImporter();
-            Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
+            Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
             startActivity(intent);
@@ -326,7 +333,7 @@ public class HomeFragment extends BaseFragment {
         aemporterView.setOnClickListener(view -> {
             dialog.dismiss();
             showExporter();
-            Intent intent = new Intent(getActivity(), AdressPickerActivity.class);
+            Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
             startActivity(intent);

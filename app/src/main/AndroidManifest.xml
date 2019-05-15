@@ -94,7 +94,7 @@
             android:label="@string/app_name" />
 
         <activity
-            android:name=".ui.adressPicker.AdressPickerActivity"
+            android:name=".ui.adressPicker.AddressPickerActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeAddressPicker"
