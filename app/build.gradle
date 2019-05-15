@@ -88,7 +88,7 @@ dependencies {
     implementation 'com.borjabravo:focusresize:1.0.0'
 
 
-
+    implementation 'com.github.smhdk:KM-Recyclerview-Sticky-Header:v1.0.0'
 
 }
 //Test dependency
