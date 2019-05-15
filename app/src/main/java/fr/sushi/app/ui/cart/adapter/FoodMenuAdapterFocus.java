@@ -77,6 +77,9 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
 
     @Override
     public void onItemBigResize(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
+        if (true) {
+            return;
+        }
         ( (CustomViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse_expand));
         if (((CustomViewHolder) viewHolder).titleTextView.getTextSize() + (dyAbs / OFFSET_TEXT_SIZE) >= context.getResources().getDimension(R.dimen.featuredItemHeight)) {
             ((CustomViewHolder) viewHolder).titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.font_xxxlarge));
