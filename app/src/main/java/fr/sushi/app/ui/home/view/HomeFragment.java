@@ -117,6 +117,8 @@ public class HomeFragment extends BaseFragment {
             if(recentSearchPlace.size() == 1){
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.GONE);
+                binding.viewSingle.setVisibility(View.GONE);
+
                 SearchPlace place = recentSearchPlace.get(0);
                 binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
@@ -124,6 +126,7 @@ public class HomeFragment extends BaseFragment {
             }else {
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.VISIBLE);
+                binding.viewSingle.setVisibility(View.VISIBLE);
 
                 SearchPlace place = recentSearchPlace.get(0);
                 binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
@@ -136,6 +139,7 @@ public class HomeFragment extends BaseFragment {
             }
         }else {
             binding.addressOne.setVisibility(View.GONE);
+            binding.viewSingle.setVisibility(View.GONE);
             binding.addressOneTwo.setVisibility(View.GONE);
         }
 

@@ -300,6 +300,7 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/viewSingle"
                 android:background="#E0E0E0"
                 android:layout_marginLeft="@dimen/dp16"
                 android:layout_marginRight="@dimen/dp16"

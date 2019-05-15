@@ -122,6 +122,7 @@
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="CONTINUER"
+            android:enabled="false"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/sp16" />
 

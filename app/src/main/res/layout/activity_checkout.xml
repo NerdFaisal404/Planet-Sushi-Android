@@ -129,9 +129,9 @@
             android:textSize="@dimen/sp24"
             android:textColor="@color/color_394F61"
             android:layout_below="@+id/rlTop"
-            android:layout_centerVertical="true"
+            android:gravity="center"
             android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/layoutBottomCheckout"
@@ -141,6 +141,7 @@
             android:padding="@dimen/dp16">
 
             <TextView
+                android:id="@+id/tvSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
                 android:background="@drawable/bg_pink_round"

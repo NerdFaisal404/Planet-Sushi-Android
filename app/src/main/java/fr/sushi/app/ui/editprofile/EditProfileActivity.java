@@ -9,6 +9,7 @@ import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.ActivityEditProfileBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.util.Utils;
 
 public class EditProfileActivity extends BaseActivity {
     private ActivityEditProfileBinding mBinding;
@@ -38,6 +39,7 @@ public class EditProfileActivity extends BaseActivity {
                 // do save stuff
                 break;
             case R.id.image_view_back:
+                Utils.hideSoftKeyboard(this);
                 finish();
                 break;
         }
