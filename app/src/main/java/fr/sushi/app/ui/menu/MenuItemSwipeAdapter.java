@@ -435,5 +435,4 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         };
     }
-
 }
