@@ -33,6 +33,7 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
     private HashMap<String, RadioButton> radioButtonCheckList = new HashMap<>();
+    private ItemCountListener listener;
 
     @Override
     public boolean isEqual(CrossSellingProductsItem left, CrossSellingProductsItem right) {
@@ -44,6 +45,10 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ItemCrossSellingMenuBinding binding = DataBindingUtil.inflate(inflater, R.layout.item_cross_selling_menu, parent, false);
         return new CrossSellingVH(binding);
+    }
+
+    public void setItemCountListener(ItemCountListener listener) {
+        this.listener = listener;
     }
 
     class CrossSellingVH extends BaseViewHolder<CrossSellingProductsItem> {
@@ -73,10 +78,19 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 binding.textViewCheckItem.setText(item.getName());
 
                 binding.checkItem.setOnClickListener(v -> {
-                    item.setItemClickCount(item.getItemClickCount() + 1);
-                    binding.emptyCheck.setVisibility(View.INVISIBLE);
-                    binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
-                    binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
+
+                    if (item.getMaxCount() != item.getItemClickCount()) {
+                        item.setItemClickCount(item.getItemClickCount() + 1);
+                        binding.emptyCheck.setVisibility(View.INVISIBLE);
+                        binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
+                        binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
+
+                        if (listener != null) {
+                            if (item.isRequired()) {
+                                listener.onGetItemCount(item, 1);
+                            }
+                        }
+                    }
                 });
 
                 binding.imageViewDelete.setOnClickListener(v -> {
@@ -86,6 +100,13 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                         binding.emptyCheck.setVisibility(View.INVISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
+
+                        if (listener != null) {
+                            if (item.isRequired()) {
+                                listener.onGetItemCount(item, -1);
+                            }
+                        }
+
                     } else {
                         item.setItemClickCount(0);
                         binding.emptyCheck.setVisibility(View.VISIBLE);
@@ -107,19 +128,27 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
                         if (rdBtn != null) {
 
-                            if(rdBtn.equals(binding.radioButton)){
+                            if (rdBtn.equals(binding.radioButton)) {
                                 binding.radioButton.setChecked(false);
                                 radioButtonCheckList.remove(item.getCategoryName());
-                            }else{
+
+                                if (listener != null && item.isRequired()) {
+                                    listener.onGetItemCount(item, -1);
+                                }
+                            } else {
                                 binding.radioButton.setChecked(true);
                                 rdBtn.setChecked(false);
                                 radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
                             }
 
                         } else {
-                            Log.d("RadioItemCheck","click");
+                            Log.d("RadioItemCheck", "click");
                             binding.radioButton.setChecked(true);
                             radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
+
+                            if (listener != null && item.isRequired()) {
+                                listener.onGetItemCount(item, 1);
+                            }
                         }
                     }
                 });
@@ -130,5 +159,9 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
         public void onClick(View view) {
 
         }
+    }
+
+    public interface ItemCountListener {
+        void onGetItemCount(CrossSellingProductsItem item, int count);
     }
 }

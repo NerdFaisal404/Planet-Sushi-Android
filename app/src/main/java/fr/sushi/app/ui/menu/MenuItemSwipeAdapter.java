@@ -29,6 +29,7 @@ import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
@@ -305,6 +306,11 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Cross selling part
 
         List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();
+
+        boolean isItemRequired = false;
+        int requireCount = 0;
+        final int[] tempRequireCount = {0};
+
         if (CommonUtility.currentMenuResponse != null) {
             List<CrossSellingCategoriesItem> crossSellingCategories = CommonUtility.currentMenuResponse.getResponse().getCrossSellingCategories();
             Log.d("CrossCategoryTest", "Cross list" + crossSellingCategories.size());
@@ -313,12 +319,32 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                     for (CrossSellingProductsItem product : categoriesItem.getProducts()) {
                         if (product.getIdCategory().equals(String.valueOf(crossSellingItem.getIdCategory()))) {
                             product.setMaxCount(crossSellingItem.getQuantityMax());
+                            product.setFree(crossSellingItem.getIsFree() == 1);
+                            product.setRequired(crossSellingItem.getIsRequired() == 1);
+                            Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
+                            if (!isItemRequired) {
+                                isItemRequired = product.isRequired();
+                            }
+                            if (product.isRequired()) {
+                                requireCount += product.getMaxCount();
+                            }
+
+                            product.setDescription(crossSellingItem.getDescription());
                             crossSellingProductsItemList.add(product);
-                            Log.d("CrossCategoryTest", "item list: " + product.toString());
                         }
                     }
                 }
             }
+        }
+
+        Log.w("CrossCategoryTest", "require count : " + requireCount);
+
+        if (isItemRequired) {
+            // Button will be disable
+            adjustLayout.setEnabled(false);
+        } else {
+            //button will be enable
+            adjustLayout.setEnabled(true);
         }
 
         CrossSellingAdapter crossAdapter = new CrossSellingAdapter();
@@ -337,6 +363,15 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         getSectionCallback(crossSellingProductsItemList));
 
         recyclerView.addItemDecoration(sectionItemDecoration);
+        int finalRequireCount = requireCount;
+        crossAdapter.setItemCountListener((item1, count) -> {
+            tempRequireCount[0] += count;
+            if (tempRequireCount[0] == finalRequireCount) {
+                adjustLayout.setEnabled(true);
+            } else {
+                adjustLayout.setEnabled(false);
+            }
+        });
 
 
         // Cross part end
@@ -411,7 +446,6 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     return false;
                 }
-
             }
 
             @Override
@@ -428,7 +462,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             public String getSectionSubHeader(int position) {
                 if (position >= 0) {
                     return item.get(position)
-                            .getDescriptionShort();
+                            .getDescription();
                 } else {
                     return "";
                 }
