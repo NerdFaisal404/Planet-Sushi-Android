@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
@@ -247,7 +248,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         @Override
         public void onItemClick(ProductsItem item, ImageView imageView) {
             imageView.setVisibility(View.VISIBLE);
-            MenuPrefUtil.saveItem(item);
+            //MenuPrefUtil.saveItem(item);
+            DBManager.on().saveProductItem(item);
             showBottomView();
             new CircleAnimationUtil().attachActivity(MenuDetailsActivity.this)
                     .setTargetView(imageView)
@@ -285,14 +287,16 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         @Override
         public void onItemDeselect(ProductsItem item) {
-            MenuPrefUtil.removeItem(item);
+            //MenuPrefUtil.removeItem(item);
+            DBManager.on().removeProduct(item);
             showBottomView();
         }
     };
 
 
     private void showBottomView(){
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
 
         if(selectedProducts.isEmpty()){
             binding.priceLayout.setVisibility(View.GONE);
@@ -304,7 +308,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     }
 
     private List<String> getSelectedItemIds() {
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
         List<String> list = new ArrayList<>();
         for(MyCartProduct item : selectedProducts){
             list.add(item.getProductId());

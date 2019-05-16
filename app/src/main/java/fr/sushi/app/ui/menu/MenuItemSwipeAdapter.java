@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
@@ -274,7 +275,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> {
-            MenuPrefUtil.saveItem(item, count);
+            DBManager.on().saveProductItem(item, count);
             dialog.dismiss();
         });
 
@@ -420,7 +421,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
         adjustLayout.setOnClickListener(v -> {
             // What is this
-            MenuPrefUtil.saveItem(item, count);
+            DBManager.on().saveProductItem(item, count);
 
             if (!crossAdapter.selectedItemList.isEmpty()) {
                 Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());

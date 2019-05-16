@@ -16,7 +16,7 @@ public class MenuPrefUtil {
 
     public static void saveItem(ProductsItem item, int count){
         for(int i = 0; i < count; i++){
-            saveItem(item);
+            //saveItem(item);
         }
     }
 

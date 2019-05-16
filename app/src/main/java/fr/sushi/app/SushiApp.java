@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 import java.util.Stack;
 
 import fr.sushi.app.data.local.SharedPref;
-import fr.sushi.app.ui.objectbox.MyObjectBox;
+import fr.sushi.app.ui.MyObjectBox;
 import io.objectbox.BoxStore;
 import timber.log.Timber;
 
@@ -43,7 +43,7 @@ public class SushiApp extends MultiDexApplication implements Application.Activit
         activityStack = new Stack<>();
        // LebonbonFontSetting.getInstance(this);
         SharedPref.on(getApplicationContext());
-        //boxStore = MyObjectBox.builder().androidContext(this).build();
+        boxStore = MyObjectBox.builder().androidContext(this).build();
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
