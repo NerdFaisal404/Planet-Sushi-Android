@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/dp16"
-        android:background="@drawable/ic_home_background"
+        android:background="@drawable/bg_home_image"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -60,7 +60,7 @@
                 android:layout_marginRight="@dimen/dp16"
                 android:layout_marginBottom="@dimen/dp20"
                 app:stpi_circleColor="@color/colorDarkGrey"
-                app:stpi_circleRadius="@dimen/dp5"
+                app:stpi_circleRadius="@dimen/dp7"
                 app:stpi_indicatorColor="@color/colorPink"
                 app:stpi_indicatorRadius="@dimen/dp5"
                 app:stpi_lineColor="@color/colorWhite"
