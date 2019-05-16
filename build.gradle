@@ -12,11 +12,11 @@ buildscript {
         buildToolsVersion = '28.0.3'
         supportLibVersion = '28.0.0'
         constantLayout = '1.1.3'
-        glide = '4.8.0'
+        glide = '4.9.0'
         glideTransform = '2.0.2'
 
         rxJavaVersion = '2.2.2'
-        rxAndroidVersion = '2.1.0'
+        rxAndroidVersion = '2.1.1'
         retrofit_version = '2.4.0'
 
         multidexVersion = '1.0.3'
