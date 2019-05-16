@@ -11,6 +11,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -28,9 +29,14 @@ public class PicassoUtil {
         Picasso.get().load(path).networkPolicy(NetworkPolicy.NO_CACHE).fetch(new Callback(){
             @Override
             public void onSuccess() {
-                imageView.setAlpha(0f);
+                //imageView.setAlpha(0f);
                 Picasso.get().load(path).into(imageView);
-                imageView.animate().setDuration(1000).alpha(1f).start();
+                //imageView.animate().setDuration(1000).alpha(1f).start();
+                ViewAnimator
+                        .animate(imageView)
+                        .fadeIn()
+                        .duration(2000)
+                        .start();
             }
 
             @Override
