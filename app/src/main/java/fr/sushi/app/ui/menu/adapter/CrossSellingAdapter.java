@@ -2,13 +2,19 @@ package fr.sushi.app.ui.menu.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
@@ -16,6 +22,7 @@ import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.databinding.ItemCrossSellingMenuBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
+import fr.sushi.app.util.Utils;
 /*
  *  ****************************************************************************
  *  * Created by : Md Tariqul Islam on 5/15/2019 at 11:34 AM.
@@ -33,7 +40,10 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
     private HashMap<String, RadioButton> radioButtonCheckList = new HashMap<>();
+    private HashMap<String, CrossSellingProductsItem> radioSelectedItemList = new HashMap<>();
     private ItemCountListener listener;
+
+    public List<CrossSellingProductsItem> selectedItemList = new ArrayList<>();
 
     @Override
     public boolean isEqual(CrossSellingProductsItem left, CrossSellingProductsItem right) {
@@ -75,7 +85,12 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                     binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
                 }
 
-                binding.textViewCheckItem.setText(item.getName());
+                // binding.textViewCheckItem.setText(item.getName());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    binding.textViewCheckItem.setText(Html.fromHtml(getColorText(item.getName()), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                } else {
+                    binding.textViewCheckItem.setText(Html.fromHtml(getColorText(item.getName())), TextView.BufferType.SPANNABLE);
+                }
 
                 binding.checkItem.setOnClickListener(v -> {
 
@@ -90,11 +105,15 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                                 listener.onGetItemCount(item, 1);
                             }
                         }
+
+                        selectedItemList.add(item);
                     }
                 });
 
                 binding.imageViewDelete.setOnClickListener(v -> {
                     item.setItemClickCount(item.getItemClickCount() - 1);
+
+                    selectedItemList.remove(item);
 
                     if (item.getItemClickCount() >= 1) {
                         binding.emptyCheck.setVisibility(View.INVISIBLE);
@@ -118,7 +137,13 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 binding.radioItem.setVisibility(View.VISIBLE);
                 binding.checkItem.setVisibility(View.GONE);
 
-                binding.textViewRadioItem.setText(item.getName());
+                //binding.textViewRadioItem.setText(item.getName());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    binding.textViewRadioItem.setText(Html.fromHtml(getColorText(item.getName()), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                } else {
+                    binding.textViewRadioItem.setText(Html.fromHtml(getColorText(item.getName())), TextView.BufferType.SPANNABLE);
+                }
+
                 binding.textViewPrice.setText(item.getPriceHt() + "€");
 
                 binding.radioItem.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +157,9 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                                 binding.radioButton.setChecked(false);
                                 radioButtonCheckList.remove(item.getCategoryName());
 
+                                selectedItemList.remove(item);
+                                radioSelectedItemList.remove(item.getCategoryName());
+
                                 if (listener != null && item.isRequired()) {
                                     listener.onGetItemCount(item, -1);
                                 }
@@ -139,11 +167,19 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                                 binding.radioButton.setChecked(true);
                                 rdBtn.setChecked(false);
                                 radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
+
+                                CrossSellingProductsItem prevItem = radioSelectedItemList.get(item.getCategoryName());
+                                selectedItemList.remove(prevItem);
+                                selectedItemList.add(item);
+                                radioSelectedItemList.put(item.getCategoryName(), item);
                             }
 
                         } else {
                             binding.radioButton.setChecked(true);
                             radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
+
+                            radioSelectedItemList.put(item.getCategoryName(), item);
+                            selectedItemList.add(item);
 
                             if (listener != null && item.isRequired()) {
                                 listener.onGetItemCount(item, 1);
@@ -157,6 +193,24 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
         @Override
         public void onClick(View view) {
 
+        }
+
+        private String getColorText(String text) {
+            String[] t = text.split("\\s");
+            if (t.length > 0) {
+                String value = null;
+                for (int i = 0; i < t.length; i++) {
+                    if (i == t.length - 1) {
+                        value += "<font color=#EA148A>" + t[i] + " " + "</font>";
+                    } else {
+                        value += "<font font color=#394F61>" + t[i] + " " + "</font>";
+                    }
+                }
+                return value;
+
+            } else {
+                return text;
+            }
         }
     }
 
