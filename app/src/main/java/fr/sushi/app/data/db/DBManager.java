@@ -46,13 +46,10 @@ public class DBManager {
     }
 
     public void removeProduct(ProductsItem item){
-        MyCartProduct existItem = productBox.query()
+        productBox.query()
                 .equal(MyCartProduct_.productId, item.getIdProduct())
                 .build()
-                .findFirst();
-        if(existItem != null){
-            productBox.remove(existItem);
-        }
+                .remove();
     }
 
     public List<MyCartProduct> getAllProducts(){
