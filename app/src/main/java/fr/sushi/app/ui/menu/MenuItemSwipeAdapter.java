@@ -419,7 +419,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
         adjustLayout.setOnClickListener(v -> {
+            // What is this
             MenuPrefUtil.saveItem(item, count);
+
+            if (!crossAdapter.selectedItemList.isEmpty()) {
+                Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
+            }
             crossSellingBottomSheet.dismiss();
         });
 
