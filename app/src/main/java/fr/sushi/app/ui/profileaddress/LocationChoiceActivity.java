@@ -103,6 +103,7 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
                                 String zipCode = addresses.get(0).getPostalCode();
                                 String city = addresses.get(0).getLocality();
                                 String address = addresses.get(0).getThoroughfare();
+                                String featureName = addresses.get(0).getFeatureName();
                                 Log.e("Place_cliec", "code =" + zipCode);
                                 Log.e("Place_cliec", "city =" + city);
                                 Log.e("Place_cliec", "address =" + address);
@@ -110,12 +111,12 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
                                 if (isFromAdd) {
                                     Intent intent = new Intent(LocationChoiceActivity.this, AddressAddActivity.class);
                                     intent.putExtra(IntentKey.KEY_IS_CREATE_ADDRESS, true);
-                                    intent.putExtra(IntentKey.ADDRESS, address);
+                                    intent.putExtra(IntentKey.ADDRESS, featureName + " " + address);
                                     intent.putExtra(IntentKey.CITY, city);
                                     intent.putExtra(IntentKey.ZIP_CODE, zipCode);
                                     startActivity(intent);
                                 } else {
-                                    CommonUtility.LOCATION = address;
+                                    CommonUtility.LOCATION = featureName + " " + address;
                                     CommonUtility.CITY = city;
                                     CommonUtility.ZIP_CODE = zipCode;
                                 }
