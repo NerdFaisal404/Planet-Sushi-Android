@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class HomeFragment extends BaseFragment {
     private String imageBaseUrl;
     private List<HomeSlidesItem> homeSlidesItemList;
 
-    private  List<SearchPlace> recentSearchPlace;
+    private List<SearchPlace> recentSearchPlace;
 
     private List<CategoriesItem> categoriesItems = new ArrayList<>();
 
@@ -94,8 +95,7 @@ public class HomeFragment extends BaseFragment {
         observeData();
 
         initListener();
-
-
+        applyAnimation();
     }
 
     @Override
@@ -112,40 +112,39 @@ public class HomeFragment extends BaseFragment {
 
         recentSearchPlace = PlaceUtil.getSearchPlace();
 
-        if(!recentSearchPlace.isEmpty()){
+        if (!recentSearchPlace.isEmpty()) {
 
-            if(recentSearchPlace.size() == 1){
+            if (recentSearchPlace.size() == 1) {
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.GONE);
                 binding.viewSingle.setVisibility(View.GONE);
 
                 SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
+                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
 
-            }else {
+            } else {
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.VISIBLE);
                 binding.viewSingle.setVisibility(View.VISIBLE);
 
                 SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
+                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
 
 
-
                 SearchPlace place2 = recentSearchPlace.get(1);
-                if (place.getAddress().equalsIgnoreCase(place2.getAddress())){
+                if (place.getAddress().equalsIgnoreCase(place2.getAddress())) {
                     binding.viewSingle.setVisibility(View.GONE);
                     binding.addressOneTwo.setVisibility(View.GONE);
-                }else {
-                    binding.recentAddrTvTwo.setText(place2.getPostalCode()+" "+place2.getCity());
+                } else {
+                    binding.recentAddrTvTwo.setText(place2.getPostalCode() + " " + place2.getCity());
                     binding.tvAddresTwoText.setText(place2.getAddress());
                 }
 
 
             }
-        }else {
+        } else {
             binding.addressOne.setVisibility(View.GONE);
             binding.viewSingle.setVisibility(View.GONE);
             binding.addressOneTwo.setVisibility(View.GONE);
@@ -247,6 +246,14 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    private void applyAnimation() {
+        ViewAnimator
+                .animate(binding.tvDelivery)
+                .slideBottomIn()
+                .duration(1000)
+                .start();
+    }
+
     private void showImageWithDelay() {
 
         if (homeSlidesItemList == null) return;
@@ -313,7 +320,6 @@ public class HomeFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
-
 
 
     private void showBottomSheet() {
