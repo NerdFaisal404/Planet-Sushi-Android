@@ -142,7 +142,6 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                             }
 
                         } else {
-                            Log.d("RadioItemCheck", "click");
                             binding.radioButton.setChecked(true);
                             radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
 

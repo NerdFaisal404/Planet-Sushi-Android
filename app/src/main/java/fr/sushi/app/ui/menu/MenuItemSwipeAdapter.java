@@ -337,8 +337,6 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
-        Log.w("CrossCategoryTest", "require count : " + requireCount);
-
         if (isItemRequired) {
             // Button will be disable
             adjustLayout.setEnabled(false);
