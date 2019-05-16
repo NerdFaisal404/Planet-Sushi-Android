@@ -158,6 +158,8 @@
                 android:textSize="@dimen/sp17" />
             <View
                 android:layout_width="2dp"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp16"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"/>
 
