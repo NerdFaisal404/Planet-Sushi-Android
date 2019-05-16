@@ -202,7 +202,6 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 for (int i = 0; i < t.length; i++) {
                     if (i == t.length - 1) {
                         value += "<font color=#EA148A>" + t[i] + " " + "</font>";
-                        // binding.itemName.append(Utils.getColoredString(title[i], ContextCompat.getColor(mContext, R.color.color_darker_gray)));
                     } else {
                         value += "<font font color=#394F61>" + t[i] + " " + "</font>";
                     }

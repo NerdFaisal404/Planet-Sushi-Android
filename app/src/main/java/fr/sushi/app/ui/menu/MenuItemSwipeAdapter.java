@@ -424,6 +424,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (!crossAdapter.selectedItemList.isEmpty()) {
                 Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
+                // here we can add price
             }
             crossSellingBottomSheet.dismiss();
         });
