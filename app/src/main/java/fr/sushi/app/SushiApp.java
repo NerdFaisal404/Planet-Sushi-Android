@@ -12,6 +12,7 @@ import java.util.Stack;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.ui.objectbox.MyObjectBox;
 import io.objectbox.BoxStore;
+import timber.log.Timber;
 
 public class SushiApp extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
 
@@ -43,7 +44,9 @@ public class SushiApp extends MultiDexApplication implements Application.Activit
        // LebonbonFontSetting.getInstance(this);
         SharedPref.on(getApplicationContext());
         //boxStore = MyObjectBox.builder().androidContext(this).build();
-
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     public static Context getContext(){

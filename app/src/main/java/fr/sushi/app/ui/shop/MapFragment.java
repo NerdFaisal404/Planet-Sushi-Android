@@ -2,8 +2,10 @@ package fr.sushi.app.ui.shop;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -46,6 +48,7 @@ import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FragmentMapBinding;
 import fr.sushi.app.databinding.ListEachRowShopsBinding;
+import fr.sushi.app.misc.Constants;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.shop.map.DataListener;
 import fr.sushi.app.ui.shop.map.GetNearbyPlacesData;
@@ -55,6 +58,9 @@ import fr.sushi.app.util.PermissionUtil;
 import fr.sushi.app.util.Utils;
 
 public class MapFragment extends BaseFragment implements OnMapReadyCallback {
+
+    private static final int REQUEST_ADDRESS = 201;
+
     private FragmentMapBinding binding;
     private GoogleMap mGoogleMap;
     private Location mLastLocation;
@@ -80,7 +86,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         observeData();
 
         binding.etSearchContacts.setOnClickListener(v -> {
-            getActivity().startActivity(new Intent(getActivity(), MapAutoCompletePlaceActivity.class));
+            startActivityForResult(new Intent(getContext(), MapAutoCompletePlaceActivity.class), REQUEST_ADDRESS);
         });
     }
 
@@ -94,6 +100,23 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     @Override
     protected void stopUI() {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQUEST_ADDRESS != requestCode) {
+            return;
+        }
+
+        if (resultCode == Activity.RESULT_OK) {
+            double latitude = data.getDoubleExtra(Constants.LATITUDE, 0);
+            double longitude = data.getDoubleExtra(Constants.LONGITUDE, 0);
+            gotoLocation(latitude, longitude);
+        } else {
+            //todo error message to user
+
+        }
     }
 
     @Override
@@ -217,14 +240,27 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.viewpager.setPadding(20, 0, 80, 0);
     }
 
-    private void gotoSelectedLocation(int index) {
-        ResponseItem item = mapItemList.get(index);
-
+    private void gotoLocation(double latitude, double longitude) {
+        addMarker(latitude, longitude);
         float zoom = mGoogleMap.getCameraPosition().zoom;
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(item.getLat(), item.getLng()), zoom);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
         mGoogleMap.animateCamera(update);
     }
 
+    private void addMarker(double latitude, double longitude) {
+        LatLng latLng = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        //markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
+        mGoogleMap.addMarker(markerOptions);
+
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+    }
+
+
+    /* Pager for bottom location card according to map marker */
     private int currentPage;
 
     private class PageListener extends ViewPager.SimpleOnPageChangeListener {
@@ -235,7 +271,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             } else {
                 binding.viewpager.setPadding(80, 0, 80, 0);
             }
-            gotoSelectedLocation(position);
+            ResponseItem item = mapItemList.get(currentPage);
+            gotoLocation(item.getLat(), item.getLng());
             Log.e("Selected_page", "Page no =" + position);
         }
     }

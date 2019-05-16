@@ -404,4 +404,8 @@ public class Utils {
         String formatted = df.format(distance);
         return formatted + unit;
     }
+
+    public static boolean hasMarshmallow() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
 }
