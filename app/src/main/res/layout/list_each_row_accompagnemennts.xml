@@ -23,6 +23,7 @@
 
 
             <LinearLayout
+                android:layout_toLeftOf="@+id/layoutRight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -47,17 +48,19 @@
                     android:id="@+id/tvPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GRATUIT !"
+                    android:text="0,000 €"
                     android:textColor="#627588"
                     android:textSize="@dimen/sp13" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:layout_marginEnd="@dimen/dp16"
                 android:orientation="horizontal">
 
@@ -71,12 +74,12 @@
                     android:id="@+id/tvCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/dp5"
-                    android:layout_marginEnd="@dimen/dp5"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/dp7"
+                    android:layout_marginEnd="@dimen/dp7"
                     android:text="0"
-                    android:textSize="@dimen/sp18"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/sp20" />
 
                 <ImageView
                     android:id="@+id/imgViewPlus"
@@ -93,6 +96,7 @@
             android:layout_height="@dimen/dp_one"
             android:layout_below="@+id/rlEachCellAccompagnements"
             android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
             android:layout_marginTop="@dimen/dp5"
             android:layout_marginBottom="@dimen/dp5"
             android:background="@color/colorDivider" />

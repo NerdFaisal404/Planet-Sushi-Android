@@ -27,6 +27,7 @@ import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
@@ -205,7 +206,7 @@ public class HomeFragment extends BaseFragment {
         mHomeViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
             categoriesItems = foodMenuResponse.getResponse().getCategories();
-
+            CommonUtility.currentMenuResponse = foodMenuResponse;
             DataCacheUtil.addCategoryItemInCache(categoriesItems);
         });
 

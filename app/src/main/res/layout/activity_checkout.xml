@@ -6,6 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp16"
         android:background="@drawable/ic_home_background"
         android:orientation="vertical">
 
@@ -137,12 +138,13 @@
         <LinearLayout
             android:id="@+id/layoutBottomCheckout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
+            android:layout_margin="@dimen/dp16"
             android:background="@drawable/bg_pink_round"
-            android:weightSum="2"
-            android:padding="@dimen/dp16">
+            android:weightSum="2">
+
             <TextView
                 android:id="@+id/total_price_tv"
                 android:layout_width="match_parent"
@@ -150,7 +152,8 @@
                 android:fontFamily="@font/roboto_bold"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="SUIVANT"
+                android:text="0,000 €"
+                android:layout_gravity="right"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
             <View
@@ -166,6 +169,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="SUIVANT"
+                android:paddingRight="@dimen/dp10"
+                android:drawableRight="@drawable/ic_white_rightt_arrow"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
 

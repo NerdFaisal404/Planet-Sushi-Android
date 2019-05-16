@@ -29,7 +29,7 @@
     <dimen name="defaultItemHeight">100dp</dimen>
     <dimen name="featuredItemHeight">200dp</dimen>
     <dimen name="dp18">18dp</dimen>
-    <dimen name="dp24">24sp</dimen>
+    <dimen name="dp24">24dp</dimen>
     <dimen name="sp15">15sp</dimen>
     <dimen name="dp4">4dp</dimen>
     <dimen name="left_padding">32dp</dimen>
