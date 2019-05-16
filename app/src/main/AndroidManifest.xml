@@ -80,6 +80,7 @@
             android:configChanges="locale"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:theme="@style/ThemeMain"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
