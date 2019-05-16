@@ -160,9 +160,14 @@ public class CrossSellingProductsItem {
     @SerializedName("active_up_selling")
     private int activeUpSelling;
 
+    // below item for cross selling adapter
     private int maxCount;
 
     int itemClickCount;
+
+    boolean isFree;
+
+    boolean isRequired;
 
     public void setActiveSaucePicture(boolean activeSaucePicture) {
         this.activeSaucePicture = activeSaucePicture;
@@ -594,6 +599,22 @@ public class CrossSellingProductsItem {
 
     public void setItemClickCount(int itemClickCount) {
         this.itemClickCount = itemClickCount;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
+    public boolean isRequired() {
+        return isRequired;
+    }
+
+    public void setRequired(boolean required) {
+        isRequired = required;
     }
 
     @Override
