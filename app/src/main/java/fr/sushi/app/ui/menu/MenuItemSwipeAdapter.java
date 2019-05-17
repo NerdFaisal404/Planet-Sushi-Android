@@ -308,7 +308,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Cross selling part
 
         List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();
-        Map<String, Integer> crossSellingItemRequiredList = new HashMap<>();
+        Map<String, String> crossSellingItemRequiredList = new HashMap<>();
 
         boolean isItemRequired = false;
         int requireCount = 0;
@@ -326,7 +326,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             product.setRequired(crossSellingItem.getIsRequired() == 1);
 
                             if (product.isRequired()) {
-                                crossSellingItemRequiredList.put(product.getCategoryName(), product.getMaxCount());
+                                crossSellingItemRequiredList.put(product.getCategoryName(), String.valueOf(product.getMaxCount()));
                             }
                             Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
                             if (!isItemRequired) {
@@ -342,7 +342,9 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         for (String key : crossSellingItemRequiredList.keySet()) {
-            requireCount += crossSellingItemRequiredList.get(key);
+            String a = crossSellingItemRequiredList.get(key);
+            int b = a == null ? 0 : Integer.parseInt(a);
+            requireCount += b;
         }
 
         if (isItemRequired) {

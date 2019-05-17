@@ -43,14 +43,14 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
     private HashMap<String, RadioButton> radioButtonCheckList = new HashMap<>();
     private HashMap<String, CrossSellingProductsItem> radioSelectedItemList = new HashMap<>();
-    private Map<String, Integer> crossSellingItemRequiredList;
+    private Map<String, String> crossSellingItemRequiredList;
     private Map<String, String> crossSellingItemClickedList = new HashMap<>();
     private ItemCountListener listener;
     private int totalCount;
 
     public List<CrossSellingProductsItem> selectedItemList = new ArrayList<>();
 
-    public CrossSellingAdapter(Map<String, Integer> crossSellingItemRequiredList) {
+    public CrossSellingAdapter(Map<String, String> crossSellingItemRequiredList) {
         this.crossSellingItemRequiredList = new HashMap<>();
         this.crossSellingItemRequiredList = crossSellingItemRequiredList;
     }
@@ -118,7 +118,8 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 }
 
                 binding.checkItem.setOnClickListener(v -> {
-                    int maxCount = crossSellingItemRequiredList.get(item.getCategoryName());
+                    String mc = crossSellingItemRequiredList.get(item.getCategoryName());
+                    int maxCount = mc == null ? 0 : Integer.parseInt(mc);
                     String tc = crossSellingItemClickedList.get(item.getCategoryName());
                     int totalCount = tc == null ? 0 : Integer.parseInt(tc);
 
