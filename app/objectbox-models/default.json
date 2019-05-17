@@ -22,9 +22,41 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:6680074488922381203",
+      "lastPropertyId": "6:7841651023163325045",
+      "name": "CrossSellingSelectedItem",
+      "properties": [
+        {
+          "id": "1:966638460728212224",
+          "name": "id"
+        },
+        {
+          "id": "2:8926171687097090953",
+          "name": "mainProductId"
+        },
+        {
+          "id": "3:2713218507904229831",
+          "name": "productId"
+        },
+        {
+          "id": "4:2247437225717599329",
+          "name": "productCount"
+        },
+        {
+          "id": "5:6922115203990125317",
+          "name": "productName"
+        },
+        {
+          "id": "6:7841651023163325045",
+          "name": "productPrice"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:751976028001362151",
+  "lastEntityId": "2:6680074488922381203",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -21,7 +21,9 @@ import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.helper.CommonUtility;
@@ -306,6 +308,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Cross selling part
 
         List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();
+        Map<String, Integer> crossSellingItemRequiredList = new HashMap<>();
 
         boolean isItemRequired = false;
         int requireCount = 0;
@@ -321,12 +324,13 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             product.setMaxCount(crossSellingItem.getQuantityMax());
                             product.setFree(crossSellingItem.getIsFree() == 1);
                             product.setRequired(crossSellingItem.getIsRequired() == 1);
+
+                            if (product.isRequired()) {
+                                crossSellingItemRequiredList.put(product.getCategoryName(), product.getMaxCount());
+                            }
                             Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
                             if (!isItemRequired) {
                                 isItemRequired = product.isRequired();
-                            }
-                            if (product.isRequired()) {
-                                requireCount += product.getMaxCount();
                             }
 
                             product.setDescription(crossSellingItem.getDescription());
@@ -337,6 +341,10 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        for (String key : crossSellingItemRequiredList.keySet()) {
+            requireCount += crossSellingItemRequiredList.get(key);
+        }
+
         if (isItemRequired) {
             // Button will be disable
             adjustLayout.setEnabled(false);
@@ -345,7 +353,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             adjustLayout.setEnabled(true);
         }
 
-        CrossSellingAdapter crossAdapter = new CrossSellingAdapter();
+        CrossSellingAdapter crossAdapter = new CrossSellingAdapter(crossSellingItemRequiredList);
 
         RecyclerView recyclerView = bottomSheet.findViewById(R.id.rc_cross_selling);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));

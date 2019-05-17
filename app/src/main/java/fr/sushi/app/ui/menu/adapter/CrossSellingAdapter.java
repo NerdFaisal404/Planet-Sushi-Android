@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
@@ -41,9 +43,17 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
     private HashMap<String, RadioButton> radioButtonCheckList = new HashMap<>();
     private HashMap<String, CrossSellingProductsItem> radioSelectedItemList = new HashMap<>();
+    private Map<String, Integer> crossSellingItemRequiredList;
+    private Map<String, String> crossSellingItemClickedList = new HashMap<>();
     private ItemCountListener listener;
+    private int totalCount;
 
     public List<CrossSellingProductsItem> selectedItemList = new ArrayList<>();
+
+    public CrossSellingAdapter(Map<String, Integer> crossSellingItemRequiredList) {
+        this.crossSellingItemRequiredList = new HashMap<>();
+        this.crossSellingItemRequiredList = crossSellingItemRequiredList;
+    }
 
     @Override
     public boolean isEqual(CrossSellingProductsItem left, CrossSellingProductsItem right) {
@@ -93,12 +103,18 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 }
 
                 binding.checkItem.setOnClickListener(v -> {
+                    int maxCount = crossSellingItemRequiredList.get(item.getCategoryName());
+                    String tc = crossSellingItemClickedList.get(item.getCategoryName());
+                    int totalCount = tc == null ? 0 : Integer.parseInt(tc);
 
-                    if (item.getMaxCount() != item.getItemClickCount()) {
+                    if (maxCount != totalCount) {
                         item.setItemClickCount(item.getItemClickCount() + 1);
                         binding.emptyCheck.setVisibility(View.INVISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
+
+                        totalCount++;
+                        crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(totalCount));
 
                         if (listener != null) {
                             if (item.isRequired()) {
@@ -112,6 +128,11 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
                 binding.imageViewDelete.setOnClickListener(v -> {
                     item.setItemClickCount(item.getItemClickCount() - 1);
+
+                    String tc = crossSellingItemClickedList.get(item.getCategoryName());
+                    int totalCount = tc == null ? 0 : Integer.parseInt(tc);
+                    totalCount--;
+                    crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(totalCount));
 
                     selectedItemList.remove(item);
 
@@ -127,6 +148,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                         }
 
                     } else {
+                        crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(0));
                         item.setItemClickCount(0);
                         binding.emptyCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
