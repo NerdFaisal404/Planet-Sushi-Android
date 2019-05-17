@@ -100,14 +100,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrow"
+                    android:layout_toLeftOf="@+id/tvTime"
                     android:layout_toRightOf="@+id/ivDelivery"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
                     android:text="Livraison prévue pour 21h30"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
+                    android:textSize="@dimen/sp14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTime"
+                    android:text="16h45"
+                    android:textColor="#394F61"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/ivDownArrow"
+                    />
+
+
 
                 <ImageView
                     android:id="@+id/ivDownArrow"
@@ -126,90 +139,185 @@
                 android:layout_marginTop="@dimen/dp10"
                 android:background="#D8D8D8" />
 
+
             <RelativeLayout
                 android:id="@+id/layoutCardTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:layout_marginTop="@dimen/dp10">
 
-
                 <TextView
+                    android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tvChanger"
-                    android:ellipsize="end"
+                    android:layout_marginTop="@dimen/dp30"
                     android:fontFamily="@font/roboto_medium"
-                    android:singleLine="true"
-                    android:text="Paiement par carte"
+                    android:text="Choisir une méthode de paiement"
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp16" />
 
+                    <RelativeLayout
+                        android:id="@+id/layoutPaymentOption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTitle"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/dp10">
+
+                        <ImageView
+                            android:id="@+id/ivPaymentOption"
+                            android:layout_width="21dp"
+                            android:layout_height="@dimen/dp15"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:src="@drawable/ic_card" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp10"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:layout_toLeftOf="@+id/ivDownArrowCard"
+                            android:layout_toRightOf="@+id/ivPaymentOption"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/tvPaymentOptionTitle"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/dp10"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Visa"
+                                android:textColor="@color/color_394F61"
+                                android:textSize="@dimen/sp15" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tvPaymentOptionBody"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/dp10"
+                                android:fontFamily="@font/robot_regular"
+                                android:text="Terminant par ••••7658 "
+                                android:textColor="#627588"
+                                android:textSize="@dimen/sp15" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivDownArrowCard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp10"
+                            android:src="@drawable/ic_down_arrow" />
+
+                    </RelativeLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layoutCarteBancaire"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp20">
+
+
                 <TextView
-                    android:id="@+id/tvChanger"
+                    android:id="@+id/tvCarteBancaire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ivDownArrowCarteBacaire"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/robot_regular"
+                    android:singleLine="true"
+                    android:text="Carte bancaire"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:id="@+id/ivDownArrowCarteBacaire"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp10"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Changer"
-                    android:textColor="@color/colorPink"
-                    android:textSize="@dimen/sp16" />
+                    android:src="@drawable/ic_down_arrow" />
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="#D8D8D8" />
 
             <RelativeLayout
-                android:id="@+id/layoutCard"
+                android:id="@+id/layoutCarteBancaireAuLivreur"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10">
 
-                <ImageView
-                    android:id="@+id/ivCardIcon"
-                    android:layout_width="21dp"
-                    android:layout_height="@dimen/dp15"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp10"
-                    android:src="@drawable/ic_card" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvCarteBancaireBancaireAuLivreur"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/robot_regular"
+                    android:singleLine="true"
+                    android:text="Carte bancaire au livreur"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16" />
+
+                <ImageView
+                    android:id="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp10"
-                    android:layout_marginRight="@dimen/dp10"
-                    android:layout_toLeftOf="@+id/ivDownArrowCard"
-                    android:layout_toRightOf="@+id/ivCardIcon"
-                    android:orientation="vertical">
+                    android:src="@drawable/ic_down_arrow" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="#D8D8D8" />
+
+            <RelativeLayout
+                android:id="@+id/layoutTicketRestaurant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10">
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp10"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Visa"
-                        android:textColor="@color/color_394F61"
-                        android:textSize="@dimen/sp15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp10"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="Terminant par ••••7658 "
-                        android:textColor="#627588"
-                        android:textSize="@dimen/sp15" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvTicketRestaurant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/ivDownArrowTicketRestaurant"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/robot_regular"
+                    android:singleLine="true"
+                    android:text="Espèce/Ticket restaurant"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16" />
 
                 <ImageView
-                    android:id="@+id/ivDownArrowCard"
+                    android:id="@+id/ivDownArrowTicketRestaurant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -226,6 +334,7 @@
                 android:background="#D8D8D8" />
 
         </LinearLayout>
+
     </ScrollView>
 
 
