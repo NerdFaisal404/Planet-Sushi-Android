@@ -14,14 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.databinding.ActivityCheckoutBinding;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.util.Utils;
 
 public class CheckoutActivity extends AppCompatActivity {
     private ActivityCheckoutBinding binding;
     private PagerAdapter pagerAdapter;
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
+
+    private double totalPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,8 @@ public class CheckoutActivity extends AppCompatActivity {
         binding.tvStepTwo.setOnClickListener(v -> binding.viewpager.setCurrentItem(1));
         binding.tvStepThree.setOnClickListener(v -> binding.viewpager.setCurrentItem(2));
 
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
 
         if (selectedProducts.size() < 1) {
             binding.viewpager.setVisibility(View.GONE);
@@ -62,5 +68,14 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+    }
+
+    public void setPriceWithSideProducts(double priceSideProducts) {
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
     }
 }

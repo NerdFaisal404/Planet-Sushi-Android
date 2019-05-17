@@ -6,7 +6,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_home_background"
+        android:paddingBottom="@dimen/dp16"
+        android:background="@drawable/bg_home_image"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -59,7 +60,7 @@
                 android:layout_marginRight="@dimen/dp16"
                 android:layout_marginBottom="@dimen/dp20"
                 app:stpi_circleColor="@color/colorDarkGrey"
-                app:stpi_circleRadius="@dimen/dp5"
+                app:stpi_circleRadius="@dimen/dp7"
                 app:stpi_indicatorColor="@color/colorPink"
                 app:stpi_indicatorRadius="@dimen/dp5"
                 app:stpi_lineColor="@color/colorWhite"
@@ -137,18 +138,41 @@
         <LinearLayout
             android:id="@+id/layoutBottomCheckout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:layout_alignParentBottom="true"
-            android:padding="@dimen/dp16">
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/dp16"
+            android:background="@drawable/bg_pink_round"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/total_price_tv"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:fontFamily="@font/roboto_bold"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0,000 €"
+                android:layout_gravity="right"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp17" />
+            <View
+                android:layout_width="2dp"
+                android:layout_marginTop="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp16"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"/>
 
             <TextView
                 android:id="@+id/tvSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:background="@drawable/bg_pink_round"
                 android:fontFamily="@font/roboto_bold"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="SUIVANT"
+                android:paddingRight="@dimen/dp10"
+                android:drawableRight="@drawable/ic_white_rightt_arrow"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
 

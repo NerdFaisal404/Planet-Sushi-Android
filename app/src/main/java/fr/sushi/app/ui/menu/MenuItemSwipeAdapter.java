@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
@@ -33,6 +35,7 @@ import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -276,7 +279,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> {
-            MenuPrefUtil.saveItem(item, count);
+            DBManager.on().saveProductItem(item, count);
             dialog.dismiss();
         });
 
@@ -287,6 +290,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private void isActiveCrossSelling(ProductsItem item) {
+        Log.w("ProductIdList", "id: " + item.getIdProduct());
         count = 1;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
@@ -321,6 +325,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 for (CrossSellingItem crossSellingItem : item.getCrossSelling()) {
                     for (CrossSellingProductsItem product : categoriesItem.getProducts()) {
                         if (product.getIdCategory().equals(String.valueOf(crossSellingItem.getIdCategory()))) {
+                            product.setItemClickCount(0);
                             product.setMaxCount(crossSellingItem.getQuantityMax());
                             product.setFree(crossSellingItem.getIsFree() == 1);
                             product.setRequired(crossSellingItem.getIsRequired() == 1);
@@ -353,6 +358,19 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             //button will be enable
             adjustLayout.setEnabled(true);
+        }
+
+        List<CrossSellingSelectedItem> selectedItemList = DBManager.on().getCrossSellingItemById(item.getIdProduct());
+
+        if (selectedItemList != null && !selectedItemList.isEmpty()) {
+            for (CrossSellingSelectedItem selectedItem : selectedItemList) {
+                for (CrossSellingProductsItem productsItem : crossSellingProductsItemList) {
+                    if (selectedItem.getProductId().equals(productsItem.getIdProduct())) {
+                        productsItem.setItemClickCount(selectedItem.getProductCount());
+                    }
+                }
+
+            }
         }
 
         CrossSellingAdapter crossAdapter = new CrossSellingAdapter(crossSellingItemRequiredList);
@@ -430,9 +448,14 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
         adjustLayout.setOnClickListener(v -> {
             // What is this
-            MenuPrefUtil.saveItem(item, count);
+            DBManager.on().saveProductItem(item, count);
 
             if (!crossAdapter.selectedItemList.isEmpty()) {
+                DBManager.on().deleteSelectedItemById(item.getIdProduct());
+                for (CrossSellingProductsItem productsItem : crossAdapter.selectedItemList) {
+                    DBManager.on().insertCrossSellingSelectedItem(item.getIdProduct(), productsItem);
+                    crossAdapter.selectedItemList.clear();
+                }
                 Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
                 // here we can add price
             }
@@ -444,7 +467,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<CrossSellingProductsItem> item) {
-        Log.w("CrossCategoryTest", "Cross list" + item.size());
+
         return new RecyclerSectionItemDecoration.SectionCallback() {
             @Override
             public boolean isSection(int position) {

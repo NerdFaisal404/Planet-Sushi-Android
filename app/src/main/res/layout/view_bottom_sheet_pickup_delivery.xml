@@ -6,7 +6,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_bottom_home"
     app:behavior_hideable="true"
+    android:orientation="vertical"
     app:behavior_peekHeight="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_recent_search"
+        android:padding="@dimen/dp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Choisir une adresse"
+            android:textColor="#394F61"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:id="@+id/tvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/robot_regular"
+            android:text="Fermer"
+            android:textColor="@color/colorPink"
+            android:textSize="@dimen/sp14" />
+
+
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -20,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/livraison"
+            android:text="commande"
             android:textColor="@color/color_394F61"
             android:textSize="@dimen/dp24" />
 
@@ -81,132 +114,28 @@
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
             android:background="@color/color_EDEDED"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutAddress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
             android:layout_marginTop="@dimen/dp_sixteen"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Adresse"
-                    android:textSize="@dimen/sp_eighteen" />
-
-                <TextView
-                    android:id="@+id/textViewModifier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="@font/robot_regular"
-                    android:padding="@dimen/dp_four"
-                    android:text="Modifier"
-                    android:textColor="@color/colorPink" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layout_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_sixteen"
-                android:background="@drawable/bg_light_gray_all_side_four_dp"
-                android:padding="10dp">
-
-
-                <ImageView
-                    android:id="@+id/iv_icon"
-                    android:layout_width="@dimen/dp24"
-                    android:layout_height="@dimen/dp24"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="6dp"
-                    android:src="@drawable/ic_location" />
-
-                <LinearLayout
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:id="@+id/layoutAddress"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_icon"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/recent_addr_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="75008 Paris"
-                        android:textSize="@dimen/sp16" />
-
-                    <TextView
-                        android:id="@+id/tvAddresTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="16 Cours Albert 1er"
-                        android:textSize="@dimen/sp13" />
-
-                    <TextView
-                        android:id="@+id/tvAddressThree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="Code 2713, Étage 5"
-                        android:textSize="@dimen/sp13" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageViewTick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_selected_location" />
-
-            </RelativeLayout>
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/buttonAddAddres"
-            android:layout_width="match_parent"
+            android:id="@+id/textViewModifier"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_sixteen"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_pink_all_side_four_dp"
-            android:fontFamily="@font/roboto_bold"
-            android:padding="@dimen/dp_eight"
-            android:text="+Ajouter une adresse de livraison"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp16"
-            android:visibility="gone" />
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="@dimen/sp15"
+            android:padding="@dimen/dp_four"
+            android:text="+ AJOUTER UNE NOUVELLE ADDRESSE"
+            android:textColor="@color/colorPink" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/dp10"
+            android:id="@+id/rvUserAddress"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            tools:listitem="@layout/item_user_address"
+            android:layout_height="wrap_content"/>
+
 
 
     </LinearLayout>

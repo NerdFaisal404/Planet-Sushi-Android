@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.library.FocusResizeAdapter;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
+
 
 public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHolder> {
 
@@ -78,6 +78,9 @@ public class FoodMenuAdapterFocus extends FocusResizeAdapter<RecyclerView.ViewHo
 
     @Override
     public void onItemBigResize(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
+       /* if (true) {
+            return;
+        }*/
         ( (CustomViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse_expand));
         if (((CustomViewHolder) viewHolder).titleTextView.getTextSize() + (dyAbs / OFFSET_TEXT_SIZE) >= context.getResources().getDimension(R.dimen.featuredItemHeight)) {
             ((CustomViewHolder) viewHolder).titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.font_xxxlarge));

@@ -2,7 +2,13 @@ package fr.sushi.app.ui.menu;
 
 import java.io.Serializable;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
 public class MyCartProduct implements Serializable {
+    @Id
+    private long id;
     private String productId;
     private String name;
     private String coderUrl;
@@ -34,6 +40,14 @@ public class MyCartProduct implements Serializable {
         this.priceTtc = priceTtc;
         this.itemCount = item_count;
         this.sellingProductInfo = sellingProductInfo;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public boolean isSelected() {

@@ -1,4 +1,4 @@
-package fr.sushi.app.ui.objectbox;
+package fr.sushi.app.ui.menu.model;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
@@ -30,6 +30,8 @@ public class CrossSellingSelectedItem {
     private String productName;
 
     private String productPrice;
+
+    private boolean isFree;
 
     public long getId() {
         return id;
@@ -77,5 +79,13 @@ public class CrossSellingSelectedItem {
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
     }
 }

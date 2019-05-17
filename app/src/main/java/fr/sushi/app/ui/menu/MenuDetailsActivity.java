@@ -22,13 +22,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
@@ -37,6 +42,7 @@ import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
@@ -88,7 +94,34 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
 */
 
+        Date currentTime = Calendar.getInstance().getTime();
+
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+        if (isLivarsion) {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else if (isExporter) {
+            binding.tvDeliveryType.setText("A emporter");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        }
+
+        List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
+        if (!recentSearchPlace.isEmpty()) {
+            SearchPlace place = recentSearchPlace.get(0);
+            binding.tvLocationInfo.setText(place.getAddress() + "-" + place.getCity() + ", " + place.getPostalCode());
+            binding.tvDeliveryInfo.setText("prévue pour " + place.getTime());
+
+        }
+
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
+
+        binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
+
+        binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
     }
 
 
@@ -128,7 +161,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             if (selectedItemIds.contains(item.getIdProduct())) {
                 item.setSelected(true);
                 Log.e("ItemSelect", "Item selected =" + item.getIdProduct());
-            }else {
+            } else {
                 item.setSelected(false);
             }
         }
@@ -203,8 +236,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        if(!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
-        Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
+        if (!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
+            Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }
 
@@ -247,7 +280,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         @Override
         public void onItemClick(ProductsItem item, ImageView imageView) {
             imageView.setVisibility(View.VISIBLE);
-            MenuPrefUtil.saveItem(item);
+            //MenuPrefUtil.saveItem(item);
+            DBManager.on().saveProductItem(item);
             showBottomView();
             new CircleAnimationUtil().attachActivity(MenuDetailsActivity.this)
                     .setTargetView(imageView)
@@ -285,16 +319,18 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         @Override
         public void onItemDeselect(ProductsItem item) {
-            MenuPrefUtil.removeItem(item);
+            //MenuPrefUtil.removeItem(item);
+            DBManager.on().removeProduct(item);
             showBottomView();
         }
     };
 
 
-    private void showBottomView(){
-        selectedProducts = MenuPrefUtil.getSaveItems();
+    private void showBottomView() {
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
 
-        if(selectedProducts.isEmpty()){
+        if (selectedProducts.isEmpty()) {
             binding.priceLayout.setVisibility(View.GONE);
             return;
         }
@@ -304,26 +340,63 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     }
 
     private List<String> getSelectedItemIds() {
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
         List<String> list = new ArrayList<>();
-        for(MyCartProduct item : selectedProducts){
+        for (MyCartProduct item : selectedProducts) {
             list.add(item.getProductId());
         }
         return list;
     }
 
-    private int getItemCount(){
+    private int getItemCount() {
         int totalCount = 0;
         for (MyCartProduct item : selectedProducts) {
-            totalCount = totalCount+item.getItemCount();
+            totalCount = totalCount + item.getItemCount();
         }
         return totalCount;
     }
+
     private String getTotalPrice() {
         double total = 0.0;
         for (MyCartProduct item : selectedProducts) {
-            total = total + (Double.valueOf(item.getPriceHt())*item.getItemCount());
+            total = total + (Double.valueOf(item.getPriceHt()) * item.getItemCount());
         }
         return Utils.getDecimalFormat(total) + " €";
+    }
+
+    void showBottomDialog() {
+
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_bottom_sheet_pickup_delivery, null);
+        RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
+        RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
+        TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
+        View viewDivider = bottomSheet.findViewById(R.id.view_divider);
+        textViewModifier.setOnClickListener(this);
+
+
+        viewDivider.setVisibility(View.VISIBLE);
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+
+        if (isLivarsion) {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        } else if (isExporter) {
+            radioButtonLivraison.setChecked(false);
+            radioButtonEmporter.setChecked(true);
+        } else {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        }
+
+
+        radioButtonLivraison.setOnClickListener(this);
+        radioButtonEmporter.setOnClickListener(this);
+        BottomSheetDialog dialog = new BottomSheetDialog(this, R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
     }
 }

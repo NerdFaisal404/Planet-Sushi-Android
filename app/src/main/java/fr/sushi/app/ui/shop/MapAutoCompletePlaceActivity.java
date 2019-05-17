@@ -18,16 +18,20 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
+import java.util.Timer;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ActivityMapAutoCompletePlaceBinding;
+import fr.sushi.app.misc.Constants;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
+import timber.log.Timber;
 
 public class MapAutoCompletePlaceActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, PlaceAutocompleteAdapter.PlaceAutoCompleteInterface {
 
@@ -105,10 +109,8 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
                     @Override
                     public void onResult(PlaceBuffer places) {
                         if (places.getCount() == 1) {
-                            Intent returnIntent = new Intent();
-                            //returnIntent.putExtra("result",result);
-                            setResult(Activity.RESULT_OK,returnIntent);
-                            finish();
+                            Place place = places.get(0);
+                            finish(place.getLatLng().latitude, place.getLatLng().longitude);
                             //FrequentFunctions.hideKeyBoard(ChooseLocation.this, rootLayout);
                             /*selectedPlace = places;
                             String coordinates = selectedPlace.get(0).getLatLng().latitude + "," + selectedPlace.get(0).getLatLng().longitude;*/
@@ -133,5 +135,14 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
     public void onBackPressed() {
         finish();
         overridePendingTransition(R.anim.blank, R.anim.top_to_bottom);
+    }
+
+    private void finish(double latitude, double longitude) {
+        Timber.v("Latitude, Longitude = %f, %f", latitude, longitude);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(Constants.LATITUDE, latitude);
+        returnIntent.putExtra(Constants.LONGITUDE, longitude);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 }

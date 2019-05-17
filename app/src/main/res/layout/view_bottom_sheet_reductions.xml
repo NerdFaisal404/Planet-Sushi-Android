@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_reduction"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Reduction"
+                android:textColor="@color/color_394F61"
+                android:textSize="@dimen/sp15" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/robot_regular"
+                android:text="Fermer"
+                android:textColor="@color/colorPink" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_sixteen">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/reductions"
+                android:textColor="@color/color_394F61"
+                android:textSize="@dimen/dp24" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robot_regular"
+                android:text="@string/selectionner_ou_ajouter_un_code"
+                android:textColor="@color/color_627588"
+                android:textSize="@dimen/sp15" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_tweleve"
+                android:background="@drawable/bg_light_gray_all_side_four_dp"
+                android:padding="@dimen/dp_tweleve">
+
+                <ImageView
+                    android:id="@+id/imageViewHelping"
+                    android:layout_width="@dimen/dp_twenty_four"
+                    android:layout_height="@dimen/dp_twenty_four"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_coupon" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_tweleve"
+                    android:layout_marginRight="@dimen/dp_tweleve"
+                    android:layout_toLeftOf="@+id/imageViewDropDown"
+                    android:layout_toRightOf="@+id/imageViewHelping"
+                    android:fontFamily="@font/robot_regular"
+                    android:text="Voir mes avantages"
+                    android:textColor="@color/color_627588"
+                    android:textSize="@dimen/sp15" />
+
+                <ImageView
+                    android:id="@+id/imageViewDropDown"
+                    android:layout_width="@dimen/dp_twenty"
+                    android:layout_height="@dimen/dp_twenty"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_down_arrow" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewAddCoupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_tweleve"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/ajouter_un_code"
+                android:textColor="@color/colorPink"
+                android:textSize="@dimen/sp16" />
+
+
+            <Button
+                android:id="@+id/buttonEnregistrer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_sixteen"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_pink_all_side_four_dp"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dp_eight"
+                android:text="@string/enregistrer"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp16"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_home"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Monnaie à prévoir"
+                android:textColor="@color/color_394F61"
+                android:textSize="@dimen/sp15" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/tvClose"
+                android:fontFamily="@font/robot_regular"
+                android:text="Fermer"
+                android:textColor="@color/colorPink" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_eight"
+            android:layout_marginBottom="@dimen/dp_eight"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_sixteen">
+
+            <EditText
+                android:id="@+id/editTextCode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_twenty_four"
+                android:textColor="@color/color_394F61"
+                android:layout_marginBottom="@dimen/dp_twenty_four"
+                android:background="@null"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:hint="0,00 €"
+                android:textSize="@dimen/dp24" />
+
+
+            <Button
+                android:id="@+id/buttonAppliquer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_sixteen"
+                android:layout_marginBottom="8dp"
+                android:enabled="false"
+                android:background="@drawable/bg_unselected_valider"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/dp_eight"
+                android:text="appliquer"
+                android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp16"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

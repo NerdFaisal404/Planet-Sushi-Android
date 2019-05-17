@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
@@ -70,7 +72,7 @@ public class HomeFragment extends BaseFragment {
     private String imageBaseUrl;
     private List<HomeSlidesItem> homeSlidesItemList;
 
-    private  List<SearchPlace> recentSearchPlace;
+    private List<SearchPlace> recentSearchPlace;
 
     private List<CategoriesItem> categoriesItems = new ArrayList<>();
 
@@ -93,8 +95,7 @@ public class HomeFragment extends BaseFragment {
         observeData();
 
         initListener();
-
-
+        applyAnimation();
     }
 
     @Override
@@ -111,40 +112,39 @@ public class HomeFragment extends BaseFragment {
 
         recentSearchPlace = PlaceUtil.getSearchPlace();
 
-        if(!recentSearchPlace.isEmpty()){
+        if (!recentSearchPlace.isEmpty()) {
 
-            if(recentSearchPlace.size() == 1){
+            if (recentSearchPlace.size() == 1) {
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.GONE);
                 binding.viewSingle.setVisibility(View.GONE);
 
                 SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
+                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
 
-            }else {
+            } else {
                 binding.addressOne.setVisibility(View.VISIBLE);
                 binding.addressOneTwo.setVisibility(View.VISIBLE);
                 binding.viewSingle.setVisibility(View.VISIBLE);
 
                 SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode()+" "+place.getCity());
+                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
                 binding.tvAddresTwo.setText(place.getAddress());
 
 
-
                 SearchPlace place2 = recentSearchPlace.get(1);
-                if (place.getAddress().equalsIgnoreCase(place2.getAddress())){
+                if (place.getAddress().equalsIgnoreCase(place2.getAddress())) {
                     binding.viewSingle.setVisibility(View.GONE);
                     binding.addressOneTwo.setVisibility(View.GONE);
-                }else {
-                    binding.recentAddrTvTwo.setText(place2.getPostalCode()+" "+place2.getCity());
+                } else {
+                    binding.recentAddrTvTwo.setText(place2.getPostalCode() + " " + place2.getCity());
                     binding.tvAddresTwoText.setText(place2.getAddress());
                 }
 
 
             }
-        }else {
+        } else {
             binding.addressOne.setVisibility(View.GONE);
             binding.viewSingle.setVisibility(View.GONE);
             binding.addressOneTwo.setVisibility(View.GONE);
@@ -205,7 +205,7 @@ public class HomeFragment extends BaseFragment {
         mHomeViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
             categoriesItems = foodMenuResponse.getResponse().getCategories();
-
+            CommonUtility.currentMenuResponse = foodMenuResponse;
             DataCacheUtil.addCategoryItemInCache(categoriesItems);
         });
 
@@ -244,6 +244,18 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void applyAnimation() {
+        if (Utils.isOneTimeLaunched()) {
+            ViewAnimator
+                    .animate(binding.tvDelivery)
+                    .translationY(200, 0)
+                    .alpha(0, 1)
+                    .duration(1000)
+                    .start();
+            Utils.setOneTimeLaunched(false);
+        }
     }
 
     private void showImageWithDelay() {
@@ -314,7 +326,6 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     private void showBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_liversion_botton_sheet, null);
 
@@ -348,14 +359,14 @@ public class HomeFragment extends BaseFragment {
     private void showImporter() {
         binding.tvDelivery.setText("Livraison");
         Drawable img = getContext().getResources().getDrawable(R.drawable.ic_scooter_white);
-        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_white_down_arrow);
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 
     private void showExporter() {
         binding.tvDelivery.setText("A emporter");
         Drawable img = getContext().getResources().getDrawable(R.drawable.ic_emporter_white);
-        Drawable rightImage = getResources().getDrawable(R.drawable.ic_down_arrow);
+        Drawable rightImage = getResources().getDrawable(R.drawable.ic_white_down_arrow);
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 

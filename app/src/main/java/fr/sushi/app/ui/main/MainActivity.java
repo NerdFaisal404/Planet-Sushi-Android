@@ -7,10 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-
-import com.jaeger.library.StatusBarUtil;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
@@ -24,13 +21,15 @@ import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
 import fr.sushi.app.ui.home.view.HomeFragment;
 import fr.sushi.app.ui.profile.ProfileFragment;
 import fr.sushi.app.ui.shop.MapFragment;
-import fr.sushi.app.ui.shopping_bag.ShoppingBagFragment;
 import fr.sushi.app.util.FragmentFunctions;
+import fr.sushi.app.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
     private static MainActivity sInatnce;
+    private int lastSelectedId;
+    private boolean needToRollback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +38,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // StatusBarUtil.setTranslucentForImageViewInFragment(this, 20, null);
         RetrofitClient.getInstance(this);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
-        FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
+        binding.navigation.setOnNavigationItemSelectedListener(this);
+        binding.navigation.setSelectedItemId(R.id.navigation_home);
+        //FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (needToRollback) {
+            binding.navigation.setSelectedItemId(lastSelectedId);
+        }
     }
 
     @Override
@@ -50,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BaseFragment baseFragment = null;
         switch (item.getItemId()) {
             case R.id.navigation_home:
+                lastSelectedId = item.getItemId();
+                needToRollback = false;
                 baseFragment = (BaseFragment) getSupportFragmentManager()
                         .findFragmentByTag(HomeFragment.class.getName());
                 if (baseFragment == null) {
@@ -58,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.navigation_shop:
+                lastSelectedId = item.getItemId();
+                needToRollback = false;
                 baseFragment = (BaseFragment) getSupportFragmentManager()
                         .findFragmentByTag(MapFragment.class.getName());
                 if (baseFragment == null) {
@@ -66,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.navigation_carts:
+                lastSelectedId = item.getItemId();
+                needToRollback = false;
                 baseFragment = (BaseFragment) getSupportFragmentManager()
                         .findFragmentByTag(FoodMenuFragment.class.getName());
                 if (baseFragment == null) {
@@ -80,12 +92,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if (baseFragment == null) {
                     baseFragment = new ShoppingBagFragment();
                 }*/
-
-               startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
-
+                needToRollback = true;
+                startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
                 break;
 
             case R.id.navigation_profile:
+                lastSelectedId = item.getItemId();
+                needToRollback = false;
                 if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
                     // profile fragment will be shown
 

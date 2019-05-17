@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,13 +13,14 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
+        android:layout_marginTop="@dimen/dp14"
+        android:background="@drawable/bg_white_round"
         android:paddingBottom="@dimen/dp16">
 
         <ImageView
             android:id="@+id/image_view_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp14"
+            android:layout_height="@dimen/dp14"
             android:layout_margin="@dimen/dp8"
             android:src="@drawable/icon_home2x"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,45 +31,65 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp8"
+            android:fontFamily="@font/robot_regular"
             android:text="@{address.addressType}"
             android:textColor="@color/color_627588"
-            android:textSize="16sp"
+            android:textSize="@dimen/sp14"
             app:layout_constraintBottom_toBottomOf="@+id/image_view_icon"
             app:layout_constraintStart_toEndOf="@+id/image_view_icon"
-            app:layout_constraintTop_toTopOf="@+id/image_view_icon" />
+            app:layout_constraintTop_toTopOf="@+id/image_view_icon"
+            tools:text="MAISON" />
 
         <TextView
             android:id="@+id/text_view_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp4"
+            android:fontFamily="@font/roboto_medium"
             android:text="@{address.location}"
-            android:textColor="@color/color_627588"
+            android:textColor="#394F61"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_address_type" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_address_type"
+            tools:text="16 Cours Albert 1er" />
 
         <TextView
             android:id="@+id/text_view_sub_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp4"
+            android:fontFamily="@font/roboto_light"
             android:text="@{address.zipCode+` `+ address.city}"
-            android:textColor="@color/color_627588"
-            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp15"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_location" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_location"
+            tools:text="75008 Paris" />
+
+        <View
+            android:id="@+id/vieLine"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp8"
+            android:background="@color/colorDivider"
+            app:layout_constraintStart_toStartOf="@+id/image_view_icon"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_sub_location" />
 
         <TextView
             android:id="@+id/text_view_rest_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp20"
+            android:fontFamily="@font/robot_regular"
             android:text="@{`Code `+ address.accessCode+`, Interphone `+ address.interphone+`, Étage `+  address.floor}"
             android:textColor="@color/color_627588"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_sub_location" />
+            app:layout_constraintTop_toBottomOf="@+id/vieLine"
+            tools:text="Code 2459, Interphone Rimane, Étage 3" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

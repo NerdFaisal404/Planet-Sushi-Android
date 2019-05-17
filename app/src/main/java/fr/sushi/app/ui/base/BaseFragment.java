@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import fr.sushi.app.util.Utils;
+
 /*
  * ****************************************************************************
  * * Copyright © 2018 W3 Engineers Ltd., All rights reserved.
@@ -137,12 +139,23 @@ public abstract class BaseFragment
         this.stopUI();
     }
 
-    private BaseActivity getBaseActivity() {
+    protected BaseActivity getBaseActivity() {
         return ((BaseActivity) getActivity());
     }
 
-    private boolean isBaseActivityInstance() {
+    protected boolean isBaseActivityInstance() {
         return BaseActivity.class.isInstance(getActivity());
+    }
+
+    public Context getContext() {
+        if (Utils.hasMarshmallow()) {
+            return super.getContext();
+        }
+        View view = mViewDataBinding.getRoot();
+        if (view != null) {
+            return view.getContext();
+        }
+        return getActivity();
     }
 
     /**

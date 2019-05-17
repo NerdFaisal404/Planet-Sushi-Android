@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
+import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.util.Utils;
@@ -32,10 +34,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     public ItemTouchHelperExtension.Callback mCallback;
     private CommadeViewModel commadeViewModel;
 
+
     public CommadeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +45,6 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_commade, container, false);
         View view = binding.getRoot();
-
         initView();
         observeData();
 
@@ -55,10 +56,13 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         commadeViewModel = ViewModelProviders.of(this).get(CommadeViewModel.class);
 
     }
+
     CommadeAdapter commadeAdapter;
+
     private void initView() {
 
-        selectedProducts = MenuPrefUtil.getSaveItems();
+        //selectedProducts = MenuPrefUtil.getSaveItems();
+        selectedProducts = DBManager.on().getAllProducts();
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
 
@@ -72,16 +76,20 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         setTotalPrice();
     }
 
-    private void setTotalPrice(){
-        double total = 0.0;
+    private void setTotalPrice() {
+        double totalPrice = 0.0;
 
-        for(MyCartProduct item : selectedProducts){
-            total = total+(Double.parseDouble(item.getPriceHt()) * item.getItemCount());
+        for (MyCartProduct item : selectedProducts) {
+            totalPrice = totalPrice + (Double.parseDouble(item.getPriceHt()) * item.getItemCount());
         }
 
-        binding.totalPrice.setText(Utils.getDecimalFormat(total)+"€");
+        binding.totalPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
         binding.deliveryFeeTv.setText("0.95€");
-        binding.totalPriceWithFee.setText(Utils.getDecimalFormat(total+0.95)+"€");
+        totalPrice = totalPrice + 0.95;
+
+        binding.totalPriceWithFee.setText(Utils.getDecimalFormat(totalPrice) + "€");
+
+        ((CheckoutActivity) getActivity()).setTotalPrice(totalPrice);
     }
 
     @Override
@@ -89,6 +97,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         selectedProducts.remove(index);
         commadeAdapter.notifyDataSetChanged();
         setTotalPrice();
-        MenuPrefUtil.removeItem(item);
+        //MenuPrefUtil.removeItem(item);
+        DBManager.on().removeProduct(item);
     }
 }

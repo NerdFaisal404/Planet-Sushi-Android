@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.profile;
 
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
     @Override
     protected void startUI() {
-       // getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        // getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         mBinding = (FragmentProfileBinding) getViewDataBinding();
 
         initRecyclerView();
@@ -57,12 +59,21 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         mBinding.textViewName.setText(userName);
 
         setClickListener(mBinding.imageViewSettings);
-
+        setProgressAnimate(70);
     }
 
     @Override
     protected void stopUI() {
 
+    }
+
+
+    private void setProgressAnimate(int progressTo) {
+
+        ObjectAnimator animation =  ObjectAnimator.ofInt(mBinding.progressBar, "progress", progressTo);
+        animation.setDuration(1000);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
     }
 
     @Override

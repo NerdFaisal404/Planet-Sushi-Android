@@ -10,8 +10,10 @@ import java.lang.ref.WeakReference;
 import java.util.Stack;
 
 import fr.sushi.app.data.local.SharedPref;
-import fr.sushi.app.ui.objectbox.MyObjectBox;
+import fr.sushi.app.ui.menu.MyObjectBox;
+import fr.sushi.app.util.Utils;
 import io.objectbox.BoxStore;
+import timber.log.Timber;
 
 public class SushiApp extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
 
@@ -27,7 +29,9 @@ public class SushiApp extends MultiDexApplication implements Application.Activit
     public static synchronized SushiApp getInstance() {
         return instance;
     }
+
     private static BoxStore boxStore;
+
     @Override
     public Context getBaseContext() {
         return super.getBaseContext();
@@ -40,20 +44,23 @@ public class SushiApp extends MultiDexApplication implements Application.Activit
         registerActivityLifecycleCallbacks(this);
         instance = this;
         activityStack = new Stack<>();
-       // LebonbonFontSetting.getInstance(this);
+        // LebonbonFontSetting.getInstance(this);
         SharedPref.on(getApplicationContext());
-        //boxStore = MyObjectBox.builder().androidContext(this).build();
+        boxStore = MyObjectBox.builder().androidContext(this).build();
 
+        Utils.setOneTimeLaunched(true);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
 
-    public static BoxStore getBoxStore(){
+    public static BoxStore getBoxStore() {
         return boxStore;
     }
-
 
 
     public Activity getCurrentActivity() {

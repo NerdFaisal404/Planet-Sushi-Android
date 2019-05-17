@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.adressPicker;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -58,6 +59,7 @@ import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
@@ -506,10 +508,10 @@ public class AddressPickerActivity extends AppCompatActivity implements
             currentSearchPlace.setTime(selectedTime);
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
             PlaceUtil.saveCurrentPlace(currentSearchPlace);
-            /*Intent intent = new Intent(AddressPickerActivity.this,
+            Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            startActivity(intent);*/
+            startActivity(intent);
             dialog.dismiss();
             finish();
         });
