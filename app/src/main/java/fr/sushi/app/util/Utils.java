@@ -47,6 +47,8 @@ import java.util.TimeZone;
 
 import fr.sushi.app.BuildConfig;
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -331,8 +333,8 @@ public class Utils {
 
     }
 
-    public static String getDecimalFormat(double value){
-        Locale locale  = new Locale("fr", "FR");
+    public static String getDecimalFormat(double value) {
+        Locale locale = new Locale("fr", "FR");
         String pattern = "#.##";
 
         DecimalFormat decimalFormat = (DecimalFormat)
@@ -345,7 +347,7 @@ public class Utils {
     }
 
     public static Spannable getColoredString(String mString, int colorId) {
-        Spannable spannable = new SpannableString(mString+" ");
+        Spannable spannable = new SpannableString(mString + " ");
         spannable.setSpan(new ForegroundColorSpan(colorId), 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannable;
     }
@@ -407,5 +409,13 @@ public class Utils {
 
     public static boolean hasMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static void setOneTimeLaunched(boolean oneTimeLaunched) {
+        SharedPref.write(PrefKey.ONE_TIME_LAUNCHED, oneTimeLaunched);
+    }
+
+    public static boolean isOneTimeLaunched() {
+        return SharedPref.readBoolean(PrefKey.ONE_TIME_LAUNCHED, false);
     }
 }

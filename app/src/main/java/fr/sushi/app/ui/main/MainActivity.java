@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding.navigation.setOnNavigationItemSelectedListener(this);
         binding.navigation.setSelectedItemId(R.id.navigation_home);
         FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
-
     }
 
     @Override

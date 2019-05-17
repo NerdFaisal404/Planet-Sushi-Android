@@ -20,4 +20,6 @@ public interface PrefKey {
 
     String IS_LIBRATION_PRESSED = "IS_LIBRATION_PRESSED";
     String IS_EMPORTER_PRESSED = "IS_EMPORTER_PRESSED";
+
+    String ONE_TIME_LAUNCHED = "one_time_launched";
 }
