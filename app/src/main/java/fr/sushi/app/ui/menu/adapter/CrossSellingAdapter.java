@@ -86,13 +86,17 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 binding.checkItem.setVisibility(View.VISIBLE);
                 binding.radioItem.setVisibility(View.GONE);
 
-                if (item.getItemClickCount() >= 1) {
+                if (item.getItemClickCount() > 0) {
                     binding.emptyCheck.setVisibility(View.INVISIBLE);
                     binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
                     binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
+
+                    binding.imageViewDelete.setVisibility(View.VISIBLE);
                 } else {
                     binding.emptyCheck.setVisibility(View.VISIBLE);
                     binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
+
+                    binding.imageViewDelete.setVisibility(View.INVISIBLE);
                 }
 
                 // binding.textViewCheckItem.setText(item.getName());
@@ -107,7 +111,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                     String tc = crossSellingItemClickedList.get(item.getCategoryName());
                     int totalCount = tc == null ? 0 : Integer.parseInt(tc);
 
-                    if (maxCount != totalCount) {
+                    if (totalCount < maxCount) {
                         item.setItemClickCount(item.getItemClickCount() + 1);
                         binding.emptyCheck.setVisibility(View.INVISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
@@ -122,6 +126,12 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                             }
                         }
 
+                        if (item.getItemClickCount() > 0) {
+                            binding.imageViewDelete.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.imageViewDelete.setVisibility(View.INVISIBLE);
+                        }
+
                         selectedItemList.add(item);
                     }
                 });
@@ -132,26 +142,34 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                     String tc = crossSellingItemClickedList.get(item.getCategoryName());
                     int totalCount = tc == null ? 0 : Integer.parseInt(tc);
                     totalCount--;
+                    if (totalCount < 0) {
+                        totalCount = 0;
+                    }
                     crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(totalCount));
 
                     selectedItemList.remove(item);
 
-                    if (item.getItemClickCount() >= 1) {
+                    if (listener != null) {
+                        if (item.isRequired()) {
+                            listener.onGetItemCount(item, -1);
+                        }
+                    }
+
+                    if (item.getItemClickCount() > 0) {
                         binding.emptyCheck.setVisibility(View.INVISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
 
-                        if (listener != null) {
-                            if (item.isRequired()) {
-                                listener.onGetItemCount(item, -1);
-                            }
-                        }
-
                     } else {
-                        crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(0));
                         item.setItemClickCount(0);
                         binding.emptyCheck.setVisibility(View.VISIBLE);
                         binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
+
+                        if (item.getItemClickCount() > 0) {
+                            binding.imageViewDelete.setVisibility(View.VISIBLE);
+                        } else {
+                            binding.imageViewDelete.setVisibility(View.INVISIBLE);
+                        }
                     }
                 });
 
