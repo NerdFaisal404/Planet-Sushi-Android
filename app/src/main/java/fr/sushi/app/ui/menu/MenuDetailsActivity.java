@@ -26,6 +26,8 @@ import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import fr.sushi.app.R;
@@ -38,6 +40,7 @@ import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
@@ -88,6 +91,29 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
 */
+
+        Date currentTime = Calendar.getInstance().getTime();
+
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+        if (isLivarsion) {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else if (isExporter) {
+            binding.tvDeliveryType.setText("A emporter");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        }
+
+        List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
+        if (!recentSearchPlace.isEmpty()) {
+            SearchPlace place = recentSearchPlace.get(0);
+            binding.tvLocationInfo.setText(place.getAddress() + "-" + place.getCity() + ", " + place.getPostalCode());
+            binding.tvDeliveryInfo.setText("prévue pour " + place.getTime());
+
+        }
 
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
     }
