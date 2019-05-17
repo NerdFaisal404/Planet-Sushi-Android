@@ -2,16 +2,20 @@ package fr.sushi.app.ui.checkout.paiement;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -44,6 +48,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    private BottomSheetDialog dialog;
 
     public PaiementFragment() {
         // Required empty public constructor
@@ -67,7 +72,83 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
               startActivity(new Intent(getActivity(), AddressPickerActivity.class));
             }
         });
+
+
+        binding.layoutCarteBancaire.setOnClickListener((View v) ->{
+            binding.tvTitle.setText("Paiement par carte");
+            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
+            binding.ivPaymentOption.setImageResource(R.drawable.ic_card);
+            binding.tvPaymentOptionTitle.setText("Visa");
+            binding.tvPaymentOptionBody.setText("Se terminant par 0076");
+        });
+
+        binding.layoutCarteBancaireAuLivreur.setOnClickListener((View v)->{
+            binding.tvTitle.setText("Paiement par carte à la livraison");
+            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
+            binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
+            binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
+            binding.tvPaymentOptionBody.setText("0,00 €");
+
+        });
+
+        binding.layoutTicketRestaurant.setOnClickListener((View v) ->{
+            binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
+            binding.layoutPaymentOption.setVisibility(View.GONE);
+            showDialog();
+        });
         return view;
+    }
+
+    private void showDialog() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_to_deliveryman, null);
+
+        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        Button buttonSpecifyAnAmount=bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
+        Button buttonNoChange=bottomSheet.findViewById(R.id.buttonNoChange);
+
+        buttonSpecifyAnAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                showDialogSpecifyAmount();
+            }
+        });
+
+        buttonNoChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
+                binding.layoutPaymentOption.setVisibility(View.VISIBLE);
+                binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
+                binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
+                binding.tvPaymentOptionBody.setText("0,00 €");
+            }
+        });
+
+    }
+
+    private void showDialogSpecifyAmount() {
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_specify_an_amount, null);
+
+        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        TextView tvClose=bottomSheet.findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
