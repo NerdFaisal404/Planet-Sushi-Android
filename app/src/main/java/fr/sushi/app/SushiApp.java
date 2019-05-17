@@ -11,6 +11,7 @@ import java.util.Stack;
 
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.ui.MyObjectBox;
+import fr.sushi.app.util.Utils;
 import io.objectbox.BoxStore;
 import timber.log.Timber;
 
@@ -44,6 +45,8 @@ public class SushiApp extends MultiDexApplication implements Application.Activit
        // LebonbonFontSetting.getInstance(this);
         SharedPref.on(getApplicationContext());
         boxStore = MyObjectBox.builder().androidContext(this).build();
+
+        Utils.setOneTimeLaunched(true);
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }

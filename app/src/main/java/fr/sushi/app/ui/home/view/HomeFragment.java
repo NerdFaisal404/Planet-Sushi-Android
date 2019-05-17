@@ -247,11 +247,15 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void applyAnimation() {
-        ViewAnimator
-                .animate(binding.tvDelivery)
-                .slideBottomIn()
-                .duration(1000)
-                .start();
+        if (Utils.isOneTimeLaunched()) {
+            ViewAnimator
+                    .animate(binding.tvDelivery)
+                    .translationY(200, 0)
+                    .alpha(0, 1)
+                    .duration(1000)
+                    .start();
+            Utils.setOneTimeLaunched(false);
+        }
     }
 
     private void showImageWithDelay() {

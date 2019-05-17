@@ -71,8 +71,6 @@
             android:paddingRight="@dimen/dp16"
             android:paddingBottom="@dimen/dp16">
 
-
-
             <RelativeLayout
                 android:id="@+id/layoutAddress"
                 android:layout_width="match_parent"
