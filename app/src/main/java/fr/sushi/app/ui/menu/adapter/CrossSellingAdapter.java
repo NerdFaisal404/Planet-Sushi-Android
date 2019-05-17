@@ -92,6 +92,17 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                     binding.textViewSelectedCheck.setText(String.valueOf(item.getItemClickCount()));
 
                     binding.imageViewDelete.setVisibility(View.VISIBLE);
+
+                    selectedItemList.add(item);
+                    String tc = crossSellingItemClickedList.get(item.getCategoryName());
+                    int totalCount = tc == null ? 0 : Integer.parseInt(tc);
+                    totalCount++;
+                    crossSellingItemClickedList.put(item.getCategoryName(), String.valueOf(totalCount));
+
+                    if (listener != null && item.isRequired()) {
+                        listener.onGetItemCount(item, 1);
+                    }
+
                 } else {
                     binding.emptyCheck.setVisibility(View.VISIBLE);
                     binding.textViewSelectedCheck.setVisibility(View.INVISIBLE);
@@ -177,6 +188,21 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 binding.radioItem.setVisibility(View.VISIBLE);
                 binding.checkItem.setVisibility(View.GONE);
 
+                if (item.getItemClickCount() > 0) {
+                    binding.radioButton.setChecked(true);
+
+                    radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
+                    radioSelectedItemList.put(item.getCategoryName(), item);
+                    selectedItemList.add(item);
+
+                    if (listener != null && item.isRequired()) {
+                        listener.onGetItemCount(item, 1);
+                    }
+
+                } else {
+                    binding.radioButton.setChecked(false);
+                }
+
                 //binding.textViewRadioItem.setText(item.getName());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     binding.textViewRadioItem.setText(Html.fromHtml(getColorText(item.getName()), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
@@ -209,7 +235,11 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                                 radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
 
                                 CrossSellingProductsItem prevItem = radioSelectedItemList.get(item.getCategoryName());
+                                if (prevItem != null) {
+                                    prevItem.setItemClickCount(0);
+                                }
                                 selectedItemList.remove(prevItem);
+                                item.setItemClickCount(1);
                                 selectedItemList.add(item);
                                 radioSelectedItemList.put(item.getCategoryName(), item);
                             }
@@ -219,6 +249,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                             radioButtonCheckList.put(item.getCategoryName(), binding.radioButton);
 
                             radioSelectedItemList.put(item.getCategoryName(), item);
+                            item.setItemClickCount(1);
                             selectedItemList.add(item);
 
                             if (listener != null && item.isRequired()) {
