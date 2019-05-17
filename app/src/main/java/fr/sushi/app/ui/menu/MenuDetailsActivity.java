@@ -22,6 +22,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -116,6 +118,10 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
 
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
+
+        binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
+
+        binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
     }
 
 
@@ -155,7 +161,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             if (selectedItemIds.contains(item.getIdProduct())) {
                 item.setSelected(true);
                 Log.e("ItemSelect", "Item selected =" + item.getIdProduct());
-            }else {
+            } else {
                 item.setSelected(false);
             }
         }
@@ -230,8 +236,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        if(!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
-        Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
+        if (!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
+            Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }
 
@@ -320,11 +326,11 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     };
 
 
-    private void showBottomView(){
+    private void showBottomView() {
         //selectedProducts = MenuPrefUtil.getSaveItems();
         selectedProducts = DBManager.on().getAllProducts();
 
-        if(selectedProducts.isEmpty()){
+        if (selectedProducts.isEmpty()) {
             binding.priceLayout.setVisibility(View.GONE);
             return;
         }
@@ -337,24 +343,60 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         //selectedProducts = MenuPrefUtil.getSaveItems();
         selectedProducts = DBManager.on().getAllProducts();
         List<String> list = new ArrayList<>();
-        for(MyCartProduct item : selectedProducts){
+        for (MyCartProduct item : selectedProducts) {
             list.add(item.getProductId());
         }
         return list;
     }
 
-    private int getItemCount(){
+    private int getItemCount() {
         int totalCount = 0;
         for (MyCartProduct item : selectedProducts) {
-            totalCount = totalCount+item.getItemCount();
+            totalCount = totalCount + item.getItemCount();
         }
         return totalCount;
     }
+
     private String getTotalPrice() {
         double total = 0.0;
         for (MyCartProduct item : selectedProducts) {
-            total = total + (Double.valueOf(item.getPriceHt())*item.getItemCount());
+            total = total + (Double.valueOf(item.getPriceHt()) * item.getItemCount());
         }
         return Utils.getDecimalFormat(total) + " €";
+    }
+
+    void showBottomDialog() {
+
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_bottom_sheet_pickup_delivery, null);
+        RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
+        RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
+        TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
+        View viewDivider = bottomSheet.findViewById(R.id.view_divider);
+        textViewModifier.setOnClickListener(this);
+
+
+        viewDivider.setVisibility(View.VISIBLE);
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+
+        if (isLivarsion) {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        } else if (isExporter) {
+            radioButtonLivraison.setChecked(false);
+            radioButtonEmporter.setChecked(true);
+        } else {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        }
+
+
+        radioButtonLivraison.setOnClickListener(this);
+        radioButtonEmporter.setOnClickListener(this);
+        BottomSheetDialog dialog = new BottomSheetDialog(this, R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
     }
 }
