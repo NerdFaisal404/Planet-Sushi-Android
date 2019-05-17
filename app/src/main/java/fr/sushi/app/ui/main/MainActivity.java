@@ -22,6 +22,7 @@ import fr.sushi.app.ui.home.view.HomeFragment;
 import fr.sushi.app.ui.profile.ProfileFragment;
 import fr.sushi.app.ui.shop.MapFragment;
 import fr.sushi.app.util.FragmentFunctions;
+import fr.sushi.app.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         RetrofitClient.getInstance(this);
         binding.navigation.setOnNavigationItemSelectedListener(this);
         binding.navigation.setSelectedItemId(R.id.navigation_home);
-        FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
+        //FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
     }
 
     @Override

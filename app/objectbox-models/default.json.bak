@@ -54,9 +54,69 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:2695511961145540695",
+      "lastPropertyId": "13:4629573376684531567",
+      "name": "MyCartProduct",
+      "properties": [
+        {
+          "id": "1:4118822816732409941",
+          "name": "id"
+        },
+        {
+          "id": "2:7109888389042980307",
+          "name": "productId"
+        },
+        {
+          "id": "3:8446043584823735968",
+          "name": "name"
+        },
+        {
+          "id": "4:2914286879902586011",
+          "name": "coderUrl"
+        },
+        {
+          "id": "5:3561978316250082963",
+          "name": "shortDescription"
+        },
+        {
+          "id": "6:6272954224587899370",
+          "name": "categoryId"
+        },
+        {
+          "id": "7:6241298572136334257",
+          "name": "categoryName"
+        },
+        {
+          "id": "8:106640053378248108",
+          "name": "piece"
+        },
+        {
+          "id": "9:4876261776455023948",
+          "name": "priceHt"
+        },
+        {
+          "id": "10:3669815392640268859",
+          "name": "priceTtc"
+        },
+        {
+          "id": "11:3978785560618265309",
+          "name": "itemCount"
+        },
+        {
+          "id": "12:6001608370336713992",
+          "name": "sellingProductInfo"
+        },
+        {
+          "id": "13:4629573376684531567",
+          "name": "isSelected"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:7199498673236450176",
+  "lastEntityId": "3:2695511961145540695",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
