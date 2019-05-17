@@ -78,7 +78,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomDialog(true);
+                showBottomDialog();
             }
         });
 
@@ -127,18 +127,15 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         startActivity(intent);
     }
 
-    void showBottomDialog(boolean showAddressLayout) {
+    void showBottomDialog() {
 
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_bottom_sheet_pickup_delivery, null);
         RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
         RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
-        Button buttonAddAddres = bottomSheet.findViewById(R.id.buttonAddAddres);
         TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
-        TextView recentAddress = bottomSheet.findViewById(R.id.recent_addr_tv);
         View viewDivider = bottomSheet.findViewById(R.id.view_divider);
         textViewModifier.setOnClickListener(this);
-        LinearLayout linearLayoutAddress = bottomSheet.findViewById(R.id.linearLayoutAddress);
-        if (showAddressLayout) {
+
 
             viewDivider.setVisibility(View.VISIBLE);
             boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
@@ -155,17 +152,11 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
                 radioButtonEmporter.setChecked(false);
             }
 
-            linearLayoutAddress.setVisibility(View.VISIBLE);
-            buttonAddAddres.setVisibility(View.VISIBLE);
-            buttonAddAddres.setText("VALIDER");
-            //recentAddress.setText(PlaceUtil.getCurrentSearchPlace().getAddress());
-        } else {
-            linearLayoutAddress.setVisibility(View.GONE);
-        }
+
+
 
         radioButtonLivraison.setOnClickListener(this);
         radioButtonEmporter.setOnClickListener(this);
-        buttonAddAddres.setOnClickListener(this);
         BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
