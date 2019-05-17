@@ -39,7 +39,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
     protected void startUI() {
         binding = (FragmentCartBinding) getViewDataBinding();
         observeData();
-        setAdapter();
+
     }
 
     @Override
@@ -55,12 +55,13 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         foodMenuViewModel.getFoodMenuListMutableLiveData().observe(this, foodMenuResponse -> {
             //this.foodMenuResponse = foodMenuResponse;
             CommonUtility.currentMenuResponse = foodMenuResponse;
-
+            setAdapter();
             categoriesItems = foodMenuResponse.getResponse().getCategories();
             DataCacheUtil.addCategoryItemInCache(categoriesItems);
             foodMenuAdapter.swapData(categoriesItems);
             binding.progressCircular.setVisibility(View.GONE);
             //Log.e("Food_menu","Count =="+foodMenuResponse.getResponse().getCategories().size());
+
         });
 
 
@@ -70,7 +71,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         binding.featuredRecyclerView.setLayoutManager(linearLayoutManager);
         foodMenuAdapter = new FoodMenuAdapterFocus(getActivity(), this,(int) getResources().getDimension(R.dimen.custom_item_height));
-        binding.featuredRecyclerView.setHasFixedSize(true);
+      //  binding.featuredRecyclerView.setHasFixedSize(true);
         binding.featuredRecyclerView.setAdapter(foodMenuAdapter);
         binding.featuredRecyclerView.addOnScrollListener(new FocusResizeScrollListener<>(foodMenuAdapter, linearLayoutManager));
     }
