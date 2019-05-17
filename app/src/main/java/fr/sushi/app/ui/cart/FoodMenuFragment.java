@@ -1,9 +1,15 @@
 package fr.sushi.app.ui.cart;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.library.FocusResizeScrollListener;
 
@@ -69,6 +75,13 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
 
         }
 
+        binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBottomDialog(true);
+            }
+        });
+
 
     }
 
@@ -112,5 +125,51 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         intent.putExtra("index", index);
         //intent.putExtra("items",(ArrayList)categoriesItems);
         startActivity(intent);
+    }
+
+    void showBottomDialog(boolean showAddressLayout) {
+
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_bottom_sheet_pickup_delivery, null);
+        RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
+        RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
+        Button buttonAddAddres = bottomSheet.findViewById(R.id.buttonAddAddres);
+        TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
+        TextView recentAddress = bottomSheet.findViewById(R.id.recent_addr_tv);
+        View viewDivider = bottomSheet.findViewById(R.id.view_divider);
+        textViewModifier.setOnClickListener(this);
+        LinearLayout linearLayoutAddress = bottomSheet.findViewById(R.id.linearLayoutAddress);
+        if (showAddressLayout) {
+
+            viewDivider.setVisibility(View.VISIBLE);
+            boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+            boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+
+            if (isLivarsion) {
+                radioButtonLivraison.setChecked(true);
+                radioButtonEmporter.setChecked(false);
+            } else if (isExporter) {
+                radioButtonLivraison.setChecked(false);
+                radioButtonEmporter.setChecked(true);
+            }else {
+                radioButtonLivraison.setChecked(true);
+                radioButtonEmporter.setChecked(false);
+            }
+
+            linearLayoutAddress.setVisibility(View.VISIBLE);
+            buttonAddAddres.setVisibility(View.VISIBLE);
+            buttonAddAddres.setText("VALIDER");
+            //recentAddress.setText(PlaceUtil.getCurrentSearchPlace().getAddress());
+        } else {
+            linearLayoutAddress.setVisibility(View.GONE);
+        }
+
+        radioButtonLivraison.setOnClickListener(this);
+        radioButtonEmporter.setOnClickListener(this);
+        buttonAddAddres.setOnClickListener(this);
+        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
     }
 }

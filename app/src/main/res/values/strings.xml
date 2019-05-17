@@ -37,4 +37,11 @@
         <item>Delivery</item>
     </string-array>
 
+    <string name="reductions">Reductions</string>
+    <string name="selectionner_ou_ajouter_un_code">Selectionner ou ajouter un code</string>
+    <string name="ajouter_un_code">+Ajouter un code</string>
+    <string name="utiliser_un_autre_code">Utiliser un autre code</string>
+    <string name="appliquer">Appliquer</string>
+    <string name="enregistrer">Enregistrer</string>
+
 </resources>

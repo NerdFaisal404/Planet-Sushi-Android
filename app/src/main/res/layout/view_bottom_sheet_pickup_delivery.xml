@@ -6,7 +6,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_bottom_home"
     app:behavior_hideable="true"
+    android:orientation="vertical"
     app:behavior_peekHeight="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_recent_search"
+        android:padding="@dimen/dp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Choisir une adresse"
+            android:textColor="#394F61"
+            android:textSize="@dimen/sp15" />
+
+        <TextView
+            android:id="@+id/tvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/robot_regular"
+            android:text="Fermer"
+            android:textColor="@color/colorPink"
+            android:textSize="@dimen/sp14" />
+
+
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -20,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_bold"
-            android:text="@string/livraison"
+            android:text="commande"
             android:textColor="@color/color_394F61"
             android:textSize="@dimen/dp24" />
 
@@ -91,28 +124,18 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Adresse"
-                    android:textSize="@dimen/sp_eighteen" />
 
                 <TextView
                     android:id="@+id/textViewModifier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:fontFamily="@font/robot_regular"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/sp15"
                     android:padding="@dimen/dp_four"
-                    android:text="Modifier"
+                    android:text="+ AJOUTER UNE NOUVELLE ADDRESSE"
                     android:textColor="@color/colorPink" />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_address"
@@ -164,7 +187,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/robot_regular"
                         android:text="16 Cours Albert 1er"
-                        android:textSize="@dimen/sp13" />
+                        android:textSize="@dimen/sp16" />
 
                     <TextView
                         android:id="@+id/tvAddressThree"
@@ -177,7 +200,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/robot_regular"
                         android:text="Code 2713, Étage 5"
-                        android:textSize="@dimen/sp13" />
+                        android:textSize="@dimen/sp16" />
 
                 </LinearLayout>
 
