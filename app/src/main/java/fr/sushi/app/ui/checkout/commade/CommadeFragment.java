@@ -108,8 +108,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     public void onItemDeselect(MyCartProduct item, int index) {
         selectedProducts.remove(index);
         commadeAdapter.notifyDataSetChanged();
+        DBManager.on().removeProduct(item);
+        DBManager.on().deleteSelectedItemById(item.getProductId());
         setTotalPrice();
         //MenuPrefUtil.removeItem(item);
-        DBManager.on().removeProduct(item);
+
     }
 }
