@@ -9,8 +9,13 @@ package fr.sushi.app.data.remote.network;
  */
 
 
+import android.util.Log;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
@@ -54,12 +59,12 @@ public class Repository {
     }
 
     public static Flowable<ResponseBody> createAccount(String firstName,
-                                                 String lastName,
-                                                 String phone,
-                                                 String birthDate,
-                                                 String email,
-                                                 String password,
-                                                 String confirmPassword) {
+                                                       String lastName,
+                                                       String phone,
+                                                       String birthDate,
+                                                       String email,
+                                                       String password,
+                                                       String confirmPassword) {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
 
         /* [0] => firstname
@@ -71,7 +76,7 @@ public class Repository {
                 [6] => password_confirmation*/
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("firstname",firstName );
+        jsonObject.addProperty("firstname", firstName);
         jsonObject.addProperty("lastname", lastName);
         jsonObject.addProperty("phone", phone);
         jsonObject.addProperty("birthday", birthDate);
@@ -82,7 +87,7 @@ public class Repository {
     }
 
     public static Flowable<ResponseBody> loginAccount(String email,
-                                                            String password) {
+                                                      String password) {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("email", email);
@@ -93,5 +98,36 @@ public class Repository {
     public static Flowable<ResponseBody> getCheckoutSideProducts() {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
         return apiInterface.getCheckoutSideProducts();
+    }
+
+    public static Flowable<ResponseBody> updateCustomerProfile(String firstName,
+                                                               String lastName,
+                                                               String phone,
+                                                               String birthDate,
+                                                               String email) {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+
+        JsonObject mainObj = new JsonObject();
+        String id = SharedPref.read(PrefKey.USER_ID, "");
+        String token = SharedPref.read(PrefKey.USER_TOKEN, "");
+        mainObj.addProperty("token", token);
+        mainObj.addProperty("id_customer", id);
+        mainObj.addProperty("email", email);
+
+        JsonArray array = new JsonArray();
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("firstname", firstName);
+        jsonObject.addProperty("lastname", lastName);
+        jsonObject.addProperty("phone", phone);
+        jsonObject.addProperty("birthday", birthDate);
+
+        //array.add(jsonObject);
+
+        mainObj.add("Customer", jsonObject);
+
+        Log.d("UpdateProfileResponse", "res: " + mainObj.toString());
+
+        return apiInterface.updateCustomerProfile(mainObj);
     }
 }

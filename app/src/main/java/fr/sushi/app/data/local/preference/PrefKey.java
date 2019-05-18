@@ -9,6 +9,7 @@ public interface PrefKey {
     String USER_PHONE = "USER_PHONE";
     String USER_ID = "USER_ID";
     String USER_ADDRESS = "USER_ADDRESS";
+    String USER_BIRTHDAY = "USER_BIRTHDAY";
     String USER_PASSWORD = "USER_PASSWORD";
     String USER_PIC_URL = "USER_PIC_URL";
     String DOB = "DOB";

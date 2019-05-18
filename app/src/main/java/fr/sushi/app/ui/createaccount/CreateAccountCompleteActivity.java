@@ -110,6 +110,7 @@ public class CreateAccountCompleteActivity extends BaseActivity {
                         SharedPref.write(PrefKey.USER_EMAIL, email);
                         SharedPref.write(PrefKey.USER_PHONE, phone);
                         SharedPref.write(PrefKey.USER_ID, id);
+                        SharedPref.write(PrefKey.USER_TOKEN, token);
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
                         finish();

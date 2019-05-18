@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("JsonObject", "value =" + responseObject.toString());
                     if (error == true) {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(this,"Erreur!",errorResponse.getErrorString());
+                        Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
                         // CreateAccountResponse addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
 
@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPref.write(PrefKey.USER_EMAIL, email);
                         SharedPref.write(PrefKey.USER_PHONE, phone);
                         SharedPref.write(PrefKey.USER_ID, id);
+                        SharedPref.write(PrefKey.USER_TOKEN, token);
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 

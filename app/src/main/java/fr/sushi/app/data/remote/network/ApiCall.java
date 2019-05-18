@@ -42,4 +42,7 @@ public interface ApiCall {
 
     @GET("getCheckoutSideProducts")
     Flowable<ResponseBody> getCheckoutSideProducts();
+
+    @POST("updateCustomer")
+    Flowable<ResponseBody> updateCustomerProfile(@Query("params") JsonObject profile);
 }
