@@ -31,8 +31,10 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/dp20"
+                    android:layout_centerHorizontal="true"
                     android:padding="@dimen/dp_tweleve">
 
 
@@ -51,8 +53,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginLeft="@dimen/dp10"
                         android:layout_marginRight="@dimen/dp10"
-                        android:layout_toLeftOf="@+id/imageViewFilter"
-                        android:layout_toRightOf="@+id/imageViewBackArrow"
+                        android:gravity="center_horizontal"
+                        android:layout_toLeftOf="@+id/ivDownArrow"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -100,17 +102,17 @@
                             android:gravity="center_horizontal"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/sp15"
-                            android:text="16 Cours Albert 1er, 75008" />
+                            android:text="Veuillez renseigner votre adresse" />
 
 
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_toRightOf="@+id/layoutAddress"
                         android:id="@+id/ivDownArrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
                         android:src="@drawable/ic_white_down_arrow" />
 
 
