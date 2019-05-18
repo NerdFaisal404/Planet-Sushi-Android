@@ -160,6 +160,25 @@ public class CrossSellingProductsItem {
     @SerializedName("active_up_selling")
     private int activeUpSelling;
 
+    private String headerTitle;
+    private String headerDescription;
+
+    public String getHeaderTitle() {
+        return headerTitle;
+    }
+
+    public void setHeaderTitle(String headerTitle) {
+        this.headerTitle = headerTitle;
+    }
+
+    public String getHeaderDescription() {
+        return headerDescription;
+    }
+
+    public void setHeaderDescription(String headerDescription) {
+        this.headerDescription = headerDescription;
+    }
+
     // below item for cross selling adapter
     private int maxCount;
 

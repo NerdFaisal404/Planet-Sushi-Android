@@ -308,6 +308,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvPrice = bottomSheet.findViewById(R.id.tvPrice);
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
+        TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
 
         // Cross selling part
 
@@ -421,6 +422,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             tvTitle.setText(item.getName());
         }
+
+        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
 
         ivMinus.setOnClickListener(new View.OnClickListener() {
             @Override
