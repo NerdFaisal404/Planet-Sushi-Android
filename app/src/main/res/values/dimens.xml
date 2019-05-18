@@ -58,5 +58,6 @@
     <dimen name="sp9">9sp</dimen>
     <dimen name="sp19">19sp</dimen>
     <dimen name="dp11">11dp</dimen>
+    <dimen name="sp11">11sp</dimen>
 
 </resources>

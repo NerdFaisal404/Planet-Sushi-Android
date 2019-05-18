@@ -61,205 +61,187 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view_top">
 
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
+                android:padding="@dimen/dp16"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/text_view_address_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp16"
-                    android:text="Address"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/text_view_address"
-                    android:layout_width="0dp"
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_location_black"
-                    android:drawablePadding="@dimen/dp10"
-                    android:fontFamily="@font/roboto_medium"
-                    android:paddingTop="@dimen/dp10"
-                    android:paddingBottom="@dimen/dp10"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/sp15"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_address_title"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_address_title"
-                    tools:text="France" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:textColorHint="@color/color_darker_gray_70">
+
+                    <EditText
+                        android:id="@+id/edtAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="Adresse"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16" />
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:id="@+id/text_view_address_type"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/icon_house2x"
                     android:drawableEnd="@drawable/ic_down_arrow"
                     android:drawablePadding="@dimen/dp10"
                     android:fontFamily="@font/robot_regular"
                     android:paddingTop="@dimen/dp10"
-                    android:paddingEnd="@dimen/dp16"
                     android:paddingBottom="@dimen/dp10"
                     android:text="Maison"
-                    android:textColor="@color/colorDarkBlue"
-                    android:textSize="@dimen/sp14"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_address_title"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_address" />
-
-                <TextView
-                    android:id="@+id/text_view_building"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:gravity="start"
-                    android:text="Bâtiment"
                     android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/robot_regular"
-                    android:textSize="@dimen/sp14"
-                    app:layout_constraintEnd_toStartOf="@+id/text_view_floor"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_address_type"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_address_type" />
+                    android:textSize="@dimen/sp15" />
 
-                <TextView
-                    android:id="@+id/text_view_floor"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Étage"
-                    android:textColor="@color/colorDarkBlue"
-                    android:textSize="@dimen/sp14"
-                    app:layout_constraintEnd_toStartOf="@+id/text_view_blank"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/text_view_building"
-                    app:layout_constraintTop_toTopOf="@+id/text_view_building" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/text_view_blank"
-                    android:layout_width="0dp"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/color_darker_gray_70">
+
+                        <EditText
+                            android:id="@+id/edtBuilding"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/dp10"
+                            android:fontFamily="@font/robot_regular"
+                            android:hint="Bâtiment"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp16" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/color_darker_gray_70">
+
+                        <EditText
+                            android:id="@+id/edtFloor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/dp10"
+                            android:fontFamily="@font/robot_regular"
+                            android:hint="Étage"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp16" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/color_darker_gray_70">
+
+                        <EditText
+                            android:id="@+id/edtAppartment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/dp10"
+                            android:fontFamily="@font/robot_regular"
+                            android:hint="N° Appart"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp16" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:gravity="start"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/text_view_floor"
-                    app:layout_constraintTop_toTopOf="@+id/text_view_floor" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:textColorHint="@color/color_darker_gray_70">
 
-                <EditText
-                    android:id="@+id/edit_text_building"
-                    android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/editTextCompany"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/robot_regular"
+                        android:hint="Société (optionnel)"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toStartOf="@+id/edit_text_floor"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_building"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_building" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:textColorHint="@color/color_darker_gray_70">
 
-                <EditText
-                    android:id="@+id/edit_text_floor"
-                    android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/editTextInterphone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/robot_regular"
+                        android:hint="Interphone"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toStartOf="@+id/edit_text_apartment"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/edit_text_building"
-                    app:layout_constraintTop_toTopOf="@+id/edit_text_building" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:textColorHint="@color/color_darker_gray_70">
 
-                <EditText
-                    android:id="@+id/edit_text_apartment"
-                    android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/editTextAccessCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/robot_regular"
+                        android:hint="Code d’accès"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:background="@null"
-                    android:hint="Ñ appart"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/edit_text_floor"
-                    app:layout_constraintTop_toTopOf="@+id/edit_text_building" />
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:textColorHint="@color/color_darker_gray_70">
 
-                <EditText
-                    android:id="@+id/edit_text_company"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:hint="société (optionnel)"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/edit_text_building"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_text_building" />
-
-                <TextView
-                    android:id="@+id/text_view_interphone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:text="Interphone"
-                    android:textColor="@color/colorDarkBlue"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/edit_text_company"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_text_company" />
-
-                <EditText
-                    android:id="@+id/edit_text_interphone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:background="@null"
-                    android:gravity="start"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_interphone"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_interphone" />
+                    <EditText
+                        android:id="@+id/editTextInformation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp10"
+                        android:fontFamily="@font/robot_regular"
+                        android:hint="Informations utiles au livreur"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16" />
+                </android.support.design.widget.TextInputLayout>
 
 
-                <TextView
-                    android:id="@+id/text_view_access_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:text="code d'accès"
-                    android:textColor="@color/colorDarkBlue"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/edit_text_interphone"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_text_interphone" />
-
-                <EditText
-                    android:id="@+id/edit_text_access_code"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_access_code"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_access_code" />
-
-                <EditText
-                    android:id="@+id/edit_text_information"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp8"
-                    android:layout_marginEnd="@dimen/dp8"
-                    android:background="@null"
-                    android:gravity="start"
-                    android:hint="Information utiles au livreur"
-                    android:textColor="@color/colorDarkBlue"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/edit_text_access_code"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_text_access_code" />
-
-
-            </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
 
         </ScrollView>
