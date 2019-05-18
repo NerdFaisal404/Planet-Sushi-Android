@@ -84,6 +84,11 @@
                         android:textSize="@dimen/sp13" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/side_products_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hello items"/>
 
             </LinearLayout>
 
@@ -100,7 +105,5 @@
                 android:textSize="@dimen/sp16" />
 
         </RelativeLayout>
-
-
 
 </LinearLayout>
