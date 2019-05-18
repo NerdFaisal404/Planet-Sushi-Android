@@ -125,4 +125,8 @@ public class DBManager {
                 .find();
         return selectedItemList;
     }
+
+    public List<CrossSellingSelectedItem> getAllCrossSellingItems(){
+        return crossSellingSelectedItemBox.getAll();
+    }
 }

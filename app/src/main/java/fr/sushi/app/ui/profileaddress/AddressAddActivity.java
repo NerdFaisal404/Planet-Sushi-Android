@@ -40,7 +40,7 @@ public class AddressAddActivity extends BaseActivity {
     protected void startUI() {
         mBinding = (ActivityAddressAddBinding) getViewDataBinding();
 
-        setClickListener(mBinding.buttonAdd, mBinding.imageViewBack, mBinding.textViewAddressType, mBinding.textViewAddress);
+        setClickListener(mBinding.buttonAdd, mBinding.imageViewBack, mBinding.textViewAddressType, mBinding.edtAddress);
 
         parseIntent();
 
@@ -66,7 +66,7 @@ public class AddressAddActivity extends BaseActivity {
             mZipCode = CommonUtility.ZIP_CODE;
 
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
         }
     }
 
@@ -88,7 +88,7 @@ public class AddressAddActivity extends BaseActivity {
                 new AddressDialog(this, R.style.BottomSheetDialogStyle, R.layout.dialog_address_type_picker)
                         .show();
                 break;
-            case R.id.text_view_address:
+            case R.id.edtAddress:
                 Intent intent = new Intent(AddressAddActivity.this, LocationChoiceActivity.class);
                 intent.putExtra(IntentKey.IS_FROM_ADD_REQUEST, false);
                 startActivity(intent);
@@ -109,9 +109,9 @@ public class AddressAddActivity extends BaseActivity {
         model.setCity(mCity);
         model.setZipCode(mZipCode);
         model.setAddressType(mBinding.textViewAddressType.getText().toString());
-        model.setBuilding(TextUtils.isEmpty(mBinding.editTextBuilding.getText().toString()) ? "" : mBinding.editTextBuilding.getText().toString());
-        model.setFloor(TextUtils.isEmpty(mBinding.editTextFloor.getText().toString()) ? "" : mBinding.editTextFloor.getText().toString());
-        model.setAppartment(TextUtils.isEmpty(mBinding.editTextApartment.getText().toString()) ? "" : mBinding.editTextApartment.getText().toString());
+        model.setBuilding(TextUtils.isEmpty(mBinding.edtBuilding.getText().toString()) ? "" : mBinding.edtBuilding.getText().toString());
+        model.setFloor(TextUtils.isEmpty(mBinding.edtFloor.getText().toString()) ? "" : mBinding.edtFloor.getText().toString());
+        model.setAppartment(TextUtils.isEmpty(mBinding.edtAppartment.getText().toString()) ? "" : mBinding.edtAppartment.getText().toString());
         model.setCompany(TextUtils.isEmpty(mBinding.editTextCompany.getText().toString()) ? "" : mBinding.editTextCompany.getText().toString());
         model.setAccessCode(TextUtils.isEmpty(mBinding.editTextAccessCode.getText().toString()) ? "" : mBinding.editTextAccessCode.getText().toString());
         model.setInterphone(TextUtils.isEmpty(mBinding.editTextInterphone.getText().toString()) ? "" : mBinding.editTextInterphone.getText().toString());
@@ -140,7 +140,7 @@ public class AddressAddActivity extends BaseActivity {
             mCity = intent.getStringExtra(IntentKey.CITY);
             mZipCode = intent.getStringExtra(IntentKey.ZIP_CODE);
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
         }
 
         if (intent.hasExtra(IntentKey.ADDRESS_MODEL)) {
@@ -151,12 +151,12 @@ public class AddressAddActivity extends BaseActivity {
             mCity = mAddressModel.getCity();
             mZipCode = mAddressModel.getZipCode();
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
 
             mBinding.textViewAddressType.setText(mAddressModel.getAddressType());
-            mBinding.editTextBuilding.setText(mAddressModel.getBuilding());
-            mBinding.editTextFloor.setText(mAddressModel.getFloor());
-            mBinding.editTextApartment.setText(mAddressModel.getAppartment());
+            mBinding.edtBuilding.setText(mAddressModel.getBuilding());
+            mBinding.edtFloor.setText(mAddressModel.getFloor());
+            mBinding.edtAppartment.setText(mAddressModel.getAppartment());
             mBinding.editTextCompany.setText(mAddressModel.getCompany());
             mBinding.editTextInterphone.setText(mAddressModel.getInterphone());
             mBinding.editTextAccessCode.setText(mAddressModel.getAccessCode());

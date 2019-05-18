@@ -45,6 +45,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onItemClick(ProductsItem item, ImageView imageView);
 
         void onItemDeselect(ProductsItem item);
+        void onRefreshBottomView();
     }
 
     private Context mContext;
@@ -280,6 +281,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> {
             DBManager.on().saveProductItem(item, count);
+            itemClickListener.onRefreshBottomView();
             dialog.dismiss();
         });
 
@@ -461,7 +463,9 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 crossAdapter.selectedItemList.clear();
                 Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
                 // here we can add price
+                crossAdapter.selectedItemList.clear();
             }
+            itemClickListener.onRefreshBottomView();
             crossSellingBottomSheet.dismiss();
         });
 
