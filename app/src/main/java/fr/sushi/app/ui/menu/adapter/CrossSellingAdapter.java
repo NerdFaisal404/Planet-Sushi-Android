@@ -278,7 +278,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
         private String getColorText(String text) {
             String[] t = text.split("\\s");
             if (t.length > 0) {
-                String value = null;
+                String value = "";
                 for (int i = 0; i < t.length; i++) {
                     if (i == t.length - 1) {
                         value += "<font color=#EA148A>" + t[i] + " " + "</font>";

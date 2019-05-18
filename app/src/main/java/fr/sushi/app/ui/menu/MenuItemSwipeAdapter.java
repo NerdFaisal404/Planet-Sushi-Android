@@ -338,7 +338,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             if (!isItemRequired) {
                                 isItemRequired = product.isRequired();
                             }
-
+                            product.setCategoryName(crossSellingItem.getCategoryName());
                             product.setDescription(crossSellingItem.getDescription());
                             crossSellingProductsItemList.add(product);
                         }
@@ -385,7 +385,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.setAdapter(crossAdapter);
         RecyclerSectionItemDecoration sectionItemDecoration;
         sectionItemDecoration =
-                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp70),
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp10),
                         true,
                         getSectionCallback(crossSellingProductsItemList));
 
@@ -457,8 +457,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 DBManager.on().deleteSelectedItemById(item.getIdProduct());
                 for (CrossSellingProductsItem productsItem : crossAdapter.selectedItemList) {
                     DBManager.on().insertCrossSellingSelectedItem(item.getIdProduct(), productsItem);
-                    crossAdapter.selectedItemList.clear();
                 }
+                crossAdapter.selectedItemList.clear();
                 Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
                 // here we can add price
             }
