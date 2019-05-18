@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -105,11 +106,33 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
 
-        binding.tvSubmit.setOnClickListener(v -> {
+        binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    binding.totalPriceTv.setVisibility(View.GONE);
+                   binding.midline.setVisibility(View.GONE);
+                   binding.tvSubmit.setGravity(Gravity.CENTER);
+                    binding.tvSubmit.setText("PAYER "+Utils.getDecimalFormat(totalPrice) + "€");
+                }else {
+                    binding.totalPriceTv.setVisibility(View.VISIBLE);
+                    binding.midline.setVisibility(View.VISIBLE);
+                    binding.tvSubmit.setVisibility(View.VISIBLE);
+                    binding.tvSubmit.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                    binding.tvSubmit.setText("CONTINUER");
+                }
+            }
+        });
+
+        binding.layoutBottomCheckout.setOnClickListener(v -> {
             int position = binding.viewpager.getCurrentItem();
             if (position == 0) {
                 binding.viewpager.setCurrentItem(1);
-            } else if (position == 2) {
+            } else if (position == 1) {
+                binding.viewpager.setCurrentItem(2);
+            }else if (position == 2) {
                 paymentRequest = new PaymentRequest(CheckoutActivity.this, paymentRequestListener);
                 paymentRequest.start();
             }
