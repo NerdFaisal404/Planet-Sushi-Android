@@ -105,6 +105,12 @@ dependencies {
     implementation 'com.github.florent37:viewanimator:1.1.1'
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    //for Adyen
+    implementation 'com.adyen.checkout:core:1.14.1'
+    implementation 'com.adyen.checkout:utils:1.14.1'
+    implementation 'com.adyen.checkout:ui:1.14.1'
+    implementation 'com.adyen.checkout:cardscan:1.14.1'
+
 }
 
 apply plugin: 'io.objectbox'
