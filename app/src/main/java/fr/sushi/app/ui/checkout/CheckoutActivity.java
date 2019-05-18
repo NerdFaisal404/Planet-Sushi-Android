@@ -52,7 +52,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String SETUP = Constants.CHECKOUT_SETUP;
     private static final String VERIFY = Constants.CHECKOUT_VERIFY;
 
-    String price="10",userName="User name", userLink="Reference name";
+    String price = "10", userName = "User name", userLink = "Reference name";
     // Add the URL for your server here; or you can use the demo server of Adyen: https://checkoutshopper-test.adyen.com/checkoutshopper/demoserver/
     private String merchantServerUrl = Constants.CHECKOUT_MERCHANT_SERVER_URL;
 
@@ -93,24 +93,27 @@ public class CheckoutActivity extends AppCompatActivity {
             binding.tvStepOne.setClickable(false);
             binding.tvStepTwo.setClickable(false);
             binding.tvStepThree.setClickable(false);
-            binding.tvEmptyView.setVisibility(View.VISIBLE);
+            binding.layoutEmpty.setVisibility(View.VISIBLE);
             binding.layoutBottomCheckout.setVisibility(View.GONE);
         } else {
             binding.viewpager.setVisibility(View.VISIBLE);
             binding.tvStepOne.setClickable(true);
             binding.tvStepTwo.setClickable(true);
             binding.tvStepThree.setClickable(true);
-            binding.tvEmptyView.setVisibility(View.GONE);
+            binding.layoutEmpty.setVisibility(View.GONE);
             binding.layoutBottomCheckout.setVisibility(View.VISIBLE);
         }
 
 
-        binding.tvSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.tvSubmit.setOnClickListener(v -> {
+            int position = binding.viewpager.getCurrentItem();
+            if (position == 0) {
+                binding.viewpager.setCurrentItem(1);
+            } else if (position == 2) {
                 paymentRequest = new PaymentRequest(CheckoutActivity.this, paymentRequestListener);
                 paymentRequest.start();
             }
+
         });
 
     }
@@ -158,7 +161,7 @@ public class CheckoutActivity extends AppCompatActivity {
 //                Intent intent = new Intent(context, SuccessActivity.class);
 //                startActivity(intent);
                 Toast.makeText(CheckoutActivity.this, getString(R.string.check_out_payment_success), Toast.LENGTH_SHORT).show();
-              //  finish();
+                //  finish();
             } else {
 //                Intent intent = new Intent(context, FailureActivity.class);
 //                startActivity(intent);
@@ -189,10 +192,10 @@ public class CheckoutActivity extends AppCompatActivity {
             jsonObject.put("amount", amount);
             jsonObject.put("channel", "android");
             jsonObject.put("reference", userName);
-            jsonObject.put("shopperReference",userLink);
-            Log.e("PaymentJSON:" , jsonObject.toString());
+            jsonObject.put("shopperReference", userLink);
+            Log.e("PaymentJSON:", jsonObject.toString());
         } catch (final JSONException jsonException) {
-            Log.e("Setup failed" ,""+    jsonException);
+            Log.e("Setup failed", "" + jsonException);
         }
         return jsonObject.toString();
     }
@@ -226,7 +229,7 @@ public class CheckoutActivity extends AppCompatActivity {
                         Intent intent = new Intent(CheckoutActivity.this, CheckoutActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-                       // finish();
+                        // finish();
 
                     } else {
                         resultString = getString(R.string.check_out_adyen_payment_verify_failure);
