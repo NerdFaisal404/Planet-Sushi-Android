@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
@@ -114,7 +115,6 @@ public class Repository {
         mainObj.addProperty("id_customer", id);
         mainObj.addProperty("email", email);
 
-        JsonArray array = new JsonArray();
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("firstname", firstName);
@@ -129,5 +129,42 @@ public class Repository {
         Log.d("UpdateProfileResponse", "res: " + mainObj.toString());
 
         return apiInterface.updateCustomerProfile(mainObj);
+    }
+
+    public static Flowable<ResponseBody> addOrUpdateAddress(ProfileAddressModel model) {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+
+        JsonObject mainObj = new JsonObject();
+        String id = SharedPref.read(PrefKey.USER_ID, "");
+        String token = SharedPref.read(PrefKey.USER_TOKEN, "");
+        String email = SharedPref.read(PrefKey.USER_EMAIL, "");
+        mainObj.addProperty("token", token);
+        mainObj.addProperty("id_customer", id);
+        mainObj.addProperty("email", email);
+
+
+        JsonObject addressObj = new JsonObject();
+        addressObj.addProperty("id_address", model.getId());
+        addressObj.addProperty("company", model.getCompany());
+        addressObj.addProperty("departement", model.getAddressType()); //pending
+        addressObj.addProperty("address1", model.getLocation());
+        addressObj.addProperty("postcode", model.getZipCode());
+        addressObj.addProperty("city", model.getCity());
+        addressObj.addProperty("address2", model.getInformation());
+        addressObj.addProperty("building", model.getBuilding());
+        addressObj.addProperty("digicode", model.getAccessCode());
+        addressObj.addProperty("interphone", model.getInterphone());
+        // addressObj.addProperty("stair", model.getId()); //pending
+        addressObj.addProperty("floor", model.getFloor());
+        addressObj.addProperty("door", model.getAppartment());
+        // addressObj.addProperty("phone", model.getAppartment());//pending
+
+        //array.add(jsonObject);
+
+        mainObj.add("Address", addressObj);
+
+        Log.d("AddressUpdateResponse", "res: " + mainObj.toString());
+
+        return apiInterface.addOrUpdateAddress(mainObj);
     }
 }

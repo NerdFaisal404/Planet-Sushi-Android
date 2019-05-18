@@ -45,4 +45,7 @@ public interface ApiCall {
 
     @POST("updateCustomer")
     Flowable<ResponseBody> updateCustomerProfile(@Query("params") JsonObject profile);
+
+    @POST("saveCustomerAddress")
+    Flowable<ResponseBody> addOrUpdateAddress(@Query("params") JsonObject address);
 }
