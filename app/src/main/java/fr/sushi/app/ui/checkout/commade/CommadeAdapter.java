@@ -7,6 +7,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -105,7 +108,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class BaseHolder extends RecyclerView.ViewHolder {
-        TextView itemName, itemPrice, itemCount, tvPice;
+        TextView itemName, itemPrice, itemCount, tvPice, sideProductsTv;
         View mViewContent, selectedView;
         View mActionContainer;
         ImageView imageViewItem;
@@ -117,7 +120,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemName = itemView.findViewById(R.id.itemName);
             itemPrice = itemView.findViewById(R.id.tvPrice);
             imageViewItem = itemView.findViewById(R.id.imageViewItem);
-
+            sideProductsTv = itemView.findViewById(R.id.side_products_tv);
             itemCount = itemView.findViewById(R.id.tvCount);
             tvPice = itemView.findViewById(R.id.tvPiece);
         }
@@ -128,6 +131,8 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             String[] title = item.getName().split("\\s");
 
             itemCount.setText(item.getItemCount() + "X");
+
+
             if (title.length > 0) {
                 String value = null;
                 for (int i = 0; i < title.length; i++) {
@@ -156,6 +161,23 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt()) * item.getItemCount()) + "€");
             tvPice.setText(item.getPiece() + " Pieces ");
 
+            List<CrossSellingSelectedItem> itemSideProducts = DBManager.on()
+                    .getCrossSellingItemById(item.getProductId());
+
+            String sideProducts = "";
+            for(CrossSellingSelectedItem cItem : itemSideProducts){
+               sideProducts +=cItem.getProductCount()+"X "+cItem.getProductName();
+               if(!cItem.isFree()){
+                   sideProducts += "("+cItem.getProductPrice()+")\n";
+               }else {
+                   sideProducts +="\n";
+               }
+            }
+            if(TextUtils.isEmpty(sideProducts)){
+              sideProductsTv.setVisibility(View.GONE);
+            }else {
+                sideProductsTv.setText(sideProducts);
+            }
         }
     }
 
@@ -173,7 +195,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-
+/*
     private void showBottomSheet(ProductsItem item) {
         count = 1;
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -241,6 +263,6 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> dialog.dismiss());
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
-    }
+    }*/
 
 }

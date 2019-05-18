@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import fr.sushi.app.databinding.FragmentCommadeBinding;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 
@@ -77,10 +79,20 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     }
 
     private void setTotalPrice() {
+
         double totalPrice = 0.0;
 
         for (MyCartProduct item : selectedProducts) {
             totalPrice = totalPrice + (Double.parseDouble(item.getPriceHt()) * item.getItemCount());
+        }
+
+        List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
+
+        Log.e("Side_products","Products count ="+sellingSelectedItems.size());
+        for(CrossSellingSelectedItem item : sellingSelectedItems){
+            if(!item.isFree()){
+                totalPrice = totalPrice+Double.valueOf(item.getProductPrice());
+            }
         }
 
         binding.totalPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
@@ -96,9 +108,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     public void onItemDeselect(MyCartProduct item, int index) {
         selectedProducts.remove(index);
         commadeAdapter.notifyDataSetChanged();
+        DBManager.on().removeProduct(item);
+        DBManager.on().deleteSelectedItemById(item.getProductId());
         setTotalPrice();
         //MenuPrefUtil.removeItem(item);
-        DBManager.on().removeProduct(item);
         if (selectedProducts.size() == 0) {
             getActivity().finish();
         }

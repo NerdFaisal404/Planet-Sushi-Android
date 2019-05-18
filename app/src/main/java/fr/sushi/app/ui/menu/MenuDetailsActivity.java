@@ -45,6 +45,7 @@ import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.flyanim.CircleAnimationUtil;
@@ -323,6 +324,12 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         public void onItemDeselect(ProductsItem item) {
             //MenuPrefUtil.removeItem(item);
             DBManager.on().removeProduct(item);
+            DBManager.on().deleteSelectedItemById(item.getIdProduct());
+            showBottomView();
+        }
+
+        @Override
+        public void onRefreshBottomView() {
             showBottomView();
         }
     };
@@ -363,6 +370,15 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         double total = 0.0;
         for (MyCartProduct item : selectedProducts) {
             total = total + (Double.valueOf(item.getPriceHt()) * item.getItemCount());
+        }
+
+        List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
+
+        Log.e("Side_products","Products count ="+sellingSelectedItems.size());
+        for(CrossSellingSelectedItem item : sellingSelectedItems){
+            if(!item.isFree()){
+                total = total+Double.valueOf(item.getProductPrice());
+            }
         }
         return Utils.getDecimalFormat(total) + " €";
     }
