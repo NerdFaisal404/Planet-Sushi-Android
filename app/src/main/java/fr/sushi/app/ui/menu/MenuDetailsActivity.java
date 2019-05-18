@@ -374,10 +374,10 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
 
-        Log.e("Side_products","Products count ="+sellingSelectedItems.size());
-        for(CrossSellingSelectedItem item : sellingSelectedItems){
-            if(!item.isFree()){
-                total = total+Double.valueOf(item.getProductPrice());
+        Log.e("Side_products", "Products count =" + sellingSelectedItems.size());
+        for (CrossSellingSelectedItem item : sellingSelectedItems) {
+            if (!item.isFree()) {
+                total = total + Double.valueOf(item.getProductPrice());
             }
         }
         return Utils.getDecimalFormat(total) + " €";
@@ -389,6 +389,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
         RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
         TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         View viewDivider = bottomSheet.findViewById(R.id.view_divider);
         textViewModifier.setOnClickListener(this);
 
@@ -416,5 +417,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
+        tvClose.setOnClickListener(v -> dialog.dismiss());
     }
 }

@@ -135,6 +135,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
         RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
         TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         View viewDivider = bottomSheet.findViewById(R.id.view_divider);
         textViewModifier.setOnClickListener(this);
 
@@ -163,6 +164,13 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapterFoc
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
     }
 }
