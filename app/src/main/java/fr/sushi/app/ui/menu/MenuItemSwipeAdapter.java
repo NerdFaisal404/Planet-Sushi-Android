@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -154,8 +155,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         private void bind(ProductsItem item) {
-            Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItem);
-            Glide.with(mContext).load(item.getCoverUrl()).into(imageViewItemAnim);
+            Glide.with(mContext).load(item.getCoverUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageViewItem);
+            Glide.with(mContext).load(item.getCoverUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imageViewItemAnim);
 
             String[] title = item.getName().split("\\s");
 
