@@ -1,23 +1,37 @@
 package fr.sushi.app.ui.profileaddress;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.UUID;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
+import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityAddressAddBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.ui.editprofile.EditProfileActivity;
 import fr.sushi.app.ui.profileaddress.viewmodel.AddAddressViewModel;
+import fr.sushi.app.util.DialogUtils;
+import fr.sushi.app.util.Utils;
+import okhttp3.ResponseBody;
 
 public class AddressAddActivity extends BaseActivity {
 
@@ -29,6 +43,7 @@ public class AddressAddActivity extends BaseActivity {
     boolean isCreateAddress = false;
 
     private ProfileAddressModel mAddressModel;
+    private ProfileAddressModel model;
 
     @Override
     protected int getLayoutId() {
@@ -40,11 +55,49 @@ public class AddressAddActivity extends BaseActivity {
     protected void startUI() {
         mBinding = (ActivityAddressAddBinding) getViewDataBinding();
 
-        setClickListener(mBinding.buttonAdd, mBinding.imageViewBack, mBinding.textViewAddressType, mBinding.textViewAddress);
+        setClickListener(mBinding.buttonAdd, mBinding.imageViewBack, mBinding.textViewAddressType, mBinding.edtAddress);
 
         parseIntent();
 
         initViewModel();
+
+        mViewModel.getAddressLiveData().observe(this, new Observer<ResponseBody>() {
+            @Override
+            public void onChanged(@Nullable ResponseBody responseBody) {
+                DialogUtils.hideDialog();
+                if (responseBody != null) {
+                    try {
+                        String response = responseBody.string();
+                        Log.w("AddressUpdateResponse", "Response: " + response);
+
+                        JSONObject responseObject = new JSONObject(response);
+                        boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+                        if (error) {
+                            ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                            Utils.showAlert(AddressAddActivity.this, "Erreur!", errorResponse.getErrorString());
+                        } else {
+                            String addressId = responseObject.optString("id_address");
+                            model.setId(addressId);
+                            if (isCreateAddress) {
+                                mViewModel.addAddress(model);
+                            } else {
+                                mViewModel.updateAddress(model);
+                            }
+                            finish();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("AddressUpdateResponse", "Exception: " + e.getMessage());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.e("AddressUpdateResponse", "Response body null");
+                }
+
+            }
+        });
     }
 
     @Override
@@ -66,7 +119,7 @@ public class AddressAddActivity extends BaseActivity {
             mZipCode = CommonUtility.ZIP_CODE;
 
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
         }
     }
 
@@ -75,10 +128,9 @@ public class AddressAddActivity extends BaseActivity {
         super.onClick(view);
         switch (view.getId()) {
             case R.id.button_add:
-                // TODO VALIDATION PENDING
+                DialogUtils.showDialog(this);
                 addOrUpdateAddress(isCreateAddress);
 
-                finish();
                 break;
             case R.id.image_view_back:
                 finish();
@@ -88,7 +140,7 @@ public class AddressAddActivity extends BaseActivity {
                 new AddressDialog(this, R.style.BottomSheetDialogStyle, R.layout.dialog_address_type_picker)
                         .show();
                 break;
-            case R.id.text_view_address:
+            case R.id.edtAddress:
                 Intent intent = new Intent(AddressAddActivity.this, LocationChoiceActivity.class);
                 intent.putExtra(IntentKey.IS_FROM_ADD_REQUEST, false);
                 startActivity(intent);
@@ -97,7 +149,6 @@ public class AddressAddActivity extends BaseActivity {
     }
 
     private void addOrUpdateAddress(boolean isCreateAddress) {
-        ProfileAddressModel model;
         if (isCreateAddress) {
             model = new ProfileAddressModel();
             model.setId(UUID.randomUUID().toString());
@@ -109,19 +160,15 @@ public class AddressAddActivity extends BaseActivity {
         model.setCity(mCity);
         model.setZipCode(mZipCode);
         model.setAddressType(mBinding.textViewAddressType.getText().toString());
-        model.setBuilding(TextUtils.isEmpty(mBinding.editTextBuilding.getText().toString()) ? "" : mBinding.editTextBuilding.getText().toString());
-        model.setFloor(TextUtils.isEmpty(mBinding.editTextFloor.getText().toString()) ? "" : mBinding.editTextFloor.getText().toString());
-        model.setAppartment(TextUtils.isEmpty(mBinding.editTextApartment.getText().toString()) ? "" : mBinding.editTextApartment.getText().toString());
+        model.setBuilding(TextUtils.isEmpty(mBinding.edtBuilding.getText().toString()) ? "" : mBinding.edtBuilding.getText().toString());
+        model.setFloor(TextUtils.isEmpty(mBinding.edtFloor.getText().toString()) ? "" : mBinding.edtFloor.getText().toString());
+        model.setAppartment(TextUtils.isEmpty(mBinding.edtAppartment.getText().toString()) ? "" : mBinding.edtAppartment.getText().toString());
         model.setCompany(TextUtils.isEmpty(mBinding.editTextCompany.getText().toString()) ? "" : mBinding.editTextCompany.getText().toString());
         model.setAccessCode(TextUtils.isEmpty(mBinding.editTextAccessCode.getText().toString()) ? "" : mBinding.editTextAccessCode.getText().toString());
         model.setInterphone(TextUtils.isEmpty(mBinding.editTextInterphone.getText().toString()) ? "" : mBinding.editTextInterphone.getText().toString());
         model.setInformation(TextUtils.isEmpty(mBinding.editTextInformation.getText().toString()) ? "" : mBinding.editTextInformation.getText().toString());
 
-        if (isCreateAddress) {
-            mViewModel.addAddress(model);
-        } else {
-            mViewModel.updateAddress(model);
-        }
+        mViewModel.addOrUpdateAddressInServer(model);
     }
 
 
@@ -140,7 +187,7 @@ public class AddressAddActivity extends BaseActivity {
             mCity = intent.getStringExtra(IntentKey.CITY);
             mZipCode = intent.getStringExtra(IntentKey.ZIP_CODE);
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
         }
 
         if (intent.hasExtra(IntentKey.ADDRESS_MODEL)) {
@@ -151,12 +198,12 @@ public class AddressAddActivity extends BaseActivity {
             mCity = mAddressModel.getCity();
             mZipCode = mAddressModel.getZipCode();
             String ad = mLocation + " ," + mZipCode + " " + mCity;
-            mBinding.textViewAddress.setText(ad);
+            mBinding.edtAddress.setText(ad);
 
             mBinding.textViewAddressType.setText(mAddressModel.getAddressType());
-            mBinding.editTextBuilding.setText(mAddressModel.getBuilding());
-            mBinding.editTextFloor.setText(mAddressModel.getFloor());
-            mBinding.editTextApartment.setText(mAddressModel.getAppartment());
+            mBinding.edtBuilding.setText(mAddressModel.getBuilding());
+            mBinding.edtFloor.setText(mAddressModel.getFloor());
+            mBinding.edtAppartment.setText(mAddressModel.getAppartment());
             mBinding.editTextCompany.setText(mAddressModel.getCompany());
             mBinding.editTextInterphone.setText(mAddressModel.getInterphone());
             mBinding.editTextAccessCode.setText(mAddressModel.getAccessCode());

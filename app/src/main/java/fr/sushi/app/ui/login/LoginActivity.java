@@ -15,14 +15,18 @@ import android.view.View;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityLoginBinding;
 import fr.sushi.app.ui.main.MainActivity;
@@ -65,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("JsonObject", "value =" + responseObject.toString());
                     if (error == true) {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(this,"Erreur!",errorResponse.getErrorString());
+                        Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
                         // CreateAccountResponse addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
 
@@ -85,6 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                         //int year = bDayObj.getInt("year");
                         // int month = bDayObj.getInt("month");
                         // int day = bDayObj.getInt("day");
+                        if(responseObj.has("CustomerAddresses")){
+                            JSONArray addressArray = responseObj.getJSONArray("CustomerAddresses");
+                            saveAddress(addressArray);
+                        }
 
                         SharedPref.write(PrefKey.USER_NAME, (firstName + " " + lastName));
                         SharedPref.write(PrefKey.USER_FIRST_NAME, firstName);
@@ -92,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPref.write(PrefKey.USER_EMAIL, email);
                         SharedPref.write(PrefKey.USER_PHONE, phone);
                         SharedPref.write(PrefKey.USER_ID, id);
+                        SharedPref.write(PrefKey.USER_TOKEN, token);
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 
@@ -196,5 +205,52 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initViewModel() {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+    }
+
+    private void saveAddress(JSONArray addressArray) {
+
+        if (addressArray.length() > 0) {
+            List<ProfileAddressModel> addressList = new ArrayList<>();
+            for (int i = 0; i < addressArray.length(); i++) {
+                try {
+                    JSONObject object = addressArray.getJSONObject(i);
+
+                    String addressId = object.optString("id_address");
+                    String company = object.optString("company");
+                    String addressType = object.optString("departement");
+                    String location = object.optString("address1");
+                    String information = object.optString("address2");
+                    String building = object.optString("building");
+                    String accessCode = object.optString("digicode");
+                    String interphone = object.optString("interphone");
+                    String floor = object.optString("floor");
+                    String door = object.optString("door");
+                    String postcode = object.optString("postcode");
+                    String city = object.optString("city");
+
+                    ProfileAddressModel model = new ProfileAddressModel();
+                    model.setId(addressId);
+                    model.setCompany(company);
+                    model.setAddressType(addressType);
+                    model.setLocation(location);
+                    model.setInformation(information);
+                    model.setBuilding(building);
+                    model.setAccessCode(accessCode);
+                    model.setInterphone(interphone);
+                    model.setFloor(floor);
+                    model.setAppartment(door);
+                    model.setZipCode(postcode);
+                    model.setCity(city);
+
+                    addressList.add(model);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!addressList.isEmpty()) {
+                loginViewModel.addAddress(addressList);
+            }
+        }
     }
 }

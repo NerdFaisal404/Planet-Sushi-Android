@@ -112,6 +112,8 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         DBManager.on().deleteSelectedItemById(item.getProductId());
         setTotalPrice();
         //MenuPrefUtil.removeItem(item);
-
+        if (selectedProducts.size() == 0) {
+            getActivity().finish();
+        }
     }
 }
