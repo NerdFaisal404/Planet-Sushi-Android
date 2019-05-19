@@ -8,16 +8,26 @@ import fr.sushi.app.data.remote.network.ApiResponseError;
 import fr.sushi.app.data.remote.network.Repository;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class FoodMenuViewModel extends ViewModel {
 
     private MutableLiveData<FoodMenuResponse> foodMenuListMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> deliveryAddressLiveData = new MutableLiveData<>();
 
 
     public void getFoodMenu() {
         Repository.getFoodMenu().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessMenuRequest,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+    public void setDeliveryAddress(String address,
+                                   String postcode, String city) {
+        Repository.setDeliveryAddress(address, postcode, city).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccesssetDeliveryAddress,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
@@ -38,4 +48,16 @@ public class FoodMenuViewModel extends ViewModel {
     public MutableLiveData<FoodMenuResponse> getFoodMenuListMutableLiveData() {
         return foodMenuListMutableLiveData;
     }
+
+    private void onSuccesssetDeliveryAddress(ResponseBody responseBody) {
+        if (responseBody != null) {
+            deliveryAddressLiveData.setValue(responseBody);
+        }
+    }
+
+    public MutableLiveData<ResponseBody> getDeliveryAddressLiveData() {
+        return deliveryAddressLiveData;
+    }
+
+
 }
