@@ -225,7 +225,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         LinearSmoothScroller smoothScroller = new LinearSmoothScroller(MenuDetailsActivity.this) {
             @Override
             protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_ANY;
+                return LinearSmoothScroller.SNAP_TO_START;
             }
         };
 
