@@ -227,14 +227,14 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         LinearSmoothScroller smoothScroller = new LinearSmoothScroller(MenuDetailsActivity.this) {
             @Override
             protected int getVerticalSnapPreference() {
-                return LinearSmoothScroller.SNAP_TO_START;
+                return LinearSmoothScroller.SNAP_TO_END;
             }
         };
 
         smoothScroller.setTargetPosition(position);
         LinearLayoutManager manager = (LinearLayoutManager) binding.recyclerViewMenuTop.getLayoutManager();
         manager.startSmoothScroll(smoothScroller);
-
+        binding.recyclerViewMenuTop.smoothScrollToPosition(position);
         showHeaderImage(position);
 
     }

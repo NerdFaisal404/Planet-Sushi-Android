@@ -21,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 
 
 public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends RecyclerView.OnScrollListener {
@@ -37,7 +38,7 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
     public FocusResizeScrollListener(T adapter, LinearLayoutManager linearLayoutManager) {
         this.adapter = adapter;
         heightCollapsedItem = adapter.getHeight();
-        heightExpandedItem = heightCollapsedItem * 2;
+        heightExpandedItem = heightCollapsedItem * 3;
         mLinearLayoutManager = linearLayoutManager;
     }
 
@@ -163,7 +164,9 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
     public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         try {
-            /*if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+            //Need to comment out to stop shake
+
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                 if (mLinearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
                     int positionScrolled = (itemToResize == 1) ? calculatePositionScrolledDown(recyclerView) : calculatePositionScrolledUp(recyclerView);
                     for (int j = 0; j < mLinearLayoutManager.getItemCount() - 1; j++) {
@@ -173,7 +176,8 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
                         }
                     }
                 }
-            }*/
+            }
+            // comment end
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

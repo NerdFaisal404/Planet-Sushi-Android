@@ -95,7 +95,6 @@ public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder>
     @Override
     public void onItemBigResizeScrolled(RecyclerView.ViewHolder viewHolder, int position, int dyAbs) {
         ( (FeaturedViewHolder) viewHolder).viewOpacity.setBackground(context.getResources().getDrawable(R.drawable.shadow_inverse_expand));
-
     }
 
     @Override

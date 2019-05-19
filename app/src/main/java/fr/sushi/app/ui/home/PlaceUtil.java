@@ -20,7 +20,7 @@ public class PlaceUtil {
 
     public static void saveCurrentPlace(SearchPlace place) {
         Gson gson = new Gson();
-        if(place == null)return;
+        if (place == null) return;
 
         String existingPlace = SharedPref.read(CURRENT_SEARCH_PLACE, "");
 
@@ -33,9 +33,9 @@ public class PlaceUtil {
 
             String newString = "";
             if (existingItem.length == 1) {
-                newString = currentJson + SPLITER + existingPlace;
+                newString = existingPlace + SPLITER + currentJson;
             } else {
-                newString = currentJson+SPLITER+existingItem[0];
+                newString = existingItem[0] + SPLITER + currentJson;
             }
             SharedPref.write(CURRENT_SEARCH_PLACE, newString);
         }
@@ -59,4 +59,26 @@ public class PlaceUtil {
         return searchPlaceList;
     }
 
+    public static void saveCurrentPlaceInFirstPosition(SearchPlace searchPlace) {
+        Gson gson = new Gson();
+        if (searchPlace == null) return;
+
+        String existingPlace = SharedPref.read(CURRENT_SEARCH_PLACE, "");
+
+        String currentJson = gson.toJson(searchPlace);
+
+        if (TextUtils.isEmpty(existingPlace)) {
+            SharedPref.write(CURRENT_SEARCH_PLACE, currentJson);
+        } else {
+            String[] existingItem = existingPlace.split(SPLITER);
+
+            String newString = "";
+            if (existingItem.length == 1) {
+                newString = currentJson;
+            } else {
+                newString = currentJson + SPLITER + existingItem[1];
+            }
+            SharedPref.write(CURRENT_SEARCH_PLACE, newString);
+        }
+    }
 }

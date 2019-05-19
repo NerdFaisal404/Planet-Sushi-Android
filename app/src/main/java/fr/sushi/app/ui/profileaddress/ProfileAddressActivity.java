@@ -13,6 +13,8 @@ import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.databinding.ActivityProfileAddressBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.profileaddress.adapter.ProfileAddressAdapter;
 import fr.sushi.app.ui.profileaddress.viewmodel.ProfileAddressViewModel;
 
@@ -39,6 +41,10 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
         mAddressViewModel.getAddressList().observe(this, addressList -> {
             mAdapter.clear();
             mAdapter.addItems(addressList);
+            ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
+            SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(),addressModel.getCity(), addressModel.getLocation());
+
+            PlaceUtil.saveCurrentPlaceInFirstPosition(searchPlace);
         });
     }
 
