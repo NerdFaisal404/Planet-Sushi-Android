@@ -25,6 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -239,8 +241,12 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        if (!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
-            Picasso.get().load(categoriesItem.getPictureUrl()).into(binding.ivMenu);
+        /*if (!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
+            Picasso.get().load(categoriesItem.getPictureUrl())
+                    .into(binding.ivMenu);*/
+        Glide.with(this).load(categoriesItem.getPictureUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.ivMenu);
         topMenuAdapter.setSelectedItemPosition(position);
     }
 
