@@ -43,7 +43,7 @@ public class CardDetailsActivity extends BaseActivity {
         mCardDetailsAdapter = new CardDetailsAdapter(getSupportFragmentManager());
         mBinding.viewPagerCardContent.setAdapter(mCardDetailsAdapter);
 
-        syncViewpager();
+        //syncViewpager();
     }
 
     @Override
