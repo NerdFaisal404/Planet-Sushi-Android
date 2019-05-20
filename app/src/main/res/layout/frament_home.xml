@@ -89,11 +89,11 @@
                     android:layout_marginRight="@dimen/dp_four"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
                     android:text="Quelle est votre adresse ?"
-                    android:textColor="#394F61"
-                    android:textSize="@dimen/dp_sixteen" />
+                    android:textColor="#B3394F61"
+                    android:textSize="@dimen/sp17" />
 
                 <ImageView
                     android:id="@+id/ivView"
@@ -112,9 +112,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:padding="@dimen/dp5"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/dp10"
-                    android:src="@drawable/ic_home_clock" />
+                    android:src="@drawable/ic_search_gray" />
 
             </RelativeLayout>
 
@@ -234,11 +235,11 @@
 
                 <ImageView
                     android:id="@+id/iv_icon_not_connected"
-                    android:layout_width="@dimen/dp32"
-                    android:layout_height="@dimen/dp32"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
                     android:layout_alignParentLeft="true"
                     android:scaleType="centerCrop"
-                    android:padding="7dp"
+                    android:padding="8dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_black_oval"
                     android:src="@drawable/ic_account_profile" />
@@ -356,6 +357,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="45"
+                    android:visibility="gone"
                     android:textSize="20sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/colorPink"
@@ -439,6 +441,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
