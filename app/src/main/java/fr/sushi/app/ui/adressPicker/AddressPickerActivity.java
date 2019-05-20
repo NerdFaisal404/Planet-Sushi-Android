@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -442,7 +443,8 @@ public class AddressPickerActivity extends AppCompatActivity implements
     private void prepareDataForBottomSheet() {
         List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
         for (Order item : schedulesList) {
-            String[] displayValue = item.getDisplayValue().split(" ");
+
+            String[] displayValue = item.getDisplayValue().split("à");
 
             List<String> existList = scheduleOrderMap.get(displayValue[0]);
 
@@ -480,6 +482,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+        Collections.reverse(data);
 
         selectedTitle = data.get(0);
 

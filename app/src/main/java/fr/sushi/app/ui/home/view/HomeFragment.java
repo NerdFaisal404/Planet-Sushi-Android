@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -375,7 +376,7 @@ public class HomeFragment extends BaseFragment {
     private void prepareDataForBottomSheet() {
         List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
         for (Order item : schedulesList) {
-            String[] displayValue = item.getDisplayValue().split(" ");
+            String[] displayValue = item.getDisplayValue().split("à");
 
             List<String> existList = scheduleOrderMap.get(displayValue[0]);
 
@@ -413,7 +414,7 @@ public class HomeFragment extends BaseFragment {
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
-
+        Collections.reverse(data);
         selectedTitle = data.get(0);
 
         addressNameAdapter = new AddressNameAdapter(getActivity(), data);
