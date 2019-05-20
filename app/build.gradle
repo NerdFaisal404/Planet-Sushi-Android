@@ -111,6 +111,9 @@ dependencies {
     implementation 'com.adyen.checkout:ui:1.14.1'
     implementation 'com.adyen.checkout:cardscan:1.14.1'
 
+    implementation 'com.itlgl:iosdialog:1.0.1'
+
+
 }
 
 apply plugin: 'io.objectbox'
