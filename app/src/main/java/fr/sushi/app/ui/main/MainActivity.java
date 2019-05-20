@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void openRegistrationFragment() {
-
+        binding.navigation.setSelectedItemId(R.id.navigation_profile);
         FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyProfileFragment());
 
         binding.fragmentContainer.findViewById(R.id.fragment_container).performClick();
