@@ -317,8 +317,11 @@ public class HomeFragment extends BaseFragment {
             case R.id.addressOne:
                 //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
                 DialogUtils.showDialog(getActivity());
-                currentSearchPlace = new SearchPlace(recentSearchPlace.get(0).getPostalCode(), recentSearchPlace.get(0).getCity(), recentSearchPlace.get(0).getAddress());
-                mHomeViewModel.setDeliveryAddress(recentSearchPlace.get(0).getAddress(), recentSearchPlace.get(0).getPostalCode(), recentSearchPlace.get(0).getCity());
+                SearchPlace searchPlace = recentSearchPlace.get(0);
+                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
+                        searchPlace.getCity(),searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
+                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
+                        searchPlace.getCity());
                /* Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
                 intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(0));
                 startActivity(intent);*/
@@ -326,8 +329,11 @@ public class HomeFragment extends BaseFragment {
             case R.id.addressOneTwo:
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
                 DialogUtils.showDialog(getActivity());
-                currentSearchPlace = new SearchPlace(recentSearchPlace.get(1).getPostalCode(), recentSearchPlace.get(1).getCity(), recentSearchPlace.get(1).getAddress());
-                mHomeViewModel.setDeliveryAddress(recentSearchPlace.get(1).getAddress(), recentSearchPlace.get(1).getPostalCode(), recentSearchPlace.get(1).getCity());
+                searchPlace = recentSearchPlace.get(1);
+                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),searchPlace.getCity(),
+                        searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
+                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
+                        searchPlace.getCity());
               /*  intent = new Intent(getActivity(), MenuDetailsActivity.class);
                 intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(1));
                 startActivity(intent);*/

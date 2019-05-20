@@ -16,6 +16,7 @@ import fr.sushi.app.data.local.SharedPref;
 
 public class PlaceUtil {
     private static final String CURRENT_SEARCH_PLACE = "current-place";
+    private static final String LATEST_SEARCH_PLACE = "latest_place";
     private static String SPLITER = "-@-";
 
     public static void saveCurrentPlace(SearchPlace place) {
@@ -25,6 +26,9 @@ public class PlaceUtil {
         String existingPlace = SharedPref.read(CURRENT_SEARCH_PLACE, "");
 
         String currentJson = gson.toJson(place);
+
+        SharedPref.write(LATEST_SEARCH_PLACE, currentJson);
+
 
         if (TextUtils.isEmpty(existingPlace)) {
             SharedPref.write(CURRENT_SEARCH_PLACE, currentJson);
@@ -67,6 +71,8 @@ public class PlaceUtil {
 
         String currentJson = gson.toJson(searchPlace);
 
+        SharedPref.write(LATEST_SEARCH_PLACE, currentJson);
+
         if (TextUtils.isEmpty(existingPlace)) {
             SharedPref.write(CURRENT_SEARCH_PLACE, currentJson);
         } else {
@@ -80,5 +86,14 @@ public class PlaceUtil {
             }
             SharedPref.write(CURRENT_SEARCH_PLACE, newString);
         }
+    }
+
+    public static SearchPlace getLatestPlace(){
+        String jsonString = SharedPref.read(LATEST_SEARCH_PLACE, "");
+
+        if(TextUtils.isEmpty(jsonString)) return null;
+
+        SearchPlace place = new Gson().fromJson(jsonString, SearchPlace.class);
+        return place;
     }
 }

@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,7 +182,21 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 Log.e("MapFragment", "Style parsing failed.");
             }
 
-            checkPermissionAndPrepareClient();
+            List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
+            if(!currentSearchPlace.isEmpty()) {
+                SearchPlace latestSearchPlace = currentSearchPlace.get(0);
+                if(latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0){
+                    LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    //markerOptions.title("Current Position");
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
+                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                    //move map camera
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                }
+            }
+            //checkPermissionAndPrepareClient();
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
 
@@ -192,7 +207,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    @SuppressLint("MissingPermission")
+    /*@SuppressLint("MissingPermission")
     private void checkPermissionAndPrepareClient() {
         @SuppressLint("RestrictedApi")
         LocationRequest mLocationRequest = new LocationRequest();
@@ -204,7 +219,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
            // mGoogleMap.setMyLocationEnabled(true);
         }
     }
-
+*/
     @Override
     public void onResume() {
         super.onResume();
@@ -214,20 +229,22 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             SearchPlace latestSearchPlace = currentSearchPlace.get(0);
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode()+" "+latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
-            String time = latestSearchPlace.getTime().replace(":","h");
-            binding.tvDeliveryTime.setText("Livraison prévue pour "+time);
+            if(!TextUtils.isEmpty(latestSearchPlace.getTime())) {
+                String time = latestSearchPlace.getTime().replace(":", "h");
+                binding.tvDeliveryTime.setText("Livraison prévue pour " + time);
+            }
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mFusedLocationClient != null) {
+        /*if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-        }
+        }*/
     }
 
-    private LocationCallback mLocationCallback = new LocationCallback() {
+   /* private LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
@@ -252,7 +269,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
             }
         }
-    };
+    };*/
 
 
 }

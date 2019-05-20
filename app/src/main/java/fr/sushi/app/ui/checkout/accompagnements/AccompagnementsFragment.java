@@ -333,6 +333,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showSaucesData() {
+        if(accompagnementResponse == null) return;
         SaucesAdapter saucesAdapter = new SaucesAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
@@ -341,6 +342,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showAccomplishmentData() {
+        if(accompagnementResponse == null) return;
         AccomplishmentAdapter accomplishmentAdapter = new AccomplishmentAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(accomplishmentAdapter);
@@ -349,6 +351,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showBoissonData() {
+        if(accompagnementResponse == null) return;
         BoissonAdapter boissonAdapter = new BoissonAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(boissonAdapter);
@@ -357,6 +360,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showDessertData() {
+        if(accompagnementResponse == null) return;
         DessertAdapter dessertAdapter = new DessertAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(dessertAdapter);
@@ -365,6 +369,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showWasibData() {
+        if(accompagnementResponse == null) return;
         WasbiGingerAdapter wasbiGingerAdapter = new WasbiGingerAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(wasbiGingerAdapter);
@@ -373,6 +378,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
     private void showBaguettesData() {
+        if(accompagnementResponse == null) return;
         BaguettesAdapter baguettesAdapter = new BaguettesAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(baguettesAdapter);

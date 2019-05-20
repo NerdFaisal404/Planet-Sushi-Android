@@ -346,7 +346,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                                 Log.e("Place_cliec", "address =" + address);
                                 DialogUtils.showDialog(AddressPickerActivity.this);
                                 viewModel.setDeliveryAddress(address, zipCode, city);
-                                currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address);
+                                currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
                             } else {
                                 Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -438,7 +438,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
         DialogUtils.showDialog(this);
         viewModel.setTakeawayStore(responseItem.getIdStore());
         currentSearchPlace = new SearchPlace(responseItem.getPostcode(),
-                responseItem.getCity(), responseItem.getAddress());
+                responseItem.getCity(), responseItem.getAddress(), responseItem.getLat(), responseItem.getLng());
     };
 
     private Map<String, List<String>> scheduleOrderMap = new HashMap<>();

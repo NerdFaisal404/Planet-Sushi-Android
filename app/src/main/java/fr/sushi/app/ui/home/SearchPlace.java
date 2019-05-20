@@ -12,6 +12,8 @@ public class SearchPlace implements Serializable {
     private String title;
     private String time;
     private String type;
+    private double lat;
+    private double lng;
 
     public String getTitle() {
         return title;
@@ -27,6 +29,14 @@ public class SearchPlace implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public SearchPlace(String postalCode, String city, String address, double lat, double lng){
+        this.postalCode = postalCode;
+        this.city = city;
+        this.address = address;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public SearchPlace(String postalCode, String city, String address){
@@ -68,5 +78,19 @@ public class SearchPlace implements Serializable {
         this.address = address;
     }
 
+    public double getLat() {
+        return lat;
+    }
 
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 }

@@ -29,6 +29,11 @@ public class DBManager {
         return dbManager;
     }
 
+    public void clearMyCartProductTable(){
+        productBox.removeAll();
+        crossSellingSelectedItemBox.removeAll();
+    }
+
     public void saveProductItem(ProductsItem item, int itemCount) {
         for (int i = 0; i < itemCount; i++) {
             saveProductItem(item);
