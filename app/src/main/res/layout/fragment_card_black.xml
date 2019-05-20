@@ -2,14 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:padding="@dimen/dp16"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tv_headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp8"
-        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp4"
         android:drawableLeft="@drawable/ic_horizontal_pink"
         android:drawablePadding="@dimen/dp10"
         android:fontFamily="@font/roboto_bold"
@@ -23,10 +23,10 @@
         android:id="@+id/tv_subHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/robot_regular"
         android:text="DÈS 451 PTS"
         android:textColor="@color/colorPink"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/tv_headline"
         app:layout_constraintTop_toBottomOf="@+id/tv_headline" />
 
@@ -46,12 +46,11 @@
                 android:id="@+id/text_view_header_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp32"
+                android:layout_marginTop="@dimen/dp16"
                 android:text="VOTRE CAGNOTTE"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +63,8 @@
                 android:layout_height="wrap_content"
                 android:text="Tous les 150 points bénéficiez de 15€ de bon d’achat à faire valoir sur votre prochaine commande."
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="12sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/robot_regular"
                 app:layout_constraintStart_toStartOf="@+id/text_view_header_1"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_header_1" />
 
@@ -75,8 +75,8 @@
                 android:layout_marginTop="@dimen/dp16"
                 android:text="UN CADEAU D’ANNIVERSAIRE"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toStartOf="@+id/text_view_text_sub_header_1"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_text_sub_header_1" />
 
@@ -89,7 +89,8 @@
                 android:layout_height="wrap_content"
                 android:text="25 € à partir de 35 € (valable 15 jours)"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="12sp"
+                android:textSize="@dimen/sp15"
+                android:fontFamily="@font/robot_regular"
                 app:layout_constraintStart_toStartOf="@+id/text_view_header_2"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_header_2" />
 
@@ -100,8 +101,8 @@
                 android:layout_marginTop="@dimen/dp16"
                 android:text="UN CADEAU DE NOEL"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toStartOf="@+id/text_view_text_sub_header_2"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_text_sub_header_2" />
 
@@ -114,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:text="-30 % sur votre Partybox valable jusqu’au 31/12 de l’année en cours."
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="12sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/robot_regular"
                 app:layout_constraintStart_toStartOf="@+id/text_view_header_3"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_header_3" />
 
@@ -125,8 +127,8 @@
                 android:layout_marginTop="@dimen/dp16"
                 android:text="DES VENTES FLASH"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toStartOf="@+id/text_view_text_sub_header_3"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_text_sub_header_3" />
 
@@ -139,7 +141,8 @@
                 android:layout_height="wrap_content"
                 android:text="-30% de réduction sur une journée (4x par an)"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="12sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/robot_regular"
                 app:layout_constraintStart_toStartOf="@+id/text_view_header_4"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_header_4" />
 
@@ -150,8 +153,8 @@
                 android:layout_marginTop="@dimen/dp16"
                 android:text="OFFRES EXCLUSIVES"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
+                android:fontFamily="@font/roboto_medium"
                 app:layout_constraintStart_toStartOf="@+id/text_view_text_sub_header_4"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_text_sub_header_4" />
 
@@ -164,7 +167,8 @@
                 android:layout_height="wrap_content"
                 android:text="Recevez des offres exceptionnelles Planet Sushi par email ou par SMS"
                 android:textColor="@color/colorDarkBlue"
-                android:textSize="12sp"
+                android:textSize="15sp"
+                android:fontFamily="@font/robot_regular"
                 app:layout_constraintStart_toStartOf="@+id/text_view_header_5"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_header_5" />
 

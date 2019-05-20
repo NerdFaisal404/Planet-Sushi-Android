@@ -105,7 +105,7 @@
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeAddressPicker"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.menu.MenuDetailsActivity"
             android:configChanges="locale"

@@ -138,6 +138,8 @@
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16"
                 android:id="@+id/recyclerViewItems"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -158,16 +160,13 @@
 
             <TextView
                 android:id="@+id/tvCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
                 android:background="#D51982"
                 android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="@dimen/dp14"
-                android:paddingTop="@dimen/dp7"
-                android:paddingRight="@dimen/dp14"
+                android:gravity="center"
                 android:layout_centerVertical="true"
-                android:paddingBottom="@dimen/dp7"
                 android:text="1"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />

@@ -49,6 +49,7 @@ import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
 import fr.sushi.app.ui.login.LoginActivity;
+import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
@@ -104,69 +105,84 @@ public class HomeFragment extends BaseFragment {
         super.onResume();
 
         if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
-            binding.layoutSignup.setVisibility(View.GONE);
+            //binding.layoutSignup.setVisibility(View.GONE);
+            binding.layoutWithoutLogin.setVisibility(View.GONE);
             binding.layoutRecentAddress.setVisibility(View.VISIBLE);
-        } else {
-            binding.layoutSignup.setVisibility(View.VISIBLE);
-            binding.layoutRecentAddress.setVisibility(View.GONE);
-        }
 
-        recentSearchPlace = PlaceUtil.getSearchPlace();
+            recentSearchPlace = PlaceUtil.getSearchPlace();
 
-        if (!recentSearchPlace.isEmpty()) {
+            if (!recentSearchPlace.isEmpty()) {
 
-            if (recentSearchPlace.size() == 1) {
-                binding.addressOne.setVisibility(View.VISIBLE);
-                binding.addressOneTwo.setVisibility(View.GONE);
-                binding.viewSingle.setVisibility(View.GONE);
-
-                SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
-                binding.tvAddresTwo.setText(place.getAddress());
-
-            } else {
-                binding.addressOne.setVisibility(View.VISIBLE);
-                binding.addressOneTwo.setVisibility(View.VISIBLE);
-                binding.viewSingle.setVisibility(View.VISIBLE);
-
-                SearchPlace place = recentSearchPlace.get(0);
-                binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
-                binding.tvAddresTwo.setText(place.getAddress());
-
-
-                SearchPlace place2 = recentSearchPlace.get(1);
-                if (place.getAddress().equalsIgnoreCase(place2.getAddress())) {
-                    binding.viewSingle.setVisibility(View.GONE);
+                if (recentSearchPlace.size() == 1) {
+                    binding.addressOne.setVisibility(View.VISIBLE);
                     binding.addressOneTwo.setVisibility(View.GONE);
+                    binding.viewSingle.setVisibility(View.GONE);
+
+                    SearchPlace place = recentSearchPlace.get(0);
+                    binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
+                    binding.tvAddresTwo.setText(place.getAddress());
+
                 } else {
-                    binding.recentAddrTvTwo.setText(place2.getPostalCode() + " " + place2.getCity());
-                    binding.tvAddresTwoText.setText(place2.getAddress());
+                    binding.addressOne.setVisibility(View.VISIBLE);
+                    binding.addressOneTwo.setVisibility(View.VISIBLE);
+                    binding.viewSingle.setVisibility(View.VISIBLE);
+
+                    SearchPlace place = recentSearchPlace.get(0);
+                    binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
+                    binding.tvAddresTwo.setText(place.getAddress());
+
+
+                    SearchPlace place2 = recentSearchPlace.get(1);
+                    if (place.getAddress().equalsIgnoreCase(place2.getAddress())) {
+                        binding.viewSingle.setVisibility(View.GONE);
+                        binding.addressOneTwo.setVisibility(View.GONE);
+                    } else {
+                        binding.recentAddrTvTwo.setText(place2.getPostalCode() + " " + place2.getCity());
+                        binding.tvAddresTwoText.setText(place2.getAddress());
+                    }
+
+
                 }
-
-
+            } else {
+                binding.addressOne.setVisibility(View.GONE);
+                binding.viewSingle.setVisibility(View.GONE);
+                binding.addressOneTwo.setVisibility(View.GONE);
             }
         } else {
-            binding.addressOne.setVisibility(View.GONE);
-            binding.viewSingle.setVisibility(View.GONE);
-            binding.addressOneTwo.setVisibility(View.GONE);
+            binding.layoutWithoutLogin.setVisibility(View.VISIBLE);
+           // binding.layoutSignup.setVisibility(View.VISIBLE);
+            binding.layoutRecentAddress.setVisibility(View.GONE);
+
         }
+
+
+
+
 
         boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
         boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
         if (isLivarsion) {
             showImporter();
+            binding.destinationTv.setText("Choisir une adresse");
         } else if (isExporter) {
             showExporter();
+            binding.destinationTv.setText("Chercher un restaurant");
+        }else {
+            binding.destinationTv.setText("Choisir une adresse");
         }
     }
 
     private void initListener() {
-        binding.layoutRegistraion.setOnClickListener(v -> startActivity(new Intent(getActivity(),
+       /* binding.layoutRegistraion.setOnClickListener(v -> startActivity(new Intent(getActivity(),
                 CreateAccountActivity.class)));
         binding.layoutLogin.setOnClickListener(v -> startActivity(new Intent(getActivity(),
-                LoginActivity.class)));
+                LoginActivity.class)));*/
         binding.tvDelivery.setOnClickListener(v -> {
             showBottomSheet();
+        });
+
+        binding.layoutWithoutLogin.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).openRegistrationFragment();
         });
     }
 
@@ -481,5 +497,8 @@ public class HomeFragment extends BaseFragment {
         dialog.show();
 
     }
+
+
+
 
 }

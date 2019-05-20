@@ -1,10 +1,13 @@
 package fr.sushi.app.ui.cart;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,10 +24,14 @@ import java.util.List;
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.CommonUtility;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.databinding.FragmentCartBinding;
 import fr.sushi.app.ui.base.BaseFragment;
+import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.cart.adapter.AddressAdapter;
 import fr.sushi.app.ui.cart.adapter.FoodMenuAdapterFocus;
 import fr.sushi.app.ui.cart.viewmodel.FoodMenuViewModel;
 import fr.sushi.app.ui.home.PlaceUtil;
@@ -32,6 +39,7 @@ import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.focuslib.FocusResizeScrollListener;
+import okhttp3.ResponseBody;
 
 public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Listener {
     List<String> dummyData = new ArrayList<>();
@@ -137,26 +145,51 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
         TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         View viewDivider = bottomSheet.findViewById(R.id.view_divider);
+        RecyclerView recyclerViewAddress = bottomSheet.findViewById(R.id.rvUserAddress);
         textViewModifier.setOnClickListener(this);
 
 
-            viewDivider.setVisibility(View.VISIBLE);
-            boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
-            boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+        viewDivider.setVisibility(View.VISIBLE);
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
 
-            if (isLivarsion) {
-                radioButtonLivraison.setChecked(true);
-                radioButtonEmporter.setChecked(false);
-            } else if (isExporter) {
-                radioButtonLivraison.setChecked(false);
-                radioButtonEmporter.setChecked(true);
-            }else {
-                radioButtonLivraison.setChecked(true);
-                radioButtonEmporter.setChecked(false);
-            }
+        if (isLivarsion) {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        } else if (isExporter) {
+            radioButtonLivraison.setChecked(false);
+            radioButtonEmporter.setChecked(true);
+        } else {
+            radioButtonLivraison.setChecked(true);
+            radioButtonEmporter.setChecked(false);
+        }
 
 
+        //setAddress adapter
 
+        recyclerViewAddress.setHasFixedSize(true);
+        recyclerViewAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
+        AddressAdapter addressAdapter = new AddressAdapter();
+        recyclerViewAddress.setAdapter(addressAdapter);
+
+        String addressJson = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> addressList = GsonHelper.on().convertJsonToNormalAddress(addressJson);
+        addressAdapter.clear();
+        addressAdapter.addItem(addressList);
+
+        addressAdapter.setItemClickListener((view, item) -> {
+            ProfileAddressModel model = (ProfileAddressModel) item;
+            // we have to send model in server
+
+            foodMenuViewModel.setDeliveryAddress(model.getLocation(),model.getZipCode(),model.getCity());
+
+            foodMenuViewModel.getDeliveryAddressLiveData().observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(@Nullable ResponseBody responseBody) {
+
+                }
+            });
+        });
 
         radioButtonLivraison.setOnClickListener(this);
         radioButtonEmporter.setOnClickListener(this);

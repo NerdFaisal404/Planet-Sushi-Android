@@ -1,4 +1,4 @@
-package fr.sushi.app.ui.cart.viewmodel;
+package fr.sushi.app.ui.menu;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
-public class FoodMenuViewModel extends ViewModel {
+public class MenuDetailsViewModel extends ViewModel {
 
     private MutableLiveData<FoodMenuResponse> foodMenuListMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseBody> deliveryAddressLiveData = new MutableLiveData<>();

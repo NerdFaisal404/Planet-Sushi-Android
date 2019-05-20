@@ -2,12 +2,15 @@ package fr.sushi.app.ui.menu;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
@@ -38,12 +41,15 @@ import java.util.List;
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.ui.cart.adapter.AddressAdapter;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
@@ -52,6 +58,7 @@ import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.flyanim.CircleAnimationUtil;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
+import okhttp3.ResponseBody;
 
 public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.MenuItemClickListener {
     private ActivityMenuListDetailBinding binding;
@@ -69,6 +76,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     public ItemTouchHelperExtension.Callback mCallback;
 
     private SearchPlace mSearchPlace;
+
+    private MenuDetailsViewModel menuDetailsViewModel;
 
     @Override
     protected int getLayoutId() {
@@ -91,7 +100,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         //categoriesItems = (ArrayList<CategoriesItem>) intent.getSerializableExtra("items");
         categoriesItems = DataCacheUtil.getCategoryItemFromCache();
 
-
+        observeData();
 
       /*  String titleHeader = SharedPref.read(PrefKey.)
 
@@ -129,6 +138,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
     }
 
+
+    private void observeData() {
+
+        menuDetailsViewModel = ViewModelProviders.of(this).get(MenuDetailsViewModel.class);
+
+
+    }
 
     private void setUpToMenuAdapter() {
 
@@ -397,6 +413,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
         TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         View viewDivider = bottomSheet.findViewById(R.id.view_divider);
+        RecyclerView recyclerViewAddress = bottomSheet.findViewById(R.id.rvUserAddress);
         textViewModifier.setOnClickListener(this);
 
 
@@ -416,6 +433,32 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
 
 
+        //setAddress adapter
+
+        recyclerViewAddress.setHasFixedSize(true);
+        recyclerViewAddress.setLayoutManager(new LinearLayoutManager(this));
+        AddressAdapter addressAdapter = new AddressAdapter();
+        recyclerViewAddress.setAdapter(addressAdapter);
+
+        String addressJson = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> addressList = GsonHelper.on().convertJsonToNormalAddress(addressJson);
+        addressAdapter.clear();
+        addressAdapter.addItem(addressList);
+
+        addressAdapter.setItemClickListener((view, item) -> {
+            ProfileAddressModel model = (ProfileAddressModel) item;
+            // we have to send model in server
+
+            menuDetailsViewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
+
+            menuDetailsViewModel.getDeliveryAddressLiveData().observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(@Nullable ResponseBody responseBody) {
+
+                }
+            });
+        });
+
         radioButtonLivraison.setOnClickListener(this);
         radioButtonEmporter.setOnClickListener(this);
         BottomSheetDialog dialog = new BottomSheetDialog(this, R.style.BottomSheetDialogStyle);
@@ -423,6 +466,12 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        tvClose.setOnClickListener(v -> dialog.dismiss());
+        tvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
     }
 }

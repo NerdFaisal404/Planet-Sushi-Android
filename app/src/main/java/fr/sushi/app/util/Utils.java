@@ -3,6 +3,7 @@ package fr.sushi.app.util;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -353,7 +355,7 @@ public class Utils {
     }
 
     public static void showAlert(Context context, String title, String content) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+       /* AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         TextView textView = new TextView(context);
         textView.setText(title);
         textView.setTextColor(Color.BLACK);
@@ -373,7 +375,13 @@ public class Utils {
         positiveButton.setTextColor(Color.BLUE);
         LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
         positiveButtonLL.gravity = Gravity.CENTER;
-        positiveButton.setLayoutParams(positiveButtonLL);
+        positiveButton.setLayoutParams(positiveButtonLL);*/
+
+        new IOSDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(content)
+                .setPositiveButton("D'accord", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     public static String getDistance(Location mLocation, double toLatitude, double toLongitude) {

@@ -108,6 +108,9 @@ public class AddressPickerActivity extends AppCompatActivity implements
                 }
         );
 
+        binding.editTextSearch.requestFocus();
+        Utils.showSoftKeyboard(this);
+
         initPrefvalue();
     }
 

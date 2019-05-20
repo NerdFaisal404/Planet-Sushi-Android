@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <RelativeLayout
@@ -18,26 +17,7 @@
             android:background="@drawable/ic_place_holder"
             android:scaleType="centerCrop" />
 
-       <!-- <TextView
-            android:id="@+id/tvDelivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp50"
-            android:background="@drawable/bg_parcel_way_round"
-            android:drawableLeft="@drawable/ic_delivery"
-            android:drawableRight="@drawable/ic_down_arrow"
-            android:drawablePadding="8dp"
-            android:elevation="1dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingTop="@dimen/dp4"
-            android:paddingRight="@dimen/dp10"
-            android:paddingBottom="@dimen/dp4"
-            android:text="Livraison"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp15" />-->
+
 
         <TextView
             android:id="@+id/tvDelivery"
@@ -45,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:background="@drawable/bg_pickup_pink_round"
-            android:drawableLeft="@drawable/ic_emporter_white"
+            android:drawableLeft="@drawable/ic_scooter_white"
             android:drawableRight="@drawable/ic_white_down_arrow"
             android:drawablePadding="8dp"
             android:elevation="1dp"
@@ -89,11 +69,11 @@
                     android:layout_marginRight="@dimen/dp_four"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
                     android:text="Quelle est votre adresse ?"
-                    android:textColor="#394F61"
-                    android:textSize="@dimen/dp_sixteen" />
+                    android:textColor="#B3394F61"
+                    android:textSize="@dimen/sp17" />
 
                 <ImageView
                     android:id="@+id/ivView"
@@ -112,9 +92,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:padding="@dimen/dp5"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/dp10"
-                    android:src="@drawable/ic_home_clock" />
+                    android:src="@drawable/ic_search_gray" />
 
             </RelativeLayout>
 
@@ -224,6 +205,63 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/layoutWithoutLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="2dp"
+                android:padding="@dimen/dp_tweleve">
+
+                <ImageView
+                    android:id="@+id/iv_icon_not_connected"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="centerCrop"
+                    android:padding="8dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_black_oval"
+                    android:src="@drawable/ic_account_profile" />
+
+                <LinearLayout
+                    android:layout_marginLeft="@dimen/dp16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_icon_not_connected"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_thin"
+                        android:text="DÉJÀ CLIENT PLANET SUSHI ?"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:id="@+id/tvNotConnected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#627588"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Connectez-vous à votre compte"
+                        android:textSize="@dimen/sp16" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/layoutRecentAddress"
@@ -299,6 +337,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="45"
+                    android:visibility="gone"
                     android:textSize="20sp"
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/colorPink"
@@ -382,6 +421,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
