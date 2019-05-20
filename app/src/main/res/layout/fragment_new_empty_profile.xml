@@ -182,7 +182,12 @@
                     android:layout_marginTop="@dimen/dp20"
                     android:background="@drawable/bg_create_account"
                     android:text="@string/create_account"
+                    android:drawableStart="@drawable/ic_fish"
+                    android:drawableEnd="@drawable/ic_white_rightt_arrow"
                     android:textColor="@color/colorWhite"
+                    android:drawablePadding="@dimen/dp16"
+                    android:paddingStart="@dimen/dp16"
+                    android:paddingEnd="@dimen/dp16"
                     app:layout_constraintEnd_toEndOf="@+id/input_layout_password"
                     app:layout_constraintStart_toStartOf="@+id/input_layout_password"
                     app:layout_constraintTop_toBottomOf="@+id/text_view_or" />
