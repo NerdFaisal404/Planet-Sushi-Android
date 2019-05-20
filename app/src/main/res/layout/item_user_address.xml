@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:padding="10dp"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
 
         <ImageView
@@ -15,10 +17,10 @@
             android:src="@drawable/ic_location" />
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/dp16"
             android:id="@+id/layoutAddress"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp16"
             android:layout_toRightOf="@+id/iv_icon"
             android:orientation="vertical">
 
@@ -27,12 +29,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:textColor="#627588"
-                android:singleLine="true"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_medium"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="75008 Paris"
+                android:textColor="#627588"
                 android:textSize="@dimen/sp16" />
 
             <TextView
@@ -40,12 +42,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:textColor="#627588"
-                android:singleLine="true"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/robot_regular"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="16 Cours Albert 1er"
+                android:textColor="#627588"
                 android:textSize="@dimen/sp16" />
 
             <TextView
@@ -53,12 +55,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:textColor="#627588"
-                android:singleLine="true"
-                android:maxLines="1"
                 android:ellipsize="end"
                 android:fontFamily="@font/robot_regular"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:text="Code 2713, Étage 5"
+                android:textColor="#627588"
                 android:textSize="@dimen/sp16" />
 
         </LinearLayout>
@@ -72,3 +74,4 @@
             android:layout_marginRight="5dp" />
 
     </RelativeLayout>
+</layout>
