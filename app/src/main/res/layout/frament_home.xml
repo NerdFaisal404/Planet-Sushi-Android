@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <RelativeLayout
@@ -18,26 +17,7 @@
             android:background="@drawable/ic_place_holder"
             android:scaleType="centerCrop" />
 
-       <!-- <TextView
-            android:id="@+id/tvDelivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp50"
-            android:background="@drawable/bg_parcel_way_round"
-            android:drawableLeft="@drawable/ic_delivery"
-            android:drawableRight="@drawable/ic_down_arrow"
-            android:drawablePadding="8dp"
-            android:elevation="1dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingTop="@dimen/dp4"
-            android:paddingRight="@dimen/dp10"
-            android:paddingBottom="@dimen/dp4"
-            android:text="Livraison"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/sp15" />-->
+
 
         <TextView
             android:id="@+id/tvDelivery"
@@ -45,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:background="@drawable/bg_pickup_pink_round"
-            android:drawableLeft="@drawable/ic_emporter_white"
+            android:drawableLeft="@drawable/ic_scooter_white"
             android:drawableRight="@drawable/ic_white_down_arrow"
             android:drawablePadding="8dp"
             android:elevation="1dp"
