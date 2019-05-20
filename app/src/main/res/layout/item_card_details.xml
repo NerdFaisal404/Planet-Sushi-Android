@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:paddingRight="@dimen/dp16"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardUseCompatPadding="true">
 

@@ -38,6 +38,7 @@ public class CardDetailsActivity extends BaseActivity {
         mBinding.viewPagerCard.setOffscreenPageLimit(3);
 
         mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCard);
+        mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCardContent);
 
 
         mCardDetailsAdapter = new CardDetailsAdapter(getSupportFragmentManager());
