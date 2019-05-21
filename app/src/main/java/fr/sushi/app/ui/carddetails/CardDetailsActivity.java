@@ -39,7 +39,6 @@ public class CardDetailsActivity extends BaseActivity {
 
         mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCard);
 
-
         mCardDetailsAdapter = new CardDetailsAdapter(getSupportFragmentManager());
         mBinding.viewPagerCardContent.setAdapter(mCardDetailsAdapter);
 
@@ -69,7 +68,7 @@ public class CardDetailsActivity extends BaseActivity {
                 if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                     return;
                 }
-               // mBinding.viewPagerCardContent.scrollTo(mBinding.viewPagerCard.getScrollX(), mBinding.viewPagerCard.getScrollY());
+                // mBinding.viewPagerCardContent.scrollTo(mBinding.viewPagerCard.getScrollX(), mBinding.viewPagerCard.getScrollY());
             }
 
             @Override
@@ -81,6 +80,7 @@ public class CardDetailsActivity extends BaseActivity {
             public void onPageScrollStateChanged(final int state) {
                 mScrollState = state;
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCardContent);
                     mBinding.viewPagerCardContent.setCurrentItem(mBinding.viewPagerCard.getCurrentItem(), false);
                 }
             }
@@ -95,7 +95,7 @@ public class CardDetailsActivity extends BaseActivity {
                 if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                     return;
                 }
-               // mBinding.viewPagerCard.scrollTo(mBinding.viewPagerCardContent.getScrollX(), mBinding.viewPagerCard.getScrollY());
+                // mBinding.viewPagerCard.scrollTo(mBinding.viewPagerCardContent.getScrollX(), mBinding.viewPagerCard.getScrollY());
             }
 
             @Override
@@ -107,6 +107,7 @@ public class CardDetailsActivity extends BaseActivity {
             public void onPageScrollStateChanged(final int state) {
                 mScrollState = state;
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mBinding.dotsIndicator.setViewPager(mBinding.viewPagerCard);
                     mBinding.viewPagerCard.setCurrentItem(mBinding.viewPagerCardContent.getCurrentItem(), false);
                 }
             }
