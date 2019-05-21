@@ -165,7 +165,7 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
         super.onScrollStateChanged(recyclerView, newState);
         try {
             //Need to comment out to stop shake
-
+/*
             if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                 if (mLinearLayoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
                     int positionScrolled = (itemToResize == 1) ? calculatePositionScrolledDown(recyclerView) : calculatePositionScrolledUp(recyclerView);
@@ -176,7 +176,7 @@ public class FocusResizeScrollListener<T extends FocusResizeAdapter> extends Rec
                         }
                     }
                 }
-            }
+            }*/
             // comment end
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
