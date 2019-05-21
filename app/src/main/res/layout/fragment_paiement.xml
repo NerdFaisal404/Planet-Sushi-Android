@@ -116,7 +116,7 @@
                             android:singleLine="true"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp15"
-                            tools:text="House 32" />
+                            android:text="Code 3456, immeuble B, Etage 5" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -153,7 +153,7 @@
                         android:layout_toLeftOf="@+id/tvMobileNo"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp15"
-                        tools:text="House 32" />
+                        tools:text="Faisal Ahmed" />
 
 
                     <TextView
@@ -165,7 +165,7 @@
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp15"
-                        tools:text="01763297075" />
+                        android:text="01763297075" />
                 </RelativeLayout>
 
             </LinearLayout>
