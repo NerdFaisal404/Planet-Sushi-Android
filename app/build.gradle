@@ -106,8 +106,6 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //for Adyen
-    implementation "com.adyen.checkout:core:2.3.0"
-    implementation "com.adyen.checkout:core-card:2.3.0"
     implementation "com.adyen.checkout:ui:2.3.0"
 
     implementation 'com.itlgl:iosdialog:1.0.1'
