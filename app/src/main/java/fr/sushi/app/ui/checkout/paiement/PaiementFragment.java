@@ -2,6 +2,7 @@ package fr.sushi.app.ui.checkout.paiement;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -72,6 +73,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     private BottomSheetDialog dialog;
+    private PaimentViewModel paimentViewModel;
 
 
     public PaiementFragment() {
@@ -97,44 +99,23 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        observeData();
+
         initRadioListener();
 
         return view;
     }
 
 
+    private void observeData() {
+
+        paimentViewModel = ViewModelProviders.of(this).get(PaimentViewModel.class);
+
+
+    }
+
+
     private void initRadioListener() {
-     /*   binding.radioCart.setOnClickListener(v -> {
-                    if (binding.radioCart.isChecked()) {
-                        binding.radioCart.setChecked(false);
-                    } else {
-                        binding.radioCart.setChecked(true);
-                    }
-                }
-        );
-
-        binding.radioLivarsion.setOnClickListener(v -> {
-
-                    if (binding.radioLivarsion.isChecked()) {
-                        binding.radioLivarsion.setChecked(false);
-                    } else {
-                        binding.radioLivarsion.setChecked(true);
-
-                    }
-
-                }
-        );
-
-        binding.radioRestaurent.setOnClickListener(v -> {
-
-                    if (binding.radioRestaurent.isChecked()) {
-                        binding.radioRestaurent.setChecked(false);
-                    } else {
-                        binding.radioRestaurent.setChecked(true);
-                    }
-
-                }
-        );*/
 
         binding.layoutCartPayment.setOnClickListener(v -> {
 
