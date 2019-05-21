@@ -22,8 +22,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -43,13 +41,11 @@ import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.base.BaseFragment;
-import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import fr.sushi.app.ui.home.data.HomeSlidesItem;
 import fr.sushi.app.ui.home.viewmodel.HomeViewModel;
-import fr.sushi.app.ui.login.LoginActivity;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DataCacheUtil;
@@ -247,8 +243,10 @@ public class HomeFragment extends BaseFragment {
                         Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
                         prepareDataForBottomSheet();
                         if (currentSearchPlace != null) {
-                            currentSearchPlace.setTitle(selectedTitle);
-                            currentSearchPlace.setTime(selectedTime);
+                            //currentSearchPlace.setTitle(selectedTitle);
+                            //currentSearchPlace.setTime(selectedTime);
+                            currentSearchPlace.setOrder(selectedOrder);
+                            currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
                             PlaceUtil.saveCurrentPlace(currentSearchPlace);
                         }
@@ -387,23 +385,23 @@ public class HomeFragment extends BaseFragment {
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 
-    private Map<String, List<String>> scheduleOrderMap = new TreeMap<>();
+    private Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();
 
     private void prepareDataForBottomSheet() {
         List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
         for (Order item : schedulesList) {
             String[] displayValue = item.getDisplayValue().split("à");
 
-            List<String> existList = scheduleOrderMap.get(displayValue[0]);
+            List<Order> existList = scheduleOrderMap.get(displayValue[0]);
 
             Log.e("Orders", "value =" + item.getDisplayValue() + " time =" + item.getSchedule());
 
             if (existList == null) {
-                List<String> newList = new ArrayList<>();
-                newList.add(item.getSchedule());
+                List<Order> newList = new ArrayList<>();
+                newList.add(item);
                 scheduleOrderMap.put(displayValue[0], newList);
             } else {
-                existList.add(item.getSchedule());
+                existList.add(item);
             }
 
 
@@ -414,8 +412,7 @@ public class HomeFragment extends BaseFragment {
     private AddressNameAdapter addressNameAdapter;
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
-    private String selectedTitle, selectedTime;
-
+    private Order selectedOrder;
     void showSavedAddressBottomSheet() {
         DialogUtils.hideDialog();
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
@@ -430,8 +427,7 @@ public class HomeFragment extends BaseFragment {
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
-        //Collections.reverse(data);
-        selectedTitle = data.get(0);
+
 
         addressNameAdapter = new AddressNameAdapter(getActivity(), data);
         sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
@@ -439,12 +435,11 @@ public class HomeFragment extends BaseFragment {
             public void onItemSelected(int position) {
                 addressNameAdapter.setSelectedPosition(position);
                 Log.e("Selected_item", "Selected title =" + data.get(position));
-                List<String> timeList = scheduleOrderMap.get(data.get(position));
+                List<Order> timeList = scheduleOrderMap.get(data.get(position));
 
                 wheelTimeAdapter.setNewDataList(timeList);
-                String title = addressNameAdapter.getItem(position);
-                selectedTime = timeList.get(0);
-                selectedTitle = title;
+                selectedOrder = timeList.get(0);
+
             }
         });
         addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
@@ -454,8 +449,10 @@ public class HomeFragment extends BaseFragment {
 
 
         tvValider.setOnClickListener(v -> {
-            currentSearchPlace.setTitle(selectedTitle);
-            currentSearchPlace.setTime(selectedTime);
+            //currentSearchPlace.setTitle(selectedTitle);
+            //currentSearchPlace.setTime(selectedTime);
+            currentSearchPlace.setOrder(selectedOrder);
+            currentSearchPlace.setTime(selectedOrder.getSchedule());
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
             PlaceUtil.saveCurrentPlace(currentSearchPlace);
             Intent intent = new Intent(getActivity(),
@@ -470,20 +467,20 @@ public class HomeFragment extends BaseFragment {
         timeRv.setPadding(padding, 0, padding, 0);
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
 
-        List<String> timeList = scheduleOrderMap.get(data.get(0));
-        selectedTime = timeList.get(0);
+        List<Order> timeList = scheduleOrderMap.get(data.get(0));
+        selectedOrder = timeList.get(0);
         wheelTimeAdapter = new WheelTimeAdapter(getActivity(), timeList);
         timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int position) {
                 wheelTimeAdapter.setSelectedPosition(position);
-                String time = wheelTimeAdapter.getSelectedTime(position);
-                selectedTime = time;
+                selectedOrder = wheelTimeAdapter.getSelectedOrder(position);
+
             }
         });
         wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
             @Override
-            public void onItemClick(int position, String item) {
+            public void onItemClick(int position, Order item) {
                 timeRv.smoothScrollToPosition(position);
             }
         });
