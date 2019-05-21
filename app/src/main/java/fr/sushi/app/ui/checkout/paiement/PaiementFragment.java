@@ -11,12 +11,15 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,14 +93,81 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         binding.addressView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startActivity(new Intent(getActivity(), AddressPickerActivity.class));
+                startActivity(new Intent(getActivity(), AddressPickerActivity.class));
             }
         });
 
-
+        initRadioListener();
 
         return view;
     }
+
+
+    private void initRadioListener() {
+     /*   binding.radioCart.setOnClickListener(v -> {
+                    if (binding.radioCart.isChecked()) {
+                        binding.radioCart.setChecked(false);
+                    } else {
+                        binding.radioCart.setChecked(true);
+                    }
+                }
+        );
+
+        binding.radioLivarsion.setOnClickListener(v -> {
+
+                    if (binding.radioLivarsion.isChecked()) {
+                        binding.radioLivarsion.setChecked(false);
+                    } else {
+                        binding.radioLivarsion.setChecked(true);
+
+                    }
+
+                }
+        );
+
+        binding.radioRestaurent.setOnClickListener(v -> {
+
+                    if (binding.radioRestaurent.isChecked()) {
+                        binding.radioRestaurent.setChecked(false);
+                    } else {
+                        binding.radioRestaurent.setChecked(true);
+                    }
+
+                }
+        );*/
+
+        binding.layoutCartPayment.setOnClickListener(v -> {
+
+            binding.radioCart.setChecked(true);
+            binding.radioRestaurent.setChecked(false);
+            binding.radioLivarsion.setChecked(false);
+
+        });
+
+        binding.layoutLivarsion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                binding.radioLivarsion.setChecked(true);
+                binding.radioRestaurent.setChecked(false);
+                binding.radioCart.setChecked(false);
+
+            }
+        });
+
+        binding.layoutRestuarent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                binding.radioRestaurent.setChecked(true);
+                binding.radioLivarsion.setChecked(false);
+                binding.radioCart.setChecked(false);
+                showDialog();
+
+            }
+        });
+    }
+
 
     private void showDialog() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -108,15 +178,12 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button buttonSpecifyAnAmount=bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
-        Button buttonNoChange=bottomSheet.findViewById(R.id.buttonNoChange);
+        Button buttonSpecifyAnAmount = bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
+        Button buttonNoChange = bottomSheet.findViewById(R.id.buttonNoChange);
 
-        buttonSpecifyAnAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                showDialogSpecifyAmount();
-            }
+        buttonSpecifyAnAmount.setOnClickListener(v -> {
+            dialog.dismiss();
+            showDialogSpecifyAmount();
         });
 
 
@@ -131,7 +198,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        TextView tvClose=bottomSheet.findViewById(R.id.tvClose);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,9 +218,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
 
             List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-            if(!currentSearchPlace.isEmpty()) {
+            if (!currentSearchPlace.isEmpty()) {
                 SearchPlace latestSearchPlace = currentSearchPlace.get(0);
-                if(latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0){
+                if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
                     LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
@@ -193,11 +260,11 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
 
         List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-        if(!currentSearchPlace.isEmpty()) {
+        if (!currentSearchPlace.isEmpty()) {
             SearchPlace latestSearchPlace = currentSearchPlace.get(0);
-            binding.tvCountryCode.setText(latestSearchPlace.getPostalCode()+" "+latestSearchPlace.getCity());
+            binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
-            if(!TextUtils.isEmpty(latestSearchPlace.getTime())) {
+            if (!TextUtils.isEmpty(latestSearchPlace.getTime())) {
                 String time = latestSearchPlace.getTime().replace(":", "h");
                 binding.tvDeliveryTime.setText("Livraison prévue pour " + time);
             }
