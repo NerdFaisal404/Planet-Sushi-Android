@@ -58,6 +58,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
@@ -102,6 +104,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         observeData();
 
         initRadioListener();
+
+        binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME,""));
+        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE,""));
 
         return view;
     }
