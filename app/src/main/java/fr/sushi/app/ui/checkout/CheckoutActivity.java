@@ -36,7 +36,11 @@ import java.util.regex.Pattern;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.ActivityCheckoutBinding;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MenuPrefUtil;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.ui.payment.Global.Constants;
@@ -53,8 +57,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String SETUP = Constants.CHECKOUT_SETUP;
     private static final String VERIFY = Constants.CHECKOUT_VERIFY;
 
-    String price = "10", userName = "User name", userLink = "Reference name";
-    // Add the URL for your server here; or you can use the demo server of Adyen: https://checkoutshopper-test.adyen.com/checkoutshopper/demoserver/
+  // Add the URL for your server here; or you can use the demo server of Adyen: https://checkoutshopper-test.adyen.com/checkoutshopper/demoserver/
     private String merchantServerUrl = Constants.CHECKOUT_MERCHANT_SERVER_URL;
 
     // Add the api secret key for your server here; you can retrieve this key from customer area.
@@ -107,20 +110,23 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
         binding.viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             public void onPageSelected(int position) {
                 if (position == 2) {
                     binding.totalPriceTv.setVisibility(View.GONE);
-                   binding.midline.setVisibility(View.GONE);
-                   binding.tvSubmit.setGravity(Gravity.CENTER);
-                    binding.tvSubmit.setText("PAYER "+Utils.getDecimalFormat(totalPrice) + "€");
-                }else {
+                    binding.midline.setVisibility(View.GONE);
+                    binding.tvSubmit.setGravity(Gravity.CENTER);
+                    binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+                } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
                     binding.midline.setVisibility(View.VISIBLE);
                     binding.tvSubmit.setVisibility(View.VISIBLE);
-                    binding.tvSubmit.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                    binding.tvSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     binding.tvSubmit.setText("CONTINUER");
                 }
             }
@@ -132,7 +138,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 binding.viewpager.setCurrentItem(1);
             } else if (position == 1) {
                 binding.viewpager.setCurrentItem(2);
-            }else if (position == 2) {
+            } else if (position == 2) {
                 paymentRequest = new PaymentRequest(CheckoutActivity.this, paymentRequestListener);
                 paymentRequest.start();
             }
@@ -158,7 +164,7 @@ public class CheckoutActivity extends AppCompatActivity {
             headers.put("Content-Type", "application/json; charset=UTF-8");
             headers.put(merchantApiHeaderKeyForApiSecretKey, merchantApiSecretKey);
 
-            AsyncHttpClient.post(merchantServerUrl + SETUP, headers, getSetupDataString(token), new HttpResponseCallback() {
+            AsyncHttpClient.post(merchantServerUrl, headers, getSetupDataString(token), new HttpResponseCallback() {
                 @Override
                 public void onSuccess(final byte[] response) {
                     paymentDataCallback.completionWithPaymentData(response);
@@ -199,24 +205,32 @@ public class CheckoutActivity extends AppCompatActivity {
     private String getSetupDataString(final String token) {
         final JSONObject jsonObject = new JSONObject();
         try {
-            Pattern p = Pattern.compile("-?\\d+");
-            Matcher m = p.matcher(price);
-            while (m.find()) {
-                price = m.group();
+
+            List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
+            if (!recentSearchPlace.isEmpty()) {
+                SearchPlace place = recentSearchPlace.get(0);
+
+                jsonObject.put("order_date", "2019-05-21 12:15:00");
+                jsonObject.put("id_delivery_zone", "235");
             }
-            jsonObject.put("merchantAccount", "TestMerchant"); // Not required when communicating with merchant server
-            jsonObject.put("shopperLocale", "fr_FR");
-            jsonObject.put("token", token);
-            jsonObject.put("returnUrl", "example-shopping-app://");
-            jsonObject.put("countryCode", "FR");
-            final JSONObject amount = new JSONObject();
-            amount.put("value", price);
-            amount.put("currency", "EUR");
-            jsonObject.put("amount", amount);
+            jsonObject.put("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+            jsonObject.put("id_store", "71");
+            jsonObject.put("app_token", token);
+            jsonObject.put("returnUrl", "planetsushi://");
+
             jsonObject.put("channel", "android");
-            jsonObject.put("reference", userName);
-            jsonObject.put("shopperReference", userLink);
+            jsonObject.put("amount", Utils.getDecimalFormat(totalPrice));
             Log.e("PaymentJSON:", jsonObject.toString());
+
+          /*  "id_customer": AppUserDefault.getUserID()!,
+                    "id_store": OrderAndDataController.sharedInstance.selectedStoreId ?? "",
+                    "order_date": OrderAndDataController.sharedInstance.selectedDate ?? "",
+                    "id_delivery_zone": "235", // 71 is an id_store. get id_delivery_zone in the store schedule (use this for test : 235)
+                    "returnUrl": "planetsushi://",
+                    "channel": "ios",
+                    "amount": 100*OrderAndDataController.sharedInstance.totalPriceWithSideProducts,
+                    "app_token": token
+            */
         } catch (final JSONException jsonException) {
             Log.e("Setup failed", "" + jsonException);
         }
