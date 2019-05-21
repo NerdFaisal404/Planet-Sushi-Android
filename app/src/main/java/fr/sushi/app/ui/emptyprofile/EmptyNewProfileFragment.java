@@ -77,8 +77,9 @@ public class EmptyNewProfileFragment extends BaseFragment {
 
         if (requestCode == 500) {
             Log.d("LoginTest", "call fragment");
-
+            ((MainActivity) getActivity()).goProfilePage();
         }
+        // check if else condition if any result here
     }
 
     @Override
