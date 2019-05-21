@@ -107,19 +107,18 @@
                     android:singleLine="true"
                     android:text="Livraison prévue pour 21h30"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp16" />
 
                 <TextView
+                    android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvTime"
-                    android:text="16h45"
-                    android:textColor="#394F61"
-                    android:fontFamily="@font/roboto_medium"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/ivDownArrow"
-                    />
-
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="16h45"
+                    android:textColor="#394F61"
+                    android:textSize="@dimen/sp16" />
 
 
                 <ImageView
@@ -139,102 +138,41 @@
                 android:layout_marginTop="@dimen/dp10"
                 android:background="#D8D8D8" />
 
-
-            <RelativeLayout
-                android:id="@+id/layoutCardTop"
+            <TextView
+                android:id="@+id/tv_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="@dimen/dp10">
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp30"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Choisir une méthode de paiement"
-                    android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
-
-                    <RelativeLayout
-                        android:id="@+id/layoutPaymentOption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvTitle"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/dp10">
-
-                        <ImageView
-                            android:id="@+id/ivPaymentOption"
-                            android:layout_width="21dp"
-                            android:layout_height="@dimen/dp15"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/dp10"
-                            android:src="@drawable/ic_card" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp10"
-                            android:layout_marginRight="@dimen/dp10"
-                            android:layout_toLeftOf="@+id/ivDownArrowCard"
-                            android:layout_toRightOf="@+id/ivPaymentOption"
-                            android:orientation="vertical">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:id="@+id/tvPaymentOptionTitle"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/dp10"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Visa"
-                                android:textColor="@color/color_394F61"
-                                android:textSize="@dimen/sp15" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tvPaymentOptionBody"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/dp10"
-                                android:fontFamily="@font/robot_regular"
-                                android:text="Terminant par ••••7658 "
-                                android:textColor="#627588"
-                                android:textSize="@dimen/sp15" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/ivDownArrowCard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/dp10"
-                            android:src="@drawable/ic_down_arrow" />
-
-                    </RelativeLayout>
-
-            </RelativeLayout>
+                android:layout_marginTop="@dimen/dp30"
+                android:drawableLeft="@drawable/ic_horizontal_pink"
+                android:drawablePadding="@dimen/dp10"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Paiement et validation"
+                android:textColor="#394F61"
+                android:textSize="@dimen/sp24" />
 
             <RelativeLayout
-                android:id="@+id/layoutCarteBancaire"
+                android:id="@+id/layoutCartPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp20">
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
+                <ImageView
+                    android:id="@+id/ivCart"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_card_planet" />
 
                 <TextView
-                    android:id="@+id/tvCarteBancaire"
+                    android:id="@+id/tvCartInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowCarteBacaire"
+                    android:layout_toLeftOf="@+id/radioCart"
+                    android:layout_toRightOf="@+id/ivCart"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
@@ -242,96 +180,100 @@
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp16" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowCarteBacaire"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:checked="true"
+                    android:theme="@style/RadioButtonStyle" />
+
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
-
             <RelativeLayout
-                android:id="@+id/layoutCarteBancaireAuLivreur"
+                android:id="@+id/layoutLivarsion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
+                <ImageView
+                    android:id="@+id/ivLivarsion"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_scooter" />
 
                 <TextView
-                    android:id="@+id/tvCarteBancaireBancaireAuLivreur"
+                    android:id="@+id/tvLivarsionInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
+                    android:layout_toLeftOf="@+id/radioLivarsion"
+                    android:layout_toRightOf="@+id/ivLivarsion"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Carte bancaire au livreur"
+                    android:text="Carte bancaire à la livraison"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
+                    android:textSize="@dimen/sp14" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioLivarsion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:theme="@style/RadioButtonStyle"
+                  />
+
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
-
             <RelativeLayout
-                android:id="@+id/layoutTicketRestaurant"
+                android:id="@+id/layoutRestuarent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
+                <ImageView
+                    android:id="@+id/ivResuarent"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_cash_payment" />
 
                 <TextView
-                    android:id="@+id/tvTicketRestaurant"
+                    android:id="@+id/tvReaustrantInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowTicketRestaurant"
+                    android:layout_toLeftOf="@+id/radioRestaurent"
+                    android:layout_toRightOf="@+id/ivResuarent"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Espèce/Ticket restaurant"
+                    android:text="Espèce ou Ticket Restaurant"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
+                    android:textSize="@dimen/sp14" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowTicketRestaurant"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioRestaurent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:theme="@style/RadioButtonStyle" />
+
 
             </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
 
         </LinearLayout>
 

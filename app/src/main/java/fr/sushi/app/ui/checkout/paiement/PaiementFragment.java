@@ -95,28 +95,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         });
 
 
-        binding.layoutCarteBancaire.setOnClickListener((View v) ->{
-            binding.tvTitle.setText("Paiement par carte");
-            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-            binding.ivPaymentOption.setImageResource(R.drawable.ic_card);
-            binding.tvPaymentOptionTitle.setText("Visa");
-            binding.tvPaymentOptionBody.setText("Se terminant par 0076");
-        });
 
-        binding.layoutCarteBancaireAuLivreur.setOnClickListener((View v)->{
-            binding.tvTitle.setText("Paiement par carte à la livraison");
-            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-            binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
-            binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
-            binding.tvPaymentOptionBody.setText("0,00 €");
-
-        });
-
-        binding.layoutTicketRestaurant.setOnClickListener((View v) ->{
-            binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
-            binding.layoutPaymentOption.setVisibility(View.GONE);
-            showDialog();
-        });
         return view;
     }
 
@@ -140,17 +119,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        buttonNoChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
-                binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-                binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
-                binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
-                binding.tvPaymentOptionBody.setText("0,00 €");
-            }
-        });
 
     }
 
