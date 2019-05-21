@@ -14,11 +14,14 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
+import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
@@ -166,5 +169,17 @@ public class Repository {
         Log.d("AddressUpdateResponse", "res: " + mainObj.toString());
 
         return apiInterface.addOrUpdateAddress(mainObj);
+    }
+
+    public static Flowable<ResponseBody> sendPayment(PaymentModel paymentModel) {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+
+        return apiInterface.sendAdyenPayment(paymentModel);
+    }
+
+    public static Flowable<ResponseBody> sendAdyenPayment(PaymentModel paymentModel) {
+        ApiCall apiInterface = RetrofitClient.getAdyenRetrofitInstance().create(ApiCall.class);
+
+        return apiInterface.sendAdyenPayment(paymentModel);
     }
 }

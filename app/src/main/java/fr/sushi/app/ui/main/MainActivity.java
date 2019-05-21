@@ -16,14 +16,13 @@ import fr.sushi.app.data.remote.network.RetrofitClient;
 import fr.sushi.app.databinding.ActivityMainBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.cart.FoodMenuFragment;
-import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
 import fr.sushi.app.ui.home.view.HomeFragment;
 import fr.sushi.app.ui.profile.ProfileFragment;
 import fr.sushi.app.ui.shop.MapFragment;
 import fr.sushi.app.util.FragmentFunctions;
-import fr.sushi.app.util.Utils;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         // StatusBarUtil.setTranslucentForImageViewInFragment(this, 20, null);
         RetrofitClient.getInstance(this);
+        RetrofitClient.getAdyenInstance(this);
         binding.navigation.setOnNavigationItemSelectedListener(this);
         binding.navigation.setSelectedItemId(R.id.navigation_home);
         //FragmentFunctions.commitFragment(R.id.fragment_container, this, new HomeFragment());
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     baseFragment = new ShoppingBagFragment();
                 }*/
                 needToRollback = true;
-                startActivity(new Intent(MainActivity.this, CheckoutActivity.class));
+                startActivity(new Intent(MainActivity.this, PaymentCheckoutActivity.class));
                 break;
 
             case R.id.navigation_profile:

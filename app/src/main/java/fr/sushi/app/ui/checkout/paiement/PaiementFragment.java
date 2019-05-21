@@ -1,40 +1,22 @@
 package fr.sushi.app.ui.checkout.paiement;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.adyen.core.PaymentRequest;
-import com.adyen.core.interfaces.HttpResponseCallback;
-import com.adyen.core.interfaces.PaymentDataCallback;
-import com.adyen.core.interfaces.PaymentRequestListener;
-import com.adyen.core.models.Payment;
-import com.adyen.core.models.PaymentRequestResult;
-import com.adyen.core.utils.AsyncHttpClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,26 +28,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
+import fr.sushi.app.ui.checkout.CheckoutViewModel;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
-import fr.sushi.app.ui.payment.Global.Constants;
-import fr.sushi.app.util.PermissionUtil;
 
 
 public class PaiementFragment extends Fragment implements OnMapReadyCallback {
@@ -75,7 +47,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     private BottomSheetDialog dialog;
-    private PaimentViewModel paimentViewModel;
+
 
 
     public PaiementFragment() {
@@ -101,7 +73,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        observeData();
+
 
         initRadioListener();
 
@@ -112,12 +84,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void observeData() {
 
-        paimentViewModel = ViewModelProviders.of(this).get(PaimentViewModel.class);
-
-
-    }
 
 
     private void initRadioListener() {

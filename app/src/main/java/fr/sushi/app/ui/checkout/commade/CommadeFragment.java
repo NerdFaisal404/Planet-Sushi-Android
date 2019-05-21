@@ -16,10 +16,8 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
-import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
-import fr.sushi.app.ui.checkout.CheckoutActivity;
-import fr.sushi.app.ui.menu.MenuPrefUtil;
+import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
@@ -101,7 +99,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         binding.totalPriceWithFee.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
-        ((CheckoutActivity) getActivity()).setTotalPrice(totalPrice);
+        ((PaymentCheckoutActivity) getActivity()).setTotalPrice(totalPrice);
     }
 
     @Override

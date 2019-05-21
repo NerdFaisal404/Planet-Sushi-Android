@@ -3,11 +3,15 @@ package fr.sushi.app.data.remote.network;
 
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
+import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.home.data.HomeConfigurationData;
 import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -48,4 +52,7 @@ public interface ApiCall {
 
     @POST("saveCustomerAddress")
     Flowable<ResponseBody> addOrUpdateAddress(@Query("params") JsonObject address);
+
+    @POST("createPaymentSession")
+    Flowable<ResponseBody> sendAdyenPayment(@Body PaymentModel paymentModel);
 }
