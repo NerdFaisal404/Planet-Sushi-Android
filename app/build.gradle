@@ -106,10 +106,10 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //for Adyen
-    implementation 'com.adyen.checkout:core:1.14.1'
-    implementation 'com.adyen.checkout:utils:1.14.1'
-    implementation 'com.adyen.checkout:ui:1.14.1'
-    implementation 'com.adyen.checkout:cardscan:1.14.1'
+    implementation "com.adyen.checkout:core:2.4.4"
+    implementation "com.adyen.checkout:core-card:2.4.4"
+    implementation "com.adyen.checkout:ui:2.4.4"
+    implementation "com.adyen.checkout:nfc:2.4.4" // Optional; Integrates NFC card reader in card UI
 
     implementation 'com.itlgl:iosdialog:1.0.1'
 

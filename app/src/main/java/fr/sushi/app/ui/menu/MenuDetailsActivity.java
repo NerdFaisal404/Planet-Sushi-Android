@@ -5,9 +5,6 @@ import android.animation.ObjectAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,24 +14,17 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +40,7 @@ import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.cart.adapter.AddressAdapter;
-import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
@@ -131,7 +121,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         }
 
-        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, CheckoutActivity.class)));
+        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentCheckoutActivity.class)));
 
         binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
 

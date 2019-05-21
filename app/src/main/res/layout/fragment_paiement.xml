@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/dp16"
-        android:paddingTop="@dimen/dp10"
         android:paddingRight="@dimen/dp16"
         android:paddingBottom="@dimen/dp16"
         tools:context=".ui.checkout.paiement.PaiementFragment">
@@ -16,74 +15,169 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_round"
+                android:orientation="vertical">
 
-                <fragment
-                    android:id="@+id/mapView"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:layout_width="86dp"
-                    android:layout_height="86dp"
-                    android:layout_alignParentLeft="true"
-                    tools:context=".ui.main.MainActivity" />
+                <RelativeLayout
+                    android:paddingTop="@dimen/dp5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/address_view"
+                    <fragment
+                        android:id="@+id/mapView"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="86dp"
+                        android:layout_height="86dp"
+                        android:layout_alignParentLeft="true"
+                        tools:context=".ui.main.MainActivity" />
+
+                    <LinearLayout
+                        android:id="@+id/address_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_toRightOf="@id/mapView"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCountryCode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="75008 Paris"
+                            android:textColor="#394F61"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp4"
+                            android:fontFamily="@font/robot_regular"
+                            android:text="16 Cours Albert 1er"
+                            android:textColor="#394F61"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tvHouse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp4"
+                            android:fontFamily="@font/robot_regular"
+                            android:text="Étage 5, interphone Riman"
+                            android:textColor="#394F61"
+                            android:textSize="@dimen/sp14" />
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_toRightOf="@id/mapView"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:padding="@dimen/dp10">
 
-                    <TextView
-                        android:id="@+id/tvCountryCode"
+                    <ImageView
+                        android:id="@+id/ivHouse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="75008 Paris"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp14" />
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:src="@drawable/ic_house" />
 
-                    <TextView
-                        android:id="@+id/tvAddress"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp4"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="16 Cours Albert 1er"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp14" />
+                        android:layout_toRightOf="@+id/ivHouse"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tvHouse"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Informations"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp17" />
+
+                        <TextView
+                            android:id="@+id/tvAddressHouse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_light"
+                            android:singleLine="true"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp15"
+                            android:text="Code 3456, immeuble B, Etage 5" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:background="@drawable/bg_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10">
+
+                    <ImageView
+                        android:id="@+id/ivPeople"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp4"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="Étage 5, interphone Riman"
-                        android:textColor="#394F61"
-                        android:textSize="@dimen/sp14" />
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:src="@drawable/icon_user2x" />
 
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/ivPeople"
+                        android:fontFamily="@font/roboto_light"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:layout_marginRight="@dimen/dp10"
+                        android:layout_toLeftOf="@+id/tvMobileNo"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp15"
+                        tools:text="Faisal Ahmed" />
 
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tvMobileNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:fontFamily="@font/roboto_light"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp15"
+                        android:text="01763297075" />
+                </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
+            </LinearLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/layoutAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:padding="@dimen/dp10"
                 android:layout_marginTop="@dimen/dp10">
 
                 <ImageView
@@ -91,9 +185,8 @@
                     android:layout_width="33dp"
                     android:layout_height="33dp"
                     android:layout_marginRight="@dimen/dp10"
-                    android:background="@drawable/bg_oval_darker_grey"
                     android:padding="@dimen/dp8"
-                    android:src="@drawable/ic_scooter_white" />
+                    android:src="@drawable/ic_clock_darker_grey" />
 
                 <TextView
                     android:id="@+id/tvDeliveryTime"
@@ -105,21 +198,20 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Livraison prévue pour 21h30"
+                    android:text="Heure de livraison"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp14" />
+                    android:textSize="@dimen/sp16" />
 
                 <TextView
+                    android:id="@+id/tvTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvTime"
-                    android:text="16h45"
-                    android:textColor="#394F61"
-                    android:fontFamily="@font/roboto_medium"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/ivDownArrow"
-                    />
-
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="16h45"
+                    android:textColor="@color/colorPink"
+                    android:textSize="@dimen/sp16" />
 
 
                 <ImageView
@@ -129,112 +221,46 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:src="@drawable/ic_down_arrow_pink" />
 
             </RelativeLayout>
 
-            <View
+
+            <TextView
+                android:id="@+id/tv_headline"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp25"
+                android:drawableLeft="@drawable/ic_horizontal_pink"
+                android:drawablePadding="@dimen/dp10"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Paiement et validation"
+                android:textColor="#394F61"
+                android:textSize="@dimen/sp24" />
+
+            <RelativeLayout
+                android:id="@+id/layoutCartPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
-
-            <RelativeLayout
-                android:id="@+id/layoutCardTop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="@dimen/dp10">
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp30"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Choisir une méthode de paiement"
-                    android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
-
-                    <RelativeLayout
-                        android:id="@+id/layoutPaymentOption"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvTitle"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/dp10">
-
-                        <ImageView
-                            android:id="@+id/ivPaymentOption"
-                            android:layout_width="21dp"
-                            android:layout_height="@dimen/dp15"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/dp10"
-                            android:src="@drawable/ic_card" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp10"
-                            android:layout_marginRight="@dimen/dp10"
-                            android:layout_toLeftOf="@+id/ivDownArrowCard"
-                            android:layout_toRightOf="@+id/ivPaymentOption"
-                            android:orientation="vertical">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:id="@+id/tvPaymentOptionTitle"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/dp10"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Visa"
-                                android:textColor="@color/color_394F61"
-                                android:textSize="@dimen/sp15" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/tvPaymentOptionBody"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/dp10"
-                                android:fontFamily="@font/robot_regular"
-                                android:text="Terminant par ••••7658 "
-                                android:textColor="#627588"
-                                android:textSize="@dimen/sp15" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/ivDownArrowCard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/dp10"
-                            android:src="@drawable/ic_down_arrow" />
-
-                    </RelativeLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/layoutCarteBancaire"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp20">
-
+                <ImageView
+                    android:id="@+id/ivCart"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_card_planet" />
 
                 <TextView
-                    android:id="@+id/tvCarteBancaire"
+                    android:id="@+id/tvCartInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowCarteBacaire"
+                    android:layout_toLeftOf="@+id/radioCart"
+                    android:layout_toRightOf="@+id/ivCart"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
@@ -242,96 +268,102 @@
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp16" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowCarteBacaire"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:checked="true"
+                    android:clickable="false"
+                    android:theme="@style/RadioButtonStyle" />
+
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
-
             <RelativeLayout
-                android:id="@+id/layoutCarteBancaireAuLivreur"
+                android:id="@+id/layoutLivarsion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
+                <ImageView
+                    android:id="@+id/ivLivarsion"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_scooter" />
 
                 <TextView
-                    android:id="@+id/tvCarteBancaireBancaireAuLivreur"
+                    android:id="@+id/tvLivarsionInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
+                    android:layout_toLeftOf="@+id/radioLivarsion"
+                    android:layout_toRightOf="@+id/ivLivarsion"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Carte bancaire au livreur"
+                    android:text="Carte bancaire à la livraison"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
+                    android:textSize="@dimen/sp14" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowCarteBancaireBancaireAuLivreur"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioLivarsion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:clickable="false"
+                    android:theme="@style/RadioButtonStyle" />
+
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
-
             <RelativeLayout
-                android:id="@+id/layoutTicketRestaurant"
+                android:id="@+id/layoutRestuarent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
+                <ImageView
+                    android:id="@+id/ivResuarent"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:layout_marginRight="@dimen/dp10"
+                    android:padding="@dimen/dp8"
+                    android:src="@drawable/ic_cash_payment" />
 
                 <TextView
-                    android:id="@+id/tvTicketRestaurant"
+                    android:id="@+id/tvReaustrantInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/ivDownArrowTicketRestaurant"
+                    android:layout_toLeftOf="@+id/radioRestaurent"
+                    android:layout_toRightOf="@+id/ivResuarent"
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Espèce/Ticket restaurant"
+                    android:text="Espèce ou Ticket Restaurant"
                     android:textColor="#394F61"
-                    android:textSize="@dimen/sp16" />
+                    android:textSize="@dimen/sp14" />
 
-                <ImageView
-                    android:id="@+id/ivDownArrowTicketRestaurant"
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/radioRestaurent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:src="@drawable/ic_down_arrow" />
+                    android:clickable="false"
+                    android:theme="@style/RadioButtonStyle" />
+
 
             </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#D8D8D8" />
 
         </LinearLayout>
 

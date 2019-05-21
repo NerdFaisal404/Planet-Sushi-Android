@@ -1,15 +1,10 @@
-package fr.sushi.app.ui.login;
+package fr.sushi.app.ui.emptyprofile;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
@@ -28,39 +23,107 @@ import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
-import fr.sushi.app.databinding.ActivityLoginBinding;
+import fr.sushi.app.databinding.FragmentNewEmptyProfileBinding;
+import fr.sushi.app.ui.base.BaseFragment;
+import fr.sushi.app.ui.createaccount.CreateAccountActivity;
+import fr.sushi.app.ui.emptyprofile.viewmodel.EmptyNewProfileViewModel;
+import fr.sushi.app.ui.login.LoginViewModel;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
+/*
+ *  ****************************************************************************
+ *  * Created by : Md Tariqul Islam on 5/21/2019 at 10:54 AM.
+ *  * Email : tariqul@w3engineers.com
+ *  *
+ *  * Purpose:
+ *  *
+ *  * Last edited by : Md Tariqul Islam on 5/21/2019.
+ *  *
+ *  * Last Reviewed by : <Reviewer Name> on <mm/dd/yy>
+ *  ****************************************************************************
+ */
 
-public class LoginActivity extends AppCompatActivity {
-    private ActivityLoginBinding binding;
-    private boolean isEmailvalid, isPasswordValid;
-    private LoginViewModel loginViewModel;
+
+public class EmptyNewProfileFragment extends BaseFragment {
+    FragmentNewEmptyProfileBinding mBinding;
+    LoginViewModel mViewModel;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        binding.inputEmail.addTextChangedListener(new MyTextWatcher(binding.inputEmail));
-        binding.inputPassword.addTextChangedListener(new MyTextWatcher(binding.inputPassword));
-        binding.tvSignup.setOnClickListener(v -> signUp());
+    protected int getLayoutId() {
+        return R.layout.fragment_new_empty_profile;
+
+    }
+
+    @Override
+    protected void startUI() {
+        mBinding = (FragmentNewEmptyProfileBinding) getViewDataBinding();
+
+        setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin);
 
         initViewModel();
 
         initCreateAccountViewMode();
+    }
 
-        binding.ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    protected void stopUI() {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 500) {
+            Log.d("LoginTest", "call fragment");
+            ((MainActivity) getActivity()).goProfilePage();
+        }
+        // check if else condition if any result here
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+
+        switch (view.getId()) {
+            case R.id.button_create_account:
+                startActivityForResult(new Intent(getActivity(), CreateAccountActivity.class), 500);
+                break;
+            case R.id.button_login:
+                signUp();
+                break;
+        }
+    }
+
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+
+    }
+
+    private void signUp() {
+        String email = mBinding.inputEmail.getText().toString();
+        String password = mBinding.inputPassword.getText().toString();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            mBinding.inputEmail.setHighlightColor(Color.RED);
+            return;
+        } else if (password.isEmpty()) {
+            mBinding.inputPassword.setHighlightColor(Color.RED);
+            return;
+        }
+
+        DialogUtils.showDialog(getActivity());
+
+        mViewModel.loginAccount(email, password);
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void initCreateAccountViewMode() {
-        loginViewModel.getLoginAccountLiveData().observe(this, response -> {
+        mViewModel.getLoginAccountLiveData().observe(this, response -> {
             if (response != null) {
                 DialogUtils.hideDialog();
                 try {
@@ -69,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("JsonObject", "value =" + responseObject.toString());
                     if (error == true) {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
+                        Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
                     } else {
                         // CreateAccountResponse addressResponse = new Gson().fromJson(responseObject.toString(), CreateAccountResponse.class);
 
@@ -89,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                         //int year = bDayObj.getInt("year");
                         // int month = bDayObj.getInt("month");
                         // int day = bDayObj.getInt("day");
-                        if(responseObj.has("CustomerAddresses")){
+                        if (responseObj.has("CustomerAddresses")) {
                             JSONArray addressArray = responseObj.getJSONArray("CustomerAddresses");
                             saveAddress(addressArray);
                         }
@@ -104,9 +167,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 
-                        Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_OK, returnIntent);
-                        finish();
+                        ((MainActivity) getActivity()).goProfilePage();
+
 
                     }
                 } catch (JSONException e) {
@@ -118,92 +180,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void signUp() {
-        String email = binding.inputEmail.getText().toString();
-        String password = binding.inputPassword.getText().toString();
-
-        if (email.isEmpty() || !isValidEmail(email)) {
-            binding.inputEmail.setHighlightColor(Color.RED);
-            return;
-        } else if (password.isEmpty()) {
-            binding.inputPassword.setHighlightColor(Color.RED);
-            return;
-        }
-
-        DialogUtils.showDialog(this);
-
-        loginViewModel.loginAccount(email, password);
-    }
-
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-
-    private boolean validatePassword() {
-        if (binding.inputPassword.getText().toString().trim().isEmpty()) {
-            binding.inputPassword.setHintTextColor(Color.GRAY);
-            binding.tvSignup.setBackground(getResources().getDrawable(R.drawable.bg_unselected_pink));
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-    private class MyTextWatcher implements TextWatcher {
-        private View view;
-
-        private MyTextWatcher(View view) {
-            this.view = view;
-        }
-
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        }
-
-        public void afterTextChanged(Editable editable) {
-
-            switch (view.getId()) {
-
-                case R.id.input_email:
-                    isEmailvalid = validateEmail();
-                    break;
-                case R.id.input_password:
-                    isPasswordValid = validatePassword();
-                    break;
-            }
-
-            if (isEmailvalid && isPasswordValid) {
-                //binding.tvSignup.setBackground(getResources().getDrawable(R.drawable.bg_selected_pink));
-                binding.tvSignup.setEnabled(true);
-            } else {
-                // binding.tvSignup.setBackground(getResources().getDrawable(R.drawable.bg_unselected_pink));
-                binding.tvSignup.setEnabled(false);
-            }
-        }
-    }
-
-
-    private boolean validateEmail() {
-        String email = binding.inputEmail.getText().toString().trim();
-
-        if (email.isEmpty()) {
-            // binding.tvSignup.setBackground(getResources().getDrawable(R.drawable.bg_unselected_pink));
-            return false;
-        } else {
-
-            return true;
-        }
-
-    }
-
-    private void initViewModel() {
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
     }
 
     private void saveAddress(JSONArray addressArray) {
@@ -248,8 +224,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             if (!addressList.isEmpty()) {
-                loginViewModel.addAddress(addressList);
+                mViewModel.addAddress(addressList);
             }
         }
     }
+
 }

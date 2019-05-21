@@ -1,14 +1,11 @@
 package fr.sushi.app.ui.checkout.paiement;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -18,19 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.adyen.core.PaymentRequest;
-import com.adyen.core.interfaces.HttpResponseCallback;
-import com.adyen.core.interfaces.PaymentDataCallback;
-import com.adyen.core.interfaces.PaymentRequestListener;
-import com.adyen.core.models.Payment;
-import com.adyen.core.models.PaymentRequestResult;
-import com.adyen.core.utils.AsyncHttpClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,24 +28,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
+import fr.sushi.app.ui.checkout.CheckoutViewModel;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
-import fr.sushi.app.ui.payment.Global.Constants;
-import fr.sushi.app.util.PermissionUtil;
 
 
 public class PaiementFragment extends Fragment implements OnMapReadyCallback {
@@ -69,6 +47,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     private BottomSheetDialog dialog;
+
 
 
     public PaiementFragment() {
@@ -90,35 +69,58 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         binding.addressView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              startActivity(new Intent(getActivity(), AddressPickerActivity.class));
+                startActivity(new Intent(getActivity(), AddressPickerActivity.class));
             }
         });
 
 
-        binding.layoutCarteBancaire.setOnClickListener((View v) ->{
-            binding.tvTitle.setText("Paiement par carte");
-            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-            binding.ivPaymentOption.setImageResource(R.drawable.ic_card);
-            binding.tvPaymentOptionTitle.setText("Visa");
-            binding.tvPaymentOptionBody.setText("Se terminant par 0076");
-        });
 
-        binding.layoutCarteBancaireAuLivreur.setOnClickListener((View v)->{
-            binding.tvTitle.setText("Paiement par carte à la livraison");
-            binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-            binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
-            binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
-            binding.tvPaymentOptionBody.setText("0,00 €");
+        initRadioListener();
 
-        });
+        binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME,""));
+        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE,""));
 
-        binding.layoutTicketRestaurant.setOnClickListener((View v) ->{
-            binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
-            binding.layoutPaymentOption.setVisibility(View.GONE);
-            showDialog();
-        });
         return view;
     }
+
+
+
+
+
+    private void initRadioListener() {
+
+        binding.layoutCartPayment.setOnClickListener(v -> {
+
+            binding.radioCart.setChecked(true);
+            binding.radioRestaurent.setChecked(false);
+            binding.radioLivarsion.setChecked(false);
+
+        });
+
+        binding.layoutLivarsion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                binding.radioLivarsion.setChecked(true);
+                binding.radioRestaurent.setChecked(false);
+                binding.radioCart.setChecked(false);
+
+            }
+        });
+
+        binding.layoutRestuarent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                binding.radioRestaurent.setChecked(true);
+                binding.radioLivarsion.setChecked(false);
+                binding.radioCart.setChecked(false);
+                showDialog();
+
+            }
+        });
+    }
+
 
     private void showDialog() {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -129,28 +131,14 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button buttonSpecifyAnAmount=bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
-        Button buttonNoChange=bottomSheet.findViewById(R.id.buttonNoChange);
+        Button buttonSpecifyAnAmount = bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
+        Button buttonNoChange = bottomSheet.findViewById(R.id.buttonNoChange);
 
-        buttonSpecifyAnAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                showDialogSpecifyAmount();
-            }
+        buttonSpecifyAnAmount.setOnClickListener(v -> {
+            dialog.dismiss();
+            showDialogSpecifyAmount();
         });
 
-        buttonNoChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                binding.tvTitle.setText("Paiement en espèce/ticket restaurant");
-                binding.layoutPaymentOption.setVisibility(View.VISIBLE);
-                binding.ivPaymentOption.setImageResource(R.drawable.ic_wallet);
-                binding.tvPaymentOptionTitle.setText("Monnaie à prévoir");
-                binding.tvPaymentOptionBody.setText("0,00 €");
-            }
-        });
 
     }
 
@@ -163,7 +151,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        TextView tvClose=bottomSheet.findViewById(R.id.tvClose);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,9 +171,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
 
             List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-            if(!currentSearchPlace.isEmpty()) {
+            if (!currentSearchPlace.isEmpty()) {
                 SearchPlace latestSearchPlace = currentSearchPlace.get(0);
-                if(latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0){
+                if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
                     LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(latLng);
@@ -225,11 +213,11 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
 
         List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-        if(!currentSearchPlace.isEmpty()) {
+        if (!currentSearchPlace.isEmpty()) {
             SearchPlace latestSearchPlace = currentSearchPlace.get(0);
-            binding.tvCountryCode.setText(latestSearchPlace.getPostalCode()+" "+latestSearchPlace.getCity());
+            binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
-            if(!TextUtils.isEmpty(latestSearchPlace.getTime())) {
+            if (!TextUtils.isEmpty(latestSearchPlace.getTime())) {
                 String time = latestSearchPlace.getTime().replace(":", "h");
                 binding.tvDeliveryTime.setText("Livraison prévue pour " + time);
             }
