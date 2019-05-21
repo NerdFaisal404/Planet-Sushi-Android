@@ -29,7 +29,7 @@ public class DBManager {
         return dbManager;
     }
 
-    public void clearMyCartProductTable(){
+    public void clearMyCartProduct(){
         productBox.removeAll();
         crossSellingSelectedItemBox.removeAll();
     }

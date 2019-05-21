@@ -45,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
@@ -441,7 +442,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                 responseItem.getCity(), responseItem.getAddress(), responseItem.getLat(), responseItem.getLng());
     };
 
-    private Map<String, List<String>> scheduleOrderMap = new HashMap<>();
+    private Map<String, List<String>> scheduleOrderMap = new TreeMap<>();
 
     private void prepareDataForBottomSheet() {
         List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
@@ -485,7 +486,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
-        Collections.reverse(data);
+        //Collections.reverse(data);
 
         selectedTitle = data.get(0);
 

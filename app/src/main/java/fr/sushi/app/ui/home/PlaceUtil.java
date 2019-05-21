@@ -88,7 +88,7 @@ public class PlaceUtil {
         }
     }
 
-    public static SearchPlace getLatestPlace(){
+    public static SearchPlace getLastSearchedPlace(){
         String jsonString = SharedPref.read(LATEST_SEARCH_PLACE, "");
 
         if(TextUtils.isEmpty(jsonString)) return null;

@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
@@ -393,7 +394,7 @@ public class HomeFragment extends BaseFragment {
         binding.tvDelivery.setCompoundDrawablesWithIntrinsicBounds(img, null, rightImage, null);
     }
 
-    private Map<String, List<String>> scheduleOrderMap = new HashMap<>();
+    private Map<String, List<String>> scheduleOrderMap = new TreeMap<>();
 
     private void prepareDataForBottomSheet() {
         List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
@@ -436,7 +437,7 @@ public class HomeFragment extends BaseFragment {
 
         //Title adapter
         List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
-        Collections.reverse(data);
+        //Collections.reverse(data);
         selectedTitle = data.get(0);
 
         addressNameAdapter = new AddressNameAdapter(getActivity(), data);
