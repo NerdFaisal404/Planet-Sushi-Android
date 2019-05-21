@@ -17,6 +17,7 @@ import fr.sushi.app.databinding.ActivityMainBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.cart.FoodMenuFragment;
 import fr.sushi.app.ui.checkout.CheckoutActivity;
+import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
 import fr.sushi.app.ui.home.view.HomeFragment;
 import fr.sushi.app.ui.profile.ProfileFragment;
@@ -110,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
 
                     baseFragment = (BaseFragment) getSupportFragmentManager()
-                            .findFragmentByTag(EmptyProfileFragment.class.getName());
+                            .findFragmentByTag(EmptyNewProfileFragment.class.getName());
                     if (baseFragment == null) {
-                        baseFragment = new EmptyProfileFragment();
+                        baseFragment = new EmptyNewProfileFragment();
                     }
                 }
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void gotoEmptyProfilePage() {
-        FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyProfileFragment());
+        FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyNewProfileFragment());
     }
 }
 
