@@ -150,13 +150,10 @@ public class HomeFragment extends BaseFragment {
             }
         } else {
             binding.layoutWithoutLogin.setVisibility(View.VISIBLE);
-           // binding.layoutSignup.setVisibility(View.VISIBLE);
+            // binding.layoutSignup.setVisibility(View.VISIBLE);
             binding.layoutRecentAddress.setVisibility(View.GONE);
 
         }
-
-
-
 
 
         boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
@@ -167,7 +164,7 @@ public class HomeFragment extends BaseFragment {
         } else if (isExporter) {
             showExporter();
             binding.destinationTv.setText("Chercher un restaurant");
-        }else {
+        } else {
             binding.destinationTv.setText("Choisir une adresse");
         }
     }
@@ -212,6 +209,10 @@ public class HomeFragment extends BaseFragment {
             this.homeConfigurationData = homeConfigResponse;
             this.imageBaseUrl = homeConfigResponse.getResponse().getImgBaseUrl();
             this.homeSlidesItemList = homeConfigResponse.getResponse().getHomeSlides();
+            String path = imageBaseUrl + homeSlidesItemList.get(0).getPicture();
+
+            PicassoUtil.loadImage(path, binding.topLayout);
+
             showImageWithDelay();
         });
 
@@ -278,14 +279,6 @@ public class HomeFragment extends BaseFragment {
     private void showImageWithDelay() {
 
         if (homeSlidesItemList == null) return;
-        String path = imageBaseUrl + homeSlidesItemList.get(nextImageIndex).getPicture();
-        //Log.e("Configdata", "path =" + path);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                PicassoUtil.loadImage(path, binding.topLayout);
-            }
-        });
 
         if (homeSlidesItemList.size() > 1) {
             HandlerUtil.postBackground(delayRunnable, 5000);
@@ -319,7 +312,7 @@ public class HomeFragment extends BaseFragment {
                 DialogUtils.showDialog(getActivity());
                 SearchPlace searchPlace = recentSearchPlace.get(0);
                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
-                        searchPlace.getCity(),searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
+                        searchPlace.getCity(), searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
                         searchPlace.getCity());
                /* Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
@@ -330,7 +323,7 @@ public class HomeFragment extends BaseFragment {
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
                 DialogUtils.showDialog(getActivity());
                 searchPlace = recentSearchPlace.get(1);
-                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),searchPlace.getCity(),
+                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
                         searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
                         searchPlace.getCity());
@@ -503,8 +496,6 @@ public class HomeFragment extends BaseFragment {
         dialog.show();
 
     }
-
-
 
 
 }
