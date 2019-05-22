@@ -36,6 +36,7 @@ import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.checkout.CheckoutViewModel;
+import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 
@@ -94,6 +95,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.radioCart.setChecked(true);
             binding.radioRestaurent.setChecked(false);
             binding.radioLivarsion.setChecked(false);
+            PaymentMethodCheckoutActivity.isAdyenSelected=true;
+            PaymentMethodCheckoutActivity.isCashPayment=false;
+            PaymentMethodCheckoutActivity.isDeliveryPayment=false;
 
         });
 
@@ -104,6 +108,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 binding.radioLivarsion.setChecked(true);
                 binding.radioRestaurent.setChecked(false);
                 binding.radioCart.setChecked(false);
+                PaymentMethodCheckoutActivity.isAdyenSelected=false;
+                PaymentMethodCheckoutActivity.isCashPayment=true;
+                PaymentMethodCheckoutActivity.isDeliveryPayment=false;
 
             }
         });
@@ -116,6 +123,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 binding.radioLivarsion.setChecked(false);
                 binding.radioCart.setChecked(false);
                 showDialog();
+
 
             }
         });

@@ -53,6 +53,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     private int REQUEST_CODE_CHECKOUT = 555;
 
+    public static boolean isAdyenSelected = true;
+    public static boolean isCashPayment;
+    public static boolean isDeliveryPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +169,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             }
 
 
-
             @Override
             public void onError(@NonNull CheckoutException checkoutException) {
                 // TODO: Handle error.
@@ -212,7 +214,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     } else {
                         PaymentSessionModel paymentSessionModel = new Gson().fromJson(responseObject.toString(), PaymentSessionModel.class);
 
-                                createPaymentSession(paymentSessionModel.getResponse().getPaymentSession());
+                        createPaymentSession(paymentSessionModel.getResponse().getPaymentSession());
 
 
                     }

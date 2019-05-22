@@ -17,7 +17,7 @@
             android:fontFamily="@font/roboto_bold"
             android:text="Monnaie à prévoir"
             android:textColor="#394F61"
-            android:textSize="@dimen/sp17" />
+            android:textSize="@dimen/sp24" />
 
         <TextView
             android:id="@+id/tv_subHeadLine"
@@ -32,20 +32,24 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="51dp"
             android:id="@+id/buttonNoChange"
             android:textColor="@color/colorPink"
             android:text="Pas de monnaie"
             android:layout_marginTop="@dimen/dp20"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/sp17"
             android:background="@drawable/bg_round_stroke_pink"/>
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="51dp"
             android:id="@+id/buttonSpecifyAnAmount"
-            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp10"
             android:textColor="@color/colorWhite"
             android:text="Préciser un montant"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="@dimen/sp17"
             android:background="@drawable/bg_pink_round"/>
 
 
