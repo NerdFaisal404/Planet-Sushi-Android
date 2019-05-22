@@ -34,6 +34,7 @@ import java.util.Locale;
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.intentkey.IntentKey;
+import fr.sushi.app.data.model.BaseAddress;
 import fr.sushi.app.databinding.ActivityLocationChoiceBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.ui.base.BaseActivity;
@@ -88,10 +89,10 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
     }
 
     @Override
-    public void onPlaceClick(ArrayList<PlaceAutocompleteAdapter.PlaceAutocomplete> mResultList, int position) {
-        if (mResultList != null) {
+    public void onPlaceClick(BaseAddress address) {
+        if (address != null && address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
             try {
-                final String placeId = String.valueOf(mResultList.get(position).placeId);
+                final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
                 PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
                 placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
                     @Override

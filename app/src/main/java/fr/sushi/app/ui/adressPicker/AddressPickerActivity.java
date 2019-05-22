@@ -49,7 +49,10 @@ import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.BaseAddress;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
@@ -293,6 +296,10 @@ public class AddressPickerActivity extends AppCompatActivity implements
         horizontalDecoration.setDrawable(horizontalDivider);
         binding.recyclerView.addItemDecoration(horizontalDecoration);
         binding.recyclerView.setAdapter(mAdapter);
+        String addressJson = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> addressList = GsonHelper.on().convertJsonToNormalAddress(addressJson);
+        ArrayList<BaseAddress> addresses = new ArrayList<>(addressList);
+        mAdapter.addItems(addresses);
 
 
         binding.editTextSearch.addTextChangedListener(new TextWatcher() {
@@ -303,15 +310,15 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-                if (i2 > 0) {
+               /* if (i2 > 0) {
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     if (mAdapter != null) {
                         binding.recyclerView.setAdapter(mAdapter);
                     }
                 } else {
                     binding.recyclerView.setVisibility(View.GONE);
-                }
-                if (!s.toString().equals("") && mGoogleApiClient.isConnected()) {
+                }*/
+                if (mGoogleApiClient.isConnected()) {
                     mAdapter.getFilter().filter(s.toString());
                 } else if (!mGoogleApiClient.isConnected()) {
 //                    Toast.makeText(getApplicationContext(), Constants.API_NOT_CONNECTED, Toast.LENGTH_SHORT).show();
@@ -329,40 +336,46 @@ public class AddressPickerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPlaceClick(ArrayList<PlaceAutocompleteAdapter.PlaceAutocomplete> mResultList, int position) {
-
-        if (mResultList != null) {
-            try {
-                final String placeId = String.valueOf(mResultList.get(position).placeId);
-                PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
-                placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
-                    @Override
-                    public void onResult(PlaceBuffer places) {
-                        try {
-                            if (places.getCount() == 1) {
-                                LatLng latLng = places.get(0).getLatLng();
-                                List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                                String zipCode = addresses.get(0).getPostalCode();
-                                String city = addresses.get(0).getLocality();
-                                String address = addresses.get(0).getThoroughfare();
-                                String featureName = addresses.get(0).getFeatureName();
-                                Log.e("Place_cliec", "code =" + zipCode);
-                                Log.e("Place_cliec", "city =" + city);
-                                Log.e("Place_cliec", "address =" + address);
-                                DialogUtils.showDialog(AddressPickerActivity.this);
-                                viewModel.setDeliveryAddress(address, zipCode, city);
-                                currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+    public void onPlaceClick(BaseAddress address) {
+        if (address != null) {
+            if (address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
+                try {
+                    final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
+                    PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
+                    placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+                        @Override
+                        public void onResult(PlaceBuffer places) {
+                            try {
+                                if (places.getCount() == 1) {
+                                    LatLng latLng = places.get(0).getLatLng();
+                                    List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                                    String zipCode = addresses.get(0).getPostalCode();
+                                    String city = addresses.get(0).getLocality();
+                                    String address = addresses.get(0).getThoroughfare();
+                                    String featureName = addresses.get(0).getFeatureName();
+                                    Log.e("Place_cliec", "code =" + zipCode);
+                                    Log.e("Place_cliec", "city =" + city);
+                                    Log.e("Place_cliec", "address =" + address);
+                                    DialogUtils.showDialog(AddressPickerActivity.this);
+                                    viewModel.setDeliveryAddress(address, zipCode, city);
+                                    currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (IOException e) {
                             }
-                        } catch (IOException e) {
-                        }
 
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ProfileAddressModel model = (ProfileAddressModel) address;
+                viewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
+                currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
             }
+
         }
     }
 

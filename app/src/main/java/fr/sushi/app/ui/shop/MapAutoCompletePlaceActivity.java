@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.model.BaseAddress;
 import fr.sushi.app.databinding.ActivityMapAutoCompletePlaceBinding;
 import fr.sushi.app.misc.Constants;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
@@ -81,7 +82,7 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
                 } else {
                     binding.recyclerView.setVisibility(View.GONE);
                 }
-                if (!s.toString().equals("") && mGoogleApiClient.isConnected()) {
+                if (mGoogleApiClient.isConnected()) {
                     mAdapter.getFilter().filter(s.toString());
                 } else if (!mGoogleApiClient.isConnected()) {
 //                    Toast.makeText(getApplicationContext(), Constants.API_NOT_CONNECTED, Toast.LENGTH_SHORT).show();
@@ -99,29 +100,32 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
     }
 
     @Override
-    public void onPlaceClick(ArrayList<PlaceAutocompleteAdapter.PlaceAutocomplete> mResultList, int position) {
-        if (mResultList != null) {
-            try {
-                final String placeId = String.valueOf(mResultList.get(position).placeId);
-                PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                        .getPlaceById(mGoogleApiClient, placeId);
-                placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
-                    @Override
-                    public void onResult(PlaceBuffer places) {
-                        if (places.getCount() == 1) {
-                            Place place = places.get(0);
-                            finish(place.getLatLng().latitude, place.getLatLng().longitude);
-                            //FrequentFunctions.hideKeyBoard(ChooseLocation.this, rootLayout);
+    public void onPlaceClick(BaseAddress address) {
+        if (address != null) {
+            if (address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
+                try {
+                    final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
+                    PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                            .getPlaceById(mGoogleApiClient, placeId);
+                    placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+                        @Override
+                        public void onResult(PlaceBuffer places) {
+                            if (places.getCount() == 1) {
+                                Place place = places.get(0);
+                                finish(place.getLatLng().latitude, place.getLatLng().longitude);
+                                //FrequentFunctions.hideKeyBoard(ChooseLocation.this, rootLayout);
                             /*selectedPlace = places;
                             String coordinates = selectedPlace.get(0).getLatLng().latitude + "," + selectedPlace.get(0).getLatLng().longitude;*/
-                        } else {
-                            Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         }
     }
 

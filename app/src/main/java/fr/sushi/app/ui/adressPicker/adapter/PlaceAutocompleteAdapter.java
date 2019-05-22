@@ -3,6 +3,7 @@ package fr.sushi.app.ui.adressPicker.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -25,21 +26,27 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.BaseAddress;
+import fr.sushi.app.data.model.ProfileAddressModel;
 
 public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocompleteAdapter.PlaceViewHolder> implements Filterable {
 
     public interface PlaceAutoCompleteInterface {
-        public void onPlaceClick(ArrayList<PlaceAutocomplete> mResultList, int position);
+        public void onPlaceClick(BaseAddress address);
     }
 
     Context mContext;
     PlaceAutoCompleteInterface mListener;
     private static final String TAG = "PlaceAutocompleteAdapter";
     private static final CharacterStyle STYLE_BOLD = new StyleSpan(Typeface.BOLD);
-    ArrayList<PlaceAutocomplete> mResultList;
+    ArrayList<BaseAddress> mResultList;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -76,6 +83,11 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
         mBounds = bounds;
     }
 
+    public void addItems(ArrayList<BaseAddress> addressList){
+         mResultList = addressList;
+         notifyDataSetChanged();
+    }
+
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
@@ -83,7 +95,7 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
                 // Skip the autocomplete query if no constraints are given.
-                if (constraint != null) {
+                if (!TextUtils.isEmpty(constraint)) {
                     // Query the autocomplete API for the (constraint) search string.
                     mResultList = getAutocomplete(constraint);
                     if (mResultList != null) {
@@ -91,6 +103,19 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
                         results.values = mResultList;
                         results.count = mResultList.size();
                     }
+                } else {
+                    Log.d("PlaceSearch", "own place call");
+                    String addressJson = SharedPref.read(PrefKey.USER_ADDRESS, "");
+                    List<ProfileAddressModel> addressList = GsonHelper.on().convertJsonToNormalAddress(addressJson);
+                    if (mResultList == null) {
+                        mResultList = new ArrayList<>();
+                    } else {
+                        mResultList.clear();
+                    }
+                    mResultList.addAll(addressList);
+
+                    results.values = mResultList;
+                    results.count = mResultList.size();
                 }
                 return results;
             }
@@ -103,13 +128,14 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
                 } else {
                     // The API did not return any results, invalidate the data set.
                     //notifyDataSetInvalidated();
+
                 }
             }
         };
         return filter;
     }
 
-    private ArrayList<PlaceAutocomplete> getAutocomplete(CharSequence constraint) {
+    private ArrayList<BaseAddress> getAutocomplete(CharSequence constraint) {
         if (mGoogleApiClient.isConnected()) {
             Log.i("", "Starting autocomplete query for: " + constraint);
 
@@ -170,11 +196,18 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
 
     @Override
     public void onBindViewHolder(PlaceViewHolder mPredictionHolder, final int i) {
-        mPredictionHolder.mAddress.setText(mResultList.get(i).description);
+        BaseAddress address = mResultList.get(i);
+        if (address instanceof PlaceAutocomplete) {
+            mPredictionHolder.mAddress.setText(((PlaceAutocomplete) address).description);
+        } else if (address instanceof ProfileAddressModel) {
+            mPredictionHolder.mAddress.setText(((ProfileAddressModel) address).getLocation());
+        }
+
         mPredictionHolder.mParentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onPlaceClick(mResultList, i);
+                mListener.onPlaceClick(address);
+
             }
         });
 
@@ -188,7 +221,7 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
             return 0;
     }
 
-    public PlaceAutocomplete getItem(int position) {
+    public BaseAddress getItem(int position) {
         return mResultList.get(position);
     }
 
@@ -208,10 +241,11 @@ public class PlaceAutocompleteAdapter extends RecyclerView.Adapter<PlaceAutocomp
 
     }
 
+
     /**
      * Holder for Places Geo Data Autocomplete API results.
      */
-    public class PlaceAutocomplete {
+    public class PlaceAutocomplete extends BaseAddress {
 
         public CharSequence placeId;
         public CharSequence description;
