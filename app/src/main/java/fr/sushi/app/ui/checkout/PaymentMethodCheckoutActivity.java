@@ -185,7 +185,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         SearchPlace latestSearchPlace = null;
         List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
         if (!currentSearchPlaces.isEmpty()) {
-            latestSearchPlace = currentSearchPlaces.get(0);
+            latestSearchPlace = currentSearchPlaces.get(1);
         }
 
 
@@ -232,10 +232,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         mainObject.add("Products", productsArray);
 
         JsonObject paymentObject = new JsonObject();
-        cartJsonObject.addProperty("payment_method", payementMethod);
-        cartJsonObject.addProperty("adyen_payload", "false");
-        cartJsonObject.addProperty("total_paid", paymentTotalPrice);
-        cartJsonObject.addProperty("return_money", returnMoney);
+        paymentObject.addProperty("payment_method", payementMethod);
+        paymentObject.addProperty("adyen_payload", "false");
+        paymentObject.addProperty("total_paid", paymentTotalPrice);
+        paymentObject.addProperty("return_money", returnMoney);
 
 
         mainObject.add("Cart", cartJsonObject);

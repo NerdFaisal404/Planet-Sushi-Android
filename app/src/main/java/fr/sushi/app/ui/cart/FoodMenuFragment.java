@@ -79,7 +79,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
 
         List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
         if (!recentSearchPlace.isEmpty()) {
-            SearchPlace place = recentSearchPlace.get(0);
+            SearchPlace place = recentSearchPlace.get(1);
             binding.tvLocationInfo.setText(place.getAddress() + "-" + place.getCity() + ", " + place.getPostalCode());
 
             binding.tvDeliveryInfo.setText("prévue pour " + place.getTime());

@@ -194,7 +194,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             DialogUtils.showDialog(getActivity());
             List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
             if (!currentSearchPlaces.isEmpty()) {
-                SearchPlace latestSearchPlace = currentSearchPlaces.get(0);
+                SearchPlace latestSearchPlace = currentSearchPlaces.get(1);
                 currentSearchPlace = new SearchPlace(latestSearchPlace.getPostalCode(),
                         latestSearchPlace.getCity(), latestSearchPlace.getAddress(), latestSearchPlace.getLat(), latestSearchPlace.getLng());
                 paimentViewModel.setDeliveryAddress(latestSearchPlace.getAddress(), latestSearchPlace.getPostalCode(),
