@@ -349,7 +349,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Espèce ou Ticket Restaurant"
+                    android:text="Espèce - prevoir 0.0,00 €"
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp14" />
 
