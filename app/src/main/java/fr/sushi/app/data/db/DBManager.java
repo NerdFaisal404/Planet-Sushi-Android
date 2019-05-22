@@ -135,7 +135,7 @@ public class DBManager {
         return crossSellingSelectedItemBox.getAll();
     }
 
-    public List<MyCartProduct> getMyCartProductsWithCrossSelling(){
+    public List<MyCartProduct> getMyCartProductsWithCrossSellingItems(){
         List<MyCartProduct> myCartProducts = productBox.getAll();
 
         for(MyCartProduct item : myCartProducts){
