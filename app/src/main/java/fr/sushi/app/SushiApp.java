@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import java.lang.ref.WeakReference;

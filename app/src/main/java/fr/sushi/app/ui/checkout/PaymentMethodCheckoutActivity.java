@@ -3,27 +3,23 @@ package fr.sushi.app.ui.checkout;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
 import com.adyen.checkout.core.CheckoutException;
-import com.adyen.checkout.core.PaymentController;
-import com.adyen.checkout.core.PaymentHandler;
 import com.adyen.checkout.core.PaymentMethodHandler;
-import com.adyen.checkout.core.PaymentReference;
 import com.adyen.checkout.core.PaymentResult;
-import com.adyen.checkout.core.PaymentSetupParameters;
 import com.adyen.checkout.core.StartPaymentParameters;
-import com.adyen.checkout.core.handler.PaymentSetupParametersHandler;
 import com.adyen.checkout.core.handler.StartPaymentParametersHandler;
-import com.adyen.checkout.core.model.PaymentMethod;
-import com.adyen.checkout.core.model.PaymentSession;
 import com.adyen.checkout.ui.CheckoutController;
+import com.adyen.checkout.ui.CheckoutSetupParameters;
+import com.adyen.checkout.ui.CheckoutSetupParametersHandler;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -45,7 +41,7 @@ import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
 
-public class PaymentCheckoutActivity extends AppCompatActivity {
+public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private ActivityPaymentCheckoutBinding binding;
     private PagerAdapter pagerAdapter;
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
@@ -129,14 +125,16 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
             } else if (position == 1) {
                 binding.viewpager.setCurrentItem(2);
             } else if (position == 2) {
-               /* paymentRequest = new PaymentRequest(PaymentCheckoutActivity.this, paymentRequestListener);
+               /* paymentRequest = new PaymentRequest(PaymentMethodCheckoutActivity.this, paymentRequestListener);
                 paymentRequest.start();*/
                 //sendPayment();
 
-                PaymentController.startPayment(/*Activity*/ this, new PaymentSetupParametersHandler() {
+                CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
                     @Override
-                    public void onRequestPaymentSession(@NonNull PaymentSetupParameters paymentSetupParameters) {
-                        sendAdyenPayment(paymentSetupParameters.getSdkToken());
+                    public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
+                        // TODO: Forward to your own server and request the payment session from Adyen with the given CheckoutSetupParameters.
+
+                        sendAdyenPayment(checkoutSetupParameters.getSdkToken());
                     }
 
                     @Override
@@ -148,18 +146,26 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
 
         });
 
+
     }
 
 
     private void createPaymentSession(String session) {
-        PaymentController.handlePaymentSessionResponse(/*Activity*/ this, session, new StartPaymentParametersHandler() {
+        CheckoutController.handlePaymentSessionResponse(/*Activity*/ this, session, new StartPaymentParametersHandler() {
             @Override
             public void onPaymentInitialized(@NonNull StartPaymentParameters startPaymentParameters) {
-                PaymentReference paymentReference = startPaymentParameters.getPaymentReference();
-                // TODO: Use the PaymentReference to retrieve a PaymentHandler (see the Create Payment Flow section).
-                PaymentMethodHandler paymentMethodHandler = CheckoutController.getCheckoutHandler(startPaymentParameters);
-                paymentMethodHandler.handlePaymentMethodDetails(/* Activity */ PaymentCheckoutActivity.this, REQUEST_CODE_CHECKOUT);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PaymentMethodHandler paymentMethodHandler = CheckoutController.getCheckoutHandler(startPaymentParameters);
+                        paymentMethodHandler.handlePaymentMethodDetails(/* Activity */ PaymentMethodCheckoutActivity.this, REQUEST_CODE_CHECKOUT);
+
+                    }
+                });
+
             }
+
+
 
             @Override
             public void onError(@NonNull CheckoutException checkoutException) {
@@ -205,7 +211,10 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
                         Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
                         PaymentSessionModel paymentSessionModel = new Gson().fromJson(responseObject.toString(), PaymentSessionModel.class);
-                        createPaymentSession(paymentSessionModel.getResponse().getPaymentSession());
+
+                                createPaymentSession(paymentSessionModel.getResponse().getPaymentSession());
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -32,7 +32,7 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentAccompagnementsBinding;
 import fr.sushi.app.ui.base.ItemClickListener;
-import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
+import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.checkout.adapter.AccomplishmentAdapter;
 import fr.sushi.app.ui.checkout.adapter.BaguettesAdapter;
 import fr.sushi.app.ui.checkout.adapter.BoissonAdapter;
@@ -532,7 +532,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         for(ChopsticksItem item : baguettesItemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
         }
-        ((PaymentCheckoutActivity)getActivity()).setPriceWithSideProducts(priceSideProducts);
+        ((PaymentMethodCheckoutActivity)getActivity()).setPriceWithSideProducts(priceSideProducts);
     }
 
 

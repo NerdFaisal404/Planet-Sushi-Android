@@ -16,7 +16,7 @@ import fr.sushi.app.data.remote.network.RetrofitClient;
 import fr.sushi.app.databinding.ActivityMainBinding;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.cart.FoodMenuFragment;
-import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
+import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
 import fr.sushi.app.ui.home.view.HomeFragment;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     baseFragment = new ShoppingBagFragment();
                 }*/
                 needToRollback = true;
-                startActivity(new Intent(MainActivity.this, PaymentCheckoutActivity.class));
+                startActivity(new Intent(MainActivity.this, PaymentMethodCheckoutActivity.class));
                 break;
 
             case R.id.navigation_profile:
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     public void openRegistrationFragment() {
         binding.navigation.setSelectedItemId(R.id.navigation_profile);
-        FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyProfileFragment());
+        FragmentFunctions.commitFragment(R.id.fragment_container, sInatnce, new EmptyNewProfileFragment());
 
         binding.fragmentContainer.findViewById(R.id.fragment_container).performClick();
     }

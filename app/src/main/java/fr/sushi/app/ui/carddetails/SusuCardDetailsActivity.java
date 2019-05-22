@@ -9,7 +9,7 @@ import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.carddetails.adapter.CardDetailsAdapter;
 import fr.sushi.app.ui.carddetails.adapter.CardPagerAdapter;
 
-public class CardDetailsActivity extends BaseActivity {
+public class SusuCardDetailsActivity extends BaseActivity {
 
     private CardPagerAdapter mCardAdapter;
     private CardDetailsAdapter mCardDetailsAdapter;
@@ -19,7 +19,7 @@ public class CardDetailsActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_card_details;
+        return R.layout.activity_susu_card_details;
     }
 
 

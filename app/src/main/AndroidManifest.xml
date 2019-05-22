@@ -27,7 +27,7 @@
             android:theme="@style/ThemeAddressPickerCustom"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".ui.carddetails.CardDetailsActivity"
+            android:name=".ui.carddetails.SusuCardDetailsActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSignup"
@@ -57,10 +57,10 @@
             android:theme="@style/ThemeSignup"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".ui.checkout.PaymentCheckoutActivity"
+            android:name=".ui.checkout.PaymentMethodCheckoutActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Checkout"
+            android:theme="@style/AppThemePayment"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <uses-library

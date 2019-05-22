@@ -6,10 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowActionBar">false</item>
+       <!-- <item name="android:windowActionBar">false</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>-->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -111,11 +111,17 @@
         <item name="colorControlActivated">@color/colorPink</item>
     </style>
 
-    <style name="AppTheme.Checkout" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Base application theme. -->
+    <style name="AppThemePayment" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#394F61</item>
         <item name="colorPrimaryDark">#394F61</item>
         <item name="colorAccent">#394F61</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 

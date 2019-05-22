@@ -40,7 +40,7 @@ import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.cart.adapter.AddressAdapter;
-import fr.sushi.app.ui.checkout.PaymentCheckoutActivity;
+import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
@@ -121,7 +121,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         }
 
-        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentCheckoutActivity.class)));
+        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
 
         binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
 
