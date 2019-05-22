@@ -20,17 +20,17 @@ public class CheckoutViewModel extends ViewModel {
     private MutableLiveData<ResponseBody> paymentMutableLiveData = new MutableLiveData<>();
 
 
-    public void sendSavePaymentOrder(PaymentModel paymentModel) {
+    public void sendSavePaymentOrder(JsonObject paymentModel) {
         Repository.sendPayment(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccessMenuRequest,
+                .subscribe(this::onSuccessPaymentRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
     public void sendAdyenPayment(PaymentModel paymentModel) {
         Repository.sendAdyenPayment(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccessMenuRequest,
+                .subscribe(this::onSuccessPaymentRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
@@ -41,7 +41,7 @@ public class CheckoutViewModel extends ViewModel {
     }
 
 
-    private void onSuccessMenuRequest(ResponseBody restuarentsResponse) {
+    private void onSuccessPaymentRequest(ResponseBody restuarentsResponse) {
 
         if (restuarentsResponse == null) return;
 

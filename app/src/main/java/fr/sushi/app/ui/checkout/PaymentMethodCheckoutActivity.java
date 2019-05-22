@@ -135,16 +135,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             } else if (position == 2) {
 
 
-                if (isCashPayment) {
+                if (isAdyenSelected) {
                     payementMethod = "Adyen";
-                    paymentTotalPrice = totalPrice+"";
+                    paymentTotalPrice = totalPrice + "";
                     returnMoney = "0";
                 } else if (isDeliveryPayment) {
                     payementMethod = "CardOnDelivery";
                     paymentTotalPrice = "0";
                     returnMoney = "0";
 
-                } else if (isAdyenSelected) {
+                } else if (isCashPayment) {
 
                     payementMethod = "Cash";
                     paymentTotalPrice = "0";
@@ -174,9 +174,12 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
 
+    private void sendPayment(){
+
+    }
 
 
-        private void createPaymentSession (String session){
+    private void createPaymentSession(String session) {
         CheckoutController.handlePaymentSessionResponse(/*Activity*/ this, session, new StartPaymentParametersHandler() {
             @Override
             public void onPaymentInitialized(@NonNull StartPaymentParameters startPaymentParameters) {
@@ -200,7 +203,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
 
-        private void sendAdyenPayment (String token){
+    private void sendAdyenPayment(String token) {
 
         PaymentModel paymentModel = new PaymentModel();
         paymentModel.setOrderDate("2019-05-21 12:15:00");
@@ -218,7 +221,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     }
 
-        private void observeData () {
+    private void observeData() {
 
         checkoutViewModel = ViewModelProviders.of(this).get(CheckoutViewModel.class);
         checkoutViewModel.getPaymentMutableLiveData().observe(this, responseBody -> {
@@ -251,18 +254,18 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     }
 
-        public void setTotalPrice ( double totalPrice){
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
     }
 
-        public void setPriceWithSideProducts ( double priceSideProducts){
+    public void setPriceWithSideProducts(double priceSideProducts) {
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
     }
 
 
-        @Override
-        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_CHECKOUT) {
@@ -280,4 +283,4 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             }
         }
     }
-    }
+}

@@ -171,10 +171,10 @@ public class Repository {
         return apiInterface.addOrUpdateAddress(mainObj);
     }
 
-    public static Flowable<ResponseBody> sendPayment(PaymentModel paymentModel) {
+    public static Flowable<ResponseBody> sendPayment(JsonObject jsonObject) {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
 
-        return apiInterface.saveOrderPayment(paymentModel);
+        return apiInterface.saveOrderPayment(jsonObject);
     }
 
     public static Flowable<ResponseBody> sendAdyenPayment(PaymentModel paymentModel) {

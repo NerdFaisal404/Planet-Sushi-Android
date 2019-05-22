@@ -57,5 +57,5 @@ public interface ApiCall {
     Flowable<ResponseBody> sendAdyenPayment(@Body PaymentModel paymentModel);
 
     @POST("saveOrder")
-    Flowable<ResponseBody> saveOrderPayment(@Body PaymentModel paymentModel);
+    Flowable<ResponseBody> saveOrderPayment(@Body JsonObject paymentModel);
 }
