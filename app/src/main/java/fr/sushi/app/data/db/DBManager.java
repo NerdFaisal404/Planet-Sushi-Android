@@ -134,4 +134,14 @@ public class DBManager {
     public List<CrossSellingSelectedItem> getAllCrossSellingItems(){
         return crossSellingSelectedItemBox.getAll();
     }
+
+    public List<MyCartProduct> getMyCartProductsWithCrossSellingItems(){
+        List<MyCartProduct> myCartProducts = productBox.getAll();
+
+        for(MyCartProduct item : myCartProducts){
+            List<CrossSellingSelectedItem> sellingSelectedItemList =  getCrossSellingItemById(item.getProductId());
+            item.setCrossSellingSelectedItems(sellingSelectedItemList);
+        }
+        return myCartProducts;
+    }
 }
