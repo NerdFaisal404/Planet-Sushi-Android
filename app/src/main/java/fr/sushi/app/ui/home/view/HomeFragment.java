@@ -71,8 +71,6 @@ public class HomeFragment extends BaseFragment {
     private String imageBaseUrl;
     private List<HomeSlidesItem> homeSlidesItemList;
 
-    private List<SearchPlace> recentSearchPlace;
-
     private List<CategoriesItem> categoriesItems = new ArrayList<>();
 
     private ErrorResponse errorResponse;
@@ -107,8 +105,6 @@ public class HomeFragment extends BaseFragment {
             //binding.layoutSignup.setVisibility(View.GONE);
             binding.layoutWithoutLogin.setVisibility(View.GONE);
             binding.layoutRecentAddress.setVisibility(View.VISIBLE);
-
-            recentSearchPlace = PlaceUtil.getSearchPlace();
 
             SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
             SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
@@ -310,27 +306,23 @@ public class HomeFragment extends BaseFragment {
                 //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
                 isDeafultAddressPress = true;
                 DialogUtils.showDialog(getActivity());
-                SearchPlace searchPlace = recentSearchPlace.get(0);
+                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
                         searchPlace.getCity(), searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
                         searchPlace.getCity());
-               /* Intent intent = new Intent(getActivity(), MenuDetailsActivity.class);
-                intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(0));
-                startActivity(intent);*/
+
                 break;
             case R.id.addressOneTwo:
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
                 isDeafultAddressPress = false;
                 DialogUtils.showDialog(getActivity());
-                searchPlace = recentSearchPlace.get(1);
+                searchPlace = PlaceUtil.getDefaultSearchAddress();
                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
                         searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
                         searchPlace.getCity());
-              /*  intent = new Intent(getActivity(), MenuDetailsActivity.class);
-                intent.putExtra(SearchPlace.class.getName(),recentSearchPlace.get(1));
-                startActivity(intent);*/
+
                 break;
 
 

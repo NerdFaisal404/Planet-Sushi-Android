@@ -44,7 +44,7 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
             ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
             SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                     addressModel.getLocation());
-            searchPlace.setAddress(addressModel.getId());
+            searchPlace.setAddressId(addressModel.getId());
             PlaceUtil.saveDefaultSearchPlace(searchPlace);
         });
     }
