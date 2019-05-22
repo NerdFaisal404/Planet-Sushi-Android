@@ -175,7 +175,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
 
     private void sendPayment(){
-
+//checkoutViewModel.sendSavePaymentOrder();
     }
 
 
