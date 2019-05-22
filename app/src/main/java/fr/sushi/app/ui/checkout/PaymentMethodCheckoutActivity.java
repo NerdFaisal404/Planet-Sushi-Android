@@ -142,18 +142,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     payementMethod = "Adyen";
                     paymentTotalPrice = totalPrice + "";
                     returnMoney = "0";
-                } else if (isDeliveryPayment) {
-                    payementMethod = "CardOnDelivery";
-                    paymentTotalPrice = "0";
-                    returnMoney = "0";
-                    sendPayment();
-
-                } else if (isCashPayment) {
-
-                    payementMethod = "Cash";
-                    paymentTotalPrice = "0";
-                    returnMoney = "0";
-
                     CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
                         @Override
                         public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
@@ -167,6 +155,19 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                             // TODO: Handle error.
                         }
                     });
+                } else if (isDeliveryPayment) {
+                    payementMethod = "CardOnDelivery";
+                    paymentTotalPrice = "0";
+                    returnMoney = "0";
+                    sendPayment();
+
+                } else if (isCashPayment) {
+
+                    payementMethod = "Cash";
+                    paymentTotalPrice = "0";
+                    returnMoney = "0";
+                    sendPayment();
+
                 }
 
 
@@ -186,11 +187,11 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         }
 
 
-        JsonObject jsonObject = new JsonObject();
+        JsonObject mainObject = new JsonObject();
 
-        jsonObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
-        jsonObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
-        jsonObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+        mainObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
+        mainObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
+        mainObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
 
         JsonObject cartJsonObject = new JsonObject();
         cartJsonObject.addProperty("id_cart", "false");
@@ -200,7 +201,17 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         cartJsonObject.addProperty("is_delivery", "1");
         cartJsonObject.addProperty("id_address", "589");
 
-        checkoutViewModel.sendSavePaymentOrder(jsonObject);
+        JsonObject paymentObject = new JsonObject();
+        cartJsonObject.addProperty("payment_method", payementMethod);
+        cartJsonObject.addProperty("adyen_payload", "false");
+        cartJsonObject.addProperty("total_paid", paymentTotalPrice);
+        cartJsonObject.addProperty("return_money", returnMoney);
+
+
+        mainObject.add("Cart", cartJsonObject);
+        mainObject.add("Payment", paymentObject);
+
+        checkoutViewModel.sendSavePaymentOrder(mainObject);
     }
 
 
