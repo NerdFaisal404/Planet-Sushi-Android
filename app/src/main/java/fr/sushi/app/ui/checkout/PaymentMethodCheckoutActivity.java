@@ -341,7 +341,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
 
-
+                        DBManager.on().clearMyCartProduct();
+                        DataCacheUtil.removeSideProducts();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
