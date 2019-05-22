@@ -46,6 +46,8 @@ import fr.sushi.app.ui.checkout.commade.model.DrinksItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.UpsellItem;
+import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.SideProduct;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -514,24 +516,40 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private void calculatePrice(){
         double priceSideProducts = 0.0;
 
+        SideProduct sideProduct = null;
+        List<SideProduct> sideProducts = new ArrayList<>();
+
         for(PayingSaucesItem item : saucesItemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
         for(UpsellItem item : accomplishmentitemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
         for(DrinksItem item : boissonItemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
         for(DessertsItem item : dessertItemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
         for(PayingWasabiGingerItem item : wasbiItemClicList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
         for(ChopsticksItem item : baguettesItemList){
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
+            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProducts.add(sideProduct);
         }
+        DataCacheUtil.addSideProducts(sideProducts);
         ((PaymentMethodCheckoutActivity)getActivity()).setPriceWithSideProducts(priceSideProducts);
     }
 

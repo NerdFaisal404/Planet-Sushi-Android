@@ -8,6 +8,7 @@ import fr.sushi.app.data.model.food_menu.ProductsItem;
 
 public class DataCacheUtil {
     private static List<CategoriesItem> categoriesItemList = new ArrayList<>();
+    private static List<SideProduct> sideProductList = new ArrayList<>();
 
     public static void addCategoryItemInCache(List<CategoriesItem> items){
         categoriesItemList.clear();
@@ -23,5 +24,18 @@ public class DataCacheUtil {
             }
         }
         return categoriesItemList;
+    }
+
+    public static void addSideProducts(List<SideProduct> sideProduct){
+        sideProductList.clear();
+        sideProductList.addAll(sideProduct);
+    }
+
+    public static List<SideProduct> getSideProductList(){
+        return sideProductList;
+    }
+
+    public static void removeSideProducts(){
+        sideProductList.clear();
     }
 }

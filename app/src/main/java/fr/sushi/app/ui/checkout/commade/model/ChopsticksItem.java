@@ -99,7 +99,7 @@ public class ChopsticksItem{
 	private String descriptionShort;
 
 	@SerializedName("id_product")
-	private int idProduct;
+	private String idProduct;
 
 	@SerializedName("id_product_picture_marketing")
 	private boolean idProductPictureMarketing;
@@ -378,11 +378,11 @@ public class ChopsticksItem{
 		return descriptionShort;
 	}
 
-	public void setIdProduct(int idProduct){
+	public void setIdProduct(String idProduct){
 		this.idProduct = idProduct;
 	}
 
-	public int getIdProduct(){
+	public String getIdProduct(){
 		return idProduct;
 	}
 
