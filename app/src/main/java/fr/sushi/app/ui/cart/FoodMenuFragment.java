@@ -77,12 +77,11 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
             binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
         }
 
-        List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
-        if (!recentSearchPlace.isEmpty()) {
-            SearchPlace place = recentSearchPlace.get(1);
-            binding.tvLocationInfo.setText(place.getAddress() + "-" + place.getCity() + ", " + place.getPostalCode());
+        SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
+        if (recentSearchPlace!=null) {
+            binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
 
-            binding.tvDeliveryInfo.setText("prévue pour " + place.getTime());
+            binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getTime());
 
         }
 

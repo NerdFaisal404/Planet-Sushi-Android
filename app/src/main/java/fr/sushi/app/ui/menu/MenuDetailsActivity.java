@@ -113,11 +113,10 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
         }
 
-        List<SearchPlace> recentSearchPlace = PlaceUtil.getSearchPlace();
-        if (!recentSearchPlace.isEmpty()) {
-            SearchPlace place = recentSearchPlace.get(1);
-            binding.tvLocationInfo.setText(place.getAddress() + "-" + place.getCity() + ", " + place.getPostalCode());
-            binding.tvDeliveryInfo.setText("prévue pour " + place.getOrder().getSchedule());
+        SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
+        if (recentSearchPlace!=null){
+            binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
+            binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getOrder().getSchedule());
 
         }
 

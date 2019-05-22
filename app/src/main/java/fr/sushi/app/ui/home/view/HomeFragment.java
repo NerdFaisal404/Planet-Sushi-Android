@@ -58,7 +58,7 @@ import fr.sushi.app.util.Utils;
 
 public class HomeFragment extends BaseFragment {
     private Button buttonAddAddres;
-   // private BottomSheetDialog dialog;
+    // private BottomSheetDialog dialog;
     private LinearLayout linearLayoutAddress;
     private View viewDivider;
     private final int PALACE_SEARCH_ACTION = 100;
@@ -79,6 +79,8 @@ public class HomeFragment extends BaseFragment {
     private AddressResponse addressResponse;
 
     private SearchPlace currentSearchPlace;
+
+    private boolean isDeafultAddressPress;
 
     @Override
     protected int getLayoutId() {
@@ -108,43 +110,36 @@ public class HomeFragment extends BaseFragment {
 
             recentSearchPlace = PlaceUtil.getSearchPlace();
 
-            if (!recentSearchPlace.isEmpty()) {
-
-                if (recentSearchPlace.size() == 1) {
-                    binding.addressOne.setVisibility(View.VISIBLE);
-                    binding.addressOneTwo.setVisibility(View.GONE);
-                    binding.viewSingle.setVisibility(View.GONE);
-
-                    SearchPlace place = recentSearchPlace.get(0);
-                    binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
-                    binding.tvAddresTwo.setText(place.getAddress());
-
-                } else {
-                    binding.addressOne.setVisibility(View.VISIBLE);
-                    binding.addressOneTwo.setVisibility(View.VISIBLE);
-                    binding.viewSingle.setVisibility(View.VISIBLE);
-
-                    SearchPlace place = recentSearchPlace.get(0);
-                    binding.recentAddrTv.setText(place.getPostalCode() + " " + place.getCity());
-                    binding.tvAddresTwo.setText(place.getAddress());
+            SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
+            SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
 
 
-                    SearchPlace place2 = recentSearchPlace.get(1);
-                    if (place.getAddress().equalsIgnoreCase(place2.getAddress())) {
-                        binding.viewSingle.setVisibility(View.GONE);
-                        binding.addressOneTwo.setVisibility(View.GONE);
-                    } else {
-                        binding.recentAddrTvTwo.setText(place2.getPostalCode() + " " + place2.getCity());
-                        binding.tvAddresTwoText.setText(place2.getAddress());
-                    }
+            if (recentSearchPlace != null) {
+                binding.addressOne.setVisibility(View.VISIBLE);
+                binding.recentAddrTv.setText(recentSearchPlace.getPostalCode() + " " + recentSearchPlace.getCity());
+                binding.tvAddresTwo.setText(recentSearchPlace.getAddress());
 
-
-                }
             } else {
                 binding.addressOne.setVisibility(View.GONE);
                 binding.viewSingle.setVisibility(View.GONE);
+            }
+
+            if (defaultSearchAddress != null) {
+                binding.addressOneTwo.setVisibility(View.VISIBLE);
+                binding.recentAddrTvTwo.setText(defaultSearchAddress.getPostalCode() + " " + defaultSearchAddress.getCity());
+                binding.tvAddresTwoText.setText(defaultSearchAddress.getAddress());
+                if (recentSearchPlace != null) {
+                    binding.viewSingle.setVisibility(View.VISIBLE);
+                }else {
+                    binding.viewSingle.setVisibility(View.GONE);
+                }
+
+            } else {
+                binding.viewSingle.setVisibility(View.GONE);
                 binding.addressOneTwo.setVisibility(View.GONE);
             }
+
+
         } else {
             binding.layoutWithoutLogin.setVisibility(View.VISIBLE);
             // binding.layoutSignup.setVisibility(View.VISIBLE);
@@ -248,7 +243,12 @@ public class HomeFragment extends BaseFragment {
                             currentSearchPlace.setOrder(selectedOrder);
                             currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
-                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                            if (isDeafultAddressPress) {
+                                PlaceUtil.saveDefaultSearchPlace(currentSearchPlace);
+                            } else {
+                                PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
+                            }
+
                         }
                     }
                 } catch (JSONException e) {
@@ -308,6 +308,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.addressOne:
                 //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
+                isDeafultAddressPress = true;
                 DialogUtils.showDialog(getActivity());
                 SearchPlace searchPlace = recentSearchPlace.get(0);
                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
@@ -320,6 +321,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.addressOneTwo:
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
+                isDeafultAddressPress = false;
                 DialogUtils.showDialog(getActivity());
                 searchPlace = recentSearchPlace.get(1);
                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
@@ -375,7 +377,7 @@ public class HomeFragment extends BaseFragment {
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();*/
-       binding.bottomsheet.showWithSheetView(bottomSheet);
+        binding.bottomsheet.showWithSheetView(bottomSheet);
     }
 
     private void showImporter() {
@@ -464,7 +466,7 @@ public class HomeFragment extends BaseFragment {
             currentSearchPlace.setOrder(selectedOrder);
             currentSearchPlace.setTime(selectedOrder.getSchedule());
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
-            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+            PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
             Intent intent = new Intent(getActivity(),
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);

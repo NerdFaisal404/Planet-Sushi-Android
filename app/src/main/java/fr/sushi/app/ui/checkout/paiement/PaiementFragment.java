@@ -112,7 +112,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                                 currentSearchPlace.setType("Livraison");
                             }
 
-                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                            PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
                         }
                     }
                 } catch (JSONException e) {
@@ -192,9 +192,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         binding.layoutAddress.setOnClickListener(v -> {
             DialogUtils.showDialog(getActivity());
-            List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
-            if (!currentSearchPlaces.isEmpty()) {
-                SearchPlace latestSearchPlace = currentSearchPlaces.get(1);
+            SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+            if (latestSearchPlace!=null){
                 currentSearchPlace = new SearchPlace(latestSearchPlace.getPostalCode(),
                         latestSearchPlace.getCity(), latestSearchPlace.getAddress(), latestSearchPlace.getLat(), latestSearchPlace.getLng());
                 paimentViewModel.setDeliveryAddress(latestSearchPlace.getAddress(), latestSearchPlace.getPostalCode(),
@@ -267,9 +266,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 Log.e("MapFragment", "Style parsing failed.");
             }
 
-            List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-            if (!currentSearchPlace.isEmpty()) {
-                SearchPlace latestSearchPlace = currentSearchPlace.get(0);
+            SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+            if (latestSearchPlace!=null){
                 if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
                     LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
                     MarkerOptions markerOptions = new MarkerOptions();
@@ -296,9 +294,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
 
-        List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
-        if (!currentSearchPlace.isEmpty()) {
-            SearchPlace latestSearchPlace = currentSearchPlace.get(0);
+        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        if (latestSearchPlace!=null){
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
             if (!TextUtils.isEmpty(latestSearchPlace.getTime())) {
