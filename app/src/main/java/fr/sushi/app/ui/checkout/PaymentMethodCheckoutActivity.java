@@ -206,18 +206,30 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
 
         JsonArray productsArray = new JsonArray();
+
         for(MyCartProduct item : myCartProducts){
             JsonObject product = new JsonObject();
             product.addProperty("id_product", item.getProductId());
             product.addProperty("quantity", item.getItemCount());
 
             List<CrossSellingSelectedItem> crossSellingList = item.getCrossSellingSelectedItems();
-            JsonObject crossSellingJson = new JsonObject();
-            if(crossSellingList != null && !crossSellingList.isEmpty()){
 
+            JsonArray crossSellingArray = new JsonArray();
+            if(crossSellingList != null && !crossSellingList.isEmpty()){
+                for(CrossSellingSelectedItem cItem : crossSellingList){
+                    JsonObject crossSellJson = new JsonObject();
+                    crossSellJson.addProperty("id_product", cItem.getMainProductId());
+                    crossSellJson.addProperty("id_product_cross_selling", cItem.getProductId());
+                    crossSellJson.addProperty("quantity", cItem.getProductCount());
+                    crossSellingArray.add(crossSellJson);
+                }
             }
-            product.add("accessories",crossSellingJson);
+            product.add("accessories",crossSellingArray);
+
+            productsArray.add(product);
         }
+
+        mainObject.add("Products", productsArray);
 
         JsonObject paymentObject = new JsonObject();
         cartJsonObject.addProperty("payment_method", payementMethod);
