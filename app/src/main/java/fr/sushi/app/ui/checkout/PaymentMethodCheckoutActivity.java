@@ -21,6 +21,7 @@ import com.adyen.checkout.ui.CheckoutSetupParameters;
 import com.adyen.checkout.ui.CheckoutSetupParametersHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -143,6 +144,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     payementMethod = "CardOnDelivery";
                     paymentTotalPrice = "0";
                     returnMoney = "0";
+                    sendPayment();
 
                 } else if (isCashPayment) {
 
@@ -174,8 +176,14 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
 
-    private void sendPayment(){
-//checkoutViewModel.sendSavePaymentOrder();
+    private void sendPayment() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("token",SharedPref.read(PrefKey.USER_TOKEN,""));
+        jsonObject.addProperty("email",SharedPref.read(PrefKey.USER_EMAIL,""));
+        jsonObject.addProperty("id_customer",SharedPref.read(PrefKey.USER_ID,""));
+
+        checkoutViewModel.sendSavePaymentOrder(jsonObject);
     }
 
 
