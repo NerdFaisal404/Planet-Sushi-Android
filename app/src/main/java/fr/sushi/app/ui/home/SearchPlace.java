@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
+import fr.sushi.app.data.model.address_picker.Order;
+
 public class SearchPlace implements Serializable {
     private String postalCode;
     private String city;
@@ -14,7 +16,22 @@ public class SearchPlace implements Serializable {
     private String type;
     private double lat;
     private double lng;
+    private Order order;
 
+
+    public SearchPlace(String postalCode, String city, String address, double lat, double lng){
+        this.postalCode = postalCode;
+        this.city = city;
+        this.address = address;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+    public SearchPlace(String postalCode, String city, String address){
+        this.postalCode = postalCode;
+        this.city = city;
+        this.address = address;
+    }
     public String getTitle() {
         return title;
     }
@@ -31,24 +48,17 @@ public class SearchPlace implements Serializable {
         this.time = time;
     }
 
-    public SearchPlace(String postalCode, String city, String address, double lat, double lng){
-        this.postalCode = postalCode;
-        this.city = city;
-        this.address = address;
-        this.lat = lat;
-        this.lng = lng;
-    }
-
-    public SearchPlace(String postalCode, String city, String address){
-        this.postalCode = postalCode;
-        this.city = city;
-        this.address = address;
-    }
-
     public String getAddress() {
         return address;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public String getPostalCode() {
         return postalCode;

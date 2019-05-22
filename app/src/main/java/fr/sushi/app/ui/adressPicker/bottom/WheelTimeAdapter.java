@@ -12,26 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.model.address_picker.Order;
 
 public class WheelTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
 
     public interface Listener{
-        void onItemClick(int position, String item);
+        void onItemClick(int position, Order item);
     }
-    private List<String> itemList = new ArrayList<>();
+    private List<Order> itemList = new ArrayList<>();
     private Context context;
     private int selectedPosition = 0;
 
     private Listener itemClickListener;
 
-    public WheelTimeAdapter(Context context, List<String> itemList){
+    public WheelTimeAdapter(Context context, List<Order> itemList){
         this.itemList.addAll(itemList);
         this.context =context;
     }
 
-    public void setNewDataList(List<String> itemList){
+    public void setNewDataList(List<Order> itemList){
         if(itemList == null) return;
         this.itemList.clear();
         this.itemList.addAll(itemList);
@@ -47,7 +48,7 @@ public class WheelTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public String getSelectedTime(int position) {
+    public Order getSelectedOrder(int position) {
         return itemList.get(position);
     }
 
@@ -56,7 +57,7 @@ public class WheelTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    private String getItem(int index){
+    private Order getItem(int index){
         return itemList.get(index);
     }
     @NonNull
@@ -69,7 +70,7 @@ public class WheelTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int index) {
         ItemHolder holder = (ItemHolder)viewHolder;
-        holder.time.setText(itemList.get(index));
+        holder.time.setText(itemList.get(index).getSchedule());
         if(selectedPosition == index){
             holder.time.setTextColor(context.getResources().getColor(R.color.colorPink));
         }else {

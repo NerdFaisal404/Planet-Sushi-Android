@@ -2,7 +2,9 @@ package fr.sushi.app.data.model.address_picker;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     @SerializedName("Schedule")
     private String schedule;
 

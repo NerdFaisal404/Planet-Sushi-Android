@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.home;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -26,7 +27,7 @@ public class PlaceUtil {
         String existingPlace = SharedPref.read(CURRENT_SEARCH_PLACE, "");
 
         String currentJson = gson.toJson(place);
-
+        Log.e("Place_search","Save Json="+currentJson);
         SharedPref.write(LATEST_SEARCH_PLACE, currentJson);
 
 
