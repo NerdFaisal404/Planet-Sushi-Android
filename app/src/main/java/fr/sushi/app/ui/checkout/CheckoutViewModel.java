@@ -18,12 +18,13 @@ import okhttp3.ResponseBody;
 public class CheckoutViewModel extends ViewModel {
 
     private MutableLiveData<ResponseBody> paymentMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> paymentOrderMutableLiveData = new MutableLiveData<>();
 
 
     public void sendSavePaymentOrder(JsonObject paymentModel) {
         Repository.sendPayment(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccessPaymentRequest,
+                .subscribe(this::onSuccessPaymentOrderRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
@@ -52,5 +53,18 @@ public class CheckoutViewModel extends ViewModel {
 
     public MutableLiveData<ResponseBody> getPaymentMutableLiveData() {
         return paymentMutableLiveData;
+    }
+
+    private void onSuccessPaymentOrderRequest(ResponseBody restuarentsResponse) {
+
+        if (restuarentsResponse == null) return;
+
+        paymentOrderMutableLiveData.setValue(restuarentsResponse);
+
+
+    }
+
+    public MutableLiveData<ResponseBody> getPaymentOrderMutableLiveData() {
+        return paymentOrderMutableLiveData;
     }
 }
