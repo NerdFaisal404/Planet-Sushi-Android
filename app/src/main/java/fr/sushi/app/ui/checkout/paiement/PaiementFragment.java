@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -243,12 +244,14 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         dialog.show();
 
         TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.hideSoftKeyboard(getActivity());
                 dialog.dismiss();
             }
         });
