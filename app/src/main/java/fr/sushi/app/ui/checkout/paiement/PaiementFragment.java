@@ -119,9 +119,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
 
-                binding.radioRestaurent.setChecked(true);
-                binding.radioLivarsion.setChecked(false);
-                binding.radioCart.setChecked(false);
                 showDialog();
 
 
@@ -147,6 +144,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             showDialogSpecifyAmount();
         });
 
+        buttonNoChange.setOnClickListener(v -> dialog.dismiss());
+
 
     }
 
@@ -164,6 +163,12 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                binding.radioRestaurent.setChecked(true);
+                binding.radioLivarsion.setChecked(false);
+                binding.radioCart.setChecked(false);
+                PaymentMethodCheckoutActivity.isAdyenSelected=false;
+                PaymentMethodCheckoutActivity.isCashPayment=false;
+                PaymentMethodCheckoutActivity.isDeliveryPayment=true;
             }
         });
     }

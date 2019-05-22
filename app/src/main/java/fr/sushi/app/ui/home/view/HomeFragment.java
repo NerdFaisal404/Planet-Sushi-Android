@@ -58,7 +58,7 @@ import fr.sushi.app.util.Utils;
 
 public class HomeFragment extends BaseFragment {
     private Button buttonAddAddres;
-    private BottomSheetDialog dialog;
+   // private BottomSheetDialog dialog;
     private LinearLayout linearLayoutAddress;
     private View viewDivider;
     private final int PALACE_SEARCH_ACTION = 100;
@@ -344,31 +344,38 @@ public class HomeFragment extends BaseFragment {
     private void showBottomSheet() {
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_liversion_botton_sheet, null);
 
+        //binding.bottomsheet.setContentView(bottomSheet);
+
         LinearLayout liversionView = bottomSheet.findViewById(R.id.livrasion);
         LinearLayout aemporterView = bottomSheet.findViewById(R.id.aemporter);
         liversionView.setOnClickListener(view -> {
-            dialog.dismiss();
+            binding.bottomsheet.dismissSheet();
             showImporter();
             Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
+
 
         });
 
         aemporterView.setOnClickListener(view -> {
-            dialog.dismiss();
+            binding.bottomsheet.dismissSheet();
             showExporter();
             Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
+
         });
 
-        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+       /* dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+        dialog.show();*/
+       binding.bottomsheet.showWithSheetView(bottomSheet);
     }
 
     private void showImporter() {
@@ -413,14 +420,16 @@ public class HomeFragment extends BaseFragment {
     private WheelTimeAdapter wheelTimeAdapter;
     private RecyclerView titleRv, timeRv;
     private Order selectedOrder;
+
     void showSavedAddressBottomSheet() {
+
         DialogUtils.hideDialog();
         View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
         titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
         timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
         TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
         TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
-        tvClose.setOnClickListener(v -> dialog.dismiss());
+        tvClose.setOnClickListener(v -> binding.bottomsheet.dismissSheet());
         int padding = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 40);
         titleRv.setPadding(padding, 0, padding, 0);
         SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(getActivity());
@@ -451,6 +460,7 @@ public class HomeFragment extends BaseFragment {
         tvValider.setOnClickListener(v -> {
             //currentSearchPlace.setTitle(selectedTitle);
             //currentSearchPlace.setTime(selectedTime);
+            binding.bottomsheet.dismissSheet();
             currentSearchPlace.setOrder(selectedOrder);
             currentSearchPlace.setTime(selectedOrder.getSchedule());
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
@@ -459,7 +469,7 @@ public class HomeFragment extends BaseFragment {
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
             startActivity(intent);
-            dialog.dismiss();
+            getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
         });
 
         //Wheel time adapter
@@ -487,11 +497,12 @@ public class HomeFragment extends BaseFragment {
         timeRv.setLayoutManager(timeSliderLayoutManger);
         timeRv.setAdapter(wheelTimeAdapter);
 
+        binding.bottomsheet.showWithSheetView(bottomSheet);
 
-        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+      /*  dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+        dialog.show();*/
 
     }
 

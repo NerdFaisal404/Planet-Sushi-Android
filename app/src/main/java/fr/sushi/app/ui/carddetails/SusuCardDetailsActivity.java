@@ -4,7 +4,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import fr.sushi.app.R;
-import fr.sushi.app.databinding.ActivityCardDetailsBinding;
+
+import fr.sushi.app.databinding.ActivitySusuCardDetailsBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.carddetails.adapter.CardDetailsAdapter;
 import fr.sushi.app.ui.carddetails.adapter.CardPagerAdapter;
@@ -14,7 +15,7 @@ public class SusuCardDetailsActivity extends BaseActivity {
     private CardPagerAdapter mCardAdapter;
     private CardDetailsAdapter mCardDetailsAdapter;
 
-    private ActivityCardDetailsBinding mBinding;
+    private ActivitySusuCardDetailsBinding mBinding;
     private int[] mCardList = {R.drawable.card_pink, R.drawable.card_gold, R.drawable.card_black};
 
     @Override
@@ -25,7 +26,7 @@ public class SusuCardDetailsActivity extends BaseActivity {
 
     @Override
     protected void startUI() {
-        mBinding = (ActivityCardDetailsBinding) getViewDataBinding();
+        mBinding = (ActivitySusuCardDetailsBinding) getViewDataBinding();
 
         setClickListener(mBinding.imageViewBack);
 

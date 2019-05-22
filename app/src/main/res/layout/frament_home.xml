@@ -1,465 +1,468 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <RelativeLayout
+    <com.flipboard.bottomsheet.BottomSheetLayout
+        android:id="@+id/bottomsheet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_home_background">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/topLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomLayout"
-            android:layout_alignParentTop="true"
-            android:adjustViewBounds="true"
-            android:background="@drawable/ic_place_holder"
-            android:scaleType="centerCrop" />
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_home_background">
 
-
-
-        <TextView
-            android:id="@+id/tvDelivery"
-            android:layout_above="@+id/bottomLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:background="@drawable/bg_pickup_pink_round"
-            android:drawableLeft="@drawable/ic_scooter_white"
-            android:drawableRight="@drawable/ic_white_down_arrow"
-            android:drawablePadding="8dp"
-            android:elevation="1dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp16"
-            android:paddingRight="@dimen/dp16"
-            android:layout_marginLeft="@dimen/dp16"
-            android:text="Livraison"
-            android:layout_marginBottom="@dimen/dp30"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp17" />
-
-        <LinearLayout
-            android:id="@+id/bottomLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="-20dp"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/dp16"
-            android:paddingRight="@dimen/dp16"
-            android:paddingBottom="@dimen/dp16">
-
-            <RelativeLayout
-                android:id="@+id/layoutAddress"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/bg_location_search"
-                android:padding="@dimen/dp_tweleve">
-
-                <TextView
-                    android:id="@+id/destination_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/dp10"
-                    android:layout_marginRight="@dimen/dp_four"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/robot_regular"
-                    android:singleLine="true"
-                    android:text="Quelle est votre adresse ?"
-                    android:textColor="#B3394F61"
-                    android:textSize="@dimen/sp17" />
-
-                <ImageView
-                    android:id="@+id/ivView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/dp16"
-                    android:layout_toLeftOf="@+id/ivClock"
-                    android:src="@drawable/ic_vertical_line" />
-
-
-                <ImageView
-                    android:id="@+id/ivClock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/dp5"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="@dimen/dp10"
-                    android:src="@drawable/ic_search_gray" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/layoutSignup"
+            <ImageView
+                android:id="@+id/topLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10"
-                android:orientation="vertical">
+                android:layout_above="@+id/bottomLayout"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/ic_place_holder"
+                android:scaleType="centerCrop" />
+
+
+            <TextView
+                android:id="@+id/tvDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_above="@+id/bottomLayout"
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp30"
+                android:background="@drawable/bg_pickup_pink_round"
+                android:drawableLeft="@drawable/ic_scooter_white"
+                android:drawableRight="@drawable/ic_white_down_arrow"
+                android:drawablePadding="8dp"
+                android:elevation="1dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16"
+                android:text="Livraison"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp17" />
+
+            <LinearLayout
+                android:id="@+id/bottomLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="-20dp"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16"
+                android:paddingBottom="@dimen/dp16">
 
                 <RelativeLayout
-                    android:id="@+id/layoutRegistraion"
+                    android:id="@+id/layoutAddress"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/bg_create_account"
+                    android:background="@drawable/bg_location_search"
                     android:padding="@dimen/dp_tweleve">
 
-                    <ImageView
-                        android:id="@+id/ivFish"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/dp10"
-                        android:src="@drawable/ic_fish" />
-
                     <TextView
+                        android:id="@+id/destination_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/dp10"
                         android:layout_marginRight="@dimen/dp_four"
-                        android:layout_toRightOf="@+id/ivFish"
                         android:layout_weight="1"
                         android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
+                        android:fontFamily="@font/robot_regular"
                         android:singleLine="true"
-                        android:text="Créer un compte"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/dp_sixteen" />
+                        android:text="Quelle est votre adresse ?"
+                        android:textColor="#B3394F61"
+                        android:textSize="@dimen/sp17" />
+
+                    <ImageView
+                        android:id="@+id/ivView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:layout_toLeftOf="@+id/ivClock"
+                        android:src="@drawable/ic_vertical_line" />
 
 
                     <ImageView
-                        android:id="@+id/ivRightArrow"
+                        android:id="@+id/ivClock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/dp10"
-                        android:src="@drawable/ic_white_rightt_arrow" />
+                        android:padding="@dimen/dp5"
+                        android:src="@drawable/ic_search_gray" />
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/layoutLogin"
+                <LinearLayout
+                    android:id="@+id/layoutSignup"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/layoutRegistraion"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/bg_create_account"
+                        android:padding="@dimen/dp_tweleve">
+
+                        <ImageView
+                            android:id="@+id/ivFish"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:src="@drawable/ic_fish" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp10"
+                            android:layout_marginRight="@dimen/dp_four"
+                            android:layout_toRightOf="@+id/ivFish"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_medium"
+                            android:singleLine="true"
+                            android:text="Créer un compte"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/dp_sixteen" />
+
+
+                        <ImageView
+                            android:id="@+id/ivRightArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:src="@drawable/ic_white_rightt_arrow" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layoutLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:background="@drawable/bg_login"
+                        android:padding="@dimen/dp_tweleve">
+
+                        <ImageView
+                            android:id="@+id/ivPeople"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:background="@drawable/bg_black_oval"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_account" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp15"
+                            android:layout_marginRight="@dimen/dp_four"
+                            android:layout_toRightOf="@+id/ivPeople"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_medium"
+                            android:singleLine="true"
+                            android:text="Se connecter"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/dp_sixteen" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/dp10"
+                            android:src="@drawable/ic_white_rightt_arrow" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layoutWithoutLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="2dp"
-                    android:layout_marginTop="@dimen/dp10"
-                    android:background="@drawable/bg_login"
                     android:padding="@dimen/dp_tweleve">
 
                     <ImageView
-                        android:id="@+id/ivPeople"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/iv_icon_not_connected"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/dp10"
                         android:background="@drawable/bg_black_oval"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/ic_account" />
+                        android:padding="8dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_account_profile" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/dp15"
-                        android:layout_marginRight="@dimen/dp_four"
-                        android:layout_toRightOf="@+id/ivPeople"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
-                        android:singleLine="true"
-                        android:text="Se connecter"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/dp_sixteen" />
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_toRightOf="@+id/iv_icon_not_connected"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_thin"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="DÉJÀ CLIENT PLANET SUSHI ?"
+                            android:textColor="#627588"
+                            android:textSize="@dimen/sp14" />
+
+                        <TextView
+                            android:id="@+id/tvNotConnected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/roboto_medium"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="Connectez-vous à votre compte"
+                            android:textColor="#627588"
+                            android:textSize="@dimen/sp16" />
 
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="@dimen/dp10"
-                        android:src="@drawable/ic_white_rightt_arrow" />
+                    </LinearLayout>
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutRecentAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:id="@+id/addressOne"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="2dp"
+                        android:padding="@dimen/dp_tweleve">
+
+                        <ImageView
+                            android:id="@+id/iv_icon"
+                            android:layout_width="@dimen/dp32"
+                            android:layout_height="@dimen/dp32"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_black_oval"
+                            android:padding="7dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_clock" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp16"
+                            android:layout_toRightOf="@+id/iv_icon"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/recent_addr_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/roboto_thin"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="75008 Paris"
+                                android:textColor="#627588"
+                                android:textSize="@dimen/sp14" />
+
+                            <TextView
+                                android:id="@+id/tvAddresTwo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/robot_regular"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="16 Cours Albert 1er"
+                                android:textColor="#627588"
+                                android:textSize="@dimen/sp16" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tvTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="45"
+                                android:textColor="@color/colorPink"
+                                android:textSize="20sp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/tvTimeText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Min"
+                                android:textColor="@color/colorPink"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/viewSingle"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/dp16"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:background="#E0E0E0" />
+
+                    <RelativeLayout
+                        android:id="@+id/addressOneTwo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="2dp"
+                        android:padding="@dimen/dp_tweleve">
+
+                        <ImageView
+                            android:id="@+id/iv_icon_two"
+                            android:layout_width="@dimen/dp32"
+                            android:layout_height="@dimen/dp32"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/bg_black_oval"
+                            android:padding="7dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_clock" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp16"
+                            android:layout_toRightOf="@+id/iv_icon_two"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/recent_addr_tv_two"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/roboto_thin"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="75008 Paris"
+                                android:textColor="#627588"
+                                android:textSize="@dimen/sp14" />
+
+                            <TextView
+                                android:id="@+id/tvAddresTwoText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/robot_regular"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="16 Cours Albert 1er"
+                                android:textColor="#627588"
+                                android:textSize="@dimen/sp16" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tvTimeTwo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="45"
+                                android:textColor="@color/colorPink"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/tvTimeTextTwo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Min"
+                                android:textColor="@color/colorPink"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/layoutWithoutLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="2dp"
-                android:padding="@dimen/dp_tweleve">
-
-                <ImageView
-                    android:id="@+id/iv_icon_not_connected"
-                    android:layout_width="37dp"
-                    android:layout_height="37dp"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="centerCrop"
-                    android:padding="8dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_black_oval"
-                    android:src="@drawable/ic_account_profile" />
-
-                <LinearLayout
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_icon_not_connected"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_thin"
-                        android:text="DÉJÀ CLIENT PLANET SUSHI ?"
-                        android:textSize="@dimen/sp14" />
-
-                    <TextView
-                        android:id="@+id/tvNotConnected"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_medium"
-                        android:text="Connectez-vous à votre compte"
-                        android:textSize="@dimen/sp16" />
-
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/layoutRecentAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp10"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/addressOne"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="2dp"
-                android:padding="@dimen/dp_tweleve">
-
-                <ImageView
-                    android:id="@+id/iv_icon"
-                    android:layout_width="@dimen/dp32"
-                    android:layout_height="@dimen/dp32"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="centerCrop"
-                    android:padding="7dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_black_oval"
-                    android:src="@drawable/ic_clock" />
-
-                <LinearLayout
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_icon"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/recent_addr_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_thin"
-                        android:text="75008 Paris"
-                        android:textSize="@dimen/sp14" />
-
-                    <TextView
-                        android:id="@+id/tvAddresTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="16 Cours Albert 1er"
-                        android:textSize="@dimen/sp16" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="45"
-                    android:visibility="gone"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/colorPink"
-                    android:layout_marginRight="5dp" />
-
-                    <TextView
-                        android:id="@+id/tvTimeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Min"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/colorPink"
-                        android:layout_marginRight="5dp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/viewSingle"
-                android:background="#E0E0E0"
-                android:layout_marginLeft="@dimen/dp16"
-                android:layout_marginRight="@dimen/dp16"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-
-            <RelativeLayout
-                android:id="@+id/addressOneTwo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="2dp"
-                android:padding="@dimen/dp_tweleve">
-
-                <ImageView
-                    android:id="@+id/iv_icon_two"
-                    android:layout_width="@dimen/dp32"
-                    android:layout_height="@dimen/dp32"
-                    android:layout_alignParentLeft="true"
-                    android:scaleType="centerCrop"
-                    android:padding="7dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/bg_black_oval"
-                    android:src="@drawable/ic_clock" />
-
-                <LinearLayout
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_icon_two"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/recent_addr_tv_two"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/roboto_thin"
-                        android:text="75008 Paris"
-                        android:textSize="@dimen/sp14"  />
-
-                    <TextView
-                        android:id="@+id/tvAddresTwoText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:textColor="#627588"
-                        android:singleLine="true"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/robot_regular"
-                        android:text="16 Cours Albert 1er"
-                        android:textSize="@dimen/sp16" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvTimeTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="45"
-                        android:textSize="20sp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/colorPink"
-                        android:layout_marginRight="5dp" />
-
-                    <TextView
-                        android:id="@+id/tvTimeTextTwo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Min"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/colorPink"
-                        android:layout_marginRight="5dp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </com.flipboard.bottomsheet.BottomSheetLayout>
 
 </layout>

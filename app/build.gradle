@@ -111,6 +111,8 @@ dependencies {
 
     implementation 'com.itlgl:iosdialog:1.0.1'
 
+    implementation 'com.flipboard:bottomsheet-core:1.5.3'
+
 
 }
 
