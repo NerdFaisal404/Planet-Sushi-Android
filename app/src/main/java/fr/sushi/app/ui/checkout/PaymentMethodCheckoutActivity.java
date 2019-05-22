@@ -21,6 +21,7 @@ import com.adyen.checkout.ui.CheckoutSetupParameters;
 import com.adyen.checkout.ui.CheckoutSetupParametersHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -41,6 +42,7 @@ import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
 
@@ -200,6 +202,22 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
         cartJsonObject.addProperty("is_delivery", "1");
         cartJsonObject.addProperty("id_address", "589");
+
+        List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
+
+        JsonArray productsArray = new JsonArray();
+        for(MyCartProduct item : myCartProducts){
+            JsonObject product = new JsonObject();
+            product.addProperty("id_product", item.getProductId());
+            product.addProperty("quantity", item.getItemCount());
+
+            List<CrossSellingSelectedItem> crossSellingList = item.getCrossSellingSelectedItems();
+            JsonObject crossSellingJson = new JsonObject();
+            if(crossSellingList != null && !crossSellingList.isEmpty()){
+
+            }
+            product.add("accessories",crossSellingJson);
+        }
 
         JsonObject paymentObject = new JsonObject();
         cartJsonObject.addProperty("payment_method", payementMethod);
