@@ -174,7 +174,7 @@ public class Repository {
     public static Flowable<ResponseBody> sendPayment(PaymentModel paymentModel) {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
 
-        return apiInterface.sendAdyenPayment(paymentModel);
+        return apiInterface.saveOrderPayment(paymentModel);
     }
 
     public static Flowable<ResponseBody> sendAdyenPayment(PaymentModel paymentModel) {

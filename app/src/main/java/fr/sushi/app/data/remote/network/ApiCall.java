@@ -55,4 +55,7 @@ public interface ApiCall {
 
     @POST("createPaymentSession")
     Flowable<ResponseBody> sendAdyenPayment(@Body PaymentModel paymentModel);
+
+    @POST("saveOrder")
+    Flowable<ResponseBody> saveOrderPayment(@Body PaymentModel paymentModel);
 }

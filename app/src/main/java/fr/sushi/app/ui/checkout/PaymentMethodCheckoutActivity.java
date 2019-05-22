@@ -132,19 +132,27 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 paymentRequest.start();*/
                 //sendPayment();
 
-                CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
-                    @Override
-                    public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
-                        // TODO: Forward to your own server and request the payment session from Adyen with the given CheckoutSetupParameters.
+                if (isCashPayment) {
 
-                        sendAdyenPayment(checkoutSetupParameters.getSdkToken());
-                    }
+                } else if (isDeliveryPayment) {
 
-                    @Override
-                    public void onError(@NonNull CheckoutException checkoutException) {
-                        // TODO: Handle error.
-                    }
-                });
+                } else if (isAdyenSelected) {
+                    CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
+                        @Override
+                        public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
+                            // TODO: Forward to your own server and request the payment session from Adyen with the given CheckoutSetupParameters.
+
+                            sendAdyenPayment(checkoutSetupParameters.getSdkToken());
+                        }
+
+                        @Override
+                        public void onError(@NonNull CheckoutException checkoutException) {
+                            // TODO: Handle error.
+                        }
+                    });
+                }
+
+
             }
 
         });

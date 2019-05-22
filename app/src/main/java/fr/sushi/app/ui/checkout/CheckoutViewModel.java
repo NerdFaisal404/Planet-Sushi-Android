@@ -20,7 +20,7 @@ public class CheckoutViewModel extends ViewModel {
     private MutableLiveData<ResponseBody> paymentMutableLiveData = new MutableLiveData<>();
 
 
-    public void sendPayment(PaymentModel paymentModel) {
+    public void sendSavePaymentOrder(PaymentModel paymentModel) {
         Repository.sendPayment(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessMenuRequest,
