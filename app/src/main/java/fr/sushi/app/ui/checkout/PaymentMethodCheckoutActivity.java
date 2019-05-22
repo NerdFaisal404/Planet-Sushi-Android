@@ -43,7 +43,9 @@ import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
+import fr.sushi.app.util.SideProduct;
 import fr.sushi.app.util.Utils;
 
 public class PaymentMethodCheckoutActivity extends AppCompatActivity {
@@ -243,6 +245,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         mainObject.add("Cart", cartJsonObject);
         mainObject.add("Payment", paymentObject);
+
+        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
 
         checkoutViewModel.sendSavePaymentOrder(mainObject);
     }
