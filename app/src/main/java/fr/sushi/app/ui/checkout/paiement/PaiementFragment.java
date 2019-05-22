@@ -1,5 +1,6 @@
 package fr.sushi.app.ui.checkout.paiement;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -7,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,17 +28,36 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.address_picker.AddressResponse;
+import fr.sushi.app.data.model.address_picker.Order;
+import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
+import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
+import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
+import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
+import fr.sushi.app.util.DialogUtils;
+import fr.sushi.app.util.ScheduleParser;
+import fr.sushi.app.util.ScreenUtil;
+import fr.sushi.app.util.Utils;
 
 
 public class PaiementFragment extends Fragment implements OnMapReadyCallback {
@@ -46,11 +67,62 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     private BottomSheetDialog dialog;
+    private ErrorResponse errorResponse;
+    private AddressResponse addressResponse;
 
+    private SearchPlace currentSearchPlace;
+    private PaimentViewModel paimentViewModel;
 
 
     public PaiementFragment() {
         // Required empty public constructor
+    }
+
+    private void observeData() {
+
+        paimentViewModel = ViewModelProviders.of(this).get(PaimentViewModel.class);
+
+        paimentViewModel.getDeliveryAddressLiveData().observe(this, response -> {
+
+            if (response != null) {
+                try {
+                    JSONObject responseObject = new JSONObject(response.string());
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+
+                    Log.e("JsonObject", "" + responseObject.toString());
+                    if (error == true) {
+                        DialogUtils.hideDialog();
+                        errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(getActivity(), "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                    } else {
+                        addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
+                        addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
+                        Log.e("Order_item", "List size =" + addressResponse.getResponse().getSchedules().getOrderList().size());
+                        prepareDataForBottomSheet();
+                        if (currentSearchPlace != null) {
+                            currentSearchPlace.setOrder(selectedOrder);
+                            currentSearchPlace.setTime(selectedOrder.getSchedule());
+                            if (SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false)) {
+                                currentSearchPlace.setType("Livraison");
+                            } else if (SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
+                                currentSearchPlace.setType("A emporter");
+                            } else {
+                                currentSearchPlace.setType("Livraison");
+                            }
+
+                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
     }
 
 
@@ -72,18 +144,14 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-
-
+        observeData();
         initRadioListener();
 
-        binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME,""));
-        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE,""));
+        binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
+        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE, ""));
 
         return view;
     }
-
-
-
 
 
     private void initRadioListener() {
@@ -93,9 +161,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.radioCart.setChecked(true);
             binding.radioRestaurent.setChecked(false);
             binding.radioLivarsion.setChecked(false);
-            PaymentMethodCheckoutActivity.isAdyenSelected=true;
-            PaymentMethodCheckoutActivity.isCashPayment=false;
-            PaymentMethodCheckoutActivity.isDeliveryPayment=false;
+            PaymentMethodCheckoutActivity.isAdyenSelected = true;
+            PaymentMethodCheckoutActivity.isCashPayment = false;
+            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
 
         });
 
@@ -104,9 +172,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.radioLivarsion.setChecked(true);
             binding.radioRestaurent.setChecked(false);
             binding.radioCart.setChecked(false);
-            PaymentMethodCheckoutActivity.isAdyenSelected=false;
-            PaymentMethodCheckoutActivity.isCashPayment=true;
-            PaymentMethodCheckoutActivity.isDeliveryPayment=false;
+            PaymentMethodCheckoutActivity.isAdyenSelected = false;
+            PaymentMethodCheckoutActivity.isCashPayment = true;
+            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
 
         });
 
@@ -118,6 +186,16 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 showDialog();
 
 
+            }
+        });
+
+        binding.layoutAddress.setOnClickListener(v -> {
+            DialogUtils.showDialog(getActivity());
+            List<SearchPlace> currentSearchPlace = PlaceUtil.getSearchPlace();
+            if (!currentSearchPlace.isEmpty()) {
+                SearchPlace latestSearchPlace = currentSearchPlace.get(0);
+                paimentViewModel.setDeliveryAddress(latestSearchPlace.getAddress(), latestSearchPlace.getPostalCode(),
+                        latestSearchPlace.getCity());
             }
         });
     }
@@ -147,9 +225,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 binding.radioRestaurent.setChecked(true);
                 binding.radioLivarsion.setChecked(false);
                 binding.radioCart.setChecked(false);
-                PaymentMethodCheckoutActivity.isAdyenSelected=false;
-                PaymentMethodCheckoutActivity.isCashPayment=false;
-                PaymentMethodCheckoutActivity.isDeliveryPayment=true;
+                PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                PaymentMethodCheckoutActivity.isCashPayment = false;
+                PaymentMethodCheckoutActivity.isDeliveryPayment = true;
             }
         });
 
@@ -209,19 +287,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    /*@SuppressLint("MissingPermission")
-    private void checkPermissionAndPrepareClient() {
-        @SuppressLint("RestrictedApi")
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        if (PermissionUtil.init(getActivity()).request(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-           // mGoogleMap.setMyLocationEnabled(true);
-        }
-    }
-*/
     @Override
     public void onResume() {
         super.onResume();
@@ -233,7 +298,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.tvAddress.setText(latestSearchPlace.getAddress());
             if (!TextUtils.isEmpty(latestSearchPlace.getTime())) {
                 String time = latestSearchPlace.getTime().replace(":", "h");
-                binding.tvDeliveryTime.setText("Livraison prévue pour " + time);
+                binding.tvDeliveryTime.setText("Heure de " + latestSearchPlace.getType());
+                binding.tvTime.setText(time);
             }
         }
     }
@@ -241,37 +307,122 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause() {
         super.onPause();
-        /*if (mFusedLocationClient != null) {
-            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-        }*/
+
     }
 
-   /* private LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
-                //The last location in the list is the newest
-                Location location = locationList.get(locationList.size() - 1);
-                Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-                //Place current location marker
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+    private Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();
 
-                //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+    private void prepareDataForBottomSheet() {
+        List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
+        for (Order item : schedulesList) {
+            String[] displayValue = item.getDisplayValue().split("à");
+
+            List<Order> existList = scheduleOrderMap.get(displayValue[0]);
+
+            Log.e("Orders", "value =" + item.getDisplayValue() + " time =" + item.getSchedule());
+
+            if (existList == null) {
+                List<Order> newList = new ArrayList<>();
+                newList.add(item);
+                scheduleOrderMap.put(displayValue[0], newList);
+            } else {
+                existList.add(item);
+            }
+
+
+        }
+        showSavedAddressBottomSheet();
+    }
+
+    private AddressNameAdapter addressNameAdapter;
+    private WheelTimeAdapter wheelTimeAdapter;
+    private RecyclerView titleRv, timeRv;
+    private Order selectedOrder;
+
+    void showSavedAddressBottomSheet() {
+
+        DialogUtils.hideDialog();
+        View bottomSheet = getLayoutInflater().inflate(R.layout.view_item_bottom_sheet_time_picker, null);
+        titleRv = bottomSheet.findViewById(R.id.rv_horizontal_picker);
+        timeRv = bottomSheet.findViewById(R.id.rv_time_picker);
+        TextView tvValider = bottomSheet.findViewById(R.id.tvValider);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(v -> dialog.dismiss());
+        int padding = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 40);
+        titleRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager sliderLayoutManager = new SliderLayoutManager(getActivity());
+
+        //Title adapter
+        List<String> data = new ArrayList<>(scheduleOrderMap.keySet());
+
+
+        addressNameAdapter = new AddressNameAdapter(getActivity(), data);
+        sliderLayoutManager.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                addressNameAdapter.setSelectedPosition(position);
+                Log.e("Selected_item", "Selected title =" + data.get(position));
+                List<Order> timeList = scheduleOrderMap.get(data.get(position));
+
+                wheelTimeAdapter.setNewDataList(timeList);
+                selectedOrder = timeList.get(0);
 
             }
-        }
-    };*/
+        });
+        addressNameAdapter.setListener((position, item) -> titleRv.smoothScrollToPosition(position));
+
+        titleRv.setLayoutManager(sliderLayoutManager);
+        titleRv.setAdapter(addressNameAdapter);
+
+
+        tvValider.setOnClickListener(v -> {
+            //currentSearchPlace.setTitle(selectedTitle);
+            //currentSearchPlace.setTime(selectedTime);
+            dialog.dismiss();
+            currentSearchPlace.setOrder(selectedOrder);
+            currentSearchPlace.setTime(selectedOrder.getSchedule());
+            if (SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false)) {
+                currentSearchPlace.setType("Livraison");
+            } else if (SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
+                currentSearchPlace.setType("A emporter");
+            } else {
+                currentSearchPlace.setType("Livraison");
+            }
+            onResume();
+        });
+
+        //Wheel time adapter
+
+        timeRv.setPadding(padding, 0, padding, 0);
+        SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
+
+        List<Order> timeList = scheduleOrderMap.get(data.get(0));
+        selectedOrder = timeList.get(0);
+        wheelTimeAdapter = new WheelTimeAdapter(getActivity(), timeList);
+        timeSliderLayoutManger.initListener(new SliderLayoutManager.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int position) {
+                wheelTimeAdapter.setSelectedPosition(position);
+                selectedOrder = wheelTimeAdapter.getSelectedOrder(position);
+
+            }
+        });
+        wheelTimeAdapter.setListener(new WheelTimeAdapter.Listener() {
+            @Override
+            public void onItemClick(int position, Order item) {
+                timeRv.smoothScrollToPosition(position);
+            }
+        });
+        timeRv.setLayoutManager(timeSliderLayoutManger);
+        timeRv.setAdapter(wheelTimeAdapter);
+
+
+        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
+        dialog.setContentView(bottomSheet);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+    }
 
 
 }
