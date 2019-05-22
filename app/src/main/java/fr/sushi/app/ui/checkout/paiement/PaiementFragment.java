@@ -1,6 +1,5 @@
 package fr.sushi.app.ui.checkout.paiement;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -35,7 +34,6 @@ import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
-import fr.sushi.app.ui.checkout.CheckoutViewModel;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
@@ -101,23 +99,21 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         });
 
-        binding.layoutLivarsion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.layoutLivarsion.setOnClickListener(v -> {
 
-                binding.radioLivarsion.setChecked(true);
-                binding.radioRestaurent.setChecked(false);
-                binding.radioCart.setChecked(false);
-                PaymentMethodCheckoutActivity.isAdyenSelected=false;
-                PaymentMethodCheckoutActivity.isCashPayment=true;
-                PaymentMethodCheckoutActivity.isDeliveryPayment=false;
+            binding.radioLivarsion.setChecked(true);
+            binding.radioRestaurent.setChecked(false);
+            binding.radioCart.setChecked(false);
+            PaymentMethodCheckoutActivity.isAdyenSelected=false;
+            PaymentMethodCheckoutActivity.isCashPayment=true;
+            PaymentMethodCheckoutActivity.isDeliveryPayment=false;
 
-            }
         });
 
         binding.layoutRestuarent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 showDialog();
 
@@ -136,15 +132,26 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
 
-        Button buttonSpecifyAnAmount = bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
-        Button buttonNoChange = bottomSheet.findViewById(R.id.buttonNoChange);
+        TextView buttonSpecifyAnAmount = bottomSheet.findViewById(R.id.buttonSpecifyAnAmount);
+        TextView buttonNoChange = bottomSheet.findViewById(R.id.buttonNoChange);
 
         buttonSpecifyAnAmount.setOnClickListener(v -> {
             dialog.dismiss();
             showDialogSpecifyAmount();
         });
 
-        buttonNoChange.setOnClickListener(v -> dialog.dismiss());
+        buttonNoChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                binding.radioRestaurent.setChecked(true);
+                binding.radioLivarsion.setChecked(false);
+                binding.radioCart.setChecked(false);
+                PaymentMethodCheckoutActivity.isAdyenSelected=false;
+                PaymentMethodCheckoutActivity.isCashPayment=false;
+                PaymentMethodCheckoutActivity.isDeliveryPayment=true;
+            }
+        });
 
 
     }
@@ -163,12 +170,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                binding.radioRestaurent.setChecked(true);
-                binding.radioLivarsion.setChecked(false);
-                binding.radioCart.setChecked(false);
-                PaymentMethodCheckoutActivity.isAdyenSelected=false;
-                PaymentMethodCheckoutActivity.isCashPayment=false;
-                PaymentMethodCheckoutActivity.isDeliveryPayment=true;
             }
         });
     }
