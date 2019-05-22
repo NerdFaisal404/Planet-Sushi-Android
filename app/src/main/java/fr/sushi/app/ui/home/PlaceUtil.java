@@ -97,4 +97,34 @@ public class PlaceUtil {
         SearchPlace place = new Gson().fromJson(jsonString, SearchPlace.class);
         return place;
     }
+
+
+    private static final String RECENT_SEARCH_PLACE = "recent_search";
+    private static final String DEFAULT_SEARCH_PLACE = "default_search";
+
+    public void saveRecentSearchAddress(SearchPlace searchPlace){
+        Gson gson = new Gson();
+        if (searchPlace == null) return;
+        String jsonString = gson.toJson(searchPlace);
+        SharedPref.write(RECENT_SEARCH_PLACE, jsonString);
+    }
+
+    public void saveDefaultSearchPlace(SearchPlace searchPlace){
+        Gson gson = new Gson();
+        if (searchPlace == null) return;
+        String jsonString = gson.toJson(searchPlace);
+        SharedPref.write(DEFAULT_SEARCH_PLACE, jsonString);
+    }
+
+    public SearchPlace getRecentSearchAddress(){
+        String jsonString = SharedPref.read(RECENT_SEARCH_PLACE, "");
+        if(TextUtils.isEmpty(jsonString)) return null;
+        return new Gson().fromJson(jsonString, SearchPlace.class);
+    }
+
+    public SearchPlace getDefaultSearchAddress(){
+        String jsonString = SharedPref.read(DEFAULT_SEARCH_PLACE, "");
+        if(TextUtils.isEmpty(jsonString)) return null;
+        return new Gson().fromJson(jsonString, SearchPlace.class);
+    }
 }
