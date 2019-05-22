@@ -1,9 +1,12 @@
 package fr.sushi.app.ui.menu;
 
 import java.io.Serializable;
+import java.util.List;
 
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Transient;
 
 @Entity
 public class MyCartProduct implements Serializable {
@@ -21,7 +24,9 @@ public class MyCartProduct implements Serializable {
     private int itemCount;
     private String sellingProductInfo;
 
+    @Transient
     private boolean isSelected;
+    private List<CrossSellingSelectedItem> crossSellingSelectedItems;
 
     public MyCartProduct(){}
 
@@ -144,6 +149,14 @@ public class MyCartProduct implements Serializable {
 
     public void setSellingProductInfo(String sellingProductInfo) {
         this.sellingProductInfo = sellingProductInfo;
+    }
+
+    public List<CrossSellingSelectedItem> getCrossSellingSelectedItems() {
+        return crossSellingSelectedItems;
+    }
+
+    public void setCrossSellingSelectedItems(List<CrossSellingSelectedItem> crossSellingSelectedItems) {
+        this.crossSellingSelectedItems = crossSellingSelectedItems;
     }
 }
 /*
