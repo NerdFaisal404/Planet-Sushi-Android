@@ -182,6 +182,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
 
     private void sendPayment() {
+
+        DialogUtils.showDialog(this);
+
         SearchPlace latestSearchPlace = null;
         List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
         if (!currentSearchPlaces.isEmpty()) {
@@ -307,6 +310,31 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         PaymentSessionModel paymentSessionModel = new Gson().fromJson(responseObject.toString(), PaymentSessionModel.class);
 
                         createPaymentSession(paymentSessionModel.getResponse().getPaymentSession());
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        checkoutViewModel.getPaymentOrderMutableLiveData().observe(this, responseBody -> {
+            if (responseBody != null) {
+                DialogUtils.hideDialog();
+
+                JSONObject responseObject = null;
+                try {
+                    responseObject = new JSONObject(responseBody.string());
+
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+                    Log.e("JsonObject", "value =" + responseObject.toString());
+                    if (error == true) {
+                        ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
+                    } else {
 
 
                     }
