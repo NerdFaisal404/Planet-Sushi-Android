@@ -42,10 +42,10 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
             mAdapter.clear();
             mAdapter.addItems(addressList);
             ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
-            SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(),addressModel.getCity(),
+            SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                     addressModel.getLocation());
-
-            PlaceUtil.saveCurrentPlaceInFirstPosition(searchPlace);
+            searchPlace.setAddressId(addressModel.getId());
+            PlaceUtil.saveDefaultSearchPlace(searchPlace);
         });
     }
 

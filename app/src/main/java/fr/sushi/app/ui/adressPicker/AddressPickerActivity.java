@@ -197,7 +197,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                             currentSearchPlace.setOrder(selectedOrder);
                             currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
-                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                            PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
                         }
                     }
                 } catch (JSONException e) {
@@ -234,7 +234,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                             currentSearchPlace.setOrder(selectedOrder);
                             currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
-                            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+                            PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
                         }
                     }
                 } catch (JSONException e) {
@@ -528,7 +528,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
             currentSearchPlace.setOrder(selectedOrder);
             currentSearchPlace.setTime(selectedOrder.getSchedule());
             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
-            PlaceUtil.saveCurrentPlace(currentSearchPlace);
+            PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
             Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);

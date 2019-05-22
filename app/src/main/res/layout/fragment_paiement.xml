@@ -239,6 +239,7 @@
                 android:textSize="@dimen/sp24" />
 
             <RelativeLayout
+                android:visibility="visible"
                 android:id="@+id/layoutCartPayment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -9,6 +9,7 @@ import fr.sushi.app.data.model.address_picker.Order;
 
 public class SearchPlace implements Serializable {
     private String postalCode;
+    private String addressId;
     private String city;
     private String address;
     private String title;
@@ -102,5 +103,13 @@ public class SearchPlace implements Serializable {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 }

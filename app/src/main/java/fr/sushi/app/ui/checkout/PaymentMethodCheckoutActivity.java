@@ -187,11 +187,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         DialogUtils.showDialog(this);
 
-        SearchPlace latestSearchPlace = null;
-        List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
-        if (!currentSearchPlaces.isEmpty()) {
-            latestSearchPlace = currentSearchPlaces.get(1);
-        }
+        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
 
 
         JsonObject mainObject = new JsonObject();
@@ -203,16 +200,20 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         JsonObject cartJsonObject = new JsonObject();
         cartJsonObject.addProperty("id_cart", "false");
         cartJsonObject.addProperty("order_date", latestSearchPlace.getOrder().getOrderData());
+
         cartJsonObject.addProperty("id_store", latestSearchPlace.getOrder().getStoreId());
+
         cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
+
         cartJsonObject.addProperty("is_delivery", "1");
-        cartJsonObject.addProperty("id_address", "589");
+        cartJsonObject.addProperty("id_address", defaultSearchAddress.getAddressId());
 
         List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
 
         JsonArray productsArray = new JsonArray();
 
-        for(MyCartProduct item : myCartProducts){
+        for (
+                MyCartProduct item : myCartProducts) {
             JsonObject product = new JsonObject();
             product.addProperty("id_product", item.getProductId());
             product.addProperty("quantity", item.getItemCount());
@@ -220,8 +221,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             List<CrossSellingSelectedItem> crossSellingList = item.getCrossSellingSelectedItems();
 
             JsonArray crossSellingArray = new JsonArray();
-            if(crossSellingList != null && !crossSellingList.isEmpty()){
-                for(CrossSellingSelectedItem cItem : crossSellingList){
+            if (crossSellingList != null && !crossSellingList.isEmpty()) {
+                for (CrossSellingSelectedItem cItem : crossSellingList) {
                     JsonObject crossSellJson = new JsonObject();
                     crossSellJson.addProperty("id_product", cItem.getMainProductId());
                     crossSellJson.addProperty("id_product_cross_selling", cItem.getProductId());
@@ -229,7 +230,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     crossSellingArray.add(crossSellJson);
                 }
             }
-            product.add("accessories",crossSellingArray);
+            product.add("accessories", crossSellingArray);
 
             productsArray.add(product);
         }
