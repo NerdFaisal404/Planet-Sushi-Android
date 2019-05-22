@@ -26,11 +26,8 @@ public class DataCacheUtil {
         return categoriesItemList;
     }
 
-    public static void addSideProducts(SideProduct sideProduct){
-        sideProductList.add(sideProduct);
-    }
-
     public static void addSideProducts(List<SideProduct> sideProduct){
+        sideProductList.clear();
         sideProductList.addAll(sideProduct);
     }
 
