@@ -60,7 +60,7 @@
             android:name=".ui.checkout.PaymentCheckoutActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeSignup"
+            android:theme="@style/AppTheme.Checkout"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <uses-library

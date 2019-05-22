@@ -12,13 +12,18 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.adyen.checkout.core.CheckoutException;
+import com.adyen.checkout.core.PaymentController;
+import com.adyen.checkout.core.PaymentHandler;
 import com.adyen.checkout.core.PaymentMethodHandler;
+import com.adyen.checkout.core.PaymentReference;
 import com.adyen.checkout.core.PaymentResult;
+import com.adyen.checkout.core.PaymentSetupParameters;
 import com.adyen.checkout.core.StartPaymentParameters;
+import com.adyen.checkout.core.handler.PaymentSetupParametersHandler;
 import com.adyen.checkout.core.handler.StartPaymentParametersHandler;
+import com.adyen.checkout.core.model.PaymentMethod;
+import com.adyen.checkout.core.model.PaymentSession;
 import com.adyen.checkout.ui.CheckoutController;
-import com.adyen.checkout.ui.CheckoutSetupParameters;
-import com.adyen.checkout.ui.CheckoutSetupParametersHandler;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -50,7 +55,7 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
 
     private CheckoutViewModel checkoutViewModel;
 
-    private int REQUEST_CODE_CHECKOUT=555;
+    private int REQUEST_CODE_CHECKOUT = 555;
 
 
     @Override
@@ -128,12 +133,10 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
                 paymentRequest.start();*/
                 //sendPayment();
 
-                CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
+                PaymentController.startPayment(/*Activity*/ this, new PaymentSetupParametersHandler() {
                     @Override
-                    public void onRequestPaymentSession(@NonNull CheckoutSetupParameters checkoutSetupParameters) {
-                        Log.d("Adyenb_log", checkoutSetupParameters.toString());
-                        // TODO: Forward to your own server and request the payment session from Adyen with the given CheckoutSetupParameters.
-                        sendAdyenPayment(checkoutSetupParameters.getSdkToken());
+                    public void onRequestPaymentSession(@NonNull PaymentSetupParameters paymentSetupParameters) {
+                        sendAdyenPayment(paymentSetupParameters.getSdkToken());
                     }
 
                     @Override
@@ -149,14 +152,14 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
 
 
     private void createPaymentSession(String session) {
-        CheckoutController.handlePaymentSessionResponse(this, session, new StartPaymentParametersHandler() {
+        PaymentController.handlePaymentSessionResponse(/*Activity*/ this, session, new StartPaymentParametersHandler() {
             @Override
             public void onPaymentInitialized(@NonNull StartPaymentParameters startPaymentParameters) {
+                PaymentReference paymentReference = startPaymentParameters.getPaymentReference();
+                // TODO: Use the PaymentReference to retrieve a PaymentHandler (see the Create Payment Flow section).
                 PaymentMethodHandler paymentMethodHandler = CheckoutController.getCheckoutHandler(startPaymentParameters);
                 paymentMethodHandler.handlePaymentMethodDetails(/* Activity */ PaymentCheckoutActivity.this, REQUEST_CODE_CHECKOUT);
-
             }
-
 
             @Override
             public void onError(@NonNull CheckoutException checkoutException) {
@@ -222,7 +225,6 @@ public class PaymentCheckoutActivity extends AppCompatActivity {
     public void setPriceWithSideProducts(double priceSideProducts) {
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
     }
-
 
 
     @Override
