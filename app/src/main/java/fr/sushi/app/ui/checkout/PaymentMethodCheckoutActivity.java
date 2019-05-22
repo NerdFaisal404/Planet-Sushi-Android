@@ -38,6 +38,8 @@ import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
@@ -177,11 +179,26 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
 
     private void sendPayment() {
+        SearchPlace latestSearchPlace = null;
+        List<SearchPlace> currentSearchPlaces = PlaceUtil.getSearchPlace();
+        if (!currentSearchPlaces.isEmpty()) {
+            latestSearchPlace = currentSearchPlaces.get(0);
+        }
+
+
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.addProperty("token",SharedPref.read(PrefKey.USER_TOKEN,""));
-        jsonObject.addProperty("email",SharedPref.read(PrefKey.USER_EMAIL,""));
-        jsonObject.addProperty("id_customer",SharedPref.read(PrefKey.USER_ID,""));
+        jsonObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
+        jsonObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
+        jsonObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+
+        JsonObject cartJsonObject = new JsonObject();
+        cartJsonObject.addProperty("id_cart", "false");
+        cartJsonObject.addProperty("order_date", latestSearchPlace.getOrder().getOrderData());
+        cartJsonObject.addProperty("id_store", latestSearchPlace.getOrder().getStoreId());
+        cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
+        cartJsonObject.addProperty("is_delivery", "1");
+        cartJsonObject.addProperty("id_address", "589");
 
         checkoutViewModel.sendSavePaymentOrder(jsonObject);
     }
