@@ -61,42 +61,39 @@ public class AddressAddActivity extends BaseActivity {
 
         initViewModel();
 
-        mViewModel.getAddressLiveData().observe(this, new Observer<ResponseBody>() {
-            @Override
-            public void onChanged(@Nullable ResponseBody responseBody) {
-                DialogUtils.hideDialog();
-                if (responseBody != null) {
-                    try {
-                        String response = responseBody.string();
-                        Log.w("AddressUpdateResponse", "Response: " + response);
+        mViewModel.getAddressLiveData().observe(this, responseBody -> {
+            DialogUtils.hideDialog();
+            if (responseBody != null) {
+                try {
+                    String response = responseBody.string();
+                    Log.w("AddressUpdateResponse", "Response: " + response);
 
-                        JSONObject responseObject = new JSONObject(response);
-                        boolean error = Boolean.parseBoolean(responseObject.getString("error"));
-                        if (error) {
-                            ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                            Utils.showAlert(AddressAddActivity.this, "Erreur!", errorResponse.getErrorString());
+                    JSONObject responseObject = new JSONObject(response);
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+                    if (error) {
+                        ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(AddressAddActivity.this, "Erreur!", errorResponse.getErrorString());
+                    } else {
+                        String addressId = responseObject.optString("id_address");
+                        model.setId(addressId);
+                        if (isCreateAddress) {
+                            mViewModel.addAddress(model);
                         } else {
-                            String addressId = responseObject.optString("id_address");
-                            model.setId(addressId);
-                            if (isCreateAddress) {
-                                mViewModel.addAddress(model);
-                            } else {
-                                mViewModel.updateAddress(model);
-                            }
-                            finish();
+                            mViewModel.updateAddress(model);
                         }
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Log.e("AddressUpdateResponse", "Exception: " + e.getMessage());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        finish();
                     }
-                } else {
-                    Log.e("AddressUpdateResponse", "Response body null");
-                }
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("AddressUpdateResponse", "Exception: " + e.getMessage());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("AddressUpdateResponse", "Response body null");
             }
+
         });
     }
 
