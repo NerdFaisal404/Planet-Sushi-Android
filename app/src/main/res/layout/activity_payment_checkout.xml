@@ -6,14 +6,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dp16"
         android:background="@drawable/bg_home_image"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp16">
 
         <RelativeLayout
+            android:id="@+id/rlTop"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/rlTop"
             android:background="@drawable/bg_checkout"
             android:orientation="vertical"
             android:paddingLeft="@dimen/dp16"
@@ -115,47 +115,46 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
-            android:layout_below="@+id/rlTop"
-            android:paddingTop="@dimen/dp10"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_above="@+id/layoutBottomCheckout"
-            android:layout_height="match_parent" />
+            android:layout_below="@+id/rlTop"
+            android:paddingTop="@dimen/dp10" />
 
         <RelativeLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/rlTop"
+            android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/ivTop"
-                android:src="@drawable/ic_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/ic_empty" />
+
             <TextView
-                android:layout_marginBottom="@dimen/dp70"
                 android:id="@+id/tvEmptyView"
-                android:visibility="visible"
-                android:text="Votre panier est vide"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ivTop"
+                android:layout_marginBottom="@dimen/dp70"
                 android:fontFamily="@font/roboto_medium"
-                android:textSize="@dimen/sp24"
+                android:gravity="center"
+                android:text="Votre panier est vide"
                 android:textColor="@color/color_394F61"
 
-                android:gravity="center"
+                android:textSize="@dimen/sp24"
 
 
-                android:layout_height="wrap_content" />
+                android:visibility="visible" />
 
         </RelativeLayout>
-
-
 
 
         <LinearLayout
@@ -163,45 +162,45 @@
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
             android:layout_margin="@dimen/dp16"
             android:background="@drawable/bg_pink_round"
+            android:orientation="horizontal"
             android:weightSum="2">
 
             <TextView
                 android:id="@+id/total_price_tv"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:fontFamily="@font/roboto_bold"
+                android:layout_gravity="right"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_bold"
                 android:gravity="right|center_vertical"
                 android:paddingRight="@dimen/dp20"
                 android:text="0,000 €"
-                android:layout_gravity="right"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
+
             <View
                 android:id="@+id/midline"
                 android:layout_width="2dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/dp16"
                 android:layout_marginBottom="@dimen/dp16"
-                android:layout_height="match_parent"
-                android:background="@color/colorWhite"/>
+                android:background="@color/colorWhite" />
 
             <TextView
                 android:id="@+id/tvSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
-                android:fontFamily="@font/roboto_bold"
                 android:layout_weight="1"
+                android:drawableRight="@drawable/ic_white_rightt_arrow"
+                android:fontFamily="@font/roboto_bold"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="@dimen/dp20"
-                android:text="CONTINUER"
                 android:paddingRight="@dimen/dp16"
-                android:drawableRight="@drawable/ic_white_rightt_arrow"
+                android:text="CONTINUER"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
-
 
 
         </LinearLayout>

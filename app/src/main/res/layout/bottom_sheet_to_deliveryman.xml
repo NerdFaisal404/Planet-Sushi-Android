@@ -4,8 +4,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@drawable/bg_bottom_home"
+        android:orientation="vertical"
         android:padding="@dimen/dp16">
 
         <TextView
@@ -30,27 +30,29 @@
             android:textColor="#627588"
             android:textSize="@dimen/sp15" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
+        <TextView
             android:id="@+id/buttonNoChange"
-            android:textColor="@color/colorPink"
-            android:text="Pas de monnaie"
-            android:layout_marginTop="@dimen/dp20"
-            android:fontFamily="@font/roboto_bold"
-            android:textSize="@dimen/sp17"
-            android:background="@drawable/bg_round_stroke_pink"/>
-
-        <Button
             android:layout_width="match_parent"
             android:layout_height="51dp"
-            android:id="@+id/buttonSpecifyAnAmount"
-            android:layout_marginTop="@dimen/dp10"
-            android:textColor="@color/colorWhite"
-            android:text="Préciser un montant"
+            android:layout_marginTop="@dimen/dp20"
+            android:background="@drawable/bg_round_stroke_pink"
             android:fontFamily="@font/roboto_bold"
-            android:textSize="@dimen/sp17"
-            android:background="@drawable/bg_pink_round"/>
+            android:gravity="center"
+            android:text="Pas de monnaie"
+            android:textColor="@color/colorPink"
+            android:textSize="@dimen/sp17" />
+
+        <TextView
+            android:id="@+id/buttonSpecifyAnAmount"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:layout_marginTop="@dimen/dp16"
+            android:background="@drawable/bg_round_pink"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="Préciser un montant"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp17" />
 
 
     </LinearLayout>
