@@ -16,7 +16,7 @@ import android.os.Parcelable;
  */
 
 
-public class ProfileAddressModel implements Parcelable {
+public class ProfileAddressModel extends BaseAddress implements Parcelable {
     private String id;
     private String addressType;
     private String location;
