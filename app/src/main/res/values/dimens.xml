@@ -26,8 +26,8 @@
    <dimen name="sp_eighteen">18sp</dimen>
     <dimen name="dp16">16dp</dimen>
 
-    <dimen name="defaultItemHeight">100dp</dimen>
-    <dimen name="featuredItemHeight">200dp</dimen>
+    <dimen name="defaultItemHeight">80dp</dimen>
+    <dimen name="featuredItemHeight">220dp</dimen>
     <dimen name="dp18">18dp</dimen>
     <dimen name="dp24">24dp</dimen>
     <dimen name="sp15">15sp</dimen>

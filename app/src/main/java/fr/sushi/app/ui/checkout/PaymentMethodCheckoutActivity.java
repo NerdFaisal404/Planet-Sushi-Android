@@ -420,9 +420,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                         DBManager.on().clearMyCartProduct();
                         DataCacheUtil.removeSideProducts();
-                        PaymentSuccessResponse successResponse = new Gson().fromJson(responseObject.toString(), PaymentSuccessResponse.class);
+                        JSONObject res = responseObject.getJSONObject("response");
+                        String idOrder = res.optString("id_order");
                         Intent intent = new Intent(new Intent(this, PaymentSuccssActivity.class));
-                        intent.putExtra(IntentKey.KEY_ORDER_ID, successResponse.getResponse().getIdOrder());
+                        intent.putExtra(IntentKey.KEY_ORDER_ID, idOrder);
                         startActivity(intent);
 
                         finish();
