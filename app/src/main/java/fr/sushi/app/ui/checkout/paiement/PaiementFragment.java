@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -220,7 +221,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             dialog.dismiss();
             // showDialogSpecifyAmount();
 
-
             final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
             LayoutInflater inflaters = this.getLayoutInflater();
             View dialogView = inflaters.inflate(R.layout.layout_custom_alert, null);
@@ -232,18 +232,39 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             tvCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    binding.radioRestaurent.setChecked(true);
+                    binding.radioLivarsion.setChecked(false);
+                    binding.radioCart.setChecked(false);
+                    PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                    PaymentMethodCheckoutActivity.isCashPayment = false;
+                    PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
-                    PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
+                    if (!TextUtils.isEmpty(returnAmount)){
+                        PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
+                    }
+
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + ",00 €");
                 }
             });
             tvOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // DO SOMETHINGS
+                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    binding.radioRestaurent.setChecked(true);
+                    binding.radioLivarsion.setChecked(false);
+                    binding.radioCart.setChecked(false);
+                    PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                    PaymentMethodCheckoutActivity.isCashPayment = false;
+                    PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                    Utils.hideSoftKeyboard(getActivity());
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
                     PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + " €");
                 }
             });
 

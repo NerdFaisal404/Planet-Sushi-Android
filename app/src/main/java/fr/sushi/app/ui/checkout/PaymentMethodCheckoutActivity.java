@@ -214,9 +214,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         }
 
 
-        if (idAddress == null) {
+        if (TextUtils.isEmpty(idAddress)) {
 
-            ProfileAddressModel model = new ProfileAddressModel();
+            model = new ProfileAddressModel();
             model.setId(UUID.randomUUID().toString());
 
 
@@ -441,7 +441,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
                         Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
-                        idAddress = responseObject.optString("id_address");
+                        JSONObject res = responseObject.getJSONObject("response");
+                        idAddress = res.optString("id_address");
                         model.setId(idAddress);
                         checkoutViewModel.updateAddress(model);
                         sendPayment();
