@@ -24,7 +24,7 @@
             android:name=".ui.checkout.PaymentSuccssActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeAddressPickerCustom"
+            android:theme="@style/ThemeSignup"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.shop.MapAutoCompletePlaceActivity"
