@@ -171,6 +171,32 @@ public class Repository {
         return apiInterface.addOrUpdateAddress(mainObj);
     }
 
+    public static Flowable<ResponseBody> updateAddress(ProfileAddressModel model) {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+
+        JsonObject mainObj = new JsonObject();
+        String id = SharedPref.read(PrefKey.USER_ID, "");
+        String token = SharedPref.read(PrefKey.USER_TOKEN, "");
+        String email = SharedPref.read(PrefKey.USER_EMAIL, "");
+        mainObj.addProperty("token", token);
+        mainObj.addProperty("id_customer", id);
+        mainObj.addProperty("email", email);
+
+
+        JsonObject addressObj = new JsonObject();
+
+        addressObj.addProperty("address1", model.getLocation());
+        addressObj.addProperty("postcode", model.getZipCode());
+        addressObj.addProperty("city", model.getCity());
+        //array.add(jsonObject);
+
+        mainObj.add("Address", addressObj);
+
+        Log.d("AddressUpdateResponse", "res: " + mainObj.toString());
+
+        return apiInterface.addOrUpdateAddress(mainObj);
+    }
+
     public static Flowable<ResponseBody> sendPayment(JsonObject jsonObject) {
         ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
 
