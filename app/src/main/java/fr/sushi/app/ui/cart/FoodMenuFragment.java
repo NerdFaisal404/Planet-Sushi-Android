@@ -98,6 +98,17 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+            //binding.layoutSignup.setVisibility(View.GONE);
+            binding.layoutAddress.setVisibility(View.VISIBLE);
+        }else {
+            binding.layoutAddress.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     protected void stopUI() {
 
     }
