@@ -144,14 +144,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivTop"
                 android:layout_marginBottom="@dimen/dp70"
+                android:layout_marginTop="@dimen/dp16"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="Votre panier est vide"
                 android:textColor="@color/color_394F61"
-
-                android:textSize="@dimen/sp24"
-
-
+                android:textSize="@dimen/sp20"
                 android:visibility="visible" />
 
         </RelativeLayout>

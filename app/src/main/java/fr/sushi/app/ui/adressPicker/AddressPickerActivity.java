@@ -50,6 +50,7 @@ import java.util.TreeMap;
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.BaseAddress;
 import fr.sushi.app.data.model.ProfileAddressModel;
@@ -91,12 +92,16 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
     private SearchPlace currentSearchPlace;
 
+    private boolean isFromMenuCat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initGoogleClient();
         binding = DataBindingUtil.setContentView(this, R.layout.activity_adress_picker);
         mGeocoder = new Geocoder(this, Locale.FRANCE);
+
+        parseIntent();
 
         viewModel = ViewModelProviders.of(this).get(AddressPickerViewModel.class);
         initViewmodel();
@@ -532,7 +537,9 @@ public class AddressPickerActivity extends AppCompatActivity implements
             Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            startActivity(intent);
+            if (!isFromMenuCat) {
+                startActivity(intent);
+            }
             dialog.dismiss();
             finish();
         });
@@ -570,5 +577,11 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
     }
 
+    private void parseIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(IntentKey.KEY_FROM_FOOD_CATEGORY)) {
+            isFromMenuCat = intent.getBooleanExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, false);
+        }
+    }
 
 }

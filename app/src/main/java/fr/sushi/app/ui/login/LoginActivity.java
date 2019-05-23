@@ -29,6 +29,8 @@ import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityLoginBinding;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
@@ -249,6 +251,11 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (!addressList.isEmpty()) {
                 loginViewModel.addAddress(addressList);
+                ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
+                SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
+                        addressModel.getLocation());
+                searchPlace.setAddressId(addressModel.getId());
+                PlaceUtil.saveDefaultSearchPlace(searchPlace);
             }
         }
     }

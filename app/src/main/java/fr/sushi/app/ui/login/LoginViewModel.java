@@ -27,6 +27,7 @@ public class LoginViewModel extends ViewModel {
     public void addAddress(List<ProfileAddressModel> addressModels) {
         String finalJson = GsonHelper.on().convertAddressToJson(addressModels);
         SharedPref.write(PrefKey.USER_ADDRESS, finalJson);
+
     }
 
     public void loginAccount(

@@ -29,6 +29,8 @@ import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileViewModel;
 import fr.sushi.app.ui.emptyprofile.viewmodel.EmptyNewProfileViewModel;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.login.LoginViewModel;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
@@ -225,6 +227,11 @@ public class EmptyNewProfileActivity extends BaseActivity {
             }
             if (!addressList.isEmpty()) {
                 mViewModel.addAddress(addressList);
+                ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
+                SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
+                        addressModel.getLocation());
+                searchPlace.setAddressId(addressModel.getId());
+                PlaceUtil.saveDefaultSearchPlace(searchPlace);
             }
         }
     }

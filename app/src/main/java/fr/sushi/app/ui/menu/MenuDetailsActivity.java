@@ -32,12 +32,14 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.food_menu.TopMenuItem;
 import fr.sushi.app.databinding.ActivityMenuListDetailBinding;
+import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.cart.adapter.AddressAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
@@ -114,7 +116,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
 
         SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
-        if (recentSearchPlace!=null){
+        if (recentSearchPlace != null) {
             binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
             binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getOrder().getSchedule());
 
@@ -122,9 +124,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
 
-        binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
+        binding.realtiveLayoutAddress.setOnClickListener(v -> {
+            Intent intentAddress = new Intent(MenuDetailsActivity.this, AddressPickerActivity.class);
+            intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+            startActivity(intentAddress);
+        });
 
-        binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
+        //binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
     }
 
 
@@ -134,6 +140,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
 
     }
+
 
     private void setUpToMenuAdapter() {
 
@@ -282,6 +289,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             loadCategoryItems();
         }
         showBottomView();
+
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+            //binding.layoutSignup.setVisibility(View.GONE);
+            binding.realtiveLayoutAddress.setVisibility(View.VISIBLE);
+        }else {
+            binding.realtiveLayoutAddress.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -422,9 +436,9 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         }
 
 
-        //setAddress adapter
+        //setAddress adapter temporary it is off . Now it will open location page
 
-        recyclerViewAddress.setHasFixedSize(true);
+        /*recyclerViewAddress.setHasFixedSize(true);
         recyclerViewAddress.setLayoutManager(new LinearLayoutManager(this));
         AddressAdapter addressAdapter = new AddressAdapter();
         recyclerViewAddress.setAdapter(addressAdapter);
@@ -446,9 +460,15 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
                 }
             });
-        });
+        });*/
 
-        radioButtonLivraison.setOnClickListener(this);
+        radioButtonLivraison.setOnClickListener(view -> {
+            if (radioButtonLivraison.isChecked()) {
+                Intent intent = new Intent(MenuDetailsActivity.this, AddressPickerActivity.class);
+                intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+                startActivity(intent);
+            }
+        });
         radioButtonEmporter.setOnClickListener(this);
         BottomSheetDialog dialog = new BottomSheetDialog(this, R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);

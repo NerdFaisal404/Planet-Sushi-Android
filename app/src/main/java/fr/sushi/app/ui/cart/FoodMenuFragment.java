@@ -25,10 +25,12 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.databinding.FragmentCartBinding;
+import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.base.BaseFragment;
 import fr.sushi.app.ui.base.ItemClickListener;
 import fr.sushi.app.ui.cart.adapter.AddressAdapter;
@@ -78,7 +80,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         }
 
         SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
-        if (recentSearchPlace!=null) {
+        if (recentSearchPlace != null) {
             binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
 
             binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getTime());
@@ -88,11 +90,25 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomDialog();
+              //  showBottomDialog();
+                Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
+                intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+                startActivity(intent);
             }
         });
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+            //binding.layoutSignup.setVisibility(View.GONE);
+            binding.layoutAddress.setVisibility(View.VISIBLE);
+        }else {
+            binding.layoutAddress.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -165,9 +181,9 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         }
 
 
-        //setAddress adapter
+        //setAddress adapter . Now it is comment out.
 
-        recyclerViewAddress.setHasFixedSize(true);
+        /*recyclerViewAddress.setHasFixedSize(true);
         recyclerViewAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
         AddressAdapter addressAdapter = new AddressAdapter();
         recyclerViewAddress.setAdapter(addressAdapter);
@@ -189,9 +205,15 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
 
                 }
             });
-        });
+        });*/
 
-        radioButtonLivraison.setOnClickListener(this);
+        radioButtonLivraison.setOnClickListener(view -> {
+            if (radioButtonLivraison.isChecked()) {
+                Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
+                intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+                startActivity(intent);
+            }
+        });
         radioButtonEmporter.setOnClickListener(this);
         BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);

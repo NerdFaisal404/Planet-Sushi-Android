@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -30,11 +31,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
@@ -68,6 +72,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private String paymentTotalPrice = "0";
     private String returnMoney = "0";
     private String payemntChangeAmount = "0";
+    String idAddress = null;
+    private ProfileAddressModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,11 +190,79 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
 
     private void sendPayment() {
+        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        // SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
+
+
+        if (latestSearchPlace == null || latestSearchPlace.getOrder().getSchedule() == null) {
+            Utils.showAlert(this, "Alert!", "Veuillez choisir un jour");
+            return;
+        } else if (latestSearchPlace == null || latestSearchPlace.getOrder().getStoreId() == null) {
+            Utils.showAlert(this, "Alert!", "Veuillez choisir un restaurant");
+            return;
+        }
+
+        String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
+
+        if (!itemList.isEmpty()) {
+            for (ProfileAddressModel item : itemList) {
+                if (item.getLocation().equalsIgnoreCase(latestSearchPlace.getAddress())) {
+                    idAddress = item.getId();
+                }
+            }
+        }
+
+
+        if (idAddress == null) {
+
+            ProfileAddressModel model = new ProfileAddressModel();
+            model.setId(UUID.randomUUID().toString());
+
+
+            model.setLocation(latestSearchPlace.getAddress());
+            model.setCity(latestSearchPlace.getCity());
+            model.setZipCode(latestSearchPlace.getPostalCode());
+            model.setAddressType(latestSearchPlace.getType());
+
+            checkoutViewModel.addOrUpdateAddressInServer(model);
+            return;
+
+        }
+
+
+       /* if selectedDate == nil {
+            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un jour", controller: self.topViewController)
+            return nil
+        }else if selectedTime == nil {
+            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un horaire", controller: self.topViewController)
+            return nil
+        }else if selectedStoreId == nil {
+            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un restaurant", controller: self.topViewController)
+            return nil
+        }else if defaultDeliveryAddress == nil {
+            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir une adresse", controller: self.topViewController)
+            return nil
+        }else if selectedDeliveryZoneId == nil {
+            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Adresse de livraison non disponible", controller: self.topViewController)
+            return nil
+        }
+
+        if let defaultAddress = realm.objects(MyAddress.self).first(where: { $0.address == defaultDeliveryAddress?.address }) {
+
+            if defaultAddress.city == defaultDeliveryAddress?.city && defaultAddress.postcode == defaultDeliveryAddress?.postcode {
+                address_id = defaultAddress.address_id
+            }
+        }
+
+        if address_id == nil && orderType == .delivery {
+            updateCustomerAddress(defaultDeliveryAddress!)
+            return nil
+        }
+*/
+
 
         DialogUtils.showDialog(this);
-
-        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-        SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
 
 
         JsonObject mainObject = new JsonObject();
@@ -206,7 +280,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
 
         cartJsonObject.addProperty("is_delivery", "1");
-        cartJsonObject.addProperty("id_address", defaultSearchAddress.getAddressId());
+        cartJsonObject.addProperty("id_address", idAddress);
 
         List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
 
@@ -344,6 +418,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                         DBManager.on().clearMyCartProduct();
                         DataCacheUtil.removeSideProducts();
+                        startActivity(new Intent(this, PaymentSuccssActivity.class));
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -351,6 +427,37 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        });
+
+        checkoutViewModel.getAddressLiveData().observe(this, responseBody -> {
+            DialogUtils.hideDialog();
+            if (responseBody != null) {
+                try {
+                    String response = responseBody.string();
+
+                    JSONObject responseObject = new JSONObject(response);
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+                    if (error) {
+                        ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
+                    } else {
+                        idAddress = responseObject.optString("id_address");
+                        model.setId(idAddress);
+                        checkoutViewModel.updateAddress(model);
+                        sendPayment();
+
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.e("AddressUpdateResponse", "Response body null");
+            }
+
         });
 
     }
