@@ -37,12 +37,14 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
+import fr.sushi.app.ui.checkout.model.payment_success.PaymentSuccessResponse;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -418,7 +420,11 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                         DBManager.on().clearMyCartProduct();
                         DataCacheUtil.removeSideProducts();
-                        startActivity(new Intent(this, PaymentSuccssActivity.class));
+                        PaymentSuccessResponse successResponse = new Gson().fromJson(responseObject.toString(), PaymentSuccessResponse.class);
+                        Intent intent = new Intent(new Intent(this, PaymentSuccssActivity.class));
+                        intent.putExtra(IntentKey.KEY_ORDER_ID, successResponse.getResponse().getIdOrder());
+                        startActivity(intent);
+
                         finish();
                     }
                 } catch (JSONException e) {
