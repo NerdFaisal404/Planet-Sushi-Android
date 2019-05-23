@@ -144,4 +144,10 @@ public class DBManager {
         }
         return myCartProducts;
     }
+
+    public boolean isCardEmpty(){
+        List<MyCartProduct> myCartProducts = productBox.getAll();
+        if(myCartProducts.isEmpty()) return true;
+        return false;
+    }
 }
