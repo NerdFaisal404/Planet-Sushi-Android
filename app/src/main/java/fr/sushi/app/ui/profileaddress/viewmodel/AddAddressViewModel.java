@@ -2,6 +2,7 @@ package fr.sushi.app.ui.profileaddress.viewmodel;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.List;
@@ -52,7 +53,17 @@ public class AddAddressViewModel extends ViewModel {
 
         for (ProfileAddressModel item : itemList) {
             if (item.getId().equals(model.getId())) {
-                //TODO update data of item
+                item.setAddressType(TextUtils.isEmpty(model.getAddressType()) ? "" : model.getAddressType());
+                item.setLocation(TextUtils.isEmpty(model.getLocation()) ? "" : model.getLocation());
+                item.setCity(TextUtils.isEmpty(model.getCity()) ? "" : model.getCity());
+                item.setZipCode(TextUtils.isEmpty(model.getZipCode()) ? "" : model.getZipCode());
+                item.setBuilding(TextUtils.isEmpty(model.getBuilding()) ? "" : model.getBuilding());
+                item.setFloor(TextUtils.isEmpty(model.getFloor()) ? "" : model.getFloor());
+                item.setAppartment(TextUtils.isEmpty(model.getAppartment()) ? "" : model.getAppartment());
+                item.setCompany(TextUtils.isEmpty(model.getCompany()) ? "" : model.getCompany());
+                item.setInterphone(TextUtils.isEmpty(model.getInterphone()) ? "" : model.getInterphone());
+                item.setAccessCode(TextUtils.isEmpty(model.getAccessCode()) ? "" : model.getAccessCode());
+                item.setInformation(TextUtils.isEmpty(model.getInformation()) ? "" : model.getInformation());
                 break;
             }
         }
