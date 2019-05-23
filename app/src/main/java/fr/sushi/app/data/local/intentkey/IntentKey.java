@@ -21,5 +21,6 @@ public interface IntentKey {
 
     String IS_FROM_ADD_REQUEST = "IS_FROM_ADD_REQUEST";
     String ADDRESS_MODEL = "ADDRESS_MODEL";
+    String KEY_FROM_FOOD_CATEGORY = "KEY_FROM_FOOD_CATEGORY";
 
 }
