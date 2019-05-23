@@ -124,9 +124,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
 
-        binding.layoutAddress.setOnClickListener(v -> showBottomDialog());
+        binding.realtiveLayoutAddress.setOnClickListener(v -> {
+            Intent intentAddress = new Intent(MenuDetailsActivity.this, AddressPickerActivity.class);
+            intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+            startActivity(intentAddress);
+        });
 
-        binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
+        //binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
     }
 
 
@@ -136,6 +140,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
 
     }
+
 
     private void setUpToMenuAdapter() {
 
@@ -284,6 +289,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             loadCategoryItems();
         }
         showBottomView();
+
+        if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+            //binding.layoutSignup.setVisibility(View.GONE);
+            binding.realtiveLayoutAddress.setVisibility(View.VISIBLE);
+        }else {
+            binding.realtiveLayoutAddress.setVisibility(View.GONE);
+        }
     }
 
     @Override

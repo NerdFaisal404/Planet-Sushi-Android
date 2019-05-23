@@ -90,7 +90,10 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBottomDialog();
+              //  showBottomDialog();
+                Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
+                intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+                startActivity(intent);
             }
         });
 
