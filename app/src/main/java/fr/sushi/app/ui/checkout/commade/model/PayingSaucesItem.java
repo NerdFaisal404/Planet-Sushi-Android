@@ -3,7 +3,7 @@ package fr.sushi.app.ui.checkout.commade.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class PayingSaucesItem{
+public class PayingSaucesItem extends Sauces{
 
 	@SerializedName("active_sauce_picture")
 	private boolean activeSaucePicture;

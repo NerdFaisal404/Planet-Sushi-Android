@@ -58,6 +58,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
 
     private double totalPrice;
+    private int freeSaucesCount;
 
 
     private CheckoutViewModel checkoutViewModel;
@@ -464,11 +465,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+        this.freeSaucesCount = (int) totalPrice / 10;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
     }
 
     public void setPriceWithSideProducts(double priceSideProducts) {
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
+    }
+
+    public int getFreeSaucesCount(){
+        return freeSaucesCount;
     }
 
 

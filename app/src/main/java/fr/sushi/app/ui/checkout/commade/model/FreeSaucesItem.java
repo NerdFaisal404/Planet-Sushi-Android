@@ -2,7 +2,7 @@ package fr.sushi.app.ui.checkout.commade.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FreeSaucesItem{
+public class FreeSaucesItem extends Sauces{
 
 	@SerializedName("category_name")
 	private String categoryName;
@@ -138,6 +138,8 @@ public class FreeSaucesItem{
 
 	@SerializedName("price_ttc")
 	private String priceTtc;
+
+	public int selectCount;
 
 	public void setCategoryName(String categoryName){
 		this.categoryName = categoryName;

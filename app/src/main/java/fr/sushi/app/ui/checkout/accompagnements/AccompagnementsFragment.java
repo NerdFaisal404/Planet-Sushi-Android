@@ -43,8 +43,10 @@ import fr.sushi.app.ui.checkout.commade.model.AccompagnementResponse;
 import fr.sushi.app.ui.checkout.commade.model.ChopsticksItem;
 import fr.sushi.app.ui.checkout.commade.model.DessertsItem;
 import fr.sushi.app.ui.checkout.commade.model.DrinksItem;
+import fr.sushi.app.ui.checkout.commade.model.FreeSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
+import fr.sushi.app.ui.checkout.commade.model.Sauces;
 import fr.sushi.app.ui.checkout.commade.model.UpsellItem;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.SideProduct;
@@ -333,13 +335,14 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         }
     }
-
+    SaucesAdapter saucesAdapter;
     private void showSaucesData() {
         if(accompagnementResponse == null) return;
-        SaucesAdapter saucesAdapter = new SaucesAdapter(getActivity());
+        saucesAdapter = new SaucesAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
-        saucesAdapter.addItem(accompagnementResponse.getResponse().getPayingSauces());
+        List<FreeSaucesItem> payingSaucesItemList = accompagnementResponse.getResponse().getFreeSauces();
+        saucesAdapter.addItem((Sauces) payingSaucesItemList);
         saucesAdapter.setItemClickListener(saucesItemClickListener);
     }
 
@@ -395,10 +398,10 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private List<PayingWasabiGingerItem> wasbiItemClicList = new ArrayList<>();
     private List<ChopsticksItem> baguettesItemList = new ArrayList<>();
 
-    private ItemClickListener<PayingSaucesItem> saucesItemClickListener = (view, item) -> {
+    private ItemClickListener<Sauces> saucesItemClickListener = (view, item) -> {
         if (view.getId() == R.id.imgViewPlus) {
             countSauces += 1;
-            saucesItemList.add(item);
+            //saucesItemList.add(item);
         } else {
             if (countSauces > 0) {
                 countSauces -= 1;
