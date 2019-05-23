@@ -28,7 +28,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
     private String[] itemName = {"Mes informations", "Adresses", /*"Paiement", "Mes commandes",*/ "Fidélité"};
     private int[] itemIcon = {R.drawable.icon_user2x, R.drawable.icon_home2x,/* R.drawable.icon_payment2x,
-            R.drawable.icon_order2x,*/ R.drawable.icon_loyalty2x};
+            R.drawable.icon_order2x,*/ R.drawable.ic_loyality};
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -75,6 +75,14 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         super.onClick(view);
         if (view.getId() == R.id.image_view_settings) {
             SharedPref.write(PrefKey.IS_LOGINED, false);
+            ((MainActivity) getActivity()).gotoEmptyProfilePage();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
             ((MainActivity) getActivity()).gotoEmptyProfilePage();
         }
     }

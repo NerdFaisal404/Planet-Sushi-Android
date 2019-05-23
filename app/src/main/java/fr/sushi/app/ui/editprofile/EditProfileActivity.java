@@ -27,6 +27,7 @@ import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.ActivityEditProfileBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.Utils;
 import okhttp3.ResponseBody;
@@ -87,6 +88,11 @@ public class EditProfileActivity extends BaseActivity {
                 }
 
             }
+        });
+
+        mBinding.tvLogout.setOnClickListener(v -> {
+            SharedPref.write(PrefKey.IS_LOGINED, false);
+            finish();
         });
     }
 

@@ -6,9 +6,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/dp30"
-        android:fitsSystemWindows="true"
         android:background="@drawable/ic_home_background"
+        android:fitsSystemWindows="true"
+        android:paddingTop="@dimen/dp30"
         tools:context=".ui.editprofile.EditProfileActivity">
 
         <ImageView
@@ -21,6 +21,23 @@
             android:src="@drawable/ic_darker_gray_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp5"
+            android:paddingTop="@dimen/dp5"
+            android:paddingBottom="@dimen/dp5"
+            android:text="Déconnexion"
+            android:textSize="@dimen/sp16"
+            android:fontFamily="@font/roboto_medium"
+            android:layout_marginRight="@dimen/dp16"
+            android:textColor="@color/colorPink"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/image_view_back" />
+
 
         <TextView
             android:id="@+id/tv_headline"
@@ -83,21 +100,23 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_view_email" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/image_view_icon_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp16"
-                    android:src="@drawable/icon_house2x"
                     app:layout_constraintBottom_toBottomOf="@+id/view_email"
                     app:layout_constraintStart_toStartOf="@+id/view_email"
                     app:layout_constraintTop_toTopOf="@+id/view_email" />
 
                 <EditText
+                    android:paddingLeft="@dimen/dp4"
                     android:id="@+id/edit_text_email"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/dp8"
                     android:background="@null"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/colorDarkBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_email"
                     app:layout_constraintEnd_toEndOf="@+id/view_email"
@@ -106,11 +125,12 @@
 
 
                 <TextView
+                    android:layout_marginTop="@dimen/dp20"
                     android:id="@+id/text_view_first_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp16"
-                    android:text="Nom"
+                    android:text="Prénom"
                     android:textColor="@color/colorDarkBlue"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -128,11 +148,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_view_first_name" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/image_view_icon_first_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp16"
-                    android:src="@drawable/icon_house2x"
                     app:layout_constraintBottom_toBottomOf="@+id/view_first_name"
                     app:layout_constraintStart_toStartOf="@+id/view_first_name"
                     app:layout_constraintTop_toTopOf="@+id/view_first_name" />
@@ -141,8 +161,10 @@
                     android:id="@+id/edit_text_first_name"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:paddingLeft="@dimen/dp4"
                     android:layout_marginStart="@dimen/dp8"
                     android:background="@null"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/colorDarkBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_first_name"
                     app:layout_constraintEnd_toEndOf="@+id/view_first_name"
@@ -151,11 +173,12 @@
 
 
                 <TextView
+                    android:layout_marginTop="@dimen/dp20"
                     android:id="@+id/text_view_last_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp16"
-                    android:text="Prénome"
+                    android:text="Nom"
                     android:textColor="@color/colorDarkBlue"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,11 +196,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_view_last_name" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/image_view_icon_last_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp16"
-                    android:src="@drawable/icon_house2x"
                     app:layout_constraintBottom_toBottomOf="@+id/view_last_name"
                     app:layout_constraintStart_toStartOf="@+id/view_last_name"
                     app:layout_constraintTop_toTopOf="@+id/view_last_name" />
@@ -188,6 +211,8 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/dp8"
                     android:background="@null"
+                    android:paddingLeft="@dimen/dp4"
+                    android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/colorDarkBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_last_name"
                     app:layout_constraintEnd_toEndOf="@+id/view_last_name"
@@ -195,11 +220,12 @@
                     app:layout_constraintTop_toTopOf="@+id/view_last_name" />
 
                 <TextView
+                    android:layout_marginTop="@dimen/dp20"
                     android:id="@+id/text_view_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp16"
-                    android:text="téléphone"
+                    android:text="Téléphone"
                     android:textColor="@color/colorDarkBlue"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -215,16 +241,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/text_view_phone"
                     app:layout_constraintTop_toBottomOf="@+id/text_view_phone" />
-
                 <ImageView
-                    android:id="@+id/image_view_icon_phone"
+                    android:visibility="gone"
+                    android:id="@+id/image_teliphone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:src="@drawable/icon_house2x"
+                    android:layout_marginLeft="@dimen/dp4"
                     app:layout_constraintBottom_toBottomOf="@+id/view_phone"
                     app:layout_constraintStart_toStartOf="@+id/view_phone"
                     app:layout_constraintTop_toTopOf="@+id/view_phone" />
+
 
                 <EditText
                     android:id="@+id/edit_text_phone"
@@ -232,13 +258,16 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/dp8"
                     android:background="@null"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="@dimen/dp4"
                     android:textColor="@color/colorDarkBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_phone"
                     app:layout_constraintEnd_toEndOf="@+id/view_phone"
-                    app:layout_constraintStart_toEndOf="@+id/image_view_icon_phone"
-                    app:layout_constraintTop_toTopOf="@+id/view_phone" />
+                    app:layout_constraintStart_toEndOf="@+id/image_teliphone"
+                    app:layout_constraintTop_toTopOf="@+id/view_phone"  />
 
                 <TextView
+                    android:layout_marginTop="@dimen/dp20"
                     android:id="@+id/text_view_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -261,11 +290,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/text_view_birthday" />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/image_view_icon_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp16"
-                    android:src="@drawable/icon_house2x"
+                    android:layout_marginLeft="@dimen/dp4"
                     app:layout_constraintBottom_toBottomOf="@+id/view_birthday"
                     app:layout_constraintStart_toStartOf="@+id/view_birthday"
                     app:layout_constraintTop_toTopOf="@+id/view_birthday" />
@@ -276,6 +305,8 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/dp8"
                     android:background="@null"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="@dimen/dp4"
                     android:textColor="@color/colorDarkBlue"
                     app:layout_constraintBottom_toBottomOf="@+id/view_birthday"
                     app:layout_constraintEnd_toEndOf="@+id/view_birthday"
@@ -289,7 +320,7 @@
         <Button
             android:id="@+id/button_save"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:layout_margin="@dimen/dp16"
             android:background="@drawable/bg_unselected_pink"
             android:fontFamily="@font/roboto_bold"
