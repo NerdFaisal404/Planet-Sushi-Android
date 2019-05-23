@@ -71,7 +71,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private String payementMethod = "Adyen";
     private String paymentTotalPrice = "0";
     private String returnMoney = "0";
-    private String payemntChangeAmount = "0";
+    public static String payemntChangeAmount = "0";
     String idAddress = null;
     private ProfileAddressModel model;
 
@@ -168,7 +168,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 } else if (isDeliveryPayment) {
                     payementMethod = "CardOnDelivery";
                     paymentTotalPrice = "0";
-                    returnMoney = "0";
+                    returnMoney = payemntChangeAmount;
                     sendPayment();
 
                 } else if (isCashPayment) {
