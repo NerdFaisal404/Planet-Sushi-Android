@@ -20,6 +20,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.checkout.PaymentSuccssActivity"></activity>
         <activity
             android:name=".ui.shop.MapAutoCompletePlaceActivity"
             android:configChanges="locale"
@@ -68,12 +69,12 @@
             android:required="false" />
 
         <activity android:name=".ui.menu.ItemDetailsActivity" />
-        <activity android:name=".ui.login.LoginActivity"
+        <activity
+            android:name=".ui.login.LoginActivity"
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSignup"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.createaccount.CreateAccountCompleteActivity"
             android:configChanges="locale"
