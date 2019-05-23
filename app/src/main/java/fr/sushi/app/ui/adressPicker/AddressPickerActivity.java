@@ -1,5 +1,6 @@
 package fr.sushi.app.ui.adressPicker;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,6 +60,8 @@ import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
+import fr.sushi.app.data.model.food_menu.CategoriesItem;
+import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityAdressPickerBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
@@ -67,10 +72,12 @@ import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
 import fr.sushi.app.util.Utils;
+import okhttp3.ResponseBody;
 
 public class AddressPickerActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -537,11 +544,42 @@ public class AddressPickerActivity extends AppCompatActivity implements
             Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            if (!isFromMenuCat) {
-                startActivity(intent);
-            }
+
+            // we are calling store address
+            DialogUtils.showDialog(AddressPickerActivity.this);
+            viewModel.getStoreProducts(selectedOrder.getStoreId());
+            viewModel.getStoreProductLiveData().observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(@Nullable ResponseBody responseBody) {
+                    DialogUtils.hideDialog();
+                    try {
+                        String response = responseBody.string();
+                        JSONObject jsonObject = new JSONObject(response);
+                        boolean error = Boolean.parseBoolean(jsonObject.getString("error"));
+                        if (error == true) {
+                            DialogUtils.hideDialog();
+                            errorResponse = new Gson().fromJson(response.toString(), ErrorResponse.class);
+                            Utils.showAlert(AddressPickerActivity.this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                        } else {
+
+                            JSONArray productArray = jsonObject.getJSONArray("response");
+                            adjustItemList(productArray);
+                            if (!isFromMenuCat) {
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             dialog.dismiss();
-            finish();
+
         });
 
         //Wheel time adapter
@@ -584,4 +622,34 @@ public class AddressPickerActivity extends AppCompatActivity implements
         }
     }
 
+    private void adjustItemList(JSONArray itemArray) {
+        if (itemArray.length() > 0) {
+            List<CategoriesItem> categoryList = DataCacheUtil.getCategoryItemFromCache();
+            for (int i = 0; i < itemArray.length(); i++) {
+                try {
+                    JSONObject itemObj = itemArray.getJSONObject(i);
+                    String productId = itemObj.optString("id_product");
+                    String price = itemObj.optString("price_ttc");
+                    String activeDelivery = itemObj.optString("active_delivery");
+
+                    for (CategoriesItem categoriesItem : categoryList) {
+                        List<ProductsItem> productList = categoriesItem.getProducts();
+                        for (ProductsItem product : productList) {
+                            if (product.getIdProduct().equals(productId)) {
+                                product.setActiveDelivery(activeDelivery);
+                                product.setPriceTtc(price);
+
+                                break;
+                            }
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 }

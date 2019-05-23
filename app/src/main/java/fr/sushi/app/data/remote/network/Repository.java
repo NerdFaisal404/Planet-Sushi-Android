@@ -182,4 +182,11 @@ public class Repository {
 
         return apiInterface.sendAdyenPayment(paymentModel);
     }
+
+    public static Flowable<ResponseBody> getStoreProducts(String storeId) {
+        ApiCall apiInterface = RetrofitClient.getAdyenRetrofitInstance().create(ApiCall.class);
+        JsonObject object = new JsonObject();
+        object.addProperty("id_store", storeId);
+        return apiInterface.getStoreProducts(object);
+    }
 }
