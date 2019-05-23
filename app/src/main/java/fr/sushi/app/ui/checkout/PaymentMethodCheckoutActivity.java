@@ -344,6 +344,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                         DBManager.on().clearMyCartProduct();
                         DataCacheUtil.removeSideProducts();
+                        startActivity(new Intent(this, PaymentSuccssActivity.class));
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

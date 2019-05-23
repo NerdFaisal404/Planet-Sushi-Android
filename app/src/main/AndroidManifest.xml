@@ -20,7 +20,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.checkout.PaymentSuccssActivity"></activity>
+        <activity
+            android:name=".ui.checkout.PaymentSuccssActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAddressPickerCustom"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.shop.MapAutoCompletePlaceActivity"
             android:configChanges="locale"

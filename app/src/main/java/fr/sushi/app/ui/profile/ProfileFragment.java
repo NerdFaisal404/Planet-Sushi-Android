@@ -32,9 +32,9 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
     private FragmentProfileBinding mBinding;
     private ProfileAdapter mAdapter;
 
-    private String[] itemName = {"Mes informations", "Mes adresses", "Paiement", "Mes commandes", "Fidélité"};
-    private int[] itemIcon = {R.drawable.icon_user2x, R.drawable.icon_home2x, R.drawable.icon_payment2x,
-            R.drawable.icon_order2x, R.drawable.icon_loyalty2x};
+    private String[] itemName = {"Mes informations", "Adresses", /*"Paiement", "Mes commandes",*/ "Fidélité"};
+    private int[] itemIcon = {R.drawable.icon_user2x, R.drawable.icon_home2x,/* R.drawable.icon_payment2x,
+            R.drawable.icon_order2x,*/ R.drawable.icon_loyalty2x};
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -93,7 +93,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         mBinding.recyclerViewProfile.setAdapter(mAdapter);
 
         List<ProfileItemModel> itemList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             itemList.add(new ProfileItemModel(itemName[i], itemIcon[i]));
         }
         mAdapter.clear();
@@ -106,7 +106,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             startActivity(new Intent(getActivity(), EditProfileActivity.class));
         } else if (item.getItemName().equals(itemName[1])) {
             startActivity(new Intent(getActivity(), ProfileAddressActivity.class));
-        } else if (item.getItemName().equals(itemName[4])) {
+        } else if (item.getItemName().equals(itemName[2])) {
             startActivity(new Intent(getActivity(), SusuCardDetailsActivity.class));
         }
     }
