@@ -14,7 +14,8 @@ import okhttp3.ResponseBody;
 public class AddressPickerViewModel extends ViewModel {
     private MutableLiveData<RestuarentsResponse> restuarentListMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseBody> takeWayAddressLiveData = new MutableLiveData<>();
-    private MutableLiveData<ResponseBody> deliveryAddressLiveData =new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> deliveryAddressLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> storeProductLiveData = new MutableLiveData<>();
 
     public void getShopList() {
         Repository.getAppShops().subscribeOn(Schedulers.io())
@@ -32,7 +33,7 @@ public class AddressPickerViewModel extends ViewModel {
     }
 
     private void onSuccessSetStoreId(ResponseBody responseBody) {
-        if(responseBody != null){
+        if (responseBody != null) {
             takeWayAddressLiveData.setValue(responseBody);
         }
     }
@@ -45,8 +46,15 @@ public class AddressPickerViewModel extends ViewModel {
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
+    public void getStoreProducts(String storeId) {
+        Repository.getStoreProducts(storeId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccessGetStoreProcduct,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
     private void onSuccesssetDeliveryAddress(ResponseBody responseBody) {
-        if(responseBody != null){
+        if (responseBody != null) {
             deliveryAddressLiveData.setValue(responseBody);
         }
     }
@@ -65,11 +73,21 @@ public class AddressPickerViewModel extends ViewModel {
         return restuarentListMutableLiveData;
     }
 
-    public MutableLiveData<ResponseBody> getDeliveryAddressLiveData(){
+    public MutableLiveData<ResponseBody> getDeliveryAddressLiveData() {
         return deliveryAddressLiveData;
     }
 
-    public MutableLiveData<ResponseBody> getTakeWayAddressLiveData(){
+    public MutableLiveData<ResponseBody> getTakeWayAddressLiveData() {
         return takeWayAddressLiveData;
+    }
+
+    private void onSuccessGetStoreProcduct(ResponseBody responseBody) {
+        if (responseBody != null) {
+            storeProductLiveData.setValue(responseBody);
+        }
+    }
+
+    public MutableLiveData<ResponseBody> getStoreProductLiveData() {
+        return storeProductLiveData;
     }
 }
