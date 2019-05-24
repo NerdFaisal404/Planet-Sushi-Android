@@ -264,7 +264,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
                     PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + " €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + ",00 €");
                 }
             });
 
