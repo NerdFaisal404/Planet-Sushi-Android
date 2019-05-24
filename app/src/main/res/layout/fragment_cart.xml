@@ -26,7 +26,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="FRAICHEUR"
                 android:textAllCaps="true"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp20" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="LIVRAISON"
                 android:textAllCaps="true"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/sp20" />
 
             <TextView
