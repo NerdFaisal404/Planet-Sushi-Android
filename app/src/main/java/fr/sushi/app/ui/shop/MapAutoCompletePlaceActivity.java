@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.shop;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -23,15 +24,18 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.model.BaseAddress;
 import fr.sushi.app.databinding.ActivityMapAutoCompletePlaceBinding;
 import fr.sushi.app.misc.Constants;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
+import fr.sushi.app.util.DataCacheUtil;
 import timber.log.Timber;
 
 public class MapAutoCompletePlaceActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, PlaceAutocompleteAdapter.PlaceAutoCompleteInterface {
@@ -101,32 +105,52 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
 
     @Override
     public void onPlaceClick(BaseAddress address) {
-        if (address != null) {
-            if (address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
-                try {
-                    final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
-                    PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                            .getPlaceById(mGoogleApiClient, placeId);
-                    placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
-                        @Override
-                        public void onResult(PlaceBuffer places) {
-                            if (places.getCount() == 1) {
-                                Place place = places.get(0);
-                                finish(place.getLatLng().latitude, place.getLatLng().longitude);
-                                //FrequentFunctions.hideKeyBoard(ChooseLocation.this, rootLayout);
+
+        new IOSDialog.Builder(MapAutoCompletePlaceActivity.this)
+                .setTitle("Voulez-vous changer d'adresse ?")
+                .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                .setPositiveButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        DBManager.on().clearMyCartProduct();
+                        DataCacheUtil.removeSideProducts();
+                        if (address != null) {
+                            if (address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
+                                try {
+                                    final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
+                                    PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                                            .getPlaceById(mGoogleApiClient, placeId);
+                                    placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+                                        @Override
+                                        public void onResult(PlaceBuffer places) {
+                                            if (places.getCount() == 1) {
+                                                Place place = places.get(0);
+                                                finish(place.getLatLng().latitude, place.getLatLng().longitude);
+                                                //FrequentFunctions.hideKeyBoard(ChooseLocation.this, rootLayout);
                             /*selectedPlace = places;
                             String coordinates = selectedPlace.get(0).getLatLng().latitude + "," + selectedPlace.get(0).getLatLng().longitude;*/
-                            } else {
-                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
-        }
+                        }
+                    }
+                })
+                .setNegativeButton("Confirmer", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+
     }
 
 

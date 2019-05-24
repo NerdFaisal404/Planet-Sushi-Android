@@ -2,6 +2,7 @@ package fr.sushi.app.ui.adressPicker;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
@@ -36,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +53,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.intentkey.IntentKey;
@@ -357,25 +360,45 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
                         @Override
                         public void onResult(PlaceBuffer places) {
-                            try {
-                                if (places.getCount() == 1) {
-                                    LatLng latLng = places.get(0).getLatLng();
-                                    List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                                    String zipCode = addresses.get(0).getPostalCode();
-                                    String city = addresses.get(0).getLocality();
-                                    String address = addresses.get(0).getThoroughfare();
-                                    String featureName = addresses.get(0).getFeatureName();
-                                    Log.e("Place_cliec", "code =" + zipCode);
-                                    Log.e("Place_cliec", "city =" + city);
-                                    Log.e("Place_cliec", "address =" + address);
-                                    DialogUtils.showDialog(AddressPickerActivity.this);
-                                    viewModel.setDeliveryAddress(address, zipCode, city);
-                                    currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (IOException e) {
-                            }
+
+                            new IOSDialog.Builder(AddressPickerActivity.this)
+                                    .setTitle("Voulez-vous changer d'adresse ?")
+                                    .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                                    .setPositiveButton("Annuler", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            DBManager.on().clearMyCartProduct();
+                                            DataCacheUtil.removeSideProducts();
+                                            try {
+                                                if (places.getCount() == 1) {
+                                                    LatLng latLng = places.get(0).getLatLng();
+                                                    List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                                                    String zipCode = addresses.get(0).getPostalCode();
+                                                    String city = addresses.get(0).getLocality();
+                                                    String address = addresses.get(0).getThoroughfare();
+                                                    String featureName = addresses.get(0).getFeatureName();
+                                                    Log.e("Place_cliec", "code =" + zipCode);
+                                                    Log.e("Place_cliec", "city =" + city);
+                                                    Log.e("Place_cliec", "address =" + address);
+                                                    DialogUtils.showDialog(AddressPickerActivity.this);
+                                                    viewModel.setDeliveryAddress(address, zipCode, city);
+                                                    currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (IOException e) {
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("Confirmer", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+
+
 
                         }
                     });
@@ -383,9 +406,28 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
             } else {
-                ProfileAddressModel model = (ProfileAddressModel) address;
-                viewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
-                currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
+
+                new IOSDialog.Builder(AddressPickerActivity.this)
+                        .setTitle("Voulez-vous changer d'adresse ?")
+                        .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                        .setPositiveButton("Annuler", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                DBManager.on().clearMyCartProduct();
+                                DataCacheUtil.removeSideProducts();
+                                ProfileAddressModel model = (ProfileAddressModel) address;
+                                viewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
+                                currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
+                            }
+                        })
+                        .setNegativeButton("Confirmer", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
             }
 
         }
