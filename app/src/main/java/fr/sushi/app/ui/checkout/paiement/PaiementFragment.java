@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -54,7 +56,6 @@ import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
-import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
@@ -73,6 +74,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
     private SearchPlace currentSearchPlace;
     private PaimentViewModel paimentViewModel;
+    private String returnAmount = "0";
 
 
     public PaiementFragment() {
@@ -193,7 +195,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         binding.layoutAddress.setOnClickListener(v -> {
             DialogUtils.showDialog(getActivity());
             SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-            if (latestSearchPlace!=null){
+            if (latestSearchPlace != null) {
                 currentSearchPlace = new SearchPlace(latestSearchPlace.getPostalCode(),
                         latestSearchPlace.getCity(), latestSearchPlace.getAddress(), latestSearchPlace.getLat(), latestSearchPlace.getLng());
                 paimentViewModel.setDeliveryAddress(latestSearchPlace.getAddress(), latestSearchPlace.getPostalCode(),
@@ -217,7 +219,57 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         buttonSpecifyAnAmount.setOnClickListener(v -> {
             dialog.dismiss();
-            showDialogSpecifyAmount();
+            // showDialogSpecifyAmount();
+
+            final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
+            LayoutInflater inflaters = this.getLayoutInflater();
+            View dialogView = inflaters.inflate(R.layout.layout_custom_alert, null);
+
+            final EditText editText = dialogView.findViewById(R.id.edtExchange);
+            TextView tvCancel = dialogView.findViewById(R.id.tvCancel);
+            TextView tvOk = dialogView.findViewById(R.id.tvOk);
+
+            tvCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    binding.radioRestaurent.setChecked(true);
+                    binding.radioLivarsion.setChecked(false);
+                    binding.radioCart.setChecked(false);
+                    PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                    PaymentMethodCheckoutActivity.isCashPayment = false;
+                    PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    dialogBuilder.dismiss();
+                    returnAmount = editText.getText().toString();
+                    if (!TextUtils.isEmpty(returnAmount)){
+                        PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
+                    }
+
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + ",00 €");
+                }
+            });
+            tvOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                    binding.radioRestaurent.setChecked(true);
+                    binding.radioLivarsion.setChecked(false);
+                    binding.radioCart.setChecked(false);
+                    PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                    PaymentMethodCheckoutActivity.isCashPayment = false;
+                    PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                    Utils.hideSoftKeyboard(getActivity());
+                    dialogBuilder.dismiss();
+                    returnAmount = editText.getText().toString();
+                    PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + ",00 €");
+                }
+            });
+
+            dialogBuilder.setView(dialogView);
+            dialogBuilder.show();
         });
 
         buttonNoChange.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +319,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
 
             SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-            if (latestSearchPlace!=null){
+            if (latestSearchPlace != null) {
                 if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
                     LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
                     MarkerOptions markerOptions = new MarkerOptions();
@@ -295,7 +347,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
 
         SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-        if (latestSearchPlace!=null){
+        if (latestSearchPlace != null) {
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
             if (!TextUtils.isEmpty(latestSearchPlace.getTime())) {

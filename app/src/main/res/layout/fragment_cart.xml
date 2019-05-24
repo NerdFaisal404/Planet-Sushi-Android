@@ -4,13 +4,79 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="@drawable/bg_home_image">
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical"
+           android:paddingTop="@dimen/dp50">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_certified" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="FRAICHEUR"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp20" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robot_regular"
+                android:text="GARANTIE"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPink"
+                android:textSize="@dimen/sp18" />
+
+            <View
+                android:layout_marginLeft="@dimen/dp16"
+                android:layout_marginRight="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp30"
+                android:background="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"/>
+
+            <ImageView
+                android:layout_marginTop="@dimen/dp30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_free_delivery" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="LIVRAISON"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp20" />
+
+            <TextView
+                android:layout_marginBottom="@dimen/dp50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robot_regular"
+                android:text="GARANTIE"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPink"
+                android:textSize="@dimen/sp18" />
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/featured_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/progress_circular"
@@ -20,6 +86,7 @@
             android:layout_centerVertical="true" />
 
         <RelativeLayout
+
             android:id="@+id/layoutAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package fr.sushi.app.ui.home.view;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.gson.Gson;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.preference.PrefKey;
@@ -126,7 +129,7 @@ public class HomeFragment extends BaseFragment {
                 binding.tvAddresTwoText.setText(defaultSearchAddress.getAddress());
                 if (recentSearchPlace != null) {
                     binding.viewSingle.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     binding.viewSingle.setVisibility(View.GONE);
                 }
 
@@ -304,24 +307,61 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.addressOne:
                 //Toast.makeText(getActivity(),"Item 1", Toast.LENGTH_SHORT).show();
-                isDeafultAddressPress = true;
-                DialogUtils.showDialog(getActivity());
-                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
-                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
-                        searchPlace.getCity(), searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
-                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
-                        searchPlace.getCity());
+
+                new IOSDialog.Builder(getActivity())
+                        .setTitle("Voulez-vous changer d'adresse ?")
+                        .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                        .setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                DBManager.on().clearMyCartProduct();
+                                DataCacheUtil.removeSideProducts();
+                                isDeafultAddressPress = true;
+                                DialogUtils.showDialog(getActivity());
+                                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+                                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
+                                        searchPlace.getCity(), searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
+                                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
+                                        searchPlace.getCity());
+                            }
+                        })
+                        .setNegativeButton("Annuler ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
 
                 break;
             case R.id.addressOneTwo:
                 //Toast.makeText(getActivity(),"Item 2", Toast.LENGTH_SHORT).show();
-                isDeafultAddressPress = false;
-                DialogUtils.showDialog(getActivity());
-                searchPlace = PlaceUtil.getDefaultSearchAddress();
-                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
-                        searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
-                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
-                        searchPlace.getCity());
+                new IOSDialog.Builder(getActivity())
+                        .setTitle("Voulez-vous changer d'adresse ?")
+                        .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                        .setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                DBManager.on().clearMyCartProduct();
+                                DataCacheUtil.removeSideProducts();
+                                isDeafultAddressPress = false;
+                                DialogUtils.showDialog(getActivity());
+                                SearchPlace searchPlace = PlaceUtil.getDefaultSearchAddress();
+                                currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
+                                        searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
+                                mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
+                                        searchPlace.getCity());
+                            }
+                        })
+                        .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
 
                 break;
 

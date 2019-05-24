@@ -1,6 +1,8 @@
 package fr.sushi.app.ui.adressPicker;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
@@ -8,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +37,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +53,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.intentkey.IntentKey;
@@ -57,6 +63,8 @@ import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
+import fr.sushi.app.data.model.food_menu.CategoriesItem;
+import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityAdressPickerBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
@@ -67,10 +75,12 @@ import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.menu.SectionedRecyclerViewAdapter;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
 import fr.sushi.app.util.Utils;
+import okhttp3.ResponseBody;
 
 public class AddressPickerActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -350,25 +360,45 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
                         @Override
                         public void onResult(PlaceBuffer places) {
-                            try {
-                                if (places.getCount() == 1) {
-                                    LatLng latLng = places.get(0).getLatLng();
-                                    List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                                    String zipCode = addresses.get(0).getPostalCode();
-                                    String city = addresses.get(0).getLocality();
-                                    String address = addresses.get(0).getThoroughfare();
-                                    String featureName = addresses.get(0).getFeatureName();
-                                    Log.e("Place_cliec", "code =" + zipCode);
-                                    Log.e("Place_cliec", "city =" + city);
-                                    Log.e("Place_cliec", "address =" + address);
-                                    DialogUtils.showDialog(AddressPickerActivity.this);
-                                    viewModel.setDeliveryAddress(address, zipCode, city);
-                                    currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (IOException e) {
-                            }
+
+                            new IOSDialog.Builder(AddressPickerActivity.this)
+                                    .setTitle("Voulez-vous changer d'adresse ?")
+                                    .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                                    .setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            DBManager.on().clearMyCartProduct();
+                                            DataCacheUtil.removeSideProducts();
+                                            try {
+                                                if (places.getCount() == 1) {
+                                                    LatLng latLng = places.get(0).getLatLng();
+                                                    List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                                                    String zipCode = addresses.get(0).getPostalCode();
+                                                    String city = addresses.get(0).getLocality();
+                                                    String address = addresses.get(0).getThoroughfare();
+                                                    String featureName = addresses.get(0).getFeatureName();
+                                                    Log.e("Place_cliec", "code =" + zipCode);
+                                                    Log.e("Place_cliec", "city =" + city);
+                                                    Log.e("Place_cliec", "address =" + address);
+                                                    DialogUtils.showDialog(AddressPickerActivity.this);
+                                                    viewModel.setDeliveryAddress(address, zipCode, city);
+                                                    currentSearchPlace = new SearchPlace(zipCode, city, featureName + " " + address, latLng.latitude, latLng.longitude);
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                                }
+                                            } catch (IOException e) {
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+
+
 
                         }
                     });
@@ -376,9 +406,28 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
             } else {
-                ProfileAddressModel model = (ProfileAddressModel) address;
-                viewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
-                currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
+
+                new IOSDialog.Builder(AddressPickerActivity.this)
+                        .setTitle("Voulez-vous changer d'adresse ?")
+                        .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                        .setPositiveButton("Confirmer ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                DBManager.on().clearMyCartProduct();
+                                DataCacheUtil.removeSideProducts();
+                                ProfileAddressModel model = (ProfileAddressModel) address;
+                                viewModel.setDeliveryAddress(model.getLocation(), model.getZipCode(), model.getCity());
+                                currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
+                            }
+                        })
+                        .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
             }
 
         }
@@ -537,11 +586,42 @@ public class AddressPickerActivity extends AppCompatActivity implements
             Intent intent = new Intent(AddressPickerActivity.this,
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            if (!isFromMenuCat) {
-                startActivity(intent);
-            }
+
+            // we are calling store address
+            DialogUtils.showDialog(AddressPickerActivity.this);
+            viewModel.getStoreProducts(selectedOrder.getStoreId());
+            viewModel.getStoreProductLiveData().observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(@Nullable ResponseBody responseBody) {
+                    DialogUtils.hideDialog();
+                    try {
+                        String response = responseBody.string();
+                        JSONObject jsonObject = new JSONObject(response);
+                        boolean error = Boolean.parseBoolean(jsonObject.getString("error"));
+                        if (error == true) {
+                            DialogUtils.hideDialog();
+                            errorResponse = new Gson().fromJson(response.toString(), ErrorResponse.class);
+                            Utils.showAlert(AddressPickerActivity.this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                        } else {
+
+                            JSONArray productArray = jsonObject.getJSONArray("response");
+                            adjustItemList(productArray);
+                            if (!isFromMenuCat) {
+                                startActivity(intent);
+                            }
+                            finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             dialog.dismiss();
-            finish();
+
         });
 
         //Wheel time adapter
@@ -584,4 +664,34 @@ public class AddressPickerActivity extends AppCompatActivity implements
         }
     }
 
+    private void adjustItemList(JSONArray itemArray) {
+        if (itemArray.length() > 0) {
+            List<CategoriesItem> categoryList = DataCacheUtil.getCategoryItemFromCache();
+            for (int i = 0; i < itemArray.length(); i++) {
+                try {
+                    JSONObject itemObj = itemArray.getJSONObject(i);
+                    String productId = itemObj.optString("id_product");
+                    String price = itemObj.optString("price_ttc");
+                    String activeDelivery = itemObj.optString("active_delivery");
+
+                    for (CategoriesItem categoriesItem : categoryList) {
+                        List<ProductsItem> productList = categoriesItem.getProducts();
+                        for (ProductsItem product : productList) {
+                            if (product.getIdProduct().equals(productId)) {
+                                product.setActiveDelivery(activeDelivery);
+                                product.setPriceTtc(price);
+
+                                break;
+                            }
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
 }

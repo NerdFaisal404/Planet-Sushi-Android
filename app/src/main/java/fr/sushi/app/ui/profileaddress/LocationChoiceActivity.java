@@ -1,5 +1,6 @@
 package fr.sushi.app.ui.profileaddress;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -25,6 +26,7 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.ligl.android.widget.iosdialog.IOSDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,12 +34,14 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.helper.CommonUtility;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.model.BaseAddress;
 import fr.sushi.app.databinding.ActivityLocationChoiceBinding;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.util.DataCacheUtil;
 
 public class LocationChoiceActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, PlaceAutocompleteAdapter.PlaceAutoCompleteInterface {
 
@@ -97,38 +101,56 @@ public class LocationChoiceActivity extends BaseActivity implements GoogleApiCli
                 placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
                     @Override
                     public void onResult(PlaceBuffer places) {
-                        try {
-                            if (places.getCount() == 1) {
-                                LatLng latLng = places.get(0).getLatLng();
-                                List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                                String zipCode = addresses.get(0).getPostalCode();
-                                String city = addresses.get(0).getLocality();
-                                String address = addresses.get(0).getThoroughfare();
-                                String featureName = addresses.get(0).getFeatureName();
-                                Log.e("Place_cliec", "code =" + zipCode);
-                                Log.e("Place_cliec", "city =" + city);
-                                Log.e("Place_cliec", "address =" + address);
+                        new IOSDialog.Builder(LocationChoiceActivity.this)
+                                .setTitle("Voulez-vous changer d'adresse ?")
+                                .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                                .setPositiveButton("Confirmer ", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        DBManager.on().clearMyCartProduct();
+                                        DataCacheUtil.removeSideProducts();
+                                        try {
+                                            if (places.getCount() == 1) {
+                                                LatLng latLng = places.get(0).getLatLng();
+                                                List<Address> addresses = mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                                                String zipCode = addresses.get(0).getPostalCode();
+                                                String city = addresses.get(0).getLocality();
+                                                String address = addresses.get(0).getThoroughfare();
+                                                String featureName = addresses.get(0).getFeatureName();
+                                                Log.e("Place_cliec", "code =" + zipCode);
+                                                Log.e("Place_cliec", "city =" + city);
+                                                Log.e("Place_cliec", "address =" + address);
 
-                                if (isFromAdd) {
-                                    Intent intent = new Intent(LocationChoiceActivity.this, AddressAddActivity.class);
-                                    intent.putExtra(IntentKey.KEY_IS_CREATE_ADDRESS, true);
-                                    intent.putExtra(IntentKey.ADDRESS, featureName + " " + address);
-                                    intent.putExtra(IntentKey.CITY, city);
-                                    intent.putExtra(IntentKey.ZIP_CODE, zipCode);
-                                    startActivity(intent);
-                                } else {
-                                    CommonUtility.LOCATION = featureName + " " + address;
-                                    CommonUtility.CITY = city;
-                                    CommonUtility.ZIP_CODE = zipCode;
-                                }
+                                                if (isFromAdd) {
+                                                    Intent intent = new Intent(LocationChoiceActivity.this, AddressAddActivity.class);
+                                                    intent.putExtra(IntentKey.KEY_IS_CREATE_ADDRESS, true);
+                                                    intent.putExtra(IntentKey.ADDRESS, featureName + " " + address);
+                                                    intent.putExtra(IntentKey.CITY, city);
+                                                    intent.putExtra(IntentKey.ZIP_CODE, zipCode);
+                                                    startActivity(intent);
+                                                } else {
+                                                    CommonUtility.LOCATION = featureName + " " + address;
+                                                    CommonUtility.CITY = city;
+                                                    CommonUtility.ZIP_CODE = zipCode;
+                                                }
 
-                                finish();
-                                // viewModel.setDeliveryAddress(address, zipCode, city);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (IOException e) {
-                        }
+                                                finish();
+                                                // viewModel.setDeliveryAddress(address, zipCode, city);
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } catch (IOException e) {
+                                        }      }
+                                })
+                                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+
 
                     }
                 });

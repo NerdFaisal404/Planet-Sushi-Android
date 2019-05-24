@@ -74,7 +74,8 @@ public class AddressAddActivity extends BaseActivity {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
                         Utils.showAlert(AddressAddActivity.this, "Erreur!", errorResponse.getErrorString());
                     } else {
-                        String addressId = responseObject.optString("id_address");
+                        JSONObject res = responseObject.getJSONObject("response");
+                        String addressId = res.optString("id_address");
                         model.setId(addressId);
                         if (isCreateAddress) {
                             mViewModel.addAddress(model);

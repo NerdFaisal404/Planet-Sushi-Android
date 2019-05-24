@@ -37,6 +37,7 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.GsonHelper;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
@@ -45,6 +46,7 @@ import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
+import fr.sushi.app.ui.checkout.model.payment_success.PaymentSuccessResponse;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -74,9 +76,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private String payementMethod = "Adyen";
     private String paymentTotalPrice = "0";
     private String returnMoney = "0";
-    private String payemntChangeAmount = "0";
+    public static String payemntChangeAmount = "0";
     String idAddress = null;
     private ProfileAddressModel model;
+    private String adyenPayload = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,14 +178,17 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 } else if (isDeliveryPayment) {
                     payementMethod = "CardOnDelivery";
                     paymentTotalPrice = "0";
-                    returnMoney = "0";
+                    returnMoney = payemntChangeAmount;
+                    adyenPayload = "false";
                     sendPayment();
+
 
                 } else if (isCashPayment) {
 
                     payementMethod = "Cash";
                     paymentTotalPrice = "0";
                     returnMoney = "0";
+                    adyenPayload = "false";
                     sendPayment();
 
                 }
@@ -226,9 +232,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         }
 
 
-        if (idAddress == null) {
+        if (TextUtils.isEmpty(idAddress)) {
 
-            ProfileAddressModel model = new ProfileAddressModel();
+            model = new ProfileAddressModel();
             model.setId(UUID.randomUUID().toString());
 
 
@@ -298,8 +304,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         JsonArray productsArray = new JsonArray();
 
-        for (
-                MyCartProduct item : myCartProducts) {
+        for (MyCartProduct item : myCartProducts) {
             JsonObject product = new JsonObject();
             product.addProperty("id_product", item.getProductId());
             product.addProperty("quantity", item.getItemCount());
@@ -321,11 +326,21 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             productsArray.add(product);
         }
 
+        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
+        for (SideProduct sideProductItem : sideProducts) {
+            JsonObject sideProduct = new JsonObject();
+            sideProduct.addProperty("id_product", sideProductItem.getProductId());
+            sideProduct.addProperty("quantity", sideProductItem.getItemCount());
+            productsArray.add(sideProduct);
+        }
+
+
         mainObject.add("Products", productsArray);
 
         JsonObject paymentObject = new JsonObject();
         paymentObject.addProperty("payment_method", payementMethod);
-        paymentObject.addProperty("adyen_payload", "false");
+        paymentObject.addProperty("adyen_payload", adyenPayload);
         paymentObject.addProperty("total_paid", paymentTotalPrice);
         paymentObject.addProperty("return_money", returnMoney);
 
@@ -333,7 +348,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         mainObject.add("Cart", cartJsonObject);
         mainObject.add("Payment", paymentObject);
 
-        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
 
 
         checkoutViewModel.sendSavePaymentOrder(mainObject);
@@ -430,7 +445,12 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                         DBManager.on().clearMyCartProduct();
                         DataCacheUtil.removeSideProducts();
-                        startActivity(new Intent(this, PaymentSuccssActivity.class));
+                        JSONObject res = responseObject.getJSONObject("response");
+                        String idOrder = res.optString("id_order");
+                        Intent intent = new Intent(new Intent(this, PaymentSuccssActivity.class));
+                        intent.putExtra(IntentKey.KEY_ORDER_ID, idOrder);
+                        startActivity(intent);
+
                         finish();
                     }
                 } catch (JSONException e) {
@@ -453,7 +473,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         ErrorResponse errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
                         Utils.showAlert(this, "Erreur!", errorResponse.getErrorString());
                     } else {
-                        idAddress = responseObject.optString("id_address");
+                        JSONObject res = responseObject.getJSONObject("response");
+                        idAddress = res.optString("id_address");
                         model.setId(idAddress);
                         checkoutViewModel.updateAddress(model);
                         sendPayment();
@@ -497,6 +518,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             if (resultCode == PaymentMethodHandler.RESULT_CODE_OK) {
                 PaymentResult paymentResult = PaymentMethodHandler.Util.getPaymentResult(data);
                 // Handle PaymentResult.
+                adyenPayload = paymentResult.getPayload();
+                sendPayment();
             } else {
                 CheckoutException checkoutException = PaymentMethodHandler.Util.getCheckoutException(data);
 

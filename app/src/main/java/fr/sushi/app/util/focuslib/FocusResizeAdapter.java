@@ -97,7 +97,7 @@ public abstract class FocusResizeAdapter<T extends RecyclerView.ViewHolder> exte
 
         public FooterViewHolder(View v) {
             super(v);
-            v.getLayoutParams().height = Utils.getFooterHeight(((Activity) context), (height * 3));
+            v.getLayoutParams().height = Utils.getFooterHeight(((Activity) context), (height * 4));
         }
     }
 

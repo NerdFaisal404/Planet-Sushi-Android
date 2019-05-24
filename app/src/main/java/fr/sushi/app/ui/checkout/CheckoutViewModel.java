@@ -44,9 +44,8 @@ public class CheckoutViewModel extends ViewModel {
     }
 
 
-
     private void onError(Throwable throwable, ApiResponseError errorType) {
-
+        Log.d("F_error", throwable.toString());
     }
 
 
@@ -98,7 +97,6 @@ public class CheckoutViewModel extends ViewModel {
                 .subscribe(this::onAddressResponse,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
-
 
 
     private void onAddressResponse(ResponseBody response) {

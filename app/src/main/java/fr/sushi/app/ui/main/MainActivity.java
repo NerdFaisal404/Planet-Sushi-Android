@@ -152,6 +152,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         binding.fragmentContainer.findViewById(R.id.fragment_container).performClick();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
 
 

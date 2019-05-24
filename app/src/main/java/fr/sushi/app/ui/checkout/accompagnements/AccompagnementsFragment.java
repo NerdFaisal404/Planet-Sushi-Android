@@ -681,10 +681,12 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         /*for(FreeSaucesItem item : freeSaucesItemList){
             sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            Log.d("Aziz_item", "sauce" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(FreeWasabiGingerItem item : freeWasbiItemClicList){
+        for (FreeWasabiGingerItem item : freeWasbiItemClicList) {
             sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            Log.d("Aziz_item", "wasabi" + item.selectCount);
             sideProducts.add(sideProduct);
         }*/
 
