@@ -648,7 +648,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
             sideProducts.add(sideProduct);
         }
 
-        for (Map.Entry<String,UpsellItem> item : accomplishmentitemMap.entrySet()) {
+        for (Map.Entry<String, UpsellItem> item : accomplishmentitemMap.entrySet()) {
             UpsellItem upsellItem = item.getValue();
             priceSideProducts += Double.parseDouble(upsellItem.getPriceTtc()) * upsellItem.selectCount;
             sideProduct = new SideProduct(upsellItem.getIdProduct(), "" + upsellItem.selectCount);
@@ -660,13 +660,13 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
             sideProduct = new SideProduct(drinksItem.getIdProduct(), "" + drinksItem.selectCount);
             sideProducts.add(sideProduct);
         }
-        for (Map.Entry<String,DessertsItem> item : dessertItemMap.entrySet()) {
+        for (Map.Entry<String, DessertsItem> item : dessertItemMap.entrySet()) {
             DessertsItem dessertsItem = item.getValue();
             priceSideProducts += Double.parseDouble(dessertsItem.getPriceTtc()) * dessertsItem.selectCount;
             sideProduct = new SideProduct(dessertsItem.getIdProduct(), "" + dessertsItem.selectCount);
             sideProducts.add(sideProduct);
         }
-        for (Map.Entry<String,PayingWasabiGingerItem> item : payingWasbiItemClicMap.entrySet()) {
+        for (Map.Entry<String, PayingWasabiGingerItem> item : payingWasbiItemClicMap.entrySet()) {
             PayingWasabiGingerItem payingWasabiGingerItem = item.getValue();
             priceSideProducts += Double.parseDouble(payingWasabiGingerItem.getPriceTtc()) * payingWasabiGingerItem.selectCount;
             sideProduct = new SideProduct(payingWasabiGingerItem.getIdProduct(), "" + payingWasabiGingerItem.selectCount);
@@ -1014,6 +1014,15 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
 
     public void clearPreviousSelectedItem() {
+        freeSaucesMap = new HashMap<>();
+        payingSaucesMap.clear();
+        accomplishmentitemMap.clear();
+        boissonItemMap.clear();
+        dessertItemMap.clear();
+        payingWasbiItemClicMap.clear();
+        freeWasbiItemClicMap.clear();
+        baguettesItemMap.clear();
+
         payingSaucesItems.clear();
         freeSaucesItemList.clear();
         accomplishmentitemList.clear();
