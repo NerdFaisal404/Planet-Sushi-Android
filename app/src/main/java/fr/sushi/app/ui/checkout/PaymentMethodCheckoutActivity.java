@@ -79,6 +79,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     public static String payemntChangeAmount = "0";
     String idAddress = null;
     private ProfileAddressModel model;
+    private String adyenPayload = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,13 +179,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     payementMethod = "CardOnDelivery";
                     paymentTotalPrice = "0";
                     returnMoney = payemntChangeAmount;
+                    adyenPayload = "false";
                     sendPayment();
+
 
                 } else if (isCashPayment) {
 
                     payementMethod = "Cash";
                     paymentTotalPrice = "0";
                     returnMoney = "0";
+                    adyenPayload = "false";
                     sendPayment();
 
                 }
@@ -300,8 +304,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         JsonArray productsArray = new JsonArray();
 
-        for (
-                MyCartProduct item : myCartProducts) {
+        for (MyCartProduct item : myCartProducts) {
             JsonObject product = new JsonObject();
             product.addProperty("id_product", item.getProductId());
             product.addProperty("quantity", item.getItemCount());
@@ -323,11 +326,21 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             productsArray.add(product);
         }
 
+        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
+        for (SideProduct sideProductItem : sideProducts) {
+            JsonObject sideProduct = new JsonObject();
+            sideProduct.addProperty("id_product", sideProductItem.getProductId());
+            sideProduct.addProperty("quantity", sideProductItem.getItemCount());
+            productsArray.add(sideProduct);
+        }
+
+
         mainObject.add("Products", productsArray);
 
         JsonObject paymentObject = new JsonObject();
         paymentObject.addProperty("payment_method", payementMethod);
-        paymentObject.addProperty("adyen_payload", "false");
+        paymentObject.addProperty("adyen_payload", adyenPayload);
         paymentObject.addProperty("total_paid", paymentTotalPrice);
         paymentObject.addProperty("return_money", returnMoney);
 
@@ -335,7 +348,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         mainObject.add("Cart", cartJsonObject);
         mainObject.add("Payment", paymentObject);
 
-        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
 
 
         checkoutViewModel.sendSavePaymentOrder(mainObject);
@@ -505,6 +518,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             if (resultCode == PaymentMethodHandler.RESULT_CODE_OK) {
                 PaymentResult paymentResult = PaymentMethodHandler.Util.getPaymentResult(data);
                 // Handle PaymentResult.
+                adyenPayload = paymentResult.getPayload();
+                sendPayment();
             } else {
                 CheckoutException checkoutException = PaymentMethodHandler.Util.getCheckoutException(data);
 
