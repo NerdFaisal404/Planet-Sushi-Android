@@ -364,7 +364,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                             new IOSDialog.Builder(AddressPickerActivity.this)
                                     .setTitle("Voulez-vous changer d'adresse ?")
                                     .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
-                                    .setPositiveButton("Annuler", new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("Confirmer", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -391,7 +391,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                                             }
                                         }
                                     })
-                                    .setNegativeButton("Confirmer", new DialogInterface.OnClickListener() {
+                                    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
@@ -410,7 +410,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                 new IOSDialog.Builder(AddressPickerActivity.this)
                         .setTitle("Voulez-vous changer d'adresse ?")
                         .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
-                        .setPositiveButton("Annuler", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Confirmer ", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -421,7 +421,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                                 currentSearchPlace = new SearchPlace(model.getZipCode(), model.getCity(), model.getLocation());
                             }
                         })
-                        .setNegativeButton("Confirmer", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
