@@ -121,13 +121,6 @@
             android:layout_below="@+id/rlTop"
             android:paddingTop="@dimen/dp10" />
 
-        <TextView
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/viewpager"
-            android:text="Le minimum de commande pour cette adresse est de 25,00 " />
-
         <RelativeLayout
             android:id="@+id/layoutEmpty"
             android:layout_width="wrap_content"
@@ -168,7 +161,7 @@
             android:layout_height="51dp"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/dp16"
-            android:background="@drawable/bg_pink_round"
+            android:background="@drawable/bg_unselected_valider"
             android:orientation="horizontal"
             android:weightSum="2">
 

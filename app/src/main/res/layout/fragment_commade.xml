@@ -115,6 +115,23 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tvMinAmount"
+                android:visibility="visible"
+                android:background="@drawable/bg_red_round"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp10"
+               android:layout_marginTop="@dimen/dp10"
+                android:drawablePadding="@dimen/dp5"
+                android:drawableLeft="@drawable/ic_info_outline_24dp"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/sp17"
+                android:layout_below="@+id/viewpager"
+                android:text="Le minimum de commande pour cette adresse est de 25,00 " />
+
+
         </LinearLayout>
 
     </ScrollView>

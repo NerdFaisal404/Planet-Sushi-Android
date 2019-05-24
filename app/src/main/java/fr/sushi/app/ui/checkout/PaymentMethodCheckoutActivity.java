@@ -207,6 +207,19 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int minimumPrice = (int) this.totalPrice;
+        if (minimumPrice < 25) {
+            binding.layoutBottomCheckout.setEnabled(false);
+            binding.layoutBottomCheckout.setClickable(false);
+        } else {
+            binding.layoutBottomCheckout.setEnabled(true);
+            binding.layoutBottomCheckout.setClickable(true);
+        }
+    }
+
     private void sendPayment() {
         SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
         // SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
@@ -347,8 +360,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         mainObject.add("Cart", cartJsonObject);
         mainObject.add("Payment", paymentObject);
-
-
 
 
         checkoutViewModel.sendSavePaymentOrder(mainObject);
@@ -499,6 +510,14 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         this.totalPrice = totalPrice;
         this.freeSaucesCount = (int) totalPrice / 10;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+        int minimumPrice = (int) this.totalPrice;
+        if (minimumPrice < 25) {
+            binding.layoutBottomCheckout.setEnabled(false);
+            binding.layoutBottomCheckout.setClickable(false);
+        } else {
+            binding.layoutBottomCheckout.setEnabled(true);
+            binding.layoutBottomCheckout.setClickable(true);
+        }
     }
 
     public void setPriceWithSideProducts(double priceSideProducts) {

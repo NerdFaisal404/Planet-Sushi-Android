@@ -33,6 +33,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     public ItemTouchHelperExtension mItemTouchHelper;
     public ItemTouchHelperExtension.Callback mCallback;
     private CommadeViewModel commadeViewModel;
+    private double totalPrice;
 
 
     public CommadeFragment() {
@@ -57,6 +58,17 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        int minimumPrice = (int) this.totalPrice;
+        if (minimumPrice < 25) {
+            binding.tvMinAmount.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvMinAmount.setVisibility(View.GONE);
+        }
+    }
+
     CommadeAdapter commadeAdapter;
 
     private void initView() {
@@ -78,7 +90,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
     private void setTotalPrice() {
 
-        double totalPrice = 0.0;
+        totalPrice = 0.0;
 
         for (MyCartProduct item : selectedProducts) {
             totalPrice = totalPrice + (Double.parseDouble(item.getPriceHt()) * item.getItemCount());
@@ -86,10 +98,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
 
-        Log.e("Side_products","Products count ="+sellingSelectedItems.size());
-        for(CrossSellingSelectedItem item : sellingSelectedItems){
-            if(!item.isFree()){
-                totalPrice = totalPrice+Double.valueOf(item.getProductPrice());
+        Log.e("Side_products", "Products count =" + sellingSelectedItems.size());
+        for (CrossSellingSelectedItem item : sellingSelectedItems) {
+            if (!item.isFree()) {
+                totalPrice = totalPrice + Double.valueOf(item.getProductPrice());
             }
         }
 
