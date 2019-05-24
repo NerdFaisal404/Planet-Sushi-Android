@@ -26,4 +26,7 @@ public interface ItemClickListener<T> {
      * @param item The T type object that was clicked.
      */
     void onItemClick(View view, T item);
+    default void onItemClick(View view, T item, int position){
+
+    }
 }

@@ -139,7 +139,6 @@ public class FreeSaucesItem extends Sauces{
 	@SerializedName("price_ttc")
 	private String priceTtc;
 
-	public int selectCount;
 
 	public void setCategoryName(String categoryName){
 		this.categoryName = categoryName;

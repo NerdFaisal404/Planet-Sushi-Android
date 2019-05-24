@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
@@ -50,6 +52,11 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
         return new PaidItemViewHolder(binding);
     }
 
+    public void addPaidItems(List<Sauces> convertedList) {
+        clear();
+        addItem(convertedList);
+    }
+
     private class FreeItemViewHolder extends BaseViewHolder<FreeSaucesItem> {
         private ListEachRowAccompagnemenntsBinding binding;
 
@@ -69,16 +76,12 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
 
         @Override
         public void onClick(View v) {
-            PayingSaucesItem item = (PayingSaucesItem)getItem(getAdapterPosition());
-            if (v.getId() == R.id.imgViewPlus) {
-                item.selectCount += 1;
-            } else {
-                if (item.selectCount > 0)
-                    item.selectCount -= 1;
+            Sauces item = getItem(getAdapterPosition());
+            if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
+                return;
             }
-            binding.tvCount.setText(String.valueOf(item.selectCount));
             if (mItemClickListener != null)
-                mItemClickListener.onItemClick(v, item);
+                mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }
     }
 
@@ -101,16 +104,12 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
 
         @Override
         public void onClick(View v) {
-            PayingSaucesItem item = (PayingSaucesItem)getItem(getAdapterPosition());
-            if (v.getId() == R.id.imgViewPlus) {
-                item.selectCount += 1;
-            } else {
-                if (item.selectCount > 0)
-                    item.selectCount -= 1;
+            Sauces item = getItem(getAdapterPosition());
+            if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
+                return;
             }
-            binding.tvCount.setText(String.valueOf(item.selectCount));
             if (mItemClickListener != null)
-                mItemClickListener.onItemClick(v, item);
+                mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }
     }
 }

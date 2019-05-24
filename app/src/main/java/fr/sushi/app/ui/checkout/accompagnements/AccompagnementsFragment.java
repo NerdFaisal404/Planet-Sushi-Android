@@ -26,7 +26,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
@@ -44,10 +46,12 @@ import fr.sushi.app.ui.checkout.commade.model.ChopsticksItem;
 import fr.sushi.app.ui.checkout.commade.model.DessertsItem;
 import fr.sushi.app.ui.checkout.commade.model.DrinksItem;
 import fr.sushi.app.ui.checkout.commade.model.FreeSaucesItem;
+import fr.sushi.app.ui.checkout.commade.model.FreeWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.Sauces;
 import fr.sushi.app.ui.checkout.commade.model.UpsellItem;
+import fr.sushi.app.ui.checkout.commade.model.Wasbi;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.SideProduct;
 
@@ -77,9 +81,20 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
     private AccompagnementResponse accompagnementResponse;
 
-    public AccompagnementsFragment() {
-        // Required empty public constructor
+    private int freeSideProductCount;
+
+    private static AccompagnementsFragment accompagnementsFragment;
+
+    public static AccompagnementsFragment on(){
+        if(accompagnementsFragment == null){
+            accompagnementsFragment = new AccompagnementsFragment();
+        }
+        return accompagnementsFragment;
     }
+
+    /*private AccompagnementsFragment() {
+        // Required empty public constructor
+    }*/
 
 
     @Override
@@ -132,154 +147,22 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         rlCountForBaguettes = view.findViewById(R.id.rlCountForBaguettes);
         tvCountBaguettes = view.findViewById(R.id.tvCountBaguettes);
         tvBaguettes = view.findViewById(R.id.tvBaguettes);
-
-        String items = "1";
+        freeSideProductCount = ((PaymentMethodCheckoutActivity) getActivity()).getFreeSaucesCount();
+        String items = "" + freeSideProductCount;
 
         String subTitle = "Choisissez vos <font color=\"#EA148A\">" + items + " sauce(s) gratuite(s),</font>" + " wasabi, gingembre et baguettes.\n Compléter votre commande d'un accompagnement, d'une boisson ou d'un dessert. Sauce(s) offertes";
 
 
         binding.tvSubtitle.setText(Html.fromHtml(subTitle), TextView.BufferType.SPANNABLE);
         recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
-        /*
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recycler_view_accompagnements.setLayoutManager(layoutManager);
-        adapter = new AccompagnementsAdapter(getContext(), new AccompagnementsAdapter.ClickListener() {
-            @Override
-            public void iconImageViewPlusOnClick(int position) {
-                switch (selectedAccompagnements) {
-                    case SAUCES:
-                        Log.e(TAG, "iconImageViewPlusOnClick: SAUCES clicked");
-                        countSauces += 1;
-                        tvCountSauces.setText(String.valueOf(countSauces));
-                        if (countSauces > 0) {
-                            rlCountForSauces.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForSauces.setVisibility(View.GONE);
-                        }
-                        break;
-                    case ACCOMPAGNEMENTS:
-                        Log.e(TAG, "iconImageViewPlusOnClick: ACCOMPAGNEMENTS clicked");
-                        countAccompagnements += 1;
-                        tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
-                        if (countAccompagnements > 0) {
-                            rlCountForAccompagnements.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForAccompagnements.setVisibility(View.GONE);
-                        }
-                        break;
-                    case BOISSONS:
-                        Log.e(TAG, "iconImageViewPlusOnClick: BOISSONS clicked");
-                        countBoissons += 1;
-                        tvCountBoissons.setText(String.valueOf(countBoissons));
-                        if (countBoissons > 0) {
-                            rlCountForBoissons.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForBoissons.setVisibility(View.GONE);
-                        }
-                        break;
-                    case DESSERTS:
-                        Log.e(TAG, "iconImageViewPlusOnClick: DESSERTS clicked");
-                        countDesserts += 1;
-                        tvCountDesserts.setText(String.valueOf(countDesserts));
-                        if (countDesserts > 0) {
-                            rlCountForDesserts.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForDesserts.setVisibility(View.GONE);
-                        }
-                        break;
-                    case WASBI:
-                        Log.e(TAG, "iconImageViewPlusOnClick: WASBI clicked");
-                        countWasbi += 1;
-                        tvCountWasbi.setText(String.valueOf(countWasbi));
-                        if (countWasbi > 0) {
-                            rlCountForWasbi.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForWasbi.setVisibility(View.GONE);
-                        }
-                        break;
-                    case BAGUETTES:
-                        Log.e(TAG, "iconImageViewPlusOnClick: BAGUETTES clicked");
-                        countBauettes += 1;
-                        tvCountBaguettes.setText(String.valueOf(countBauettes));
-                        if (countBauettes > 0) {
-                            rlCountForBaguettes.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForBaguettes.setVisibility(View.GONE);
-                        }
-                        break;
-                }
-            }
 
-            @Override
-            public void iconImageViewMinusOnClick(int position) {
-                switch (selectedAccompagnements) {
-                    case SAUCES:
-                        Log.e(TAG, "iconImageViewMinusOnClick: SAUCES clicked");
-                        countSauces -= 1;
-                        tvCountSauces.setText(String.valueOf(countSauces));
-                        if (countSauces > 0) {
-                            rlCountForSauces.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForSauces.setVisibility(View.GONE);
-                        }
-                        break;
-                    case ACCOMPAGNEMENTS:
-                        Log.e(TAG, "iconImageViewMinusOnClick: ACCOMPAGNEMENTS clicked");
-                        countAccompagnements -= 1;
-                        tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
-                        if (countAccompagnements > 0) {
-                            rlCountForAccompagnements.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForAccompagnements.setVisibility(View.GONE);
-                        }
-                        break;
-                    case BOISSONS:
-                        Log.e(TAG, "iconImageViewMinusOnClick: BOISSONS clicked");
-                        countBoissons -= 1;
-                        tvCountBoissons.setText(String.valueOf(countBoissons));
-                        if (countBoissons > 0) {
-                            rlCountForBoissons.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForBoissons.setVisibility(View.GONE);
-                        }
-                        break;
-                    case DESSERTS:
-                        Log.e(TAG, "iconImageViewMinusOnClick: DESSERTS clicked");
-                        countDesserts -= 1;
-                        tvCountDesserts.setText(String.valueOf(countDesserts));
-                        if (countDesserts > 0) {
-                            rlCountForDesserts.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForDesserts.setVisibility(View.GONE);
-                        }
-                        break;
-                    case WASBI:
-                        Log.e(TAG, "iconImageViewMinusOnClick: WASBI clicked");
-                        countWasbi -= 1;
-                        tvCountWasbi.setText(String.valueOf(countWasbi));
-                        if (countWasbi > 0) {
-                            rlCountForWasbi.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForWasbi.setVisibility(View.GONE);
-                        }
-                        break;
-                    case BAGUETTES:
-                        Log.e(TAG, "iconImageViewMinusOnClick: BAGUETTES clicked");
-                        countBauettes -= 1;
-                        tvCountBaguettes.setText(String.valueOf(countBauettes));
-                        if (countBauettes > 0) {
-                            rlCountForBaguettes.setVisibility(View.VISIBLE);
-                        } else {
-                            rlCountForBaguettes.setVisibility(View.GONE);
-                        }
-                        break;
-                }
-            }
-        });
-        recycler_view_accompagnements.setAdapter(adapter);*/
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     private void observeData() {
 
@@ -335,87 +218,261 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         }
     }
+
     SaucesAdapter saucesAdapter;
+    WasbiGingerAdapter wasbiGingerAdapter;
+
     private void showSaucesData() {
-        if(accompagnementResponse == null) return;
+        if (accompagnementResponse == null) return;
+        binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
         saucesAdapter = new SaucesAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
-        List<FreeSaucesItem> payingSaucesItemList = accompagnementResponse.getResponse().getFreeSauces();
-        saucesAdapter.addItem((Sauces) payingSaucesItemList);
+        List<FreeSaucesItem> payingSaucesItemList =
+                new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
+        List<Sauces> convertedList = new ArrayList<Sauces>(payingSaucesItemList);
+        saucesAdapter.addItem(convertedList);
         saucesAdapter.setItemClickListener(saucesItemClickListener);
     }
 
     private void showAccomplishmentData() {
-        if(accompagnementResponse == null) return;
+        if (accompagnementResponse == null) return;
+        binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
         AccomplishmentAdapter accomplishmentAdapter = new AccomplishmentAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(accomplishmentAdapter);
-        accomplishmentAdapter.addItem(accompagnementResponse.getResponse().getUpsell());
+        List<UpsellItem> upsellItems = new ArrayList<>(accompagnementResponse.getResponse().getUpsell());
+        accomplishmentAdapter.addItem(upsellItems);
         accomplishmentAdapter.setItemClickListener(accomplishmentClickListener);
     }
 
     private void showBoissonData() {
-        if(accompagnementResponse == null) return;
+        if (accompagnementResponse == null) return;
+        binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
         BoissonAdapter boissonAdapter = new BoissonAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(boissonAdapter);
-        boissonAdapter.addItem(accompagnementResponse.getResponse().getDrinks());
+        List<DrinksItem> drinksItems = new ArrayList<>(accompagnementResponse.getResponse().getDrinks());
+        boissonAdapter.addItem(drinksItems);
         boissonAdapter.setItemClickListener(boissonItemClickListener);
     }
 
     private void showDessertData() {
-        if(accompagnementResponse == null) return;
+        if (accompagnementResponse == null) return;
         DessertAdapter dessertAdapter = new DessertAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(dessertAdapter);
-        dessertAdapter.addItem(accompagnementResponse.getResponse().getDesserts());
+        List<DessertsItem> dessertsItems = new ArrayList<>(accompagnementResponse.getResponse().getDesserts());
+        dessertAdapter.addItem(dessertsItems);
         dessertAdapter.setItemClickListener(dessertItemClickListener);
     }
 
     private void showWasibData() {
-        if(accompagnementResponse == null) return;
-        WasbiGingerAdapter wasbiGingerAdapter = new WasbiGingerAdapter(getActivity());
+        if (accompagnementResponse == null) return;
+        binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
+        wasbiGingerAdapter = new WasbiGingerAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(wasbiGingerAdapter);
-        wasbiGingerAdapter.addItem(accompagnementResponse.getResponse().getPayingWasabiGinger());
+        List<FreeWasabiGingerItem> wasbiList =
+                new ArrayList<>(accompagnementResponse.getResponse().getFreeWasabiGinger());
+        List<Wasbi> convertedList = new ArrayList<>(wasbiList);
+        wasbiGingerAdapter.addItem(convertedList);
+
+
         wasbiGingerAdapter.setItemClickListener(wasbiItemClickListener);
     }
 
     private void showBaguettesData() {
-        if(accompagnementResponse == null) return;
+        if (accompagnementResponse == null) return;
+        binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
         BaguettesAdapter baguettesAdapter = new BaguettesAdapter(getActivity());
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(baguettesAdapter);
-        baguettesAdapter.addItem(accompagnementResponse.getResponse().getChopsticks());
+        List<ChopsticksItem> chopsticksItems = new ArrayList<>(accompagnementResponse.getResponse().getChopsticks());
+        baguettesAdapter.addItem(chopsticksItems);
         baguettesAdapter.setItemClickListener(baguettesItemClickListener);
     }
 
-    private List<PayingSaucesItem> saucesItemList = new ArrayList<>();
+    private List<PayingSaucesItem> payingSaucesItems = new ArrayList<>();
+    private List<FreeSaucesItem> freeSaucesItemList = new ArrayList<>();
     private List<UpsellItem> accomplishmentitemList = new ArrayList<>();
     private List<DrinksItem> boissonItemList = new ArrayList<>();
     private List<DessertsItem> dessertItemList = new ArrayList<>();
-    private List<PayingWasabiGingerItem> wasbiItemClicList = new ArrayList<>();
+    private List<PayingWasabiGingerItem> payingWasbiItemClicList = new ArrayList<>();
+    private List<FreeWasabiGingerItem> freeWasbiItemClicList = new ArrayList<>();
     private List<ChopsticksItem> baguettesItemList = new ArrayList<>();
 
-    private ItemClickListener<Sauces> saucesItemClickListener = (view, item) -> {
-        if (view.getId() == R.id.imgViewPlus) {
-            countSauces += 1;
-            //saucesItemList.add(item);
-        } else {
-            if (countSauces > 0) {
-                countSauces -= 1;
-                saucesItemList.remove(0);
+    private Map<Integer, Integer> freeSauces = new HashMap<>();
+    private Map<Integer, Integer> freeWasbi = new HashMap<>();
+
+    private ItemClickListener<Sauces> saucesItemClickListener = new ItemClickListener<Sauces>() {
+
+        @Override
+        public void onItemClick(View view, Sauces item, int position) {
+
+            if (view.getId() == R.id.imgViewPlus) {
+                countSauces++;
+                if (item instanceof FreeSaucesItem) {
+                    FreeSaucesItem fItem = (FreeSaucesItem) item;
+
+                    fItem.selectCount = fItem.selectCount + 1;
+                    freeSaucesItemList.add(fItem);
+                    saucesAdapter.notifyDataSetChanged();
+                    freeSauces.put(position, fItem.selectCount);
+
+                    if (freeSaucesItemList.size() >= freeSideProductCount) {
+                        //load paid item
+                        List<PayingSaucesItem> list = new ArrayList<>(accompagnementResponse.getResponse().getPayingSauces());
+
+                        for (Map.Entry<Integer, Integer> mapInt : freeSauces.entrySet()) {
+                            int kay = mapInt.getKey();
+                            int value = mapInt.getValue();
+                            PayingSaucesItem saucesItem = list.get(kay);
+                            saucesItem.selectCount = value;
+                        }
+                        List<Sauces> convertedList = new ArrayList<Sauces>(list);
+                        saucesAdapter.addPaidItems(convertedList);
+
+                    }
+                } else {
+                    PayingSaucesItem pItem = (PayingSaucesItem) item;
+                    pItem.selectCount = pItem.selectCount + 1;
+                    payingSaucesItems.add((PayingSaucesItem) item);
+                    saucesAdapter.notifyDataSetChanged();
+                    freeSauces.put(position, pItem.selectCount);
+                }
+            } else {
+                countSauces--;
+                if (item instanceof FreeSaucesItem) {
+                    FreeSaucesItem fItem = (FreeSaucesItem) item;
+                    freeSaucesItemList.remove(fItem);
+                    fItem.selectCount = fItem.selectCount - 1;
+                    saucesAdapter.notifyDataSetChanged();
+                    freeSauces.put(position, fItem.selectCount);
+                } else {
+                    PayingSaucesItem pItem = (PayingSaucesItem) item;
+                    pItem.selectCount = pItem.selectCount - 1;
+                    saucesAdapter.notifyDataSetChanged();
+                    freeSauces.put(position, pItem.selectCount);
+
+                    if (payingSaucesItems.isEmpty()) {
+                        //load free item
+                        List<FreeSaucesItem> list = new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
+                        for (Map.Entry<Integer, Integer> mapInt : freeSauces.entrySet()) {
+                            int kay = mapInt.getKey();
+                            int value = mapInt.getValue();
+                            FreeSaucesItem saucesItem = list.get(kay);
+                            saucesItem.selectCount = value;
+                        }
+                        List<Sauces> convertedList = new ArrayList<Sauces>(list);
+                        saucesAdapter.addPaidItems(convertedList);
+                        freeSaucesItemList.remove(0);
+                    } else {
+                        payingSaucesItems.remove(pItem);
+                    }
+                }
             }
+
+            binding.tvCountSauces.setText(String.valueOf(countSauces));
+            if (countSauces > 0) {
+                binding.rlCountForSauces.setVisibility(View.VISIBLE);
+            } else {
+                binding.rlCountForSauces.setVisibility(View.GONE);
+            }
+            calculatePrice();
         }
 
-        binding.tvCountSauces.setText(String.valueOf(countSauces));
-        if (countSauces > 0) {
-            binding.rlCountForSauces.setVisibility(View.VISIBLE);
-        } else {
-            binding.rlCountForSauces.setVisibility(View.GONE);
+
+        @Override
+        public void onItemClick(View view, Sauces item) {
         }
-        calculatePrice();
+    };
+
+    private ItemClickListener<Wasbi> wasbiItemClickListener = new ItemClickListener<Wasbi>() {
+
+
+        @Override
+        public void onItemClick(View view, Wasbi item, int position) {
+
+            if (view.getId() == R.id.imgViewPlus) {
+                countWasbi++;
+                if (item instanceof FreeWasabiGingerItem) {
+                    FreeWasabiGingerItem fItem = (FreeWasabiGingerItem) item;
+
+                    fItem.selectCount = fItem.selectCount + 1;
+                    freeWasbiItemClicList.add(fItem);
+                    wasbiGingerAdapter.notifyDataSetChanged();
+                    freeWasbi.put(position, fItem.selectCount);
+
+                    if (freeWasbiItemClicList.size() >= freeSideProductCount) {
+                        //load paid item
+                        List<PayingWasabiGingerItem> list = new ArrayList<>(accompagnementResponse.getResponse().getPayingWasabiGinger());
+
+                        for (Map.Entry<Integer, Integer> mapInt : freeWasbi.entrySet()) {
+                            int kay = mapInt.getKey();
+                            int value = mapInt.getValue();
+                            PayingWasabiGingerItem saucesItem = list.get(kay);
+                            saucesItem.selectCount = value;
+                        }
+                        List<Wasbi> convertedList = new ArrayList<Wasbi>(list);
+                        wasbiGingerAdapter.addPaidItems(convertedList);
+
+                    }
+                } else {
+                    PayingWasabiGingerItem pItem = (PayingWasabiGingerItem) item;
+                    pItem.selectCount = pItem.selectCount + 1;
+                    payingWasbiItemClicList.add((PayingWasabiGingerItem) item);
+                    wasbiGingerAdapter.notifyDataSetChanged();
+                    freeWasbi.put(position, pItem.selectCount);
+                }
+            } else {
+                countWasbi--;
+                if (item instanceof FreeWasabiGingerItem) {
+                    FreeWasabiGingerItem fItem = (FreeWasabiGingerItem) item;
+
+                    freeWasbiItemClicList.remove(fItem);
+                    fItem.selectCount = fItem.selectCount - 1;
+                    wasbiGingerAdapter.notifyDataSetChanged();
+                    freeWasbi.put(position, fItem.selectCount);
+                } else {
+                    PayingWasabiGingerItem pItem = (PayingWasabiGingerItem) item;
+                    pItem.selectCount = pItem.selectCount - 1;
+
+                    wasbiGingerAdapter.notifyDataSetChanged();
+                    freeWasbi.put(position, pItem.selectCount);
+
+                    if (payingWasbiItemClicList.isEmpty()) {
+                        //load free item
+                        List<FreeWasabiGingerItem> list =
+                                new ArrayList<>(accompagnementResponse.getResponse().getFreeWasabiGinger());
+                        for (Map.Entry<Integer, Integer> mapInt : freeWasbi.entrySet()) {
+                            int kay = mapInt.getKey();
+                            int value = mapInt.getValue();
+                            FreeWasabiGingerItem saucesItem = list.get(kay);
+                            saucesItem.selectCount = value;
+                        }
+                        List<Wasbi> convertedList = new ArrayList<Wasbi>(list);
+                        wasbiGingerAdapter.addPaidItems(convertedList);
+                        freeWasbiItemClicList.remove(0);
+                    } else {
+                        payingWasbiItemClicList.remove(pItem);
+                    }
+                }
+            }
+
+            binding.tvCountWasbi.setText(String.valueOf(countWasbi));
+            if (countWasbi > 0) {
+                binding.rlCountForWasbi.setVisibility(View.VISIBLE);
+            } else {
+                binding.rlCountForWasbi.setVisibility(View.GONE);
+            }
+            calculatePrice();
+        }
+
+        @Override
+        public void onItemClick(View view, Wasbi item) {
+
+        }
     };
 
     private ItemClickListener<UpsellItem> accomplishmentClickListener = (view, item) -> {
@@ -477,24 +534,6 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         }
         calculatePrice();
     };
-    private ItemClickListener<PayingWasabiGingerItem> wasbiItemClickListener = (view, item) -> {
-        if (view.getId() == R.id.imgViewPlus) {
-            countWasbi += 1;
-            wasbiItemClicList.add(item);
-        } else {
-            if (countWasbi > 0) {
-                countWasbi -= 1;
-                wasbiItemClicList.remove(0);
-            }
-        }
-        binding.tvCountWasbi.setText(String.valueOf(countWasbi));
-        if (countWasbi > 0) {
-            binding.rlCountForWasbi.setVisibility(View.VISIBLE);
-        } else {
-            binding.rlCountForWasbi.setVisibility(View.GONE);
-        }
-        calculatePrice();
-    };
 
 
     private ItemClickListener<ChopsticksItem> baguettesItemClickListener = (view, item) -> {
@@ -516,44 +555,53 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         calculatePrice();
     };
 
-    private void calculatePrice(){
+    private void calculatePrice() {
         double priceSideProducts = 0.0;
 
         SideProduct sideProduct = null;
         List<SideProduct> sideProducts = new ArrayList<>();
 
-        for(PayingSaucesItem item : saucesItemList){
+        for (PayingSaucesItem item : payingSaucesItems) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(UpsellItem item : accomplishmentitemList){
+        for (UpsellItem item : accomplishmentitemList) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(DrinksItem item : boissonItemList){
+        for (DrinksItem item : boissonItemList) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(DessertsItem item : dessertItemList){
+        for (DessertsItem item : dessertItemList) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(PayingWasabiGingerItem item : wasbiItemClicList){
+        for (PayingWasabiGingerItem item : payingWasbiItemClicList) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(ChopsticksItem item : baguettesItemList){
+        for (ChopsticksItem item : baguettesItemList) {
             priceSideProducts += Double.parseDouble(item.getPriceTtc());
-            sideProduct = new SideProduct(item.getIdProduct(), ""+item.selectCount);
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            sideProducts.add(sideProduct);
+        }
+
+        for(FreeSaucesItem item : freeSaucesItemList){
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            sideProducts.add(sideProduct);
+        }
+        for(FreeWasabiGingerItem item : freeWasbiItemClicList){
+            sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
             sideProducts.add(sideProduct);
         }
         DataCacheUtil.addSideProducts(sideProducts);
-        ((PaymentMethodCheckoutActivity)getActivity()).setPriceWithSideProducts(priceSideProducts);
+        ((PaymentMethodCheckoutActivity) getActivity()).setPriceWithSideProducts(priceSideProducts);
     }
 
 
@@ -863,4 +911,26 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
 
+    public void clearPreviousSelectedItem() {
+        payingSaucesItems.clear();
+        freeSaucesItemList.clear();
+        accomplishmentitemList.clear();
+        boissonItemList.clear();
+        dessertItemList.clear();
+        payingWasbiItemClicList.clear();
+        freeWasbiItemClicList.clear();
+        baguettesItemList.clear();
+        freeSauces.clear();
+        freeWasbi.clear();
+        countSauces = 0;
+        countAccompagnements = 0;
+        countBoissons = 0;
+        countDesserts = 0;
+        countWasbi = 0;
+        countBauettes = 0;
+
+        if (binding != null)
+            binding.recyclerViewAccompagnements.setVisibility(View.GONE);
+
+    }
 }

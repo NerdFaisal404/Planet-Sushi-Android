@@ -146,7 +146,7 @@ public class PayingSaucesItem extends Sauces{
 	@SerializedName("price_ttc")
 	private String priceTtc;
 
-	public int selectCount;
+
 
 	public void setActiveSaucePicture(boolean activeSaucePicture){
 		this.activeSaucePicture = activeSaucePicture;
