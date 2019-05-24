@@ -128,7 +128,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 binding.itemName.setText(item.getName());
             }
 
-            binding.itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt())) + "€");
+            binding.itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");
             binding.itemCount.setText(item.getNbrePiece() + " Pieces ");
             if (item.isSelected()) {
                 binding.selectView.setVisibility(View.VISIBLE);
@@ -160,7 +160,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceHt());
+        totalPrice = Double.parseDouble(item.getPriceTtc());
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -186,7 +186,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     return;
                 }
                 count -= 1;
-                totalPrice -= Double.parseDouble(item.getPriceHt());
+                totalPrice -= Double.parseDouble(item.getPriceTtc());
                 tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
                 tvCount.setText(count + "");
             }
@@ -194,7 +194,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         ivPlus.setOnClickListener(v -> {
             count += 1;
-            totalPrice += Double.parseDouble(item.getPriceHt());
+            totalPrice += Double.parseDouble(item.getPriceTtc());
             tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
             tvCount.setText(count + "");
         });

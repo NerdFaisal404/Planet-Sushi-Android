@@ -22,12 +22,31 @@ public class HomeViewModel extends ViewModel {
     }
     private MutableLiveData<FoodMenuResponse> foodMenuListMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseBody> deliveryAddressLiveData =new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> storeProductLiveData = new MutableLiveData<>();
 
     public void getShopList() {
         Repository.getAppShops().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessShopRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+
+    public void getStoreProducts(String storeId) {
+        Repository.getStoreProducts(storeId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccessGetStoreProcduct,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+    private void onSuccessGetStoreProcduct(ResponseBody responseBody) {
+        if (responseBody != null) {
+            storeProductLiveData.setValue(responseBody);
+        }
+    }
+
+    public MutableLiveData<ResponseBody> getStoreProductLiveData() {
+        return storeProductLiveData;
     }
 
     private void onError(Throwable throwable, ApiResponseError errorType) {

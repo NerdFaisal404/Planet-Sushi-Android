@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -336,14 +337,18 @@ public class Utils {
     }
 
     public static String getDecimalFormat(double value) {
-        Locale locale = new Locale("fr", "FR");
+
+        DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.FRANCE);
+        NumberFormat goodNumberFormat = new DecimalFormat("#,##0.00#", dfs);
+        /*Locale locale = new Locale("fr", "FR");
         String pattern = "#.##";
 
         DecimalFormat decimalFormat = (DecimalFormat)
                 NumberFormat.getNumberInstance(locale);
         decimalFormat.applyPattern(pattern);
 
-        String format = decimalFormat.format(value);
+        String format = decimalFormat.format(value);*/
+        String format = goodNumberFormat.format(value);
         return format;
 
     }

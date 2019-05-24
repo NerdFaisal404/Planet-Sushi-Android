@@ -99,28 +99,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
 */
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String currentTime = sdf.format(new Date());
 
-        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
-        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
-        if (isLivarsion) {
-            binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
-        } else if (isExporter) {
-            binding.tvDeliveryType.setText("A emporter");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
-        } else {
-            binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
-        }
-
-        SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
-        if (recentSearchPlace != null) {
-            binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
-            binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getOrder().getSchedule());
-
-        }
 
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
 
@@ -295,6 +274,29 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             binding.realtiveLayoutAddress.setVisibility(View.VISIBLE);
         }else {
             binding.realtiveLayoutAddress.setVisibility(View.GONE);
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String currentTime = sdf.format(new Date());
+
+        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+        if (isLivarsion) {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else if (isExporter) {
+            binding.tvDeliveryType.setText("A emporter");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        } else {
+            binding.tvDeliveryType.setText("Livraison");
+            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+        }
+
+        SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
+        if (recentSearchPlace != null) {
+            binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
+            binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getOrder().getSchedule());
+
         }
     }
 

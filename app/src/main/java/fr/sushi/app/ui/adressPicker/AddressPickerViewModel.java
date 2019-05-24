@@ -46,6 +46,8 @@ public class AddressPickerViewModel extends ViewModel {
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
+
+
     public void getStoreProducts(String storeId) {
         Repository.getStoreProducts(storeId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

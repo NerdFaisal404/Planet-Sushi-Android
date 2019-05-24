@@ -1,5 +1,6 @@
 package fr.sushi.app.ui.home.view;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import com.github.florent37.viewanimator.ViewAnimator;
 import com.google.gson.Gson;
 import com.ligl.android.widget.iosdialog.IOSDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +39,7 @@ import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
+import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FramentHomeBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
@@ -58,6 +61,7 @@ import fr.sushi.app.util.PicassoUtil;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
 import fr.sushi.app.util.Utils;
+import okhttp3.ResponseBody;
 
 public class HomeFragment extends BaseFragment {
     private Button buttonAddAddres;
@@ -502,9 +506,42 @@ public class HomeFragment extends BaseFragment {
             Intent intent = new Intent(getActivity(),
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-            startActivity(intent);
-            getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
+           // startActivity(intent);
+            // we are calling store address
+            DialogUtils.showDialog(getActivity());
+            mHomeViewModel.getStoreProducts(selectedOrder.getStoreId());
+            mHomeViewModel.getStoreProductLiveData().observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(@Nullable ResponseBody responseBody) {
+                    DialogUtils.hideDialog();
+                    try {
+                        String response = responseBody.string();
+                        JSONObject jsonObject = new JSONObject(response);
+                        boolean error = Boolean.parseBoolean(jsonObject.getString("error"));
+                        if (error == true) {
+                            DialogUtils.hideDialog();
+                            errorResponse = new Gson().fromJson(response.toString(), ErrorResponse.class);
+                            Utils.showAlert(getActivity(), "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                        } else {
+
+                            JSONArray productArray = jsonObject.getJSONArray("response");
+                            adjustItemList(productArray);
+
+                            startActivity(intent);
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
         });
+
 
         //Wheel time adapter
 
@@ -538,6 +575,37 @@ public class HomeFragment extends BaseFragment {
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();*/
 
+    }
+
+    private void adjustItemList(JSONArray itemArray) {
+        if (itemArray.length() > 0) {
+            List<CategoriesItem> categoryList = DataCacheUtil.getCategoryItemFromCache();
+            for (int i = 0; i < itemArray.length(); i++) {
+                try {
+                    JSONObject itemObj = itemArray.getJSONObject(i);
+                    String productId = itemObj.optString("id_product");
+                    String price = itemObj.optString("price_ttc");
+                    String activeDelivery = itemObj.optString("active_delivery");
+
+                    for (CategoriesItem categoriesItem : categoryList) {
+                        List<ProductsItem> productList = categoriesItem.getProducts();
+                        for (ProductsItem product : productList) {
+                            if (product.getIdProduct().equals(productId)) {
+                                product.setActiveDelivery(activeDelivery);
+                                product.setPriceTtc(price);
+
+                                break;
+                            }
+                        }
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
 

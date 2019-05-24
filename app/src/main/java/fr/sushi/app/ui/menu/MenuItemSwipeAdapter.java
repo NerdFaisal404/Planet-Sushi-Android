@@ -189,7 +189,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 itemName.setText(item.getName());
             }
 
-            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt())) + "€");
+            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");
             itemCount.setText(item.getNbrePiece() + " Pieces ");
 
             if (item.isSelected()) {
@@ -243,7 +243,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceHt());
+        totalPrice = Double.parseDouble(item.getPriceTtc());
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -267,14 +267,14 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 return;
             }
             count -= 1;
-            totalPrice -= Double.parseDouble(item.getPriceHt());
+            totalPrice -= Double.parseDouble(item.getPriceTtc());
             tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
             tvCount.setText(count + "");
         });
 
         ivPlus.setOnClickListener(v -> {
             count += 1;
-            totalPrice += Double.parseDouble(item.getPriceHt());
+            totalPrice += Double.parseDouble(item.getPriceTtc());
             tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
             tvCount.setText(count + "");
 
@@ -412,7 +412,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceHt());
+        totalPrice = Double.parseDouble(item.getPriceTtc());
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -440,7 +440,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                     return;
                 }
                 count -= 1;
-                totalPrice -= Double.parseDouble(item.getPriceHt());
+                totalPrice -= Double.parseDouble(item.getPriceTtc());
                 tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
                 tvCount.setText(count + "");
             }
@@ -448,8 +448,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ivPlus.setOnClickListener(v -> {
             count += 1;
-            totalPrice += Double.parseDouble(item.getPriceHt());
-            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            totalPrice += Double.parseDouble(item.getPriceTtc());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + ",00 €");
             tvCount.setText(count + "");
 
         });
