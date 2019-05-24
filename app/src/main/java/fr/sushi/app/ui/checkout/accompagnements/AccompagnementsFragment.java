@@ -85,8 +85,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
     private static AccompagnementsFragment accompagnementsFragment;
 
-    public static AccompagnementsFragment on(){
-        if(accompagnementsFragment == null){
+    public static AccompagnementsFragment on() {
+        if (accompagnementsFragment == null) {
             accompagnementsFragment = new AccompagnementsFragment();
         }
         return accompagnementsFragment;
@@ -592,12 +592,14 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
             sideProducts.add(sideProduct);
         }
 
-        for(FreeSaucesItem item : freeSaucesItemList){
+        for (FreeSaucesItem item : freeSaucesItemList) {
             sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            Log.d("Aziz_item", "sauce" + item.selectCount);
             sideProducts.add(sideProduct);
         }
-        for(FreeWasabiGingerItem item : freeWasbiItemClicList){
+        for (FreeWasabiGingerItem item : freeWasbiItemClicList) {
             sideProduct = new SideProduct(item.getIdProduct(), "" + item.selectCount);
+            Log.d("Aziz_item", "wasabi" + item.selectCount);
             sideProducts.add(sideProduct);
         }
         DataCacheUtil.addSideProducts(sideProducts);
