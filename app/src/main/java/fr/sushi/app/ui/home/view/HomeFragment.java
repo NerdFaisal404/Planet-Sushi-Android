@@ -117,20 +117,20 @@ public class HomeFragment extends BaseFragment {
             SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
 
 
-            if (recentSearchPlace != null) {
+            if (defaultSearchAddress != null) {
                 binding.addressOne.setVisibility(View.VISIBLE);
-                binding.recentAddrTv.setText(recentSearchPlace.getPostalCode() + " " + recentSearchPlace.getCity());
-                binding.tvAddresTwo.setText(recentSearchPlace.getAddress());
+                binding.recentAddrTv.setText(defaultSearchAddress.getPostalCode() + " " + defaultSearchAddress.getCity());
+                binding.tvAddresTwo.setText(defaultSearchAddress.getAddress());
 
             } else {
                 binding.addressOne.setVisibility(View.GONE);
                 binding.viewSingle.setVisibility(View.GONE);
             }
 
-            if (defaultSearchAddress != null) {
+            if (recentSearchPlace != null) {
                 binding.addressOneTwo.setVisibility(View.VISIBLE);
-                binding.recentAddrTvTwo.setText(defaultSearchAddress.getPostalCode() + " " + defaultSearchAddress.getCity());
-                binding.tvAddresTwoText.setText(defaultSearchAddress.getAddress());
+                binding.recentAddrTvTwo.setText(recentSearchPlace.getPostalCode() + " " + recentSearchPlace.getCity());
+                binding.tvAddresTwoText.setText(recentSearchPlace.getAddress());
                 if (recentSearchPlace != null) {
                     binding.viewSingle.setVisibility(View.VISIBLE);
                 } else {
@@ -142,6 +142,15 @@ public class HomeFragment extends BaseFragment {
                 binding.addressOneTwo.setVisibility(View.GONE);
             }
 
+            if (recentSearchPlace != null && defaultSearchAddress != null) {
+                if (recentSearchPlace.getAddress().equalsIgnoreCase(defaultSearchAddress.getAddress())) {
+                    binding.viewSingle.setVisibility(View.GONE);
+                    binding.addressOneTwo.setVisibility(View.GONE);
+                } else {
+                    binding.addressOneTwo.setVisibility(View.VISIBLE);
+                    binding.viewSingle.setVisibility(View.VISIBLE);
+                }
+            }
 
         } else {
             binding.layoutWithoutLogin.setVisibility(View.VISIBLE);
@@ -323,7 +332,7 @@ public class HomeFragment extends BaseFragment {
                                 DataCacheUtil.removeSideProducts();
                                 isDeafultAddressPress = true;
                                 DialogUtils.showDialog(getActivity());
-                                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+                                SearchPlace searchPlace = PlaceUtil.getDefaultSearchAddress();
                                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(),
                                         searchPlace.getCity(), searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
@@ -352,7 +361,7 @@ public class HomeFragment extends BaseFragment {
                                 DataCacheUtil.removeSideProducts();
                                 isDeafultAddressPress = false;
                                 DialogUtils.showDialog(getActivity());
-                                SearchPlace searchPlace = PlaceUtil.getDefaultSearchAddress();
+                                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
                                 currentSearchPlace = new SearchPlace(searchPlace.getPostalCode(), searchPlace.getCity(),
                                         searchPlace.getAddress(), searchPlace.getLat(), searchPlace.getLng());
                                 mHomeViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
@@ -506,7 +515,7 @@ public class HomeFragment extends BaseFragment {
             Intent intent = new Intent(getActivity(),
                     MenuDetailsActivity.class);
             intent.putExtra(SearchPlace.class.getName(), currentSearchPlace);
-           // startActivity(intent);
+            // startActivity(intent);
             // we are calling store address
             DialogUtils.showDialog(getActivity());
             mHomeViewModel.getStoreProducts(selectedOrder.getStoreId());

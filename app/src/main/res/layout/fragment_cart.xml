@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robot_regular"
-                android:text="GARANTIE"
+                android:text="GRATUITE"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPink"
                 android:textSize="@dimen/sp18" />
