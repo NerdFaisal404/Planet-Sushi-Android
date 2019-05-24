@@ -41,7 +41,9 @@ import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
+import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
+import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
 import fr.sushi.app.ui.checkout.model.payment_success.PaymentSuccessResponse;
@@ -60,6 +62,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
 
     private double totalPrice;
+    private int freeSaucesCount;
 
 
     private CheckoutViewModel checkoutViewModel;
@@ -126,6 +129,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             }
 
             public void onPageSelected(int position) {
+                if (position == 1) {
+                    AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(position);
+                    fragment.clearPreviousSelectedItem();
+                }
                 if (position == 2) {
                     binding.totalPriceTv.setVisibility(View.GONE);
                     binding.midline.setVisibility(View.GONE);
@@ -187,7 +194,12 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         });
 
+    }
 
+    private class PageListener extends ViewPager.SimpleOnPageChangeListener {
+        public void onPageSelected(int position) {
+
+        }
     }
 
 
@@ -472,11 +484,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+        this.freeSaucesCount = (int) totalPrice / 10;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
     }
 
     public void setPriceWithSideProducts(double priceSideProducts) {
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
+    }
+
+    public int getFreeSaucesCount() {
+        return freeSaucesCount;
     }
 
 

@@ -52,6 +52,9 @@ public class BaguettesAdapter extends BaseAdapter<ChopsticksItem> {
         @Override
         public void onClick(View v) {
             ChopsticksItem item = getItem(getAdapterPosition());
+            if(item.selectCount >= 10 && v.getId() == R.id.imgViewPlus){
+                return;
+            }
             if (v.getId() == R.id.imgViewPlus) {
                 item.selectCount += 1;
             } else {

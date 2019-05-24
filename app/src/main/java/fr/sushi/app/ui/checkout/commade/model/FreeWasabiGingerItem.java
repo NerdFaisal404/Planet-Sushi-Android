@@ -3,7 +3,7 @@ package fr.sushi.app.ui.checkout.commade.model;
 import com.google.gson.annotations.SerializedName;
 
 
-public class FreeWasabiGingerItem{
+public class FreeWasabiGingerItem extends Wasbi{
 
 	@SerializedName("active_sauce_picture")
 	private boolean activeSaucePicture;

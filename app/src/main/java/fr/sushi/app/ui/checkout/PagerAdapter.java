@@ -26,7 +26,7 @@ class PagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new CommadeFragment();
             case 1:
-                return new AccompagnementsFragment();
+                return AccompagnementsFragment.on();
             case 2:
                 return new PaiementFragment();
             default:
