@@ -4,13 +4,14 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom"
         android:background="@drawable/bg_home_image">
 
 
         <LinearLayout
+            android:layout_above="@+id/layoutAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:gravity="center"
             android:orientation="vertical"
            android:paddingTop="@dimen/dp50">
@@ -86,7 +87,7 @@
             android:layout_centerVertical="true" />
 
         <RelativeLayout
-
+            android:visibility="visible"
             android:id="@+id/layoutAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
