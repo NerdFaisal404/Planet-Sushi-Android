@@ -318,25 +318,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void showDialogSpecifyAmount() {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_specify_an_amount, null);
-
-        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
-        dialog.setContentView(bottomSheet);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        dialog.show();
-
-        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
-        tvClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.hideSoftKeyboard(getActivity());
-                dialog.dismiss();
-            }
-        });
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
