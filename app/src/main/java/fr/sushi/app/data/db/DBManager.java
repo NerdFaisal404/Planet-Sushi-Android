@@ -35,6 +35,7 @@ public class DBManager {
     }
 
     public void saveProductItem(ProductsItem item, int itemCount) {
+        removeProduct(item);
         for (int i = 0; i < itemCount; i++) {
             saveProductItem(item);
         }

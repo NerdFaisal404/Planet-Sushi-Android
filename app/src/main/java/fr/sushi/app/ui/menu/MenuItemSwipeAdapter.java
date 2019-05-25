@@ -321,7 +321,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private void isActiveCrossSelling(ProductsItem item) {
         Log.w("ProductIdList", "id: " + item.getIdProduct());
-        count = DBManager.on().getProductCountById(item.getIdProduct());;
+        count = DBManager.on().getProductCountById(item.getIdProduct());
+
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
 

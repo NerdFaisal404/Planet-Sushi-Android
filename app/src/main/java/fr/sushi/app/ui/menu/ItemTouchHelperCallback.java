@@ -22,8 +22,11 @@ public class ItemTouchHelperCallback extends ItemTouchHelperExtension.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        MenuItemSwipeAdapter adapter = (MenuItemSwipeAdapter) recyclerView.getAdapter();
-        adapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        RecyclerView.Adapter rvAdapter = recyclerView.getAdapter();
+        if(rvAdapter instanceof MenuItemSwipeAdapter) {
+            MenuItemSwipeAdapter adapter = (MenuItemSwipeAdapter) recyclerView.getAdapter();
+            adapter.move(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        }
         return true;
     }
 
