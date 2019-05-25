@@ -137,14 +137,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 if (position == 2) {
                     binding.totalPriceTv.setVisibility(View.GONE);
                     binding.midline.setVisibility(View.GONE);
-                    binding.tvSubmit.setGravity(Gravity.CENTER);
+                    binding.layoutSubmit.setGravity(Gravity.CENTER);
                     binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+                    binding.ivRightArrow.setPadding(100, 0, 0, 0);
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
                     binding.midline.setVisibility(View.VISIBLE);
-                    binding.tvSubmit.setVisibility(View.VISIBLE);
-                    binding.tvSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+                    binding.layoutSubmit.setVisibility(View.VISIBLE);
+                    binding.layoutSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     binding.tvSubmit.setText("CONTINUER");
+                    binding.ivRightArrow.setPadding(0, 0, 0, 0);
                 }
             }
         });
@@ -260,37 +262,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             return;
 
         }
-
-
-       /* if selectedDate == nil {
-            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un jour", controller: self.topViewController)
-            return nil
-        }else if selectedTime == nil {
-            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un horaire", controller: self.topViewController)
-            return nil
-        }else if selectedStoreId == nil {
-            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir un restaurant", controller: self.topViewController)
-            return nil
-        }else if defaultDeliveryAddress == nil {
-            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Veuillez choisir une adresse", controller: self.topViewController)
-            return nil
-        }else if selectedDeliveryZoneId == nil {
-            DVAlertViewController.showCommonAlert(title: "Alert!", message: "Adresse de livraison non disponible", controller: self.topViewController)
-            return nil
-        }
-
-        if let defaultAddress = realm.objects(MyAddress.self).first(where: { $0.address == defaultDeliveryAddress?.address }) {
-
-            if defaultAddress.city == defaultDeliveryAddress?.city && defaultAddress.postcode == defaultDeliveryAddress?.postcode {
-                address_id = defaultAddress.address_id
-            }
-        }
-
-        if address_id == nil && orderType == .delivery {
-            updateCustomerAddress(defaultDeliveryAddress!)
-            return nil
-        }
-*/
 
 
         DialogUtils.showDialog(this);
@@ -461,7 +432,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         Intent intent = new Intent(new Intent(this, PaymentSuccssActivity.class));
                         intent.putExtra(IntentKey.KEY_ORDER_ID, idOrder);
                         startActivity(intent);
-
+                        isAdyenSelected = true;
+                        isCashPayment = false;
+                        isDeliveryPayment = false;
                         finish();
                     }
                 } catch (JSONException e) {
@@ -514,9 +487,15 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         if (minimumPrice < 25) {
             binding.layoutBottomCheckout.setEnabled(false);
             binding.layoutBottomCheckout.setClickable(false);
+            binding.tvStepOne.setClickable(false);
+            binding.tvStepTwo.setClickable(false);
+            binding.tvStepThree.setClickable(false);
         } else {
             binding.layoutBottomCheckout.setEnabled(true);
             binding.layoutBottomCheckout.setClickable(true);
+            binding.tvStepOne.setClickable(true);
+            binding.tvStepTwo.setClickable(true);
+            binding.tvStepThree.setClickable(true);
         }
     }
 

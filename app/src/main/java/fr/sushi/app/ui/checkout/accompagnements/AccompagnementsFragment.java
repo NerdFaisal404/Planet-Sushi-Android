@@ -156,6 +156,36 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         binding.tvSubtitle.setText(Html.fromHtml(subTitle), TextView.BufferType.SPANNABLE);
         recycler_view_accompagnements = view.findViewById(R.id.recycler_view_accompagnements);
 
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
 
     }
 

@@ -96,7 +96,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     if (error == true) {
                         DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(getActivity(), "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
 
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
@@ -246,7 +246,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
                     }
 
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + ",00 €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
                 }
             });
             tvOk.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +264,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
                     PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + ",00 €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + " €");
                 }
             });
 
@@ -282,6 +282,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 PaymentMethodCheckoutActivity.isAdyenSelected = false;
                 PaymentMethodCheckoutActivity.isCashPayment = false;
                 PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
+
             }
         });
 
@@ -345,7 +347,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-
         SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
         if (latestSearchPlace != null) {
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
@@ -442,12 +443,19 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             } else {
                 currentSearchPlace.setType("Livraison");
             }
-            onResume();
+
+                if (!TextUtils.isEmpty(selectedOrder.getSchedule())) {
+                    String time = selectedOrder.getSchedule().replace(":", "h");
+                    binding.tvTime.setText(time);
+                }
+
         });
 
         //Wheel time adapter
 
-        timeRv.setPadding(padding, 0, padding, 0);
+        int wheelPaddingRight = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 15);
+        int wheelPaddingLeft = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 20);
+        timeRv.setPadding(wheelPaddingLeft, 0, wheelPaddingRight, 0);
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
 
         List<Order> timeList = scheduleOrderMap.get(data.get(0));

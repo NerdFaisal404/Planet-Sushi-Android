@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp50"
+            android:layout_marginTop="@dimen/dp60"
             android:padding="@dimen/dp5"
             android:src="@drawable/ic_darker_gray_arrow"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,12 +23,13 @@
             android:id="@+id/text_view_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="Programe fidélité"
             android:textColor="@color/colorDarkBlue"
             android:textSize="16sp"
-            android:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_view_back"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_view_back" />
 
         <android.support.v4.view.ViewPager

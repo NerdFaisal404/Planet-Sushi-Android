@@ -360,27 +360,6 @@ public class Utils {
     }
 
     public static void showAlert(Context context, String title, String content) {
-       /* AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        TextView textView = new TextView(context);
-        textView.setText(title);
-        textView.setTextColor(Color.BLACK);
-        textView.setTextSize(18);
-        textView.setPadding(16, 16, 16, 16);
-        textView.setGravity(Gravity.CENTER);
-        alertDialogBuilder.setCustomTitle(textView);
-        alertDialogBuilder.setMessage(content);
-        alertDialogBuilder.setPositiveButton("D'accord",
-                (dialogInterface, arg1) -> dialogInterface.dismiss());
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
-        final Button positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        positiveButton.setTextColor(Color.BLUE);
-        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-        positiveButtonLL.gravity = Gravity.CENTER;
-        positiveButton.setLayoutParams(positiveButtonLL);*/
 
         new IOSDialog.Builder(context)
                 .setTitle(title)
