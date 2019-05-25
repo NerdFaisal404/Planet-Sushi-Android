@@ -139,14 +139,14 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.midline.setVisibility(View.GONE);
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
                     binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
-                    binding.ivRightArrow.setPadding(100,0,0,0);
+                    binding.ivRightArrow.setPadding(100, 0, 0, 0);
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
                     binding.midline.setVisibility(View.VISIBLE);
                     binding.layoutSubmit.setVisibility(View.VISIBLE);
                     binding.layoutSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     binding.tvSubmit.setText("CONTINUER");
-                    binding.ivRightArrow.setPadding(0,0,0,0);
+                    binding.ivRightArrow.setPadding(0, 0, 0, 0);
                 }
             }
         });
@@ -262,7 +262,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             return;
 
         }
-
 
 
         DialogUtils.showDialog(this);
@@ -433,7 +432,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         Intent intent = new Intent(new Intent(this, PaymentSuccssActivity.class));
                         intent.putExtra(IntentKey.KEY_ORDER_ID, idOrder);
                         startActivity(intent);
-
+                        isAdyenSelected = true;
+                        isCashPayment = false;
+                        isDeliveryPayment = false;
                         finish();
                     }
                 } catch (JSONException e) {
