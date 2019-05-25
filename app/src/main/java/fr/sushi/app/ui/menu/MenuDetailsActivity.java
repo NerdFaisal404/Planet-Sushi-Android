@@ -350,6 +350,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         @Override
         public void onRefreshBottomView() {
             showBottomView();
+            List<MyCartProduct> myCartProducts = DBManager.on().getAllProducts();
+            menuItemSwipeAdapter.setSelected(myCartProducts);
         }
     };
 
