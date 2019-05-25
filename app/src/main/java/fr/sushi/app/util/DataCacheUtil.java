@@ -5,10 +5,13 @@ import java.util.List;
 
 import fr.sushi.app.data.model.food_menu.CategoriesItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 
 public class DataCacheUtil {
     private static List<CategoriesItem> categoriesItemList = new ArrayList<>();
     private static List<SideProduct> sideProductList = new ArrayList<>();
+
+    private static RestuarentsResponse restuarentsResponses;
 
     public static void addCategoryItemInCache(List<CategoriesItem> items){
         categoriesItemList.clear();
@@ -37,5 +40,14 @@ public class DataCacheUtil {
 
     public static void removeSideProducts(){
         sideProductList.clear();
+    }
+
+    public static void setRestuarentsResponses(RestuarentsResponse responses){
+
+        restuarentsResponses = responses;
+    }
+
+    public static RestuarentsResponse getRestuarentsResponses(){
+        return restuarentsResponses;
     }
 }

@@ -205,6 +205,7 @@ public class HomeFragment extends BaseFragment {
 
         mHomeViewModel.getRestuarentListMutableLiveData().observe(this, restuarentsResponse -> {
             this.restuarentsResponse = restuarentsResponse;
+            DataCacheUtil.setRestuarentsResponses(restuarentsResponse);
             //Log.e("Configdata", "config =" + restuarentsResponse.getResponse().size());
         });
 
