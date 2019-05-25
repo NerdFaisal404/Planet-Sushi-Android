@@ -16,6 +16,8 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
+import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -62,7 +64,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     public void onResume() {
         super.onResume();
         int minimumPrice = (int) this.totalPrice;
-        if (minimumPrice < 25) {
+        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
             binding.tvMinAmount.setVisibility(View.VISIBLE);
         } else {
             binding.tvMinAmount.setVisibility(View.GONE);

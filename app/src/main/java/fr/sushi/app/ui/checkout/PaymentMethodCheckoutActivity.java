@@ -213,7 +213,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         int minimumPrice = (int) this.totalPrice;
-        if (minimumPrice < 25) {
+        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
             binding.layoutBottomCheckout.setEnabled(false);
             binding.layoutBottomCheckout.setClickable(false);
         } else {
@@ -484,7 +484,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         this.freeSaucesCount = (int) totalPrice / 10;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
         int minimumPrice = (int) this.totalPrice;
-        if (minimumPrice < 25) {
+        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
             binding.layoutBottomCheckout.setEnabled(false);
             binding.layoutBottomCheckout.setClickable(false);
             binding.tvStepOne.setClickable(false);
