@@ -51,6 +51,8 @@ import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
+import fr.sushi.app.data.model.restuarents.ResponseItem;
+import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
 import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
@@ -60,6 +62,7 @@ import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.profileaddress.AddressAddActivity;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
@@ -180,6 +183,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
         binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE, ""));
+
 
         return view;
     }
@@ -318,25 +322,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-    private void showDialogSpecifyAmount() {
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_specify_an_amount, null);
-
-        dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
-        dialog.setContentView(bottomSheet);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        dialog.show();
-
-        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
-        tvClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.hideSoftKeyboard(getActivity());
-                dialog.dismiss();
-            }
-        });
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -413,10 +398,10 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
                 }
 
-                if (!TextUtils.isEmpty(fullText)){
+                if (!TextUtils.isEmpty(fullText)) {
                     binding.tvAddressHouse.setText(fullText);
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#394F61"));
-                }else {
+                } else {
                     binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
                 }
@@ -431,17 +416,33 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
         }
 
-        if (SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED,false)){
+        if (SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
             binding.tvAddressTitle.setText("Retrait");
-            binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
+            binding.tvAddressHouse.setTextColor(Color.parseColor("#394F61"));
             binding.layoutFullAddres.setClickable(false);
             binding.layoutFullAddres.setEnabled(false);
-        }else {
+            RestuarentsResponse restuarentsResponse = DataCacheUtil.getRestuarentsResponses();
+
+            if (restuarentsResponse != null & restuarentsResponse.getResponse() != null) {
+                List<ResponseItem> response = restuarentsResponse.getResponse();
+                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+                for (ResponseItem responseItem : response) {
+                    if (searchPlace != null) {
+                        if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
+                            binding.tvAddressHouse.setText(responseItem.getName());
+                        }
+                    }
+                }
+            }
+
+        } else {
             binding.tvAddressTitle.setText("Informations de livraison");
             binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
             binding.layoutFullAddres.setClickable(true);
             binding.layoutFullAddres.setEnabled(true);
         }
+
+
 
     }
 
