@@ -265,7 +265,9 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     protected void onResume() {
         super.onResume();
         List<MyCartProduct> myCartProducts = DBManager.on().getAllProducts();
-        menuItemSwipeAdapter.setSelected(myCartProducts);
+        if(menuItemSwipeAdapter != null) {
+            menuItemSwipeAdapter.setSelected(myCartProducts);
+        }
 
         showBottomView();
 

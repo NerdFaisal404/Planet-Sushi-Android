@@ -87,6 +87,9 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         //selectedProducts = MenuPrefUtil.getSaveItems();
         selectedProducts = DBManager.on().getAllProducts();
+        if(selectedProducts.isEmpty()) {
+            getActivity().finish();
+        }
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
 
@@ -137,5 +140,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         if (selectedProducts.size() == 0) {
             getActivity().finish();
         }
+    }
+
+    @Override
+    public void onRefreshUi() {
+        initView();
     }
 }

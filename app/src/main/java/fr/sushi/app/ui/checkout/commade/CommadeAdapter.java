@@ -5,9 +5,11 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +20,23 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
+import fr.sushi.app.data.local.helper.CommonUtility;
+import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
+import fr.sushi.app.data.model.food_menu.CrossSellingItem;
+import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.RecyclerSectionItemDecoration;
+import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
+import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -32,6 +44,7 @@ import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public interface Listener {
         void onItemDeselect(MyCartProduct item, int index);
+        void onRefreshUi();
     }
 
     private Context mContext;
@@ -101,9 +114,16 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.mViewContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showBottomSheet(item);
+                ProductsItem productsItem = DataCacheUtil.getProductItems(item);
+                if(productsItem == null) return;
+                if (productsItem.getActiveCrossSelling() == 1) {
+                    isActiveCrossSelling(productsItem);
+                } else {
+                    showBottomSheet(productsItem);
+                }
             }
         });
+
         holder.bind(item);
     }
 
@@ -195,9 +215,8 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-/*
     private void showBottomSheet(ProductsItem item) {
-        count = 1;
+        count = DBManager.on().getProductCountById(item.getIdProduct());
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_item_details, null);
 
@@ -215,10 +234,11 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
-
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceHt());
+        tvCount.setText(String.valueOf(count));
+
+        totalPrice = Double.parseDouble(item.getPriceTtc());
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -236,15 +256,185 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvTitle.setText(item.getName());
         }
 
+        ivMinus.setOnClickListener(v -> {
+            if (count == 0) {
+                tvCount.setText(count + "");
+                return;
+            }
+            count -= 1;
+            totalPrice -= Double.parseDouble(item.getPriceTtc());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            tvCount.setText(count + "");
+        });
+
+        ivPlus.setOnClickListener(v -> {
+            count += 1;
+            totalPrice += Double.parseDouble(item.getPriceTtc());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            tvCount.setText(count + "");
+
+        });
+
+        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
+
+
+        ivDownArrow.setOnClickListener(v -> dialog.dismiss());
+        adjustLayout.setOnClickListener(v -> {
+            DBManager.on().saveProductItem(item, count);
+            itemClickListener.onRefreshUi();
+            dialog.dismiss();
+        });
+
+        Picasso.get().load(item.getPictureUrl()).into(ivItem);
+
+    }
+
+    private void isActiveCrossSelling(ProductsItem item) {
+        Log.w("ProductIdList", "id: " + item.getIdProduct());
+        count = DBManager.on().getProductCountById(item.getIdProduct());
+
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
+
+        BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
+        crossSellingBottomSheet.setContentView(bottomSheet);
+        crossSellingBottomSheet.setCanceledOnTouchOutside(true);
+        crossSellingBottomSheet.show();
+
+        TextView tvTitle = bottomSheet.findViewById(R.id.tvItemName);
+        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
+        TextView tvCount = bottomSheet.findViewById(R.id.tvCount);
+        ImageView ivMinus = bottomSheet.findViewById(R.id.ivMinus);
+        ImageView ivPlus = bottomSheet.findViewById(R.id.ivPlus);
+        TextView tvPrice = bottomSheet.findViewById(R.id.tvPrice);
+        ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
+        LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
+        TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
+        tvCount.setText(String.valueOf(count));
+        // Cross selling part
+
+        List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();
+        Map<String, String> crossSellingItemRequiredList = new HashMap<>();
+
+        boolean isItemRequired = false;
+        int requireCount = 0;
+        final int[] tempRequireCount = {0};
+
+        if (CommonUtility.currentMenuResponse != null) {
+            List<CrossSellingCategoriesItem> crossSellingCategories = CommonUtility.currentMenuResponse.getResponse().getCrossSellingCategories();
+            Log.d("CrossCategoryTest", "Cross list" + crossSellingCategories.size());
+            for (CrossSellingCategoriesItem categoriesItem : crossSellingCategories) {
+                for (CrossSellingItem crossSellingItem : item.getCrossSelling()) {
+                    for (CrossSellingProductsItem product : categoriesItem.getProducts()) {
+                        if (product.getIdCategory().equals(String.valueOf(crossSellingItem.getIdCategory()))) {
+                            product.setItemClickCount(0);
+                            product.setMaxCount(crossSellingItem.getQuantityMax());
+                            product.setFree(crossSellingItem.getIsFree() == 1);
+                            product.setRequired(crossSellingItem.getIsRequired() == 1);
+
+                            if (product.isRequired()) {
+                                crossSellingItemRequiredList.put(product.getCategoryName(), String.valueOf(product.getMaxCount()));
+                            }
+                            Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
+                            if (!isItemRequired) {
+                                isItemRequired = product.isRequired();
+                            }
+                            product.setCategoryName(crossSellingItem.getCategoryName());
+                            product.setDescription(crossSellingItem.getDescription());
+                            crossSellingProductsItemList.add(product);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (String key : crossSellingItemRequiredList.keySet()) {
+            String a = crossSellingItemRequiredList.get(key);
+            int b = a == null ? 0 : Integer.parseInt(a);
+            requireCount += b;
+        }
+
+        if (isItemRequired) {
+            // Button will be disable
+            adjustLayout.setEnabled(false);
+        } else {
+            //button will be enable
+            adjustLayout.setEnabled(true);
+        }
+
+        List<CrossSellingSelectedItem> selectedItemList = DBManager.on().getCrossSellingItemById(item.getIdProduct());
+
+        if (selectedItemList != null && !selectedItemList.isEmpty()) {
+            for (CrossSellingSelectedItem selectedItem : selectedItemList) {
+                for (CrossSellingProductsItem productsItem : crossSellingProductsItemList) {
+                    if (selectedItem.getProductId().equals(productsItem.getIdProduct())) {
+                        productsItem.setItemClickCount(selectedItem.getProductCount());
+                    }
+                }
+
+            }
+        }
+
+        CrossSellingAdapter crossAdapter = new CrossSellingAdapter(crossSellingItemRequiredList);
+
+        RecyclerView recyclerView = bottomSheet.findViewById(R.id.rc_cross_selling);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        crossAdapter.clear();
+        crossAdapter.addItems(crossSellingProductsItemList);
+
+        recyclerView.setAdapter(crossAdapter);
+        RecyclerSectionItemDecoration sectionItemDecoration;
+        sectionItemDecoration =
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp10),
+                        true,
+                        getSectionCallback(crossSellingProductsItemList));
+
+        recyclerView.addItemDecoration(sectionItemDecoration);
+        int finalRequireCount = requireCount;
+        crossAdapter.setItemCountListener((item1, count) -> {
+            tempRequireCount[0] += count;
+            if (tempRequireCount[0] == finalRequireCount) {
+                adjustLayout.setEnabled(true);
+            } else {
+                adjustLayout.setEnabled(false);
+            }
+        });
+
+
+        // Cross part end
+
+        String[] title = item.getName().split("\\s");
+
+        totalPrice = Double.parseDouble(item.getPriceTtc());
+        tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+
+        if (title.length > 0) {
+
+            for (int i = 0; i < title.length; i++) {
+                if (i == 0) {
+                    tvTitle.append(Utils.getColoredString(title[i], ContextCompat.getColor(mContext, R.color.color_darker_gray)));
+                } else {
+                    tvTitle.append(Utils.getColoredString(title[i], ContextCompat.getColor(mContext, R.color.colorPink)));
+
+                }
+            }
+
+        } else {
+            tvTitle.setText(item.getName());
+        }
+
+        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
+
         ivMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (count == 1) {
+                if (count == 0) {
                     tvCount.setText(count + "");
                     return;
                 }
                 count -= 1;
-                totalPrice -= Double.parseDouble(item.getPriceHt());
+                totalPrice -= Double.parseDouble(item.getPriceTtc());
                 tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
                 tvCount.setText(count + "");
             }
@@ -252,17 +442,74 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ivPlus.setOnClickListener(v -> {
             count += 1;
-            totalPrice += Double.parseDouble(item.getPriceHt());
-            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            totalPrice += Double.parseDouble(item.getPriceTtc());
+            tvPrice.setText(Utils.getDecimalFormat(totalPrice) + ",00 €");
             tvCount.setText(count + "");
+
         });
 
-        tvTagList.setText(Html.fromHtml(item.getDescriptionShort()));
 
+        tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
+        adjustLayout.setOnClickListener(v -> {
+            // What is this
+            DBManager.on().saveProductItem(item, count);
 
-        ivDownArrow.setOnClickListener(v -> dialog.dismiss());
-        adjustLayout.setOnClickListener(v -> dialog.dismiss());
+            if (!crossAdapter.selectedItemList.isEmpty()) {
+                DBManager.on().deleteSelectedItemById(item.getIdProduct());
+                for (CrossSellingProductsItem productsItem : crossAdapter.selectedItemList) {
+                    DBManager.on().insertCrossSellingSelectedItem(item.getIdProduct(), productsItem);
+                }
+                crossAdapter.selectedItemList.clear();
+                Log.i("CrossCategoryTest", "selected list size: " + crossAdapter.selectedItemList.size());
+                // here we can add price
+                crossAdapter.selectedItemList.clear();
+            }
+            itemClickListener.onRefreshUi();
+            crossSellingBottomSheet.dismiss();
+        });
+
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
-    }*/
 
+    }
+
+    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<CrossSellingProductsItem> item) {
+
+        return new RecyclerSectionItemDecoration.SectionCallback() {
+            @Override
+            public boolean isSection(int position) {
+                if (item.size() > 0) {
+                    if (position >= 0) {
+                        return position == 0
+                                || !item.get(position)
+                                .getCategoryName().equals(item.get(position - 1)
+                                        .getCategoryName());
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public String getSectionHeader(int position) {
+                if (position >= 0) {
+                    return item.get(position)
+                            .getCategoryName();
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public String getSectionSubHeader(int position) {
+                if (position >= 0) {
+                    return item.get(position)
+                            .getDescription();
+                } else {
+                    return "";
+                }
+            }
+        };
+    }
 }
