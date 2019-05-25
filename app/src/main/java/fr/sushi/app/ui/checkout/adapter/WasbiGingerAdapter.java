@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
@@ -20,6 +22,7 @@ import fr.sushi.app.ui.checkout.commade.model.Sauces;
 import fr.sushi.app.ui.checkout.commade.model.Wasbi;
 
 public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
+    private Map<Integer, Integer> selectCountMap = new HashMap<>();
     private Context context;
     private int FREE_ITEM =0;
     private int PAID_ITEM = 1;
@@ -71,7 +74,12 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            binding.tvCount.setText(String.valueOf(item.selectCount));
+            Integer value = selectCountMap.get(getAdapterPosition());
+            if(value == null){
+                binding.tvCount.setText(String.valueOf(0));
+            }else {
+                binding.tvCount.setText(String.valueOf(value));
+            }
         }
 
         @Override
@@ -80,6 +88,18 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
                 return;
             }
+            Integer value = selectCountMap.get(getAdapterPosition());
+
+            if (v.getId() == R.id.imgViewPlus) {
+                if (value == null) {
+                    selectCountMap.put(getAdapterPosition(), 1);
+                } else {
+                    selectCountMap.put(getAdapterPosition(), value + 1);
+                }
+            }else {
+                selectCountMap.put(getAdapterPosition(), value - 1);
+            }
+
             if (mItemClickListener != null)
                 mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }
@@ -99,7 +119,12 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            binding.tvCount.setText(String.valueOf(item.selectCount));
+            Integer value = selectCountMap.get(getAdapterPosition());
+            if(value == null){
+                binding.tvCount.setText(String.valueOf(0));
+            }else {
+                binding.tvCount.setText(String.valueOf(value));
+            }
         }
 
         @Override
@@ -108,6 +133,18 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
                 return;
             }
+            Integer value = selectCountMap.get(getAdapterPosition());
+
+            if (v.getId() == R.id.imgViewPlus) {
+                if (value == null) {
+                    selectCountMap.put(getAdapterPosition(), 1);
+                } else {
+                    selectCountMap.put(getAdapterPosition(), value + 1);
+                }
+            }else {
+                selectCountMap.put(getAdapterPosition(), value - 1);
+            }
+
             if (mItemClickListener != null)
                 mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }

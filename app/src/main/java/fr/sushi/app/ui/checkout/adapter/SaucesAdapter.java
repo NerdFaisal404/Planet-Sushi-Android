@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
@@ -20,7 +22,9 @@ import fr.sushi.app.ui.checkout.commade.model.Sauces;
 public class SaucesAdapter extends BaseAdapter<Sauces> {
     private Context context;
 
-    private int FREE_ITEM =0;
+    private Map<Integer, Integer> selectCountMap = new HashMap<>();
+
+    private int FREE_ITEM = 0;
     private int PAID_ITEM = 1;
 
     public SaucesAdapter(Context context) {
@@ -36,9 +40,9 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
     @Override
     public int getItemViewType(int position) {
         Sauces item = getItem(position);
-        if(item instanceof FreeSaucesItem){
+        if (item instanceof FreeSaucesItem) {
             return FREE_ITEM;
-        }else {
+        } else {
             return PAID_ITEM;
         }
     }
@@ -46,7 +50,7 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
     @Override
     public BaseViewHolder newViewHolder(ViewGroup parent, int viewType) {
         ViewDataBinding binding = inflate(parent, R.layout.list_each_row_accompagnemennts);
-        if(viewType == FREE_ITEM){
+        if (viewType == FREE_ITEM) {
             return new FreeItemViewHolder(binding);
         }
         return new PaidItemViewHolder(binding);
@@ -71,15 +75,34 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            binding.tvCount.setText(String.valueOf(item.selectCount));
+
+            Integer value = selectCountMap.get(getAdapterPosition());
+            if(value == null){
+                binding.tvCount.setText(String.valueOf(0));
+            }else {
+                binding.tvCount.setText(String.valueOf(value));
+            }
+
         }
 
         @Override
         public void onClick(View v) {
             Sauces item = getItem(getAdapterPosition());
-            if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
+            if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
                 return;
             }
+            Integer value = selectCountMap.get(getAdapterPosition());
+
+            if (v.getId() == R.id.imgViewPlus) {
+                if (value == null) {
+                    selectCountMap.put(getAdapterPosition(), 1);
+                } else {
+                    selectCountMap.put(getAdapterPosition(), value + 1);
+                }
+            }else {
+                selectCountMap.put(getAdapterPosition(), value - 1);
+            }
+
             if (mItemClickListener != null)
                 mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }
@@ -99,15 +122,33 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            binding.tvCount.setText(String.valueOf(item.selectCount));
+
+            Integer value = selectCountMap.get(getAdapterPosition());
+            if(value == null){
+                binding.tvCount.setText(String.valueOf(0));
+            }else {
+                binding.tvCount.setText(String.valueOf(value));
+            }
         }
 
         @Override
         public void onClick(View v) {
             Sauces item = getItem(getAdapterPosition());
-            if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
+            if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
                 return;
             }
+            Integer value = selectCountMap.get(getAdapterPosition());
+
+            if (v.getId() == R.id.imgViewPlus) {
+                if (value == null) {
+                    selectCountMap.put(getAdapterPosition(), 1);
+                } else {
+                    selectCountMap.put(getAdapterPosition(), value + 1);
+                }
+            }else {
+                selectCountMap.put(getAdapterPosition(), value - 1);
+            }
+
             if (mItemClickListener != null)
                 mItemClickListener.onItemClick(v, item, getAdapterPosition());
         }
