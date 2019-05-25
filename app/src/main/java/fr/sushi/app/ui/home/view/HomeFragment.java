@@ -553,8 +553,9 @@ public class HomeFragment extends BaseFragment {
 
 
         //Wheel time adapter
-
-        timeRv.setPadding(padding, 0, padding, 0);
+        int wheelPaddingRight = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 15);
+        int wheelPaddingLeft = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 20);
+        timeRv.setPadding(wheelPaddingLeft, 0, wheelPaddingRight, 0);
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
 
         List<Order> timeList = scheduleOrderMap.get(data.get(0));

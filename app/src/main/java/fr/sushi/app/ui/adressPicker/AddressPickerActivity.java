@@ -626,8 +626,12 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
         //Wheel time adapter
 
-        timeRv.setPadding(padding, 0, padding, 0);
+        //Wheel time adapter
+        int wheelPaddingRight = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 15);
+        int wheelPaddingLeft = ScreenUtil.getScreenWidth(this) / 2 - ScreenUtil.dpToPx(this, 20);
+        timeRv.setPadding(wheelPaddingLeft, 0, wheelPaddingRight, 0);
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(this);
+
 
         List<Order> timeList = scheduleOrderMap.get(data.get(0));
         selectedOrder = timeList.get(0);
