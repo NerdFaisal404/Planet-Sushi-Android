@@ -284,10 +284,10 @@
 
                 <ImageView
                     android:id="@+id/ivCart"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp10"
-                    android:padding="@dimen/dp8"
+                   android:layout_centerVertical="true"
                     android:src="@drawable/ic_card_planet" />
 
                 <TextView
@@ -327,10 +327,10 @@
 
                 <ImageView
                     android:id="@+id/ivLivarsion"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp10"
-                    android:padding="@dimen/dp8"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_scooter" />
 
                 <TextView
@@ -369,10 +369,10 @@
 
                 <ImageView
                     android:id="@+id/ivResuarent"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/dp10"
-                    android:padding="@dimen/dp8"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_cash_payment" />
 
                 <TextView

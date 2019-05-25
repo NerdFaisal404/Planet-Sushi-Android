@@ -167,13 +167,6 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
             }
 
-            if (isExporter) {
-                SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
-                SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
-            }else {
-                SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
-                SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
-            }
 
             if (addressAdapter != null && isExporter) {
                 Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
@@ -212,6 +205,15 @@ public class AddressPickerActivity extends AppCompatActivity implements
                         Utils.showAlert(this, "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
 
                     } else {
+
+                        if (isExporter) {
+                            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+                            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+                        }else {
+                            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+                            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+                        }
+
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
                         prepareDataForBottomSheet();

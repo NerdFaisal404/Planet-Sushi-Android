@@ -60,5 +60,6 @@
     <dimen name="dp11">11dp</dimen>
     <dimen name="sp11">11sp</dimen>
     <dimen name="dp25">25dp</dimen>
+    <dimen name="dp33">33dp</dimen>
 
 </resources>
