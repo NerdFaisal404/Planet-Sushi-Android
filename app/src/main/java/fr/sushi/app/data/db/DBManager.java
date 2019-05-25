@@ -40,6 +40,17 @@ public class DBManager {
         }
     }
 
+    public int getProductCountById(String productId){
+        MyCartProduct myCartProduct = productBox.query()
+                .equal(MyCartProduct_.productId, productId)
+                .build()
+                .findFirst();
+        if(myCartProduct == null){
+            return 1;
+        }
+        return myCartProduct.getItemCount();
+    }
+
     public void saveProductItem(ProductsItem productsItem) {
         MyCartProduct myCartProduct = buildMyCartProduct(productsItem);
 

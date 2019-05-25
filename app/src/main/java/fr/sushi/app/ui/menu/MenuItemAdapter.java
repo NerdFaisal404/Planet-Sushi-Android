@@ -25,6 +25,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.databinding.AdapterItemsChildBinding;
 import fr.sushi.app.util.PicassoUtil;
@@ -139,7 +140,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void showBottomSheet(ProductsItem item) {
-        count = 1;
+        count = DBManager.on().getProductCountById(item.getIdProduct());
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_item_details, null);
 
