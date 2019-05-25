@@ -20,6 +20,8 @@ import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.databinding.FragmentCommadeBinding;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
@@ -63,9 +65,17 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     @Override
     public void onResume() {
         super.onResume();
-        int minimumPrice = (int) this.totalPrice;
-        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
-            binding.tvMinAmount.setVisibility(View.VISIBLE);
+        SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+        if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
+            int minimumPrice = (int) this.totalPrice;
+            int minimuOrderAmount = Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
+
+            if (minimumPrice < minimuOrderAmount) {
+                binding.tvMinAmount.setVisibility(View.VISIBLE);
+                binding.tvMinAmount.setText("Le minimum de commande pour cette adresse est de " + minimuOrderAmount +" €");
+            } else {
+                binding.tvMinAmount.setVisibility(View.GONE);
+            }
         } else {
             binding.tvMinAmount.setVisibility(View.GONE);
         }

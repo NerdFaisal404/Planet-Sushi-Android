@@ -80,6 +80,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     String idAddress = null;
     private ProfileAddressModel model;
     private String adyenPayload = "false";
+    private int minimuOrderAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,14 +213,24 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        int minimumPrice = (int) this.totalPrice;
-        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
-            binding.layoutBottomCheckout.setEnabled(false);
-            binding.layoutBottomCheckout.setClickable(false);
-        } else {
+
+        SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+        if (searchPlace!=null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)){
+            int minimumPrice = (int) this.totalPrice;
+            minimuOrderAmount= Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
+            if (minimumPrice < minimuOrderAmount) {
+                binding.layoutBottomCheckout.setEnabled(false);
+                binding.layoutBottomCheckout.setClickable(false);
+            } else {
+                binding.layoutBottomCheckout.setEnabled(true);
+                binding.layoutBottomCheckout.setClickable(true);
+            }
+        }else {
             binding.layoutBottomCheckout.setEnabled(true);
             binding.layoutBottomCheckout.setClickable(true);
         }
+
+
     }
 
     private void sendPayment() {
@@ -484,7 +495,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         this.freeSaucesCount = (int) totalPrice / 10;
         binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
         int minimumPrice = (int) this.totalPrice;
-        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < 25) {
+        if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {
             binding.layoutBottomCheckout.setEnabled(false);
             binding.layoutBottomCheckout.setClickable(false);
             binding.tvStepOne.setClickable(false);

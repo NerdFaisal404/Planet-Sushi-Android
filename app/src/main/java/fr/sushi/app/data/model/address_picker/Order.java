@@ -23,6 +23,9 @@ public class Order implements Serializable {
     @SerializedName("order_date")
     private String orderData;
 
+    @SerializedName("minimum_order_amount")
+    private String minimumOrderAmount;
+
     public String getSchedule() {
         return schedule;
     }
@@ -69,5 +72,13 @@ public class Order implements Serializable {
 
     public void setOrderData(String orderData) {
         this.orderData = orderData;
+    }
+
+    public String getMinimumOrderAmount() {
+        return minimumOrderAmount;
+    }
+
+    public void setMinimumOrderAmount(String minimumOrderAmount) {
+        this.minimumOrderAmount = minimumOrderAmount;
     }
 }
