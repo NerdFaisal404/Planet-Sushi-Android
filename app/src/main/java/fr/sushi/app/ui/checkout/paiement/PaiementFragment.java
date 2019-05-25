@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
@@ -44,7 +45,9 @@ import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
+import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
@@ -56,6 +59,7 @@ import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.profileaddress.AddressAddActivity;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
@@ -140,10 +144,34 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             mapFragment.getMapAsync(this);
         }
 
-        binding.addressView.setOnClickListener(new View.OnClickListener() {
+        binding.layoutFullAddres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddressPickerActivity.class));
+                SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+                SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
+                ProfileAddressModel model = new ProfileAddressModel();
+                if (latestSearchPlace != null && defaultSearchAddress != null) {
+                    if (latestSearchPlace.getAddress().equalsIgnoreCase(defaultSearchAddress.getAddress())) {
+                        model.setLocation(defaultSearchAddress.getAddress());
+                        model.setCity(defaultSearchAddress.getCity());
+                        model.setZipCode(defaultSearchAddress.getPostalCode());
+                        model.setAccessCode(defaultSearchAddress.getAccessCode());
+                        model.setInterphone(defaultSearchAddress.getInterphone());
+                        model.setFloor(defaultSearchAddress.getFloor());
+                    } else {
+                        model.setLocation(latestSearchPlace.getAddress());
+                        model.setCity(latestSearchPlace.getCity());
+                        model.setZipCode(latestSearchPlace.getPostalCode());
+                    }
+                } else {
+                    model.setLocation(latestSearchPlace.getAddress());
+                    model.setCity(latestSearchPlace.getCity());
+                    model.setZipCode(latestSearchPlace.getPostalCode());
+                }
+                Intent intent = new Intent(getActivity(), AddressAddActivity.class);
+                intent.putExtra(IntentKey.ADDRESS_MODEL, model);
+                intent.putExtra(IntentKey.KEY_IS_FROM_PAIEMENT_PAGE, true);
+                startActivity(intent);
             }
         });
 
@@ -238,21 +266,21 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     PaymentMethodCheckoutActivity.isAdyenSelected = false;
                     PaymentMethodCheckoutActivity.isCashPayment = false;
                     PaymentMethodCheckoutActivity.isDeliveryPayment = true;
-                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
-                    if (!TextUtils.isEmpty(returnAmount)){
+                    if (!TextUtils.isEmpty(returnAmount)) {
                         PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
                     }
 
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
                 }
             });
             tvOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    InputMethodManager im = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                     binding.radioRestaurent.setChecked(true);
                     binding.radioLivarsion.setChecked(false);
@@ -282,7 +310,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 PaymentMethodCheckoutActivity.isAdyenSelected = false;
                 PaymentMethodCheckoutActivity.isCashPayment = false;
                 PaymentMethodCheckoutActivity.isDeliveryPayment = true;
-                binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
+                binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
 
             }
         });
@@ -348,6 +376,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
         if (latestSearchPlace != null) {
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
             binding.tvAddress.setText(latestSearchPlace.getAddress());
@@ -356,6 +385,50 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 binding.tvDeliveryTime.setText("Heure de " + latestSearchPlace.getType());
                 binding.tvTime.setText(time);
             }
+        }
+
+        if (latestSearchPlace != null && defaultSearchAddress != null) {
+            if (latestSearchPlace.getAddress().equalsIgnoreCase(defaultSearchAddress.getAddress())) {
+                // `Code `+ address.accessCode+`, Interphone `+ address.interphone+`, Étage `+  address.floor}"
+                String fullText = null;
+                if (!TextUtils.isEmpty(defaultSearchAddress.getAccessCode())) {
+                    fullText = "Code " + defaultSearchAddress.getAccessCode();
+                }
+
+                if (!TextUtils.isEmpty(defaultSearchAddress.getInterphone())) {
+                    if (fullText != null && fullText.contains("Code")) {
+                        fullText += ", Interphone " + defaultSearchAddress.getInterphone();
+                    } else {
+                        fullText = "Interphone " + defaultSearchAddress.getInterphone();
+                    }
+
+                }
+
+                if (!TextUtils.isEmpty(defaultSearchAddress.getFloor())) {
+                    if (fullText != null && (fullText.contains("Code") || fullText.contains("interphone"))) {
+                        fullText += ", Etage " + defaultSearchAddress.getFloor();
+                    } else {
+                        fullText = "Etage " + defaultSearchAddress.getFloor();
+                    }
+
+                }
+
+                if (!TextUtils.isEmpty(fullText)){
+                    binding.tvAddressHouse.setText(fullText);
+                    binding.tvAddressHouse.setTextColor(Color.parseColor("#394F61"));
+                }else {
+                    binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
+                    binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
+                }
+
+
+            } else {
+                binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
+                binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
+            }
+        } else {
+            binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
+            binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
         }
     }
 
@@ -444,10 +517,10 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 currentSearchPlace.setType("Livraison");
             }
 
-                if (!TextUtils.isEmpty(selectedOrder.getSchedule())) {
-                    String time = selectedOrder.getSchedule().replace(":", "h");
-                    binding.tvTime.setText(time);
-                }
+            if (!TextUtils.isEmpty(selectedOrder.getSchedule())) {
+                String time = selectedOrder.getSchedule().replace(":", "h");
+                binding.tvTime.setText(time);
+            }
 
         });
 

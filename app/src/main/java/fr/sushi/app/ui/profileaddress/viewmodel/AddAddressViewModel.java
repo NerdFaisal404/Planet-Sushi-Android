@@ -14,6 +14,8 @@ import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.remote.network.ApiResponseError;
 import fr.sushi.app.data.remote.network.Repository;
+import fr.sushi.app.ui.home.PlaceUtil;
+import fr.sushi.app.ui.home.SearchPlace;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -40,6 +42,13 @@ public class AddAddressViewModel extends ViewModel {
     }
 
     public void addAddress(ProfileAddressModel model) {
+        SearchPlace searchPlace = new SearchPlace(model.getZipCode(), model.getCity(),
+                model.getLocation());
+        searchPlace.setAddressId(model.getId());
+        searchPlace.setInterphone(model.getInterphone());
+        searchPlace.setFloor(model.getFloor());
+        searchPlace.setAccessCode(model.getAccessCode());
+        PlaceUtil.saveDefaultSearchPlace(searchPlace);
         String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
         List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
         itemList.add(model);
@@ -50,6 +59,13 @@ public class AddAddressViewModel extends ViewModel {
     public void updateAddress(ProfileAddressModel model) {
         String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
         List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
+        SearchPlace searchPlace = new SearchPlace(model.getZipCode(), model.getCity(),
+                model.getLocation());
+        searchPlace.setAddressId(model.getId());
+        searchPlace.setInterphone(model.getInterphone());
+        searchPlace.setFloor(model.getFloor());
+        searchPlace.setAccessCode(model.getAccessCode());
+        PlaceUtil.saveDefaultSearchPlace(searchPlace);
 
         for (ProfileAddressModel item : itemList) {
             if (item.getId().equals(model.getId())) {
@@ -64,6 +80,8 @@ public class AddAddressViewModel extends ViewModel {
                 item.setInterphone(TextUtils.isEmpty(model.getInterphone()) ? "" : model.getInterphone());
                 item.setAccessCode(TextUtils.isEmpty(model.getAccessCode()) ? "" : model.getAccessCode());
                 item.setInformation(TextUtils.isEmpty(model.getInformation()) ? "" : model.getInformation());
+
+
                 break;
             }
         }

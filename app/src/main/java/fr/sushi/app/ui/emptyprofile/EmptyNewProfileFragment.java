@@ -231,6 +231,9 @@ public class EmptyNewProfileFragment extends BaseFragment {
                 SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                         addressModel.getLocation());
                 searchPlace.setAddressId(addressModel.getId());
+                searchPlace.setInterphone(addressModel.getInterphone());
+                searchPlace.setFloor(addressModel.getFloor());
+                searchPlace.setAccessCode(addressModel.getAccessCode());
                 PlaceUtil.saveDefaultSearchPlace(searchPlace);
             }
         }

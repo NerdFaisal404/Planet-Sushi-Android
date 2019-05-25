@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layoutFullAddres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_white_round"
@@ -27,6 +28,7 @@
                     android:layout_height="wrap_content">
 
                     <fragment
+                        android:layout_margin="@dimen/dp10"
                         android:id="@+id/mapView"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="86dp"
@@ -40,17 +42,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dp16"
                         android:layout_toRightOf="@id/mapView"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvCountryCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="75008 Paris"
+                            android:text="Adresse"
                             android:textColor="#394F61"
                             android:textSize="@dimen/sp14" />
 
@@ -65,13 +65,13 @@
                             android:textSize="@dimen/sp16" />
 
                         <TextView
-                            android:id="@+id/tvHouse"
+                            android:id="@+id/tvCountryCode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp4"
                             android:fontFamily="@font/robot_regular"
-                            android:text="Étage 5, interphone Riman"
-                            android:textColor="#394F61"
+                            tools:text="paris 4800"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp14" />
 
 
@@ -92,7 +92,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/dp10"
-                        android:src="@drawable/ic_house" />
+                        android:src="@drawable/icon_house2x" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                             android:singleLine="true"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp15"
-                            android:text="Code 3456, immeuble B, Etage 5" />
+                            tools:text="Code 3456, immeuble B, Etage 5" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/ivPeople"
-                        android:fontFamily="@font/roboto_light"
+                        android:fontFamily="@font/roboto_medium"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:layout_marginRight="@dimen/dp10"
@@ -161,7 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:fontFamily="@font/roboto_light"
+                        android:fontFamily="@font/robot_regular"
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp15"
@@ -181,11 +181,11 @@
                 android:layout_marginTop="@dimen/dp10">
 
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:id="@+id/ivDelivery"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
                     android:layout_marginRight="@dimen/dp10"
-                    android:padding="@dimen/dp8"
                     android:src="@drawable/ic_clock_darker_grey" />
 
                 <TextView

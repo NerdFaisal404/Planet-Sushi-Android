@@ -61,6 +61,8 @@ public class AddressAddActivity extends BaseActivity {
 
         initViewModel();
 
+        initIntentValue();
+
         mViewModel.getAddressLiveData().observe(this, responseBody -> {
             DialogUtils.hideDialog();
             if (responseBody != null) {
@@ -96,6 +98,20 @@ public class AddressAddActivity extends BaseActivity {
             }
 
         });
+    }
+
+
+    private void initIntentValue() {
+        Intent intent = getIntent();
+
+        boolean isFromPaiementPage = intent.getBooleanExtra(IntentKey.KEY_IS_FROM_PAIEMENT_PAGE, false);
+        if (isFromPaiementPage) {
+            mBinding.edtAddress.setEnabled(false);
+            mBinding.edtAddress.setClickable(false);
+        } else {
+            mBinding.edtAddress.setEnabled(false);
+            mBinding.edtAddress.setClickable(false);
+        }
     }
 
     @Override

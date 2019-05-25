@@ -23,5 +23,6 @@ public interface IntentKey {
     String ADDRESS_MODEL = "ADDRESS_MODEL";
     String KEY_FROM_FOOD_CATEGORY = "KEY_FROM_FOOD_CATEGORY";
     String KEY_ORDER_ID = "KEY_ORDER_ID";
+    String KEY_IS_FROM_PAIEMENT_PAGE = "KEY_IS_FROM_PAIEMENT_PAGE";
 
 }

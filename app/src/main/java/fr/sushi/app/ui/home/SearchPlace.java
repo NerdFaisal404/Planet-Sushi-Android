@@ -18,9 +18,12 @@ public class SearchPlace implements Serializable {
     private double lat;
     private double lng;
     private Order order;
+    private String accessCode;
+    private String interphone;
+    private String floor;
 
 
-    public SearchPlace(String postalCode, String city, String address, double lat, double lng){
+    public SearchPlace(String postalCode, String city, String address, double lat, double lng) {
         this.postalCode = postalCode;
         this.city = city;
         this.address = address;
@@ -28,11 +31,12 @@ public class SearchPlace implements Serializable {
         this.lng = lng;
     }
 
-    public SearchPlace(String postalCode, String city, String address){
+    public SearchPlace(String postalCode, String city, String address) {
         this.postalCode = postalCode;
         this.city = city;
         this.address = address;
     }
+
     public String getTitle() {
         return title;
     }
@@ -111,5 +115,29 @@ public class SearchPlace implements Serializable {
 
     public void setAddressId(String addressId) {
         this.addressId = addressId;
+    }
+
+    public String getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(String accessCode) {
+        this.accessCode = accessCode;
+    }
+
+    public String getInterphone() {
+        return interphone;
+    }
+
+    public void setInterphone(String interphone) {
+        this.interphone = interphone;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 }
