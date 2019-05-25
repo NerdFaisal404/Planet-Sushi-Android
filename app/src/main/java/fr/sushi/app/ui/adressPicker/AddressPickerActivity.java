@@ -98,7 +98,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
     private ErrorResponse errorResponse;
     private AddressResponse addressResponse;
     private ShopAddressAdapter addressAdapter;
-    private boolean isLivarsion, isExporter;
+    private boolean isExporter;
 
     private SearchPlace currentSearchPlace;
 
@@ -130,16 +130,17 @@ public class AddressPickerActivity extends AppCompatActivity implements
         binding.editTextSearch.requestFocus();
         Utils.showSoftKeyboard(this);
 
-        initPrefvalue();
+        initIntentValue();
     }
 
-    private void initPrefvalue() {
-        isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
-        isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
-        if (isLivarsion) {
-            showPlaceAddress();
-        } else if (isExporter) {
+    private void initIntentValue() {
+        Intent intent = getIntent();
+        isExporter = intent.getBooleanExtra(IntentKey.KEY_IS_TAKEWAY, false);
+        if (isExporter) {
             loadShopAddressList();
+
+        } else {
+            showPlaceAddress();
         }
     }
 
@@ -166,7 +167,15 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
             }
 
-            if (addressAdapter != null && !isLivarsion) {
+            if (isExporter) {
+                SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+                SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+            }else {
+                SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+                SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+            }
+
+            if (addressAdapter != null && isExporter) {
                 Map<String, List<ResponseItem>> responseItemGroup = prepareGroup();
 
                 List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
@@ -270,14 +279,16 @@ public class AddressPickerActivity extends AppCompatActivity implements
         LinearLayout liversionView = bottomSheet.findViewById(R.id.livrasion);
         LinearLayout aemporterView = bottomSheet.findViewById(R.id.aemporter);
         liversionView.setOnClickListener(view -> {
-            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
-            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+           /* SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);*/
+            isExporter = false;
             showPlaceAddress();
         });
 
         aemporterView.setOnClickListener(view -> {
-            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
-            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+          /*  SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);*/
+            isExporter = true;
             loadShopAddressList();
         });
 
@@ -397,7 +408,6 @@ public class AddressPickerActivity extends AppCompatActivity implements
                                             dialog.dismiss();
                                         }
                                     }).show();
-
 
 
                         }

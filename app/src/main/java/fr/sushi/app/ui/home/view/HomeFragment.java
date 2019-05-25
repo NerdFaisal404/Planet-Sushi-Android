@@ -34,6 +34,7 @@ import fr.sushi.app.R;
 import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.helper.CommonUtility;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.address_picker.AddressResponse;
 import fr.sushi.app.data.model.address_picker.Order;
@@ -315,7 +316,17 @@ public class HomeFragment extends BaseFragment {
         switch (view.getId()) {
 
             case R.id.layoutAddress:
-                startActivityForResult(new Intent(getActivity(), AddressPickerActivity.class), PALACE_SEARCH_ACTION);
+
+                Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
+                boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+                boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+                if (isLivarsion) {
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
+                }else if (isExporter){
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+                }
+
+                startActivityForResult(intent, PALACE_SEARCH_ACTION);
                 getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
                 break;
             case R.id.addressOne:
@@ -399,8 +410,9 @@ public class HomeFragment extends BaseFragment {
             binding.bottomsheet.dismissSheet();
             showImporter();
             Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
-            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
-            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+            intent.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
+            /*SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);*/
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
 
@@ -411,8 +423,9 @@ public class HomeFragment extends BaseFragment {
             binding.bottomsheet.dismissSheet();
             showExporter();
             Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
-            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
-            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+            intent.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+            /*SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);*/
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.bottom_to_top, R.anim.blank);
 

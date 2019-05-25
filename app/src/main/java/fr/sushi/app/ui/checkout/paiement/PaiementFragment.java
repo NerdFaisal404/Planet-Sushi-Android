@@ -430,6 +430,19 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
             binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
         }
+
+        if (SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED,false)){
+            binding.tvAddressTitle.setText("Retrait");
+            binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
+            binding.layoutFullAddres.setClickable(false);
+            binding.layoutFullAddres.setEnabled(false);
+        }else {
+            binding.tvAddressTitle.setText("Informations de livraison");
+            binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
+            binding.layoutFullAddres.setClickable(true);
+            binding.layoutFullAddres.setEnabled(true);
+        }
+
     }
 
     @Override

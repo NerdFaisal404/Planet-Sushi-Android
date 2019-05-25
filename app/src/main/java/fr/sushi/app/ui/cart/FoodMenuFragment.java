@@ -92,6 +92,13 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
             public void onClick(View v) {
               //  showBottomDialog();
                 Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
+                boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+                boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+                if (isLivarsion) {
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
+                }else if (isExporter){
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+                }
                 intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
                 startActivity(intent);
             }
@@ -153,79 +160,4 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         startActivity(intent);
     }
 
-    void showBottomDialog() {
-
-        View bottomSheet = getLayoutInflater().inflate(R.layout.view_bottom_sheet_pickup_delivery, null);
-        RadioButton radioButtonLivraison = bottomSheet.findViewById(R.id.radioButtonLivraison);
-        RadioButton radioButtonEmporter = bottomSheet.findViewById(R.id.radioButtonEmporter);
-        TextView textViewModifier = bottomSheet.findViewById(R.id.textViewModifier);
-        TextView tvClose = bottomSheet.findViewById(R.id.tvClose);
-        View viewDivider = bottomSheet.findViewById(R.id.view_divider);
-        RecyclerView recyclerViewAddress = bottomSheet.findViewById(R.id.rvUserAddress);
-        textViewModifier.setOnClickListener(this);
-
-
-        viewDivider.setVisibility(View.VISIBLE);
-        boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
-        boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
-
-        if (isLivarsion) {
-            radioButtonLivraison.setChecked(true);
-            radioButtonEmporter.setChecked(false);
-        } else if (isExporter) {
-            radioButtonLivraison.setChecked(false);
-            radioButtonEmporter.setChecked(true);
-        } else {
-            radioButtonLivraison.setChecked(true);
-            radioButtonEmporter.setChecked(false);
-        }
-
-
-        //setAddress adapter . Now it is comment out.
-
-        /*recyclerViewAddress.setHasFixedSize(true);
-        recyclerViewAddress.setLayoutManager(new LinearLayoutManager(getActivity()));
-        AddressAdapter addressAdapter = new AddressAdapter();
-        recyclerViewAddress.setAdapter(addressAdapter);
-
-        String addressJson = SharedPref.read(PrefKey.USER_ADDRESS, "");
-        List<ProfileAddressModel> addressList = GsonHelper.on().convertJsonToNormalAddress(addressJson);
-        addressAdapter.clear();
-        addressAdapter.addItem(addressList);
-
-        addressAdapter.setItemClickListener((view, item) -> {
-            ProfileAddressModel model = (ProfileAddressModel) item;
-            // we have to send model in server
-
-            foodMenuViewModel.setDeliveryAddress(model.getLocation(),model.getZipCode(),model.getCity());
-
-            foodMenuViewModel.getDeliveryAddressLiveData().observe(this, new Observer<ResponseBody>() {
-                @Override
-                public void onChanged(@Nullable ResponseBody responseBody) {
-
-                }
-            });
-        });*/
-
-        radioButtonLivraison.setOnClickListener(view -> {
-            if (radioButtonLivraison.isChecked()) {
-                Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
-                intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
-                startActivity(intent);
-            }
-        });
-        radioButtonEmporter.setOnClickListener(this);
-        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogStyle);
-        dialog.setContentView(bottomSheet);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
-
-        tvClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-    }
 }
