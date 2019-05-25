@@ -200,7 +200,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     if (error == true) {
                         DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(this, "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
 
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
@@ -236,7 +236,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                     if (error == true) {
                         DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(this, "Error!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(this, "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
 
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
