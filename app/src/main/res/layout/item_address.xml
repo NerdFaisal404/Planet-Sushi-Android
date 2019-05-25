@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp14"
         android:background="@drawable/bg_white_round"
-        android:paddingBottom="@dimen/dp16">
+        android:padding="@dimen/dp16">
 
         <ImageView
             android:id="@+id/image_view_icon"
@@ -23,6 +23,7 @@
             android:layout_height="@dimen/dp14"
             android:layout_margin="@dimen/dp8"
             android:src="@drawable/icon_home2x"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +36,23 @@
             android:text="@{address.addressType}"
             android:textColor="@color/color_627588"
             android:textSize="@dimen/sp14"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/image_view_icon"
             app:layout_constraintStart_toEndOf="@+id/image_view_icon"
             app:layout_constraintTop_toTopOf="@+id/image_view_icon"
             tools:text="MAISON" />
+
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="@dimen/dp20"
+            android:layout_height="@dimen/dp20"
+            android:src="@drawable/ic_location"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_sub_location"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_location"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/text_view_location"
@@ -49,8 +63,9 @@
             android:text="@{address.location}"
             android:textColor="#394F61"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/image_view_icon"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_address_type"
+            android:layout_marginLeft="@dimen/dp10"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivLocation"
             tools:text="16 Cours Albert 1er" />
 
         <TextView
@@ -62,7 +77,9 @@
             android:text="@{address.zipCode+` `+ address.city}"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/sp15"
-            app:layout_constraintStart_toStartOf="@+id/image_view_icon"
+            app:layout_constraintStart_toEndOf="@+id/ivLocation"
+
+            app:layout_constraintStart_toStartOf="@+id/text_view_location"
             app:layout_constraintTop_toBottomOf="@+id/text_view_location"
             tools:text="75008 Paris" />
 
@@ -70,9 +87,7 @@
             android:id="@+id/vieLine"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/dp8"
             android:layout_marginTop="@dimen/dp20"
-            android:layout_marginRight="@dimen/dp8"
             android:background="@color/colorDivider"
             app:layout_constraintStart_toStartOf="@+id/image_view_icon"
             app:layout_constraintTop_toBottomOf="@+id/text_view_sub_location" />
