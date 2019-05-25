@@ -246,7 +246,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
                     }
 
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + ",00 €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
                 }
             });
             tvOk.setOnClickListener(new View.OnClickListener() {
@@ -264,7 +264,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     dialogBuilder.dismiss();
                     returnAmount = editText.getText().toString();
                     PaymentMethodCheckoutActivity.payemntChangeAmount = returnAmount;
-                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + ",00 €");
+                    binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(returnAmount)) + " €");
                 }
             });
 
@@ -282,6 +282,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 PaymentMethodCheckoutActivity.isAdyenSelected = false;
                 PaymentMethodCheckoutActivity.isCashPayment = false;
                 PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble( PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
+
             }
         });
 

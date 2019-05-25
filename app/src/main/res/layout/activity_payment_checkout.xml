@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/dp16"
+            android:layout_margin="@dimen/dp20"
             android:background="@drawable/bg_unselected_valider"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -195,7 +195,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="@dimen/dp20"
-                android:paddingRight="@dimen/dp16"
+                android:paddingRight="@dimen/dp20"
                 android:text="CONTINUER"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/sp17" />
