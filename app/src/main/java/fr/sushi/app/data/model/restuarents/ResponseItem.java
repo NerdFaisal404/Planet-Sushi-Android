@@ -65,6 +65,10 @@ public class ResponseItem implements ClusterItem {
 	@SerializedName("lat")
 	private double lat;
 
+	@SerializedName("active_online_payment")
+	private String activeOnlinePayment;
+
+	//active_online_payment
 /*
 	public void setSchedules(Schedules schedules){
 		this.schedules = schedules;
@@ -74,6 +78,14 @@ public class ResponseItem implements ClusterItem {
 		return schedules;
 	}
 */
+
+	public String getActiveOnlinePayment() {
+		return activeOnlinePayment;
+	}
+
+	public void setActiveOnlinePayment(String activeOnlinePayment) {
+		this.activeOnlinePayment = activeOnlinePayment;
+	}
 
 	public void setAddress(String address){
 		this.address = address;
