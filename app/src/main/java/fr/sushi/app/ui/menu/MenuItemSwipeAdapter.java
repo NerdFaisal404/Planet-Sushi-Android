@@ -42,6 +42,8 @@ import fr.sushi.app.util.swipanim.Extension;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
 
 public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
     public interface Listener {
         void onItemClick(ProductsItem item, ImageView imageView);
 
@@ -64,6 +66,26 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.mContext = context;
         this.productsItems = itemList;
         this.itemClickListener = listener;
+    }
+
+    public void setSelected(List<MyCartProduct> myCartProducts) {
+        List<String> productsIds = new ArrayList<>();
+        List<String> categoryIds = new ArrayList<>();
+        for(MyCartProduct item : myCartProducts){
+            productsIds.add(item.getProductId());
+            if(!categoryIds.contains(item.getCategoryId()))
+            categoryIds.add(item.getCategoryId());
+        }
+
+        for(ProductsItem item :productsItems){
+            if(productsIds.contains(item.getIdProduct())
+                    && categoryIds.contains(item.getIdCategory())){
+                item.setSelected(true);
+            }else {
+                item.setSelected(false);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -222,7 +244,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void showBottomSheet(ProductsItem item) {
-        count = 1;
+        count = DBManager.on().getProductCountById(item.getIdProduct());
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_item_details, null);
 
@@ -240,8 +262,9 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
-
         String[] title = item.getName().split("\\s");
+
+        tvCount.setText(String.valueOf(count));
 
         totalPrice = Double.parseDouble(item.getPriceTtc());
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
@@ -298,7 +321,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private void isActiveCrossSelling(ProductsItem item) {
         Log.w("ProductIdList", "id: " + item.getIdProduct());
-        count = 1;
+        count = DBManager.on().getProductCountById(item.getIdProduct());
+
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_is_active_cross_selling_item_details, null);
 
@@ -316,7 +340,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
         TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
-
+        tvCount.setText(String.valueOf(count));
         // Cross selling part
 
         List<CrossSellingProductsItem> crossSellingProductsItemList = new ArrayList<>();

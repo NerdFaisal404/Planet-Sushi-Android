@@ -94,13 +94,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         observeData();
 
-      /*  String titleHeader = SharedPref.read(PrefKey.)
-
-        binding.tvDeliveryInfo.setText(Html.fromHtml(categoriesItem.getHtmlName()));
-*/
-
-
-
         binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
 
         binding.realtiveLayoutAddress.setOnClickListener(v -> {
@@ -116,15 +109,16 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             startActivity(intentAddress);
         });
 
-        //binding.ivDownArrow.setOnClickListener(v -> showBottomDialog());
+        if (categoriesItems != null && categoriesItems.size() > 0) {
+            setUpToMenuAdapter();
+            loadCategoryItems();
+        }
+
     }
 
 
     private void observeData() {
-
         menuDetailsViewModel = ViewModelProviders.of(this).get(MenuDetailsViewModel.class);
-
-
     }
 
 
@@ -270,10 +264,9 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     @Override
     protected void onResume() {
         super.onResume();
-        if (categoriesItems != null && categoriesItems.size() > 0) {
-            setUpToMenuAdapter();
-            loadCategoryItems();
-        }
+        List<MyCartProduct> myCartProducts = DBManager.on().getAllProducts();
+        menuItemSwipeAdapter.setSelected(myCartProducts);
+
         showBottomView();
 
         if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
@@ -303,7 +296,6 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         if (recentSearchPlace != null) {
             binding.tvLocationInfo.setText(recentSearchPlace.getAddress() + "-" + recentSearchPlace.getCity() + ", " + recentSearchPlace.getPostalCode());
             binding.tvDeliveryInfo.setText("prévue pour " + recentSearchPlace.getOrder().getSchedule());
-
         }
     }
 
@@ -365,6 +357,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         @Override
         public void onRefreshBottomView() {
             showBottomView();
+            List<MyCartProduct> myCartProducts = DBManager.on().getAllProducts();
+            menuItemSwipeAdapter.setSelected(myCartProducts);
         }
     };
 

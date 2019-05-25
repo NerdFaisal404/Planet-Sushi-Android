@@ -35,9 +35,21 @@ public class DBManager {
     }
 
     public void saveProductItem(ProductsItem item, int itemCount) {
+        removeProduct(item);
         for (int i = 0; i < itemCount; i++) {
             saveProductItem(item);
         }
+    }
+
+    public int getProductCountById(String productId){
+        MyCartProduct myCartProduct = productBox.query()
+                .equal(MyCartProduct_.productId, productId)
+                .build()
+                .findFirst();
+        if(myCartProduct == null){
+            return 1;
+        }
+        return myCartProduct.getItemCount();
     }
 
     public void saveProductItem(ProductsItem productsItem) {
