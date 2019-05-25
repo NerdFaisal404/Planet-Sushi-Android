@@ -345,7 +345,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-
         SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
         if (latestSearchPlace != null) {
             binding.tvCountryCode.setText(latestSearchPlace.getPostalCode() + " " + latestSearchPlace.getCity());
@@ -442,12 +441,19 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             } else {
                 currentSearchPlace.setType("Livraison");
             }
-            onResume();
+
+                if (!TextUtils.isEmpty(selectedOrder.getSchedule())) {
+                    String time = selectedOrder.getSchedule().replace(":", "h");
+                    binding.tvTime.setText(time);
+                }
+
         });
 
         //Wheel time adapter
 
-        timeRv.setPadding(padding, 0, padding, 0);
+        int wheelPaddingRight = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 15);
+        int wheelPaddingLeft = ScreenUtil.getScreenWidth(getActivity()) / 2 - ScreenUtil.dpToPx(getActivity(), 20);
+        timeRv.setPadding(wheelPaddingLeft, 0, wheelPaddingRight, 0);
         SliderLayoutManager timeSliderLayoutManger = new SliderLayoutManager(getActivity());
 
         List<Order> timeList = scheduleOrderMap.get(data.get(0));
