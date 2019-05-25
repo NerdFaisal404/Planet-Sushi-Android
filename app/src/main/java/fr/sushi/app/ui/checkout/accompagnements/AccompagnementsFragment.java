@@ -365,12 +365,6 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                         //load paid item
                         List<PayingSaucesItem> list = new ArrayList<>(accompagnementResponse.getResponse().getPayingSauces());
 
-                        /*for (Map.Entry<Integer, Integer> mapInt : freeSauces.entrySet()) {
-                            int kay = mapInt.getKey();
-                            int value = mapInt.getValue();
-                            PayingSaucesItem saucesItem = list.get(kay);
-                            saucesItem.selectCount = value;
-                        }*/
                         List<Sauces> convertedList = new ArrayList<Sauces>(list);
                         saucesAdapter.addPaidItems(convertedList);
 
@@ -407,12 +401,6 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                     if (payingSaucesItems.isEmpty()) {
                         //load free item
                         List<FreeSaucesItem> list = new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
-                        /*for (Map.Entry<Integer, Integer> mapInt : freeSauces.entrySet()) {
-                            int kay = mapInt.getKey();
-                            int value = mapInt.getValue();
-                            FreeSaucesItem saucesItem = list.get(kay);
-                            saucesItem.selectCount = value;
-                        }*/
                         List<Sauces> convertedList = new ArrayList<Sauces>(list);
                         saucesAdapter.addPaidItems(convertedList);
                         FreeSaucesItem freeItem = freeSaucesItemList.remove(0);
