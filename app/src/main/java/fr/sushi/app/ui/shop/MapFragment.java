@@ -170,11 +170,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
+                //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
-                //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
             }
         }
@@ -223,8 +223,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
             mGoogleMap.addMarker(markerOptions);
             //move map camera
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+            //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
         }
     }
 
