@@ -209,7 +209,7 @@ public class AddressPickerActivity extends AppCompatActivity implements
                         if (isExporter) {
                             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
                             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
-                        }else {
+                        } else {
                             SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
                             SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
                         }
@@ -519,10 +519,31 @@ public class AddressPickerActivity extends AppCompatActivity implements
     }
 
     private ShopAddressAdapter.Listener listener = responseItem -> {
-        DialogUtils.showDialog(this);
-        viewModel.setTakeawayStore(responseItem.getIdStore());
-        currentSearchPlace = new SearchPlace(responseItem.getPostcode(),
-                responseItem.getCity(), responseItem.getAddress(), responseItem.getLat(), responseItem.getLng());
+
+
+        new IOSDialog.Builder(AddressPickerActivity.this)
+                .setTitle("Voulez-vous changer d'adresse ?")
+                .setMessage("En changeant d'adresse, votre panier actuel va devoir être vidé")
+                .setPositiveButton("Confirmer ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        DBManager.on().clearMyCartProduct();
+                        DataCacheUtil.removeSideProducts();
+                        DialogUtils.showDialog(AddressPickerActivity.this);
+                        viewModel.setTakeawayStore(responseItem.getIdStore());
+                        currentSearchPlace = new SearchPlace(responseItem.getPostcode(),
+                                responseItem.getCity(), responseItem.getAddress(), responseItem.getLat(), responseItem.getLng());
+                    }
+                })
+                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+
+
     };
 
     private Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();

@@ -420,12 +420,16 @@ public class Utils {
         try {
             PhoneNumberUtil pnu = PhoneNumberUtil.createInstance(context);
             pn = pnu.parse(phoneNumber, "FR");
-          String  pnE164 = pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.E164);
+            String pnE164 = pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.E164);
 
             return pnE164;
         } catch (NumberParseException e) {
             e.printStackTrace();
         }
+
+
         return "";
+
+
     }
 }
