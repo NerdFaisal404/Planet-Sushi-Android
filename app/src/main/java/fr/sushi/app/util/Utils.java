@@ -432,4 +432,31 @@ public class Utils {
 
 
     }
+
+    public static String getTodayDay(){
+       /* SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = fmt.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat fmtOut = new SimpleDateFormat("dd-MM-yyyy");
+        return fmtOut.format(date);*/
+        Date date = new Date();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+
+        System.out.println("DAY "+simpleDateFormat.format(date).toUpperCase());
+
+        return simpleDateFormat.format(date).toLowerCase();
+    }
+
+    public static String getDay(){
+
+
+
+        return "";
+    }
 }
