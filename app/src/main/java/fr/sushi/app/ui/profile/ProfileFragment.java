@@ -13,6 +13,7 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileItemModel;
 import fr.sushi.app.databinding.FragmentProfileBinding;
@@ -26,6 +27,7 @@ import fr.sushi.app.ui.profileaddress.ProfileAddressActivity;
 public class ProfileFragment extends BaseFragment implements ItemClickListener<ProfileItemModel> {
     private FragmentProfileBinding mBinding;
     private ProfileAdapter mAdapter;
+    String index = "0";
 
     private String[] itemName = {"Mes informations", "Adresses", /*"Paiement", "Mes commandes",*/ "Fidélité"};
     private int[] itemIcon = {R.drawable.icon_user2x, R.drawable.icon_home2x,/* R.drawable.icon_payment2x,
@@ -62,13 +64,12 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.groupTopView.setVisibility(View.VISIBLE);
             mBinding.textViewPoint.setText(quantity);
             mBinding.textViewPointLeft.setText(totalQuantity + " pts manquants");
-            showPointValue(totalQuantity);
+            showPointValue("150");
         }
 
         mBinding.textViewName.setText(userName);
 
         setClickListener(mBinding.imageViewSettings);
-        setProgressAnimate(70);
     }
 
     @Override
@@ -136,39 +137,36 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_pink));
             mBinding.tvMember.setText("Membre Pink");
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_pink_progress));
-        }else if (currentPoint > 150 && currentPoint < 451) {
+            mBinding.progressBar.setMax(151);
+            setProgressAnimate(currentPoint);
+            index ="0";
+        } else if (currentPoint > 150 && currentPoint < 451) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_gold));
             mBinding.tvMember.setText("Membre Gold");
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_gold_progress));
-        }else if (currentPoint > 450) {
+            mBinding.progressBar.setMax(451);
+            setProgressAnimate(currentPoint);
+            index ="1";
+        } else if (currentPoint > 450) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_black));
             mBinding.tvMember.setText("Membre Black");
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_black_progress));
+            mBinding.progressBar.setMax(100);
+            setProgressAnimate(100);
+            index ="2";
         }
-/*
-        if currentPoint > -1 && currentPoint < 151 {
-            cardImageView.image = UIImage(named: "card-pink")
-            memberTypeLabel.text = "Membre Pink"
-            progressView.progressTintColor =  UIColor.init(hex: "E1007C")
-            nextLevel = "Gold"
-            progress = Float(Float(currentPoint)/151.0)
-            remainingPointLabel.text = "\(151 - currentPoint) pts manquants"
-        }else if currentPoint > 150 && currentPoint < 451 {
-            cardImageView.image = UIImage(named: "card-gold")
-            memberTypeLabel.text = "Membre Gold"
-            progressView.progressTintColor = UIColor.init(hex: "B28F4D")
-            nextLevel = "Black"
-            progress = Float(Float(currentPoint)/451.0)
-            remainingPointLabel.text = "\(451 - currentPoint) pts manquants"
-        }else if currentPoint > 450 {
-            cardImageView.image = UIImage(named: "card-black")
-            memberTypeLabel.text = "Membre Black"
-            progressView.progressTintColor = UIColor.init(hex: "1F1F1F")
-            nextLevel = ""
-            progress = 1
-            remainingPointLabel.text = "\(currentPoint) pts cumulés"
-        }*/
 
+        mBinding.imageViewCard.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(),SusuCardDetailsActivity.class);
+            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION,index);
+            startActivity(intent);
+        });
+
+        mBinding.textViewProgressDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(),SusuCardDetailsActivity.class);
+            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION,index);
+            startActivity(intent);
+        });
 
     }
 }
