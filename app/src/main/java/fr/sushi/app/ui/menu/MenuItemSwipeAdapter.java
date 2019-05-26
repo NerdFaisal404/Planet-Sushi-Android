@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +52,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onItemClick(ProductsItem item, ImageView imageView);
 
         void onItemDeselect(ProductsItem item);
+
         void onRefreshBottomView();
     }
 
@@ -71,17 +76,17 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setSelected(List<MyCartProduct> myCartProducts) {
         List<String> productsIds = new ArrayList<>();
         List<String> categoryIds = new ArrayList<>();
-        for(MyCartProduct item : myCartProducts){
+        for (MyCartProduct item : myCartProducts) {
             productsIds.add(item.getProductId());
-            if(!categoryIds.contains(item.getCategoryId()))
-            categoryIds.add(item.getCategoryId());
+            if (!categoryIds.contains(item.getCategoryId()))
+                categoryIds.add(item.getCategoryId());
         }
 
-        for(ProductsItem item :productsItems){
-            if(productsIds.contains(item.getIdProduct())
-                    && categoryIds.contains(item.getIdCategory())){
+        for (ProductsItem item : productsItems) {
+            if (productsIds.contains(item.getIdProduct())
+                    && categoryIds.contains(item.getIdCategory())) {
                 item.setSelected(true);
-            }else {
+            } else {
                 item.setSelected(false);
             }
         }
@@ -328,6 +333,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
         crossSellingBottomSheet.setContentView(bottomSheet);
+
         crossSellingBottomSheet.setCanceledOnTouchOutside(true);
         crossSellingBottomSheet.show();
 

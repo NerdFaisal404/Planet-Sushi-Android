@@ -1,230 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_bottom_home"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/top_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/dp16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:padding="@dimen/dp16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tvItemName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="#394F61"
-                android:textSize="@dimen/sp15"
-                tools:text="Heure de livraison" />
-
-            <TextView
-                android:id="@+id/tvClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:fontFamily="@font/robot_regular"
-                android:text="Fermer"
-                android:textColor="@color/colorPink"
-                android:textSize="@dimen/sp14" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:background="@drawable/bg_home_image">
-
-            <ImageView
-                android:id="@+id/ivItem"
-                android:layout_width="253dp"
-                android:layout_height="206dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp50"
-                android:layout_marginTop="@dimen/dp20"
-                android:layout_marginRight="@dimen/dp50"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_place_holder" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:padding="@dimen/dp16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvTitle"
-            android:layout_marginTop="@dimen/dp10"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:id="@+id/layoutComparison"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp20"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvComparison"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Composition"
-                    android:textColor="#394F61"
-
-                    android:textSize="@dimen/sp15" />
-
-                <ImageView
-                    android:id="@+id/ivComparsionLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:src="@drawable/line_horizontal" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/layoutComparison"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tvAllergenes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Allergènes"
-                    android:textColor="#394F61"
-                    android:textSize="@dimen/sp15" />
-
-                <ImageView
-                    android:id="@+id/ivAllergeLine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:src="@drawable/line_horizontal" />
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/tvTagList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/layoutComparison"
-                android:layout_marginTop="@dimen/dp16"
-                android:fontFamily="@font/robot_regular"
-                android:textColor="#627588"
-                android:textSize="@dimen/sp16"
-                tools:text="Allergènes" />
-
-
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rc_cross_selling"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:scrollbars="none" />
-
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp40"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="#394F61"
+            android:textSize="@dimen/sp15"
+            tools:text="Heure de livraison" />
 
-            <ImageView
-                android:id="@+id/ivMinus"
-                android:layout_width="@dimen/dp24"
-                android:layout_height="@dimen/dp24"
-                android:src="@drawable/ic_minus" />
-
-            <TextView
-                android:id="@+id/tvCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp16"
-                android:layout_marginRight="@dimen/dp16"
-                android:fontFamily="@font/robot_regular"
-                android:text="1"
-                android:textColor="@color/colorPink"
-                android:textSize="28sp" />
-
-            <ImageView
-                android:id="@+id/ivPlus"
-                android:layout_width="@dimen/dp24"
-                android:layout_height="@dimen/dp24"
-                android:src="@drawable/ic_normal_plus" />
+        <TextView
+            android:id="@+id/tvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/robot_regular"
+            android:text="Fermer"
+            android:textColor="@color/colorPink"
+            android:textSize="@dimen/sp14" />
 
 
-        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/bottom_count"
+        android:layout_below="@+id/top_view"
+        android:background="@drawable/bg_bottom_home">
 
         <LinearLayout
-            android:id="@+id/layoutAdjust"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="@dimen/dp24"
-            android:background="@drawable/bg_pink_round"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvPrice"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:background="@drawable/bg_home_image">
+
+                <ImageView
+                    android:id="@+id/ivItem"
+                    android:layout_width="253dp"
+                    android:layout_height="206dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp50"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:layout_marginRight="@dimen/dp50"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_place_holder" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp16"
-                android:layout_marginRight="@dimen/dp16"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp17"
-                tools:text="5,20 €" />
+                android:layout_marginTop="@dimen/dp10"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp16">
 
-            <ImageView
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layoutComparison"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp20"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvComparison"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Composition"
+                        android:textColor="#394F61"
+
+                        android:textSize="@dimen/sp15" />
+
+                    <ImageView
+                        android:id="@+id/ivComparsionLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:src="@drawable/line_horizontal" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/layoutComparison"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvAllergenes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Allergènes"
+                        android:textColor="#394F61"
+                        android:textSize="@dimen/sp15" />
+
+                    <ImageView
+                        android:id="@+id/ivAllergeLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:src="@drawable/line_horizontal" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tvTagList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layoutComparison"
+                    android:layout_marginTop="@dimen/dp16"
+                    android:fontFamily="@font/robot_regular"
+                    android:textColor="#627588"
+                    android:textSize="@dimen/sp16"
+                    tools:text="Allergènes" />
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rc_cross_selling"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/line_vertical_white" />
-
-            <TextView
-                android:id="@+id/tvAdjust"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/dp16"
-                android:layout_marginRight="@dimen/dp16"
-                android:fontFamily="@font/roboto_bold"
-                android:text="AJOUTER"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/sp17" />
-
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none" />
 
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layoutAdjust"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp40"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivMinus"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:src="@drawable/ic_minus" />
+
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
+            android:fontFamily="@font/robot_regular"
+            android:text="1"
+            android:textColor="@color/colorPink"
+            android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/ivPlus"
+            android:layout_width="@dimen/dp24"
+            android:layout_height="@dimen/dp24"
+            android:src="@drawable/ic_normal_plus" />
+
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layoutAdjust"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/dp24"
+        android:background="@drawable/bg_pink_round"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-</android.support.v4.widget.NestedScrollView>
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp17"
+            tools:text="5,20 €" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/line_vertical_white" />
+
+        <TextView
+            android:id="@+id/tvAdjust"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp16"
+            android:layout_marginRight="@dimen/dp16"
+            android:fontFamily="@font/roboto_bold"
+            android:text="AJOUTER"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp17" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
