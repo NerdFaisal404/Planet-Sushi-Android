@@ -127,6 +127,21 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         binding.totalPriceWithFee.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         ((PaymentMethodCheckoutActivity) getActivity()).setTotalPrice(totalPrice);
+
+        SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+        if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
+            int minimumPrice = (int) this.totalPrice;
+            int minimuOrderAmount = Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
+
+            if (minimumPrice < minimuOrderAmount) {
+                binding.tvMinAmount.setVisibility(View.VISIBLE);
+                binding.tvMinAmount.setText("Le minimum de commande pour cette adresse est de " + minimuOrderAmount +" €");
+            } else {
+                binding.tvMinAmount.setVisibility(View.GONE);
+            }
+        } else {
+            binding.tvMinAmount.setVisibility(View.GONE);
+        }
     }
 
     @Override

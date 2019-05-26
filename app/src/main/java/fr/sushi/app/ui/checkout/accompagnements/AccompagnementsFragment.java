@@ -741,6 +741,43 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
         rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
 
+        tvSauces.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvAccompagnements.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBoissons.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvDesserts.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvWasbi.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+        tvBaguettes.setTextColor(ContextCompat.getColor(getContext(), R.color.color_627588));
+
+        DrawableCompat.setTint(
+                binding.imgViewBaguettes.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewBoissons.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewAccompagnements.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewWasbi.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewDesserts.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
+        DrawableCompat.setTint(
+                binding.imgViewSauces.getDrawable(),
+                ContextCompat.getColor(getActivity(), R.color.color_627588)
+        );
+
 
         binding.tvCountSauces.setText(String.valueOf(countSauces));
         binding.rlCountForSauces.setVisibility(View.GONE);
