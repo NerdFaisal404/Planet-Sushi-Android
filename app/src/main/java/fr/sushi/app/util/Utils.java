@@ -433,7 +433,7 @@ public class Utils {
 
     }
 
-    public static String getTodayDay(){
+    private static String getTodayDay() {
        /* SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
@@ -448,15 +448,32 @@ public class Utils {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
 
-        System.out.println("DAY "+simpleDateFormat.format(date).toUpperCase());
+        System.out.println("DAY " + simpleDateFormat.format(date).toUpperCase());
 
         return simpleDateFormat.format(date).toLowerCase();
     }
 
-    public static String getDay(){
+    public static String getDay() {
+        String currentDay = "";
+        String today = getTodayDay();
+
+        if (today.equalsIgnoreCase("Monday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Tuesday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Wednesday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Thursday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Friday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Saturday")) {
+            currentDay = "1";
+        }else if (today.equalsIgnoreCase("Sunday")) {
+            currentDay = "1";
+        }
 
 
-
-        return "";
+        return currentDay;
     }
 }

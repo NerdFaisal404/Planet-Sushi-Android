@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -308,6 +309,41 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             binding.tvAddressOne.setText(responseItem.getAddress());
             binding.tvAddressOne.setText(responseItem.getPostcode() + " " + responseItem.getCity());
             binding.tvName.setText(responseItem.getName());
+
+            String currentDay = Utils.getDay();
+            String itemDay = "";
+            if (!TextUtils.isEmpty(currentDay)) {
+                try {
+                    if (currentDay.equalsIgnoreCase("1")) {
+                        itemDay = responseItem.getSchedules().getDayOne().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("2")) {
+                        itemDay = responseItem.getSchedules().getDayTwo().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("3")) {
+                        itemDay = responseItem.getSchedules().getDayThree().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("4")) {
+                        itemDay = responseItem.getSchedules().getDayFour().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("5")) {
+                        itemDay = responseItem.getSchedules().getDayFive().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("6")) {
+                        itemDay = responseItem.getSchedules().getDaySix().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("7")) {
+                        itemDay = responseItem.getSchedules().getDaySeven().getSchedule();
+                    }
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            if (!TextUtils.isEmpty(itemDay)) {
+                binding.layoutDate.setVisibility(View.VISIBLE);
+
+                binding.tvOpeningTime.setText(itemDay);
+            } else {
+                binding.layoutDate.setVisibility(View.GONE);
+            }
+
             //  binding.tvOpeningTime.setText(responseItem.ge);
             binding.imgViewPhoneCall.setOnClickListener(this::onClick);
             container.addView(binding.getRoot());
