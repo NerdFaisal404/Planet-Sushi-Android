@@ -316,6 +316,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 PaymentMethodCheckoutActivity.isAdyenSelected = false;
                 PaymentMethodCheckoutActivity.isCashPayment = false;
                 PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                PaymentMethodCheckoutActivity.payemntChangeAmount = "0";
                 binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
 
             }
@@ -464,6 +465,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
                         if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")){
                             binding.layoutCartPayment.setVisibility(View.GONE);
+                            binding.radioLivarsion.setChecked(true);
                         }
                     }
                 }
