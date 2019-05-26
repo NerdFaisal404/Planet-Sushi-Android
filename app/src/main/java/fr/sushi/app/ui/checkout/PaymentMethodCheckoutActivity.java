@@ -131,8 +131,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             }
 
             public void onPageSelected(int position) {
-                if (position == 1) {
-                    AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(position);
+                if (position == 0) {
+                    AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(1);
                     fragment.clearPreviousSelectedItem();
                 }
                 if (position == 2) {

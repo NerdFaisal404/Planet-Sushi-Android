@@ -703,6 +703,68 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         ((PaymentMethodCheckoutActivity) getActivity()).setPriceWithSideProducts(priceSideProducts);
     }
 
+    public void clearPreviousSelectedItem() {
+        freeSaucesMap = new HashMap<>();
+        payingSaucesMap.clear();
+        accomplishmentitemMap.clear();
+        boissonItemMap.clear();
+        dessertItemMap.clear();
+        payingWasbiItemClicMap.clear();
+        freeWasbiItemClicMap.clear();
+        baguettesItemMap.clear();
+        selectCountSaucesMap.clear();
+        selectCountWsabiMap.clear();
+
+        payingSaucesItems.clear();
+        freeSaucesItemList.clear();
+        accomplishmentitemList.clear();
+        boissonItemList.clear();
+        dessertItemList.clear();
+        payingWasbiItemClicList.clear();
+        freeWasbiItemClicList.clear();
+        baguettesItemList.clear();
+        //freeSauces.clear();
+        //freeWasbi.clear();
+        countSauces = 0;
+        countAccompagnements = 0;
+        countBoissons = 0;
+        countDesserts = 0;
+        countWasbi = 0;
+        countBauettes = 0;
+
+        if(binding == null) return;
+
+        rlSauces.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlAccompagnements.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBoissons.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlDesserts.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlWasbi.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+        rlBaguettes.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorWhite));
+
+
+        binding.tvCountSauces.setText(String.valueOf(countSauces));
+        binding.rlCountForSauces.setVisibility(View.GONE);
+
+        binding.tvCountAccompagnements.setText(String.valueOf(countAccompagnements));
+        binding.rlCountForAccompagnements.setVisibility(View.GONE);
+
+        binding.tvCountBoissons.setText(String.valueOf(countBoissons));
+        binding.rlCountForBoissons.setVisibility(View.GONE);
+
+        binding.tvCountDesserts.setText(String.valueOf(countDesserts));
+        binding.rlCountForDesserts.setVisibility(View.GONE);
+
+        binding.tvCountWasbi.setText(String.valueOf(countWasbi));
+        binding.rlCountForWasbi.setVisibility(View.GONE);
+
+        binding.tvCountBaguettes.setText(String.valueOf(countBauettes));
+        rlCountForBaguettes.setVisibility(View.GONE);
+
+        if (binding != null)
+            binding.recyclerViewAccompagnements.setVisibility(View.GONE);
+
+    }
+
 
     private void handleSauce() {
 
@@ -1010,37 +1072,5 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     }
 
 
-    public void clearPreviousSelectedItem() {
-        freeSaucesMap = new HashMap<>();
-        payingSaucesMap.clear();
-        accomplishmentitemMap.clear();
-        boissonItemMap.clear();
-        dessertItemMap.clear();
-        payingWasbiItemClicMap.clear();
-        freeWasbiItemClicMap.clear();
-        baguettesItemMap.clear();
-        selectCountSaucesMap.clear();
-        selectCountWsabiMap.clear();
 
-        payingSaucesItems.clear();
-        freeSaucesItemList.clear();
-        accomplishmentitemList.clear();
-        boissonItemList.clear();
-        dessertItemList.clear();
-        payingWasbiItemClicList.clear();
-        freeWasbiItemClicList.clear();
-        baguettesItemList.clear();
-        //freeSauces.clear();
-        //freeWasbi.clear();
-        countSauces = 0;
-        countAccompagnements = 0;
-        countBoissons = 0;
-        countDesserts = 0;
-        countWasbi = 0;
-        countBauettes = 0;
-
-        if (binding != null)
-            binding.recyclerViewAccompagnements.setVisibility(View.GONE);
-
-    }
 }

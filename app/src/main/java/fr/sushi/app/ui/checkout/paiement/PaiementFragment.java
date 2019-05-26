@@ -445,7 +445,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         RestuarentsResponse restuarentsResponse = DataCacheUtil.getRestuarentsResponses();
 
-        if (restuarentsResponse != null & restuarentsResponse.getResponse() != null) {
+        if (restuarentsResponse != null && restuarentsResponse.getResponse() != null) {
             List<ResponseItem> response = restuarentsResponse.getResponse();
             SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
             for (ResponseItem responseItem : response) {
