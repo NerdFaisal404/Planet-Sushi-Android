@@ -33,6 +33,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,9 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
@@ -61,11 +66,14 @@ import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.ui.profileaddress.AddressAddActivity;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
+import fr.sushi.app.util.SideProduct;
 import fr.sushi.app.util.Utils;
 
 
@@ -82,6 +90,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private SearchPlace currentSearchPlace;
     private PaimentViewModel paimentViewModel;
     private String returnAmount = "0";
+    private String idAddress;
 
 
     public PaiementFragment() {
@@ -187,9 +196,124 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         String phoneNumber =Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""),getActivity());
         binding.tvMobileNo.setText(phoneNumber);
 
+        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         return view;
     }
+
+    private void sendPayment() {
+        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        // SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
+
+
+        if (latestSearchPlace == null || latestSearchPlace.getOrder().getSchedule() == null) {
+            Utils.showAlert(getActivity(), "Alert!", "Veuillez choisir un jour");
+            return;
+        } else if (latestSearchPlace == null || latestSearchPlace.getOrder().getStoreId() == null) {
+            Utils.showAlert(getActivity(), "Alert!", "Veuillez choisir un restaurant");
+            return;
+        }
+
+        String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
+
+        if (!itemList.isEmpty()) {
+            for (ProfileAddressModel item : itemList) {
+                if (item.getLocation().equalsIgnoreCase(latestSearchPlace.getAddress())) {
+                    idAddress = item.getId();
+                }
+            }
+        }
+
+
+        if (TextUtils.isEmpty(idAddress)) {
+
+         ProfileAddressModel   model = new ProfileAddressModel();
+            model.setId(UUID.randomUUID().toString());
+
+
+            model.setLocation(latestSearchPlace.getAddress());
+            model.setCity(latestSearchPlace.getCity());
+            model.setZipCode(latestSearchPlace.getPostalCode());
+            model.setAddressType(latestSearchPlace.getType());
+
+            paimentViewModel.addOrUpdateAddressInServer(model);
+            return;
+
+        }
+
+
+        DialogUtils.showDialog(getActivity());
+
+
+        JsonObject mainObject = new JsonObject();
+
+        mainObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
+        mainObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
+        mainObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+
+        JsonObject cartJsonObject = new JsonObject();
+        cartJsonObject.addProperty("id_cart", "false");
+        cartJsonObject.addProperty("order_date", latestSearchPlace.getOrder().getOrderData());
+
+        cartJsonObject.addProperty("id_store", latestSearchPlace.getOrder().getStoreId());
+
+        cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
+
+        cartJsonObject.addProperty("is_delivery", "1");
+        cartJsonObject.addProperty("id_address", idAddress);
+
+        List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
+
+        JsonArray productsArray = new JsonArray();
+
+        for (MyCartProduct item : myCartProducts) {
+            JsonObject product = new JsonObject();
+            product.addProperty("id_product", item.getProductId());
+            product.addProperty("quantity", item.getItemCount());
+
+            List<CrossSellingSelectedItem> crossSellingList = item.getCrossSellingSelectedItems();
+
+            JsonArray crossSellingArray = new JsonArray();
+            if (crossSellingList != null && !crossSellingList.isEmpty()) {
+                for (CrossSellingSelectedItem cItem : crossSellingList) {
+                    JsonObject crossSellJson = new JsonObject();
+                    crossSellJson.addProperty("id_product", cItem.getMainProductId());
+                    crossSellJson.addProperty("id_product_cross_selling", cItem.getProductId());
+                    crossSellJson.addProperty("quantity", cItem.getProductCount());
+                    crossSellingArray.add(crossSellJson);
+                }
+            }
+            product.add("accessories", crossSellingArray);
+
+            productsArray.add(product);
+        }
+
+        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
+        for (SideProduct sideProductItem : sideProducts) {
+            JsonObject sideProduct = new JsonObject();
+            sideProduct.addProperty("id_product", sideProductItem.getProductId());
+            sideProduct.addProperty("quantity", sideProductItem.getItemCount());
+            productsArray.add(sideProduct);
+        }
+
+
+        mainObject.add("Products", productsArray);
+
+
+
+        mainObject.add("Cart", cartJsonObject);
+
+
+        paimentViewModel.sendSavePaymentOrder(mainObject);
+    }
+
 
 
     private void initRadioListener() {
