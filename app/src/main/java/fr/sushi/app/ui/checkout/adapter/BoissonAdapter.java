@@ -44,7 +44,7 @@ public class BoissonAdapter extends BaseAdapter<DrinksItem> {
         @Override
         public void bind(DrinksItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(item.getPriceTtc() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             binding.tvCount.setText(String.valueOf(item.selectCount));
 

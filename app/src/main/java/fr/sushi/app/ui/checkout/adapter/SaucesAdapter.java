@@ -18,6 +18,7 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.FreeSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.Sauces;
+import fr.sushi.app.util.Utils;
 
 public class SaucesAdapter extends BaseAdapter<Sauces> {
     private Context context;
@@ -74,7 +75,7 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
         @Override
         public void bind(FreeSaucesItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");;
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
 
             Integer value = selectCountSaucesMap.get(getAdapterPosition());
@@ -121,7 +122,7 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
         @Override
         public void bind(PayingSaucesItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");;
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
 
             Integer value = selectCountSaucesMap.get(getAdapterPosition());

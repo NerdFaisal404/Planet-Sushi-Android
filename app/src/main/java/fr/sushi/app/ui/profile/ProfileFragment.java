@@ -64,7 +64,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.groupTopView.setVisibility(View.VISIBLE);
             mBinding.textViewPoint.setText(quantity);
             mBinding.textViewPointLeft.setText(totalQuantity + " pts manquants");
-            showPointValue("150");
+            showPointValue(totalQuantity);
         }
 
         mBinding.textViewName.setText(userName);

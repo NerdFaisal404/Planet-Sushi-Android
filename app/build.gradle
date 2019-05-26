@@ -112,6 +112,7 @@ dependencies {
     implementation 'com.itlgl:iosdialog:1.0.1'
 
     implementation 'com.flipboard:bottomsheet-core:1.5.3'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.10'
 
 
 }

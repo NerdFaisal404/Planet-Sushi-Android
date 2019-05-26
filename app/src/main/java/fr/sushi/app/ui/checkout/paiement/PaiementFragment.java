@@ -184,7 +184,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         initRadioListener();
 
         binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
-        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE, ""));
+        String phoneNumber =Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""),getActivity());
+        binding.tvMobileNo.setText(phoneNumber);
 
 
         return view;
@@ -316,6 +317,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 PaymentMethodCheckoutActivity.isAdyenSelected = false;
                 PaymentMethodCheckoutActivity.isCashPayment = false;
                 PaymentMethodCheckoutActivity.isDeliveryPayment = true;
+                PaymentMethodCheckoutActivity.payemntChangeAmount = "0";
                 binding.tvReaustrantInfo.setText("Espèce - prevoir " + Utils.getDecimalFormat(Double.parseDouble(PaymentMethodCheckoutActivity.payemntChangeAmount)) + " €");
 
             }
@@ -464,6 +466,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
                         if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")){
                             binding.layoutCartPayment.setVisibility(View.GONE);
+                            binding.radioLivarsion.setChecked(true);
                         }
                     }
                 }

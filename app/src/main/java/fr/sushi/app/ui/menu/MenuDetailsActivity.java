@@ -101,11 +101,11 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
             boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
             if (isLivarsion) {
-                intent.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
             }else if (isExporter){
-                intent.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
             }
-            intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
+            intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, false);
             startActivity(intentAddress);
         });
 

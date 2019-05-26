@@ -13,6 +13,7 @@ import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.ChopsticksItem;
+import fr.sushi.app.util.Utils;
 
 public class BaguettesAdapter extends BaseAdapter<ChopsticksItem> {
     private Context context;
@@ -44,7 +45,7 @@ public class BaguettesAdapter extends BaseAdapter<ChopsticksItem> {
         @Override
         public void bind(ChopsticksItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");;
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             binding.tvCount.setText(String.valueOf(item.selectCount));
         }

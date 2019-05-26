@@ -18,6 +18,7 @@ import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.FreeWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.Wasbi;
+import fr.sushi.app.util.Utils;
 
 public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
     private Map<Integer, Integer> selectCountWsabiMap;
@@ -71,7 +72,7 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
         @Override
         public void bind(FreeWasabiGingerItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             Integer value = selectCountWsabiMap.get(getAdapterPosition());
             if(value == null){
@@ -116,7 +117,7 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
         @Override
         public void bind(PayingWasabiGingerItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             Integer value = selectCountWsabiMap.get(getAdapterPosition());
             if(value == null){
