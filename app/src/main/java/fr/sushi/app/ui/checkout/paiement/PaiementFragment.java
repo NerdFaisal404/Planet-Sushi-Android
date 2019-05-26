@@ -167,9 +167,11 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         model.setZipCode(latestSearchPlace.getPostalCode());
                     }
                 } else {
-                    model.setLocation(latestSearchPlace.getAddress());
-                    model.setCity(latestSearchPlace.getCity());
-                    model.setZipCode(latestSearchPlace.getPostalCode());
+                    if(latestSearchPlace != null) {
+                        model.setLocation(latestSearchPlace.getAddress());
+                        model.setCity(latestSearchPlace.getCity());
+                        model.setZipCode(latestSearchPlace.getPostalCode());
+                    }
                 }
                 Intent intent = new Intent(getActivity(), AddressAddActivity.class);
                 intent.putExtra(IntentKey.ADDRESS_MODEL, model);
@@ -332,8 +334,17 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             if (!success) {
                 Log.e("MapFragment", "Style parsing failed.");
             }
+            LatLng latLng = new LatLng(48.8566, 2.3522);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            //markerOptions.title("Current Position");
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
+            mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+            //move map camera
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
-            SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+
+            /*SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
             if (latestSearchPlace != null) {
                 if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
                     LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
@@ -345,7 +356,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     //move map camera
                     mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
                 }
-            }
+            }*/
             //checkPermissionAndPrepareClient();
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
