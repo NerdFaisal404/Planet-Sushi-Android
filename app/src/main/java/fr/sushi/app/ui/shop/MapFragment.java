@@ -69,7 +69,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private MapViewModel mapViewModel;
     private RestuarentsResponse restuarentsResponse;
     private List<ResponseItem> mapItemList;
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_map;
@@ -157,7 +156,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
+            if (locationList.size() > 0 && mLastLocation == null) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
@@ -252,8 +251,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         //markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-        mGoogleMap.addMarker(markerOptions);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_big));
+
+        if(moveMarker != null){
+            moveMarker.remove();
+        }
+
+        moveMarker = mGoogleMap.addMarker(markerOptions);
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
@@ -262,7 +266,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     /* Pager for bottom location card according to map marker */
     private int currentPage;
-
+    private Marker moveMarker;
     private class PageListener extends ViewPager.SimpleOnPageChangeListener {
         public void onPageSelected(int position) {
             currentPage = position;

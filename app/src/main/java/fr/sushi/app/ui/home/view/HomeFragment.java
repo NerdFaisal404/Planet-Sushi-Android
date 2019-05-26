@@ -215,9 +215,12 @@ public class HomeFragment extends BaseFragment {
             this.homeConfigurationData = homeConfigResponse;
             this.imageBaseUrl = homeConfigResponse.getResponse().getImgBaseUrl();
             this.homeSlidesItemList = homeConfigResponse.getResponse().getHomeSlides();
-            String path = imageBaseUrl + homeSlidesItemList.get(0).getPicture();
 
-            PicassoUtil.loadImage(path, binding.topLayout);
+            if(homeSlidesItemList != null && !homeSlidesItemList.isEmpty()) {
+                String path = imageBaseUrl + homeSlidesItemList.get(0).getPicture();
+
+                PicassoUtil.loadImage(path, binding.topLayout);
+            }
 
             showImageWithDelay();
         });
