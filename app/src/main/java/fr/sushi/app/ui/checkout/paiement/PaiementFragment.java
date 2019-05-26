@@ -184,7 +184,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         initRadioListener();
 
         binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
-        binding.tvMobileNo.setText(SharedPref.read(PrefKey.USER_PHONE, ""));
+        String phoneNumber =Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""),getActivity());
+        binding.tvMobileNo.setText(phoneNumber);
 
 
         return view;

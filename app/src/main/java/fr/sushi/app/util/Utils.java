@@ -52,6 +52,9 @@ import fr.sushi.app.BuildConfig;
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
+import io.michaelrocks.libphonenumber.android.NumberParseException;
+import io.michaelrocks.libphonenumber.android.PhoneNumberUtil;
+import io.michaelrocks.libphonenumber.android.Phonenumber;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -409,5 +412,20 @@ public class Utils {
 
     public static boolean isOneTimeLaunched() {
         return SharedPref.readBoolean(PrefKey.ONE_TIME_LAUNCHED, false);
+    }
+
+    public static String getFormatedPhoneNumber(String phoneNumber, Context context) {
+
+        Phonenumber.PhoneNumber pn = null;
+        try {
+            PhoneNumberUtil pnu = PhoneNumberUtil.createInstance(context);
+            pn = pnu.parse(phoneNumber, "FR");
+          String  pnE164 = pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.E164);
+
+            return pnE164;
+        } catch (NumberParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

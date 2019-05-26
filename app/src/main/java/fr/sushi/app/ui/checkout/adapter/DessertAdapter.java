@@ -13,6 +13,7 @@ import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
 import fr.sushi.app.ui.checkout.commade.model.DessertsItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingSaucesItem;
+import fr.sushi.app.util.Utils;
 
 public class DessertAdapter extends BaseAdapter<DessertsItem> {
     private Context context;
@@ -44,7 +45,7 @@ public class DessertAdapter extends BaseAdapter<DessertsItem> {
         @Override
         public void bind(DessertsItem item) {
             binding.itemName.setText(item.getName());
-            binding.tvPrice.setText(item.getPriceHt() + "€");
+            binding.tvPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc())) + "€");;
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
             binding.tvCount.setText(String.valueOf(item.selectCount));
         }
