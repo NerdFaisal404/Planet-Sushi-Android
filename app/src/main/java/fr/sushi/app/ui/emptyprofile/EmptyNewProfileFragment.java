@@ -159,6 +159,37 @@ public class EmptyNewProfileFragment extends BaseFragment {
                             saveAddress(addressArray);
                         }
 
+                        if (responseObj.has("CustomerFidelity")) {
+                            try {
+                                JSONObject customFidelity = responseObj.getJSONObject("CustomerFidelity");
+                                String fidelity_group = customFidelity.getString("fidelity_group");
+                                String amount = customFidelity.getString("amount");
+                                String is_available = customFidelity.getString("is_available");
+                                String total_quantity = customFidelity.getString("total_quantity");
+                                String quantity = customFidelity.getString("quantity");
+
+                                SharedPref.write(PrefKey.FIDELITY_GROUP, fidelity_group);
+                                SharedPref.write(PrefKey.FIDELITY_AMOUNT, amount);
+                                SharedPref.write(PrefKey.FIDELITY_IS_AVAILABLE, is_available);
+                                SharedPref.write(PrefKey.FIDELITY_TOTAL_QUANTITY, total_quantity);
+                                SharedPref.write(PrefKey.FIDELITY_QUANTITY, quantity);
+                            }catch (Exception e){
+                                SharedPref.write(PrefKey.FIDELITY_GROUP, "");
+                                SharedPref.write(PrefKey.FIDELITY_AMOUNT, "");
+                                SharedPref.write(PrefKey.FIDELITY_IS_AVAILABLE, "");
+                                SharedPref.write(PrefKey.FIDELITY_TOTAL_QUANTITY, "");
+                                SharedPref.write(PrefKey.FIDELITY_QUANTITY, "");
+                            }
+
+
+                        } else {
+                            SharedPref.write(PrefKey.FIDELITY_GROUP, "");
+                            SharedPref.write(PrefKey.FIDELITY_AMOUNT, "");
+                            SharedPref.write(PrefKey.FIDELITY_IS_AVAILABLE, "");
+                            SharedPref.write(PrefKey.FIDELITY_TOTAL_QUANTITY, "");
+                            SharedPref.write(PrefKey.FIDELITY_QUANTITY, "");
+                        }
+
                         SharedPref.write(PrefKey.USER_NAME, (firstName + " " + lastName));
                         SharedPref.write(PrefKey.USER_FIRST_NAME, firstName);
                         SharedPref.write(PrefKey.USER_LAST_NAME, lastName);

@@ -4,6 +4,7 @@ package fr.sushi.app.ui.profile;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
@@ -50,6 +51,19 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
         String userName = SharedPref.read(PrefKey.USER_NAME, "");
 
+        String totalQuantity = SharedPref.read(PrefKey.FIDELITY_TOTAL_QUANTITY, "");
+        String amount = SharedPref.read(PrefKey.FIDELITY_AMOUNT, "");
+        String quantity = SharedPref.read(PrefKey.FIDELITY_QUANTITY, "");
+
+
+        if (TextUtils.isEmpty(totalQuantity)) {
+            mBinding.groupTopView.setVisibility(View.GONE);
+        } else {
+            mBinding.groupTopView.setVisibility(View.VISIBLE);
+            mBinding.textViewPoint.setText(quantity);
+            mBinding.textViewPointLeft.setText(totalQuantity + " pts manquants");
+        }
+
         mBinding.textViewName.setText(userName);
 
         setClickListener(mBinding.imageViewSettings);
@@ -64,7 +78,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
 
     private void setProgressAnimate(int progressTo) {
 
-        ObjectAnimator animation =  ObjectAnimator.ofInt(mBinding.progressBar, "progress", progressTo);
+        ObjectAnimator animation = ObjectAnimator.ofInt(mBinding.progressBar, "progress", progressTo);
         animation.setDuration(1000);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
