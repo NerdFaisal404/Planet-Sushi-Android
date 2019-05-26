@@ -22,13 +22,14 @@ import fr.sushi.app.ui.checkout.commade.model.Sauces;
 public class SaucesAdapter extends BaseAdapter<Sauces> {
     private Context context;
 
-    private Map<Integer, Integer> selectCountMap = new HashMap<>();
+    private Map<Integer, Integer> selectCountSaucesMap;
 
     private int FREE_ITEM = 0;
     private int PAID_ITEM = 1;
 
-    public SaucesAdapter(Context context) {
+    public SaucesAdapter(Context context, Map<Integer, Integer> selectMap) {
         this.context = context;
+        this.selectCountSaucesMap = selectMap;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
 
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountSaucesMap.get(getAdapterPosition());
             if(value == null){
                 binding.tvCount.setText(String.valueOf(0));
             }else {
@@ -91,16 +92,16 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
                 return;
             }
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountSaucesMap.get(getAdapterPosition());
 
             if (v.getId() == R.id.imgViewPlus) {
                 if (value == null) {
-                    selectCountMap.put(getAdapterPosition(), 1);
+                    selectCountSaucesMap.put(getAdapterPosition(), 1);
                 } else {
-                    selectCountMap.put(getAdapterPosition(), value + 1);
+                    selectCountSaucesMap.put(getAdapterPosition(), value + 1);
                 }
             }else {
-                selectCountMap.put(getAdapterPosition(), value - 1);
+                selectCountSaucesMap.put(getAdapterPosition(), value - 1);
             }
 
             if (mItemClickListener != null)
@@ -123,7 +124,7 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
 
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountSaucesMap.get(getAdapterPosition());
             if(value == null){
                 binding.tvCount.setText(String.valueOf(0));
             }else {
@@ -137,16 +138,16 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
             if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
                 return;
             }
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountSaucesMap.get(getAdapterPosition());
 
             if (v.getId() == R.id.imgViewPlus) {
                 if (value == null) {
-                    selectCountMap.put(getAdapterPosition(), 1);
+                    selectCountSaucesMap.put(getAdapterPosition(), 1);
                 } else {
-                    selectCountMap.put(getAdapterPosition(), value + 1);
+                    selectCountSaucesMap.put(getAdapterPosition(), value + 1);
                 }
             }else {
-                selectCountMap.put(getAdapterPosition(), value - 1);
+                selectCountSaucesMap.put(getAdapterPosition(), value - 1);
             }
 
             if (mItemClickListener != null)

@@ -255,7 +255,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private void showSaucesData() {
         if (accompagnementResponse == null) return;
         binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
-        saucesAdapter = new SaucesAdapter(getActivity());
+        saucesAdapter = new SaucesAdapter(getActivity(),selectCountSaucesMap);
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
         List<FreeSaucesItem> payingSaucesItemList =
@@ -300,7 +300,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private void showWasibData() {
         if (accompagnementResponse == null) return;
         binding.recyclerViewAccompagnements.setVisibility(View.VISIBLE);
-        wasbiGingerAdapter = new WasbiGingerAdapter(getActivity());
+        wasbiGingerAdapter = new WasbiGingerAdapter(getActivity(),selectCountWsabiMap);
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(wasbiGingerAdapter);
         List<FreeWasabiGingerItem> wasbiList =
@@ -340,6 +340,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     private Map<String, PayingWasabiGingerItem> payingWasbiItemClicMap = new HashMap<>();
     private Map<String, FreeWasabiGingerItem> freeWasbiItemClicMap = new HashMap<>();
     private Map<String, ChopsticksItem> baguettesItemMap = new HashMap<>();
+    private Map<Integer, Integer> selectCountSaucesMap = new HashMap<>();
+    private Map<Integer, Integer> selectCountWsabiMap = new HashMap<>();
 
     //private Map<Integer, Integer> freeSauces = new HashMap<>();
     //private Map<Integer, Integer> freeWasbi = new HashMap<>();
@@ -1017,6 +1019,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         payingWasbiItemClicMap.clear();
         freeWasbiItemClicMap.clear();
         baguettesItemMap.clear();
+        selectCountSaucesMap.clear();
+        selectCountWsabiMap.clear();
 
         payingSaucesItems.clear();
         freeSaucesItemList.clear();

@@ -15,20 +15,19 @@ import fr.sushi.app.R;
 import fr.sushi.app.databinding.ListEachRowAccompagnemenntsBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
-import fr.sushi.app.ui.checkout.commade.model.FreeSaucesItem;
 import fr.sushi.app.ui.checkout.commade.model.FreeWasabiGingerItem;
 import fr.sushi.app.ui.checkout.commade.model.PayingWasabiGingerItem;
-import fr.sushi.app.ui.checkout.commade.model.Sauces;
 import fr.sushi.app.ui.checkout.commade.model.Wasbi;
 
 public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
-    private Map<Integer, Integer> selectCountMap = new HashMap<>();
+    private Map<Integer, Integer> selectCountWsabiMap;
     private Context context;
     private int FREE_ITEM =0;
     private int PAID_ITEM = 1;
 
-    public WasbiGingerAdapter(Context context) {
+    public WasbiGingerAdapter(Context context, Map<Integer, Integer> selectMap) {
         this.context = context;
+        this.selectCountWsabiMap = selectMap;
     }
 
     @Override
@@ -74,7 +73,7 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountWsabiMap.get(getAdapterPosition());
             if(value == null){
                 binding.tvCount.setText(String.valueOf(0));
             }else {
@@ -88,16 +87,16 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
                 return;
             }
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountWsabiMap.get(getAdapterPosition());
 
             if (v.getId() == R.id.imgViewPlus) {
                 if (value == null) {
-                    selectCountMap.put(getAdapterPosition(), 1);
+                    selectCountWsabiMap.put(getAdapterPosition(), 1);
                 } else {
-                    selectCountMap.put(getAdapterPosition(), value + 1);
+                    selectCountWsabiMap.put(getAdapterPosition(), value + 1);
                 }
             }else {
-                selectCountMap.put(getAdapterPosition(), value - 1);
+                selectCountWsabiMap.put(getAdapterPosition(), value - 1);
             }
 
             if (mItemClickListener != null)
@@ -119,7 +118,7 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             binding.itemName.setText(item.getName());
             binding.tvPrice.setText(item.getPriceHt() + "€");
             Glide.with(context).load(item.getCoverUrl()).into(binding.imageViewItem);
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountWsabiMap.get(getAdapterPosition());
             if(value == null){
                 binding.tvCount.setText(String.valueOf(0));
             }else {
@@ -133,16 +132,16 @@ public class WasbiGingerAdapter extends BaseAdapter<Wasbi> {
             if(v.getId() == R.id.imgViewMinus && item.selectCount <= 0){
                 return;
             }
-            Integer value = selectCountMap.get(getAdapterPosition());
+            Integer value = selectCountWsabiMap.get(getAdapterPosition());
 
             if (v.getId() == R.id.imgViewPlus) {
                 if (value == null) {
-                    selectCountMap.put(getAdapterPosition(), 1);
+                    selectCountWsabiMap.put(getAdapterPosition(), 1);
                 } else {
-                    selectCountMap.put(getAdapterPosition(), value + 1);
+                    selectCountWsabiMap.put(getAdapterPosition(), value + 1);
                 }
             }else {
-                selectCountMap.put(getAdapterPosition(), value - 1);
+                selectCountWsabiMap.put(getAdapterPosition(), value - 1);
             }
 
             if (mItemClickListener != null)
