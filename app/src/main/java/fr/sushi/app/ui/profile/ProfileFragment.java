@@ -62,6 +62,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.groupTopView.setVisibility(View.VISIBLE);
             mBinding.textViewPoint.setText(quantity);
             mBinding.textViewPointLeft.setText(totalQuantity + " pts manquants");
+            showPointValue(totalQuantity);
         }
 
         mBinding.textViewName.setText(userName);
@@ -125,5 +126,49 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         } else if (item.getItemName().equals(itemName[2])) {
             startActivity(new Intent(getActivity(), SusuCardDetailsActivity.class));
         }
+    }
+
+    private void showPointValue(String totalPoint) {
+
+        int currentPoint = Integer.parseInt(totalPoint);
+
+        if (currentPoint > 0 && currentPoint < 151) {
+            mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_pink));
+            mBinding.tvMember.setText("Membre Pink");
+            mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_pink_progress));
+        }else if (currentPoint > 150 && currentPoint < 451) {
+            mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_gold));
+            mBinding.tvMember.setText("Membre Gold");
+            mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_gold_progress));
+        }else if (currentPoint > 450) {
+            mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_black));
+            mBinding.tvMember.setText("Membre Black");
+            mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_black_progress));
+        }
+/*
+        if currentPoint > -1 && currentPoint < 151 {
+            cardImageView.image = UIImage(named: "card-pink")
+            memberTypeLabel.text = "Membre Pink"
+            progressView.progressTintColor =  UIColor.init(hex: "E1007C")
+            nextLevel = "Gold"
+            progress = Float(Float(currentPoint)/151.0)
+            remainingPointLabel.text = "\(151 - currentPoint) pts manquants"
+        }else if currentPoint > 150 && currentPoint < 451 {
+            cardImageView.image = UIImage(named: "card-gold")
+            memberTypeLabel.text = "Membre Gold"
+            progressView.progressTintColor = UIColor.init(hex: "B28F4D")
+            nextLevel = "Black"
+            progress = Float(Float(currentPoint)/451.0)
+            remainingPointLabel.text = "\(451 - currentPoint) pts manquants"
+        }else if currentPoint > 450 {
+            cardImageView.image = UIImage(named: "card-black")
+            memberTypeLabel.text = "Membre Black"
+            progressView.progressTintColor = UIColor.init(hex: "1F1F1F")
+            nextLevel = ""
+            progress = 1
+            remainingPointLabel.text = "\(currentPoint) pts cumulés"
+        }*/
+
+
     }
 }
