@@ -502,12 +502,15 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
             binding.tvStepOne.setClickable(false);
             binding.tvStepTwo.setClickable(false);
             binding.tvStepThree.setClickable(false);
+            binding.viewpager.disableScroll(true);
         } else {
             binding.layoutBottomCheckout.setEnabled(true);
             binding.layoutBottomCheckout.setClickable(true);
             binding.tvStepOne.setClickable(true);
             binding.tvStepTwo.setClickable(true);
             binding.tvStepThree.setClickable(true);
+            binding.viewpager.disableScroll(false);
+
         }
     }
 
