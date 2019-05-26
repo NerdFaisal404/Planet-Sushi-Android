@@ -196,6 +196,13 @@ public class AddressPickerActivity extends AppCompatActivity implements
             if (response != null) {
                 // DialogUtils.hideDialog();
                 try {
+                    if (isExporter) {
+                        SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+                        SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+                    } else {
+                        SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+                        SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+                    }
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
                     Log.e("JsonObject", "value =" + responseObject.toString());
@@ -206,13 +213,6 @@ public class AddressPickerActivity extends AppCompatActivity implements
 
                     } else {
 
-                        if (isExporter) {
-                            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
-                            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
-                        } else {
-                            SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
-                            SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
-                        }
 
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
                         addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
@@ -242,7 +242,13 @@ public class AddressPickerActivity extends AppCompatActivity implements
                 try {
                     JSONObject responseObject = new JSONObject(response.string());
                     boolean error = Boolean.parseBoolean(responseObject.getString("error"));
-
+                    if (isExporter) {
+                        SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, false);
+                        SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, true);
+                    } else {
+                        SharedPref.write(PrefKey.IS_LIBRATION_PRESSED, true);
+                        SharedPref.write(PrefKey.IS_EMPORTER_PRESSED, false);
+                    }
                     Log.e("JsonObject", "" + responseObject.toString());
                     if (error == true) {
                         DialogUtils.hideDialog();
