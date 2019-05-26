@@ -72,10 +72,16 @@
                 app:layout_constraintTop_toTopOf="@+id/profile_container" />
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.constraint.Group
+            android:id="@+id/groupTopView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="text_view_title,tvPts,text_view_point_left,image_view_card,middle_view,tv_member,text_view_progress_details,progress_bar,text_view_point" />
+
         <View
             android:id="@+id/middle_view"
             android:layout_width="0dp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="200dp"
             android:background="@drawable/ic_home_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/text_view_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +103,7 @@
 
 
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/tvPts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +118,7 @@
 
 
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/tv_member"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -124,7 +130,7 @@
             app:layout_constraintStart_toStartOf="@+id/text_view_point" />
 
         <ImageView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/image_view_card"
             android:layout_width="200dp"
             android:layout_height="100dp"
@@ -136,12 +142,12 @@
             app:layout_constraintTop_toTopOf="@+id/middle_view" />
 
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/text_view_progress_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp4"
-            android:text="Prochain niveau Black"
+            android:text="Voir mes avantages"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:fontFamily="@font/robot_regular"
@@ -149,7 +155,7 @@
             app:layout_constraintStart_toStartOf="@+id/progress_bar" />
 
         <TextView
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/text_view_point_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,7 +168,7 @@
             app:layout_constraintEnd_toEndOf="@+id/progress_bar" />
 
         <ProgressBar
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"

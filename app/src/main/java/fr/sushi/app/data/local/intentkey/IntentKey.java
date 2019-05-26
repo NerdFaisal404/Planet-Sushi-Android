@@ -25,5 +25,6 @@ public interface IntentKey {
     String KEY_ORDER_ID = "KEY_ORDER_ID";
     String KEY_IS_FROM_PAIEMENT_PAGE = "KEY_IS_FROM_PAIEMENT_PAGE";
     String KEY_IS_TAKEWAY = "KEY_IS_TAKEWAY";
+    String KEY_IS_CARD_POSITION = "KEY_IS_CARD_POSITION";
 
 }

@@ -1,10 +1,12 @@
 package fr.sushi.app.ui.carddetails;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import fr.sushi.app.R;
 
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.databinding.ActivitySusuCardDetailsBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.carddetails.adapter.CardDetailsAdapter;
@@ -45,6 +47,25 @@ public class SusuCardDetailsActivity extends BaseActivity {
         mBinding.viewPagerCardContent.setAdapter(mCardDetailsAdapter);
 
         syncViewpager();
+
+        initIntentValue();
+
+
+    }
+
+
+    private void initIntentValue(){
+        Intent intent = getIntent();
+        if (intent.hasExtra(IntentKey.KEY_IS_CARD_POSITION)){
+            String position = intent.getStringExtra(IntentKey.KEY_IS_CARD_POSITION);
+            if (position.equalsIgnoreCase("0")){
+                mBinding.viewPagerCard.setCurrentItem(0);
+            }else if (position.equalsIgnoreCase("1")){
+                mBinding.viewPagerCard.setCurrentItem(1);
+            }else if (position.equalsIgnoreCase("2")){
+                mBinding.viewPagerCard.setCurrentItem(2);
+            }
+        }
     }
 
     @Override
