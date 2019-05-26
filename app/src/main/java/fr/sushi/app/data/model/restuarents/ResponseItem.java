@@ -69,7 +69,10 @@ public class ResponseItem implements ClusterItem {
 	private String activeOnlinePayment;
 
 	//active_online_payment
-/*
+
+	@SerializedName("Schedules")
+	private Schedules schedules;
+
 	public void setSchedules(Schedules schedules){
 		this.schedules = schedules;
 	}
@@ -77,7 +80,6 @@ public class ResponseItem implements ClusterItem {
 	public Schedules getSchedules(){
 		return schedules;
 	}
-*/
 
 	public String getActiveOnlinePayment() {
 		return activeOnlinePayment;
