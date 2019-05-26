@@ -23,17 +23,17 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:paddingTop="@dimen/dp5"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp5">
 
                     <fragment
-                        android:layout_margin="@dimen/dp10"
                         android:id="@+id/mapView"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="86dp"
                         android:layout_height="86dp"
                         android:layout_alignParentLeft="true"
+                        android:layout_margin="@dimen/dp10"
                         tools:context=".ui.main.MainActivity" />
 
                     <LinearLayout
@@ -70,9 +70,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp4"
                             android:fontFamily="@font/robot_regular"
-                            tools:text="paris 4800"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp14" />
+                            android:textSize="@dimen/sp14"
+                            tools:text="paris 4800" />
 
 
                     </LinearLayout>
@@ -88,7 +88,8 @@
                     <ImageView
                         android:id="@+id/ivHouse"
                         android:layout_width="20dp"
-                        android:layout_height="20dp"     android:layout_alignParentLeft="true"
+                        android:layout_height="20dp"
+                        android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/dp10"
                         android:src="@drawable/icon_house2x" />
@@ -122,9 +123,9 @@
                 </RelativeLayout>
 
                 <View
-                    android:background="@drawable/bg_divider"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"/>
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/bg_divider" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -134,7 +135,8 @@
                     <ImageView
                         android:id="@+id/ivPeople"
                         android:layout_width="20dp"
-                        android:layout_height="20dp"   android:layout_alignParentLeft="true"
+                        android:layout_height="20dp"
+                        android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/dp10"
                         android:src="@drawable/icon_user2x" />
@@ -144,12 +146,12 @@
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/ivPeople"
-                        android:fontFamily="@font/roboto_medium"
-                        android:singleLine="true"
-                        android:ellipsize="end"
                         android:layout_marginRight="@dimen/dp10"
                         android:layout_toLeftOf="@+id/tvMobileNo"
+                        android:layout_toRightOf="@+id/ivPeople"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/roboto_medium"
+                        android:singleLine="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp15"
                         tools:text="Faisal Ahmed" />
@@ -162,28 +164,27 @@
                         android:layout_alignParentRight="true"
                         android:fontFamily="@font/robot_regular"
                         android:singleLine="true"
+                        android:text="01763297075"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/sp15"
-                        android:text="01763297075" />
+                        android:textSize="@dimen/sp15" />
                 </RelativeLayout>
 
             </LinearLayout>
 
 
-
             <RelativeLayout
                 android:id="@+id/layoutAddress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:padding="@dimen/dp10"
-                android:layout_marginTop="@dimen/dp10">
+                android:layout_height="52dp"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
+                android:padding="@dimen/dp10">
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/ivDelivery"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp10"
                     android:src="@drawable/ic_clock_darker_grey" />
 
@@ -228,18 +229,18 @@
                 android:id="@+id/layoutDiscount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@drawable/bg_white_round"
                 android:padding="@dimen/dp10"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/dp10">
+                android:visibility="visible">
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/ivDiscount"
                     android:layout_width="@dimen/dp20"
                     android:layout_height="@dimen/dp20"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp10"
-                    android:src="@drawable/ic_clock_darker_grey" />
+                    android:src="@drawable/ic_discount" />
 
                 <TextView
                     android:id="@+id/tvDiscount"
@@ -250,10 +251,20 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
-                    android:text="Heure de livraison"
+                    android:text="+ Ajouter un code réduction"
                     android:textColor="#394F61"
                     android:textSize="@dimen/sp16" />
 
+                <TextView
+                    android:id="@+id/tvDiscountAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/colorPink"
+                    android:textSize="@dimen/sp16"
+                    tools:text="(-5,00 €)" />
 
 
             </RelativeLayout>
@@ -272,20 +283,20 @@
                 android:textSize="@dimen/sp24" />
 
             <RelativeLayout
-                android:visibility="visible"
                 android:id="@+id/layoutCartPayment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_marginTop="@dimen/dp10"
                 android:background="@drawable/bg_white_round"
-                android:padding="@dimen/dp10">
+                android:padding="@dimen/dp10"
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/ivCart"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dp10"
-                   android:layout_centerVertical="true"
                     android:src="@drawable/ic_card_planet" />
 
                 <TextView
@@ -318,7 +329,7 @@
             <RelativeLayout
                 android:id="@+id/layoutLivarsion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_marginTop="@dimen/dp10"
                 android:background="@drawable/bg_white_round"
                 android:padding="@dimen/dp10">
@@ -327,8 +338,8 @@
                     android:id="@+id/ivLivarsion"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginRight="@dimen/dp10"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp10"
                     android:src="@drawable/ic_scooter" />
 
                 <TextView
@@ -360,7 +371,7 @@
             <RelativeLayout
                 android:id="@+id/layoutRestuarent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_marginTop="@dimen/dp10"
                 android:background="@drawable/bg_white_round"
                 android:padding="@dimen/dp10">
@@ -369,8 +380,8 @@
                     android:id="@+id/ivResuarent"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginRight="@dimen/dp10"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp10"
                     android:src="@drawable/ic_cash_payment" />
 
                 <TextView

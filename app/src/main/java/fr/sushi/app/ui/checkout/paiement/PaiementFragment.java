@@ -472,6 +472,14 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                             PaymentMethodCheckoutActivity.isAdyenSelected = false;
                             PaymentMethodCheckoutActivity.isCashPayment = true;
                             PaymentMethodCheckoutActivity.isDeliveryPayment = false;
+                        }else {
+                            binding.layoutCartPayment.setVisibility(View.VISIBLE);
+                            binding.radioLivarsion.setChecked(false);
+                            binding.radioRestaurent.setChecked(false);
+                            binding.radioCart.setChecked(true);
+                            PaymentMethodCheckoutActivity.isAdyenSelected = true;
+                            PaymentMethodCheckoutActivity.isCashPayment = false;
+                            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
                         }
                     }
                 }
