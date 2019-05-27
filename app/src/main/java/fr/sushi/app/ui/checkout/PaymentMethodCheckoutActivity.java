@@ -80,6 +80,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     String idAddress = null;
     private ProfileAddressModel model;
     private String adyenPayload = "false";
+    public static String ID_CART = "false";
     private int minimuOrderAmount;
     public static double discountPrice = 0.0;
 
@@ -205,12 +206,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         });
 
-    }
-
-    private class PageListener extends ViewPager.SimpleOnPageChangeListener {
-        public void onPageSelected(int position) {
-
-        }
     }
 
 
@@ -450,6 +445,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                         isAdyenSelected = true;
                         isCashPayment = false;
                         isDeliveryPayment = false;
+                        ID_CART = "false";
+                        discountPrice = 0;
                         finish();
                     }
                 } catch (JSONException e) {
@@ -524,9 +521,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     public void showDiscountPrice(double discountPrice, boolean isPaimentPage) {
         this.totalPrice = discountPrice;
-        if (isPaimentPage){
+        if (isPaimentPage) {
             binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
-        }else {
+        } else {
             binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
         }
 

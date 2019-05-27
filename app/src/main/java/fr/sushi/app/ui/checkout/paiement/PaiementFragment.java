@@ -171,6 +171,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                             binding.tvDiscount.setText(cartDiscountsItem.getName());
                             double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() - discountValue;
                             PaymentMethodCheckoutActivity.discountPrice = discountValue;
+                            PaymentMethodCheckoutActivity.ID_CART = String.valueOf(discountResponse.getResponse().getIdCart());
                             ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice, true);
                         }
 
