@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_home_image"
         android:orientation="vertical"
+        android:fitsSystemWindows="true"
         android:paddingBottom="@dimen/dp16">
 
         <RelativeLayout

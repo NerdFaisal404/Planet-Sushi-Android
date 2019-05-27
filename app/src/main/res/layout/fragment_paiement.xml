@@ -8,6 +8,7 @@
         android:paddingLeft="@dimen/dp16"
         android:paddingRight="@dimen/dp16"
         android:paddingBottom="@dimen/dp16"
+        android:fitsSystemWindows="true"
         tools:context=".ui.checkout.paiement.PaiementFragment">
 
         <LinearLayout
