@@ -91,6 +91,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private PaimentViewModel paimentViewModel;
     private String returnAmount = "0";
     private String idAddress;
+    private String discountCode = "";
 
 
     public PaiementFragment() {
@@ -176,7 +177,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         model.setZipCode(latestSearchPlace.getPostalCode());
                     }
                 } else {
-                    if(latestSearchPlace != null) {
+                    if (latestSearchPlace != null) {
                         model.setLocation(latestSearchPlace.getAddress());
                         model.setCity(latestSearchPlace.getCity());
                         model.setZipCode(latestSearchPlace.getPostalCode());
@@ -193,13 +194,13 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         initRadioListener();
 
         binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
-        String phoneNumber =Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""),getActivity());
+        String phoneNumber = Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""), getActivity());
         binding.tvMobileNo.setText(phoneNumber);
 
         binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                sendPayment();
             }
         });
 
@@ -233,7 +234,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
         if (TextUtils.isEmpty(idAddress)) {
 
-         ProfileAddressModel   model = new ProfileAddressModel();
+            ProfileAddressModel model = new ProfileAddressModel();
             model.setId(UUID.randomUUID().toString());
 
 
@@ -256,6 +257,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         mainObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
         mainObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
         mainObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+        mainObject.addProperty("discount", discountCode);
 
         JsonObject cartJsonObject = new JsonObject();
         cartJsonObject.addProperty("id_cart", "false");
@@ -307,13 +309,11 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         mainObject.add("Products", productsArray);
 
 
-
         mainObject.add("Cart", cartJsonObject);
 
 
-        paimentViewModel.sendSavePaymentOrder(mainObject);
+        paimentViewModel.addCartDiscount(mainObject);
     }
-
 
 
     private void initRadioListener() {
@@ -341,6 +341,45 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         });
 
         binding.layoutRestuarent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
+                LayoutInflater inflaters = getLayoutInflater();
+                View dialogView = inflaters.inflate(R.layout.layout_discount_alert, null);
+
+                final EditText editText = dialogView.findViewById(R.id.edtCode);
+                TextView tvCancel = dialogView.findViewById(R.id.tvCancel);
+                TextView tvOk = dialogView.findViewById(R.id.tvOk);
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        dialogBuilder.dismiss();
+                        discountCode = editText.getText().toString();
+                    }
+                });
+
+                tvOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        Utils.hideSoftKeyboard(getActivity());
+                        dialogBuilder.dismiss();
+                        discountCode = editText.getText().toString();
+
+                    }
+                });
+
+
+            }
+        });
+
+        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -470,23 +509,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
 
-            /*SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-            if (latestSearchPlace != null) {
-                if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
-                    LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    //markerOptions.title("Current Position");
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
-                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-                    //move map camera
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-                }
-            }*/
-            //checkPermissionAndPrepareClient();
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -588,7 +610,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             for (ResponseItem responseItem : response) {
                 if (searchPlace != null) {
                     if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
-                        if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")){
+                        if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")) {
                             binding.layoutCartPayment.setVisibility(View.GONE);
                             binding.radioLivarsion.setChecked(true);
                             binding.radioRestaurent.setChecked(false);
@@ -596,7 +618,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                             PaymentMethodCheckoutActivity.isAdyenSelected = false;
                             PaymentMethodCheckoutActivity.isCashPayment = true;
                             PaymentMethodCheckoutActivity.isDeliveryPayment = false;
-                        }else {
+                        } else {
                             binding.layoutCartPayment.setVisibility(View.VISIBLE);
                             binding.radioLivarsion.setChecked(false);
                             binding.radioRestaurent.setChecked(false);

@@ -59,6 +59,9 @@ public interface ApiCall {
     @POST("saveOrder")
     Flowable<ResponseBody> saveOrderPayment(@Body JsonObject paymentModel);
 
+    @POST("addCartDiscount")
+    Flowable<ResponseBody> addCartDiscount(@Body JsonObject paymentModel);
+
     @POST("getStoreProducts")
     Flowable<ResponseBody> getStoreProducts(@Query("params") JsonObject address);
 }

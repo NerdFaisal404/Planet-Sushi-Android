@@ -42,8 +42,8 @@ public class PaimentViewModel extends ViewModel {
         }
     }
 
-    public void sendSavePaymentOrder(JsonObject paymentModel) {
-        Repository.sendPayment(paymentModel).subscribeOn(Schedulers.io())
+    public void addCartDiscount(JsonObject paymentModel) {
+        Repository.addCartDiscount(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessPaymentOrderRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
