@@ -465,6 +465,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 });
 
                 dialogBuilder.setView(dialogView);
+                dialogBuilder.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 dialogBuilder.show();
 
             }
@@ -547,7 +548,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             });
 
             dialogBuilder.setView(dialogView);
+            dialogBuilder.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             dialogBuilder.show();
+
         });
 
         buttonNoChange.setOnClickListener(new View.OnClickListener() {
