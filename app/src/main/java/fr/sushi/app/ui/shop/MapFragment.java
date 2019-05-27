@@ -47,6 +47,7 @@ import java.util.List;
 import fr.sushi.app.R;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
+import fr.sushi.app.data.model.restuarents.TodaySchedulesItem;
 import fr.sushi.app.databinding.FragmentMapBinding;
 import fr.sushi.app.databinding.ListEachRowShopsBinding;
 import fr.sushi.app.misc.Constants;
@@ -405,6 +406,25 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             container.addView(binding.getRoot());
             return binding.getRoot();
         }
+
+
+        //Roman Code
+        private void setTime(ListEachRowShopsBinding binding, ResponseItem responseItem) {
+            StringBuilder sb = new StringBuilder();
+            List<TodaySchedulesItem> schedulesItems = responseItem.getTodaySchedules();
+            int lastIndex = schedulesItems.size() - 1;
+            for (int i = lastIndex; i >= 0; i--) {
+                TodaySchedulesItem item = schedulesItems.get(i);
+                String debTime = item.getTimeDeb();
+                String debTimeWithoutSec = debTime.substring(0, debTime.length() - 3);
+                String endTime = item.getTimeEnd();
+                String endTimeWithoutSec = endTime.substring(0, endTime.length() - 3);
+                sb.append(debTimeWithoutSec + "-" + endTimeWithoutSec + "/");
+            }
+            sb.deleteCharAt(sb.lastIndexOf("/"));
+            binding.tvOpeningTime.setText(sb);
+        }
+
 
         @Override
         public void onClick(View v) {
