@@ -284,7 +284,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         mainObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
 
         JsonObject cartJsonObject = new JsonObject();
-        cartJsonObject.addProperty("id_cart", "false");
+        cartJsonObject.addProperty("id_cart", ID_CART);
         cartJsonObject.addProperty("order_date", latestSearchPlace.getOrder().getOrderData());
 
         cartJsonObject.addProperty("id_store", latestSearchPlace.getOrder().getStoreId());
