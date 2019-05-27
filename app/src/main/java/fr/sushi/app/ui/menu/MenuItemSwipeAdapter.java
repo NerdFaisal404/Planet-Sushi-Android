@@ -252,12 +252,20 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private void showBottomSheet(ProductsItem item) {
         count = DBManager.on().getProductCountById(item.getIdProduct());
+
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View bottomSheet = inflater.inflate(R.layout.bottom_sheet_item_details, null);
 
         dialog = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
         dialog.setContentView(bottomSheet);
         dialog.setCanceledOnTouchOutside(true);
+        dialog.setOnShowListener(dia -> {
+            BottomSheetDialog dialog = (BottomSheetDialog) dia;
+            FrameLayout bottomSheet1 =  dialog .findViewById(R.id.design_bottom_sheet);
+            BottomSheetBehavior.from(bottomSheet1).setState(BottomSheetBehavior.STATE_EXPANDED);
+            BottomSheetBehavior.from(bottomSheet1).setSkipCollapsed(true);
+            BottomSheetBehavior.from(bottomSheet1).setHideable(true);
+        });
         dialog.show();
 
         TextView tvTitle = (TextView) bottomSheet.findViewById(R.id.tvTitle);
@@ -269,6 +277,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivItem = bottomSheet.findViewById(R.id.ivItem);
         TextView tvTagList = bottomSheet.findViewById(R.id.tvTagList);
         LinearLayout adjustLayout = bottomSheet.findViewById(R.id.layoutAdjust);
+
         String[] title = item.getName().split("\\s");
 
         tvCount.setText(String.valueOf(count));
