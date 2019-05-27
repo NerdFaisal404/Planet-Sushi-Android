@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private MapViewModel mapViewModel;
     private RestuarentsResponse restuarentsResponse;
     private List<ResponseItem> mapItemList;
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_map;
@@ -87,6 +87,20 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
         binding.etSearchContacts.setOnClickListener(v -> {
             startActivityForResult(new Intent(getContext(), MapAutoCompletePlaceActivity.class), REQUEST_ADDRESS);
+        });
+
+        binding.ivMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mLastLocation != null) {
+                    binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_marker_around_me_pink));
+                    LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                }
+            }
         });
     }
 
@@ -112,7 +126,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         if (resultCode == Activity.RESULT_OK) {
             double latitude = data.getDoubleExtra(Constants.LATITUDE, 0);
             double longitude = data.getDoubleExtra(Constants.LONGITUDE, 0);
-            gotoLocation(latitude, longitude);
+            showSearchLocation(latitude, longitude);
         } else {
             //todo error message to user
 
@@ -128,6 +142,15 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             if (!success) {
                 Log.e("MapFragment", "Style parsing failed.");
             }
+
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    int index = (int)marker.getTag();
+                    binding.viewpager.setCurrentItem(index);
+                    return false;
+                }
+            });
 
             checkPermissionAndPrepareClient();
             // Customise the styling of the base map using a JSON object defined
@@ -149,6 +172,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         if (PermissionUtil.init(getActivity()).request(Manifest.permission.ACCESS_FINE_LOCATION)) {
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+            this.mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
             mGoogleMap.setMyLocationEnabled(true);
         }
     }
@@ -157,7 +181,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() > 0) {
+            if (locationList.size() > 0 && mLastLocation == null) {
                 //The last location in the list is the newest
                 Location location = locationList.get(locationList.size() - 1);
                 Log.i("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
@@ -170,11 +194,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-                mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+                //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
+                //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
-                //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
             }
         }
@@ -194,7 +218,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     }
 
-    private ClusterManager<ResponseItem> mClusterManager;
+    //private ClusterManager<ResponseItem> mClusterManager;
 
     private void loadMapItem() {
 
@@ -212,19 +236,21 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         mClusterManager.cluster();*/
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
-        mGoogleMap.setOnCameraIdleListener(mClusterManager);
-        mGoogleMap.setOnMarkerClickListener(mClusterManager);
+       // mGoogleMap.setOnCameraIdleListener(mClusterManager);
+        //mGoogleMap.setOnMarkerClickListener(mClusterManager);
 
-        for (ResponseItem item : mapItemList) {
+        for (int i=0; i <mapItemList.size(); i++) {
+            ResponseItem item = mapItemList.get(i);
             MarkerOptions markerOptions = new MarkerOptions();
             LatLng latLng = new LatLng(item.getLat(), item.getLng());
             markerOptions.position(latLng);
-            markerOptions.title(item.getName());
+            //markerOptions.title(item.getName());
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-            mGoogleMap.addMarker(markerOptions);
+            Marker marker = mGoogleMap.addMarker(markerOptions);
+            marker.setTag(i);
             //move map camera
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+            //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
         }
     }
 
@@ -240,10 +266,19 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.viewpager.setPadding(20, 0, 80, 0);
     }
 
+    private void showSearchLocation(double latitude, double longitude) {
+        showSearchMarker(latitude, longitude);
+        float zoom = mGoogleMap.getCameraPosition().zoom;
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
+        mGoogleMap.animateCamera(update);
+    }
+
     private void gotoLocation(double latitude, double longitude) {
         addMarker(latitude, longitude);
         float zoom = mGoogleMap.getCameraPosition().zoom;
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
         mGoogleMap.animateCamera(update);
     }
 
@@ -252,8 +287,30 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         //markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-        mGoogleMap.addMarker(markerOptions);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_big));
+
+        if(moveMarker != null){
+            moveMarker.remove();
+        }
+
+        moveMarker = mGoogleMap.addMarker(markerOptions);
+
+        //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+    }
+
+    private void showSearchMarker(double latitude, double longitude) {
+        LatLng latLng = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        //markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_search_location));
+
+        if(moveMarker != null){
+            moveMarker.remove();
+        }
+
+        moveMarker = mGoogleMap.addMarker(markerOptions);
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
@@ -262,10 +319,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     /* Pager for bottom location card according to map marker */
     private int currentPage;
-
+    private Marker moveMarker;
     private class PageListener extends ViewPager.SimpleOnPageChangeListener {
         public void onPageSelected(int position) {
             currentPage = position;
+            binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_around_me_black));
             if (currentPage == 0) {
                 binding.viewpager.setPadding(20, 0, 80, 0);
             } else {
@@ -307,6 +365,41 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             binding.tvAddressOne.setText(responseItem.getAddress());
             binding.tvAddressOne.setText(responseItem.getPostcode() + " " + responseItem.getCity());
             binding.tvName.setText(responseItem.getName());
+
+            String currentDay = Utils.getDay();
+            String itemDay = "";
+            if (!TextUtils.isEmpty(currentDay)) {
+                try {
+                    if (currentDay.equalsIgnoreCase("1")) {
+                        itemDay = responseItem.getSchedules().getDayOne().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("2")) {
+                        itemDay = responseItem.getSchedules().getDayTwo().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("3")) {
+                        itemDay = responseItem.getSchedules().getDayThree().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("4")) {
+                        itemDay = responseItem.getSchedules().getDayFour().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("5")) {
+                        itemDay = responseItem.getSchedules().getDayFive().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("6")) {
+                        itemDay = responseItem.getSchedules().getDaySix().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("7")) {
+                        itemDay = responseItem.getSchedules().getDaySeven().getSchedule();
+                    }
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            if (!TextUtils.isEmpty(itemDay)) {
+                binding.layoutDate.setVisibility(View.VISIBLE);
+
+                binding.tvOpeningTime.setText(itemDay);
+            } else {
+                binding.layoutDate.setVisibility(View.GONE);
+            }
+
             //  binding.tvOpeningTime.setText(responseItem.ge);
             binding.imgViewPhoneCall.setOnClickListener(this::onClick);
             container.addView(binding.getRoot());

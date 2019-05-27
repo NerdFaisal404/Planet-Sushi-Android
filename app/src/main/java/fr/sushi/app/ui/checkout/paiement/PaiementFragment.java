@@ -33,6 +33,8 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,9 +44,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import fr.sushi.app.R;
+import fr.sushi.app.data.db.DBManager;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.helper.GsonHelper;
 import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
@@ -59,13 +64,18 @@ import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
+import fr.sushi.app.ui.checkout.paiement.model.CartDiscountsItem;
+import fr.sushi.app.ui.checkout.paiement.model.DiscountResponse;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
+import fr.sushi.app.ui.menu.MyCartProduct;
+import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.ui.profileaddress.AddressAddActivity;
 import fr.sushi.app.util.DataCacheUtil;
 import fr.sushi.app.util.DialogUtils;
 import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.ScreenUtil;
+import fr.sushi.app.util.SideProduct;
 import fr.sushi.app.util.Utils;
 
 
@@ -82,6 +92,10 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private SearchPlace currentSearchPlace;
     private PaimentViewModel paimentViewModel;
     private String returnAmount = "0";
+    private String idAddress;
+    private String discountCode = "";
+    private DiscountResponse discountResponse;
+    private String discountPrice;
 
 
     public PaiementFragment() {
@@ -133,6 +147,45 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
+
+        paimentViewModel.getDiscountrMutableLiveData().observe(this, response -> {
+            DialogUtils.hideDialog();
+            if (response != null) {
+                try {
+                    JSONObject responseObject = new JSONObject(response.string());
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+
+                    Log.e("JsonObject", "" + responseObject.toString());
+                    if (error == true) {
+                        errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                    } else {
+                        discountResponse = new Gson().fromJson(responseObject.toString(), DiscountResponse.class);
+
+                        if (discountResponse != null) {
+                            CartDiscountsItem cartDiscountsItem = discountResponse.getResponse().getCartDiscounts().get(0);
+                            discountPrice = cartDiscountsItem.getDisplayAmount();
+                            int discountValue = Integer.parseInt(cartDiscountsItem.getValue());
+                            binding.tvDiscountAmount.setText("(" + discountPrice + ")");
+                            binding.tvDiscount.setText(cartDiscountsItem.getName());
+                            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() - discountValue;
+                            PaymentMethodCheckoutActivity.discountPrice = discountValue;
+                            PaymentMethodCheckoutActivity.ID_CART = String.valueOf(discountResponse.getResponse().getIdCart());
+                            ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice, true);
+                        }
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
     }
 
 
@@ -167,7 +220,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         model.setZipCode(latestSearchPlace.getPostalCode());
                     }
                 } else {
-                    if(latestSearchPlace != null) {
+                    if (latestSearchPlace != null) {
                         model.setLocation(latestSearchPlace.getAddress());
                         model.setCity(latestSearchPlace.getCity());
                         model.setZipCode(latestSearchPlace.getPostalCode());
@@ -184,11 +237,119 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         initRadioListener();
 
         binding.tvName.setText(SharedPref.read(PrefKey.USER_NAME, ""));
-        String phoneNumber =Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""),getActivity());
+        String phoneNumber = Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""), getActivity());
         binding.tvMobileNo.setText(phoneNumber);
 
 
         return view;
+    }
+
+    private void sendPayment() {
+        SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
+        // SearchPlace defaultSearchAddress = PlaceUtil.getDefaultSearchAddress();
+
+
+        if (latestSearchPlace == null || latestSearchPlace.getOrder().getSchedule() == null) {
+            Utils.showAlert(getActivity(), "Alert!", "Veuillez choisir un jour");
+            return;
+        } else if (latestSearchPlace == null || latestSearchPlace.getOrder().getStoreId() == null) {
+            Utils.showAlert(getActivity(), "Alert!", "Veuillez choisir un restaurant");
+            return;
+        }
+
+        String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
+        List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
+
+        if (!itemList.isEmpty()) {
+            for (ProfileAddressModel item : itemList) {
+                if (item.getLocation().equalsIgnoreCase(latestSearchPlace.getAddress())) {
+                    idAddress = item.getId();
+                }
+            }
+        }
+
+
+        if (TextUtils.isEmpty(idAddress)) {
+
+            ProfileAddressModel model = new ProfileAddressModel();
+            model.setId(UUID.randomUUID().toString());
+
+
+            model.setLocation(latestSearchPlace.getAddress());
+            model.setCity(latestSearchPlace.getCity());
+            model.setZipCode(latestSearchPlace.getPostalCode());
+            model.setAddressType(latestSearchPlace.getType());
+
+            paimentViewModel.addOrUpdateAddressInServer(model);
+            return;
+
+        }
+
+
+        DialogUtils.showDialog(getActivity());
+
+
+        JsonObject mainObject = new JsonObject();
+
+        mainObject.addProperty("token", SharedPref.read(PrefKey.USER_TOKEN, ""));
+        mainObject.addProperty("email", SharedPref.read(PrefKey.USER_EMAIL, ""));
+        mainObject.addProperty("id_customer", SharedPref.read(PrefKey.USER_ID, ""));
+        mainObject.addProperty("discount", discountCode);
+
+        JsonObject cartJsonObject = new JsonObject();
+        cartJsonObject.addProperty("id_cart", "false");
+        cartJsonObject.addProperty("order_date", latestSearchPlace.getOrder().getOrderData());
+
+        cartJsonObject.addProperty("id_store", latestSearchPlace.getOrder().getStoreId());
+
+        cartJsonObject.addProperty("id_delivery_zone", latestSearchPlace.getOrder().getDeliveryId());
+
+        cartJsonObject.addProperty("is_delivery", "1");
+        cartJsonObject.addProperty("id_address", idAddress);
+
+        List<MyCartProduct> myCartProducts = DBManager.on().getMyCartProductsWithCrossSellingItems();
+
+        JsonArray productsArray = new JsonArray();
+
+        for (MyCartProduct item : myCartProducts) {
+            JsonObject product = new JsonObject();
+            product.addProperty("id_product", item.getProductId());
+            product.addProperty("quantity", item.getItemCount());
+
+            List<CrossSellingSelectedItem> crossSellingList = item.getCrossSellingSelectedItems();
+
+            JsonArray crossSellingArray = new JsonArray();
+            if (crossSellingList != null && !crossSellingList.isEmpty()) {
+                for (CrossSellingSelectedItem cItem : crossSellingList) {
+                    JsonObject crossSellJson = new JsonObject();
+                    crossSellJson.addProperty("id_product", cItem.getMainProductId());
+                    crossSellJson.addProperty("id_product_cross_selling", cItem.getProductId());
+                    crossSellJson.addProperty("quantity", cItem.getProductCount());
+                    crossSellingArray.add(crossSellJson);
+                }
+            }
+            product.add("accessories", crossSellingArray);
+
+            productsArray.add(product);
+        }
+
+        List<SideProduct> sideProducts = DataCacheUtil.getSideProductList();
+
+        for (SideProduct sideProductItem : sideProducts) {
+            JsonObject sideProduct = new JsonObject();
+            sideProduct.addProperty("id_product", sideProductItem.getProductId());
+            sideProduct.addProperty("quantity", sideProductItem.getItemCount());
+            productsArray.add(sideProduct);
+        }
+
+
+        mainObject.add("Products", productsArray);
+
+
+        mainObject.add("Cart", cartJsonObject);
+
+
+        paimentViewModel.addCartDiscount(mainObject);
     }
 
 
@@ -223,6 +384,48 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
                 showDialog();
 
+
+            }
+        });
+
+        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
+                LayoutInflater inflaters = getLayoutInflater();
+                View dialogView = inflaters.inflate(R.layout.layout_discount_alert, null);
+
+                final EditText editText = dialogView.findViewById(R.id.edtCode);
+                TextView tvCancel = dialogView.findViewById(R.id.tvCancel);
+                TextView tvOk = dialogView.findViewById(R.id.tvOk);
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        dialogBuilder.dismiss();
+                        discountCode = editText.getText().toString();
+                    }
+                });
+
+                tvOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        Utils.hideSoftKeyboard(getActivity());
+                        dialogBuilder.dismiss();
+                        discountCode = editText.getText().toString();
+                        sendPayment();
+
+                    }
+                });
+
+                dialogBuilder.setView(dialogView);
+                dialogBuilder.show();
 
             }
         });
@@ -346,23 +549,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
 
-            /*SearchPlace latestSearchPlace = PlaceUtil.getRecentSearchAddress();
-            if (latestSearchPlace != null) {
-                if (latestSearchPlace.getLat() != 0.0 && latestSearchPlace.getLng() != 0.0) {
-                    LatLng latLng = new LatLng(latestSearchPlace.getLat(), latestSearchPlace.getLng());
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    //markerOptions.title("Current Position");
-                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_map));
-                    mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-                    //move map camera
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-                }
-            }*/
-            //checkPermissionAndPrepareClient();
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -464,15 +650,30 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             for (ResponseItem responseItem : response) {
                 if (searchPlace != null) {
                     if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
-                        if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")){
+                        if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")) {
                             binding.layoutCartPayment.setVisibility(View.GONE);
                             binding.radioLivarsion.setChecked(true);
+                            binding.radioRestaurent.setChecked(false);
+                            binding.radioCart.setChecked(false);
+                            PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                            PaymentMethodCheckoutActivity.isCashPayment = true;
+                            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
+                        } else {
+                            binding.layoutCartPayment.setVisibility(View.VISIBLE);
+                            binding.radioLivarsion.setChecked(false);
+                            binding.radioRestaurent.setChecked(false);
+                            binding.radioCart.setChecked(true);
+                            PaymentMethodCheckoutActivity.isAdyenSelected = true;
+                            PaymentMethodCheckoutActivity.isCashPayment = false;
+                            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
                         }
                     }
                 }
             }
         }
 
+        binding.tvDiscountAmount.setText("");
+        binding.tvDiscount.setText("+ Ajouter un code réduction");
 
     }
 
@@ -481,6 +682,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         super.onPause();
 
     }
+
 
     private Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();
 

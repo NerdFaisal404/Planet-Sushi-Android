@@ -203,6 +203,13 @@ public class Repository {
         return apiInterface.saveOrderPayment(jsonObject);
     }
 
+
+    public static Flowable<ResponseBody> addCartDiscount(JsonObject jsonObject) {
+        ApiCall apiInterface = RetrofitClient.getInstance().create(ApiCall.class);
+
+        return apiInterface.addCartDiscount(jsonObject);
+    }
+
     public static Flowable<ResponseBody> sendAdyenPayment(PaymentModel paymentModel) {
         ApiCall apiInterface = RetrofitClient.getAdyenRetrofitInstance().create(ApiCall.class);
 
