@@ -148,7 +148,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.totalPriceTv.setVisibility(View.GONE);
                     binding.midline.setVisibility(View.GONE);
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
-                    binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(productTotalPrice) + "€");
+                    binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPriceWithSideProducts) + "€");
                     binding.ivRightArrow.setPadding(100, 0, 0, 0);
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
