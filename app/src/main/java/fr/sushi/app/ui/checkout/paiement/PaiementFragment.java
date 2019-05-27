@@ -59,7 +59,6 @@ import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.data.model.restuarents.RestuarentsResponse;
 import fr.sushi.app.databinding.FragmentPaiementBinding;
-import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
@@ -209,7 +208,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                             int discountValue = Integer.parseInt(cartDiscountsItem.getValue());
                             binding.tvDiscountAmount.setText("(" + discountPrice + ")");
                             binding.tvDiscount.setText(cartDiscountsItem.getName());
-                            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() - discountValue;
+                            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getProductTotalPrice() - discountValue;
                             PaymentMethodCheckoutActivity.discountPrice = discountValue;
                             PaymentMethodCheckoutActivity.ID_CART = String.valueOf(discountResponse.getResponse().getIdCart());
                             ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice, true);

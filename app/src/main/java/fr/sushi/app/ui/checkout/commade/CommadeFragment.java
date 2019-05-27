@@ -143,7 +143,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         binding.totalPriceWithFee.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
-        ((PaymentMethodCheckoutActivity) getActivity()).setTotalPrice(totalPrice);
+        ((PaymentMethodCheckoutActivity) getActivity()).setProductTotalPrice(totalPrice);
 
         SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
         if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {

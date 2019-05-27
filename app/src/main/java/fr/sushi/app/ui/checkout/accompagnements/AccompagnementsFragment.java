@@ -202,7 +202,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-          /*  double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
+          /*  double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getProductTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
             PaymentMethodCheckoutActivity.discountPrice = 0;
             ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);*/
         }
@@ -632,6 +632,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                     accomplishmentitemMap.put(item.getIdProduct(), item);
                 }
 
+            }else {
+                accomplishmentitemMap.remove(item.getIdProduct());
             }
         }
 
@@ -658,6 +660,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     boissonItemMap.put(item.getIdProduct(), item);
                 }
+            }else {
+                boissonItemMap.remove(item.getIdProduct());
             }
         }
         binding.tvCountBoissons.setText(String.valueOf(countBoissons));
@@ -683,6 +687,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     dessertItemMap.put(item.getIdProduct(), item);
                 }
+            }else {
+                dessertItemMap.remove(item.getIdProduct());
             }
         }
 
@@ -710,6 +716,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     baguettesItemMap.put(item.getIdProduct(), item);
                 }
+            }else {
+                baguettesItemMap.remove(item.getIdProduct());
             }
         }
         tvCountBaguettes.setText(String.valueOf(countBauettes));
@@ -729,7 +737,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         for (Map.Entry<String, PayingSaucesItem> item : payingSaucesMap.entrySet()) {
             PayingSaucesItem payingSaucesItem = item.getValue();
-            priceSideProducts += Double.parseDouble(payingSaucesItem.getPriceTtc()) * payingSaucesItem.selectCount;
+            priceSideProducts += (Double.parseDouble(payingSaucesItem.getPriceTtc()) * payingSaucesItem.selectCount);
             sideProduct = new SideProduct(payingSaucesItem.getIdProduct(), "" + payingSaucesItem.selectCount);
             sideProducts.add(sideProduct);
 
@@ -738,35 +746,35 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
         for (Map.Entry<String, UpsellItem> item : accomplishmentitemMap.entrySet()) {
             UpsellItem upsellItem = item.getValue();
-            priceSideProducts += Double.parseDouble(upsellItem.getPriceTtc()) * upsellItem.selectCount;
+            priceSideProducts += (Double.parseDouble(upsellItem.getPriceTtc()) * upsellItem.selectCount);
             sideProduct = new SideProduct(upsellItem.getIdProduct(), "" + upsellItem.selectCount);
             sideProducts.add(sideProduct);
             Log.e("Price_calculation", "accom Id =" + item.getKey() + " count =" + upsellItem.selectCount);
         }
         for (Map.Entry<String, DrinksItem> item : boissonItemMap.entrySet()) {
             DrinksItem drinksItem = item.getValue();
-            priceSideProducts += Double.parseDouble(drinksItem.getPriceTtc()) * drinksItem.selectCount;
+            priceSideProducts += (Double.parseDouble(drinksItem.getPriceTtc()) * drinksItem.selectCount);
             sideProduct = new SideProduct(drinksItem.getIdProduct(), "" + drinksItem.selectCount);
             sideProducts.add(sideProduct);
             Log.e("Price_calculation", "boisson Id =" + item.getKey() + " count =" + drinksItem.selectCount);
         }
         for (Map.Entry<String, DessertsItem> item : dessertItemMap.entrySet()) {
             DessertsItem dessertsItem = item.getValue();
-            priceSideProducts += Double.parseDouble(dessertsItem.getPriceTtc()) * dessertsItem.selectCount;
+            priceSideProducts += (Double.parseDouble(dessertsItem.getPriceTtc()) * dessertsItem.selectCount);
             sideProduct = new SideProduct(dessertsItem.getIdProduct(), "" + dessertsItem.selectCount);
             sideProducts.add(sideProduct);
             Log.e("Price_calculation", "dessert Id =" + item.getKey() + " count =" + dessertsItem.selectCount);
         }
         for (Map.Entry<String, PayingWasabiGingerItem> item : payingWasbiItemClicMap.entrySet()) {
             PayingWasabiGingerItem payingWasabiGingerItem = item.getValue();
-            priceSideProducts += Double.parseDouble(payingWasabiGingerItem.getPriceTtc()) * payingWasabiGingerItem.selectCount;
+            priceSideProducts += (Double.parseDouble(payingWasabiGingerItem.getPriceTtc()) * payingWasabiGingerItem.selectCount);
             sideProduct = new SideProduct(payingWasabiGingerItem.getIdProduct(), "" + payingWasabiGingerItem.selectCount);
             sideProducts.add(sideProduct);
             Log.e("Price_calculation", "payingWasbi Id =" + item.getKey() + " count =" + payingWasabiGingerItem.selectCount);
         }
         for (Map.Entry<String, ChopsticksItem> item : baguettesItemMap.entrySet()) {
             ChopsticksItem chopsticksItem = item.getValue();
-            priceSideProducts += Double.parseDouble(chopsticksItem.getPriceTtc()) * chopsticksItem.selectCount;
+            priceSideProducts += (Double.parseDouble(chopsticksItem.getPriceTtc()) * chopsticksItem.selectCount);
             sideProduct = new SideProduct(chopsticksItem.getIdProduct(), "" + chopsticksItem.selectCount);
             sideProducts.add(sideProduct);
             Log.e("Price_calculation", "baguettes Id =" + item.getKey() + " count =" + chopsticksItem.selectCount);
@@ -818,6 +826,46 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         countDesserts = 0;
         countWasbi = 0;
         countBauettes = 0;
+
+        if(accompagnementResponse != null){
+            List<FreeSaucesItem> freeSaucesItemList = new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
+            for(FreeSaucesItem item : freeSaucesItemList){
+                item.selectCount = 0;
+            }
+
+            List<PayingSaucesItem> payingSaucesItemList = new ArrayList<>(accompagnementResponse.getResponse().getPayingSauces());
+            for(PayingSaucesItem item : payingSaucesItemList){
+                item.selectCount = 0;
+            }
+
+            List<UpsellItem> upsellItems = new ArrayList<>(accompagnementResponse.getResponse().getUpsell());
+            for(UpsellItem item : upsellItems){
+                item.selectCount = 0;
+            }
+
+            List<DrinksItem> drinksItems = new ArrayList<>(accompagnementResponse.getResponse().getDrinks());
+            for(DrinksItem item : drinksItems){
+                item.selectCount = 0;
+            }
+
+            List<DessertsItem> dessertsItems = new ArrayList<>(accompagnementResponse.getResponse().getDesserts());
+            for(DessertsItem item : dessertsItems){
+                item.selectCount = 0;
+            }
+
+            List<PayingWasabiGingerItem> payingWasbiList =new ArrayList<>(accompagnementResponse.getResponse().getPayingWasabiGinger());
+            for(PayingWasabiGingerItem item : payingWasbiList){
+                item.selectCount = 0;
+            }
+            List<FreeWasabiGingerItem> freeWasbiList = new ArrayList<>(accompagnementResponse.getResponse().getFreeWasabiGinger());
+            for(FreeWasabiGingerItem item : freeWasbiList){
+                item.selectCount = 0;
+            }
+            List<ChopsticksItem> chopsticksItems = new ArrayList<>(accompagnementResponse.getResponse().getChopsticks());
+            for(ChopsticksItem item : chopsticksItems){
+                item.selectCount = 0;
+            }
+        }
 
         if (binding == null) return;
 

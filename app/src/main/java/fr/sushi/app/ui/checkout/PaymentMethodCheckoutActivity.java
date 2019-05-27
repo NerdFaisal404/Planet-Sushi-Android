@@ -41,13 +41,11 @@ import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
-import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
 import fr.sushi.app.ui.checkout.commade.CommadeFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
-import fr.sushi.app.ui.checkout.model.payment_success.PaymentSuccessResponse;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -62,7 +60,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private List<MyCartProduct> selectedProducts = new ArrayList<>();
 
-    private double totalPrice;
+    private double productTotalPrice;
+    private double totalPriceWithSideProducts;
     private int freeSaucesCount;
 
 
@@ -149,7 +148,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.totalPriceTv.setVisibility(View.GONE);
                     binding.midline.setVisibility(View.GONE);
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
-                    binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+                    binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(productTotalPrice) + "€");
                     binding.ivRightArrow.setPadding(100, 0, 0, 0);
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
@@ -173,7 +172,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
                 if (isAdyenSelected) {
                     payementMethod = "Adyen";
-                    paymentTotalPrice = totalPrice + "";
+                    paymentTotalPrice = productTotalPrice + "";
                     returnMoney = "0";
                     CheckoutController.startPayment(/*Activity*/ this, new CheckoutSetupParametersHandler() {
                         @Override
@@ -220,7 +219,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
         if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
-            int minimumPrice = (int) this.totalPrice;
+            int minimumPrice = (int) this.productTotalPrice;
             minimuOrderAmount = Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
             if (minimumPrice < minimuOrderAmount) {
                 binding.layoutBottomCheckout.setEnabled(false);
@@ -386,7 +385,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         paymentModel.setAppToken(token);
         paymentModel.setReturnUrl("planetsushi://");
         paymentModel.setChannel("android");
-        paymentModel.setAmount(totalPrice);
+        paymentModel.setAmount(productTotalPrice);
 
         DialogUtils.showDialog(this);
         checkoutViewModel.sendAdyenPayment(paymentModel);
@@ -496,11 +495,13 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-        this.freeSaucesCount = (int) totalPrice / 10;
-        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
-        int minimumPrice = (int) this.totalPrice;
+    public void setProductTotalPrice(double productTotalPrice) {
+        this.productTotalPrice = productTotalPrice;
+        this.totalPriceWithSideProducts = productTotalPrice;
+
+        this.freeSaucesCount = (int) productTotalPrice / 10;
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(productTotalPrice) + "€");
+        int minimumPrice = (int) this.productTotalPrice;
         if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {
             binding.layoutBottomCheckout.setEnabled(false);
             binding.layoutBottomCheckout.setClickable(false);
@@ -520,8 +521,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
     public void setPriceWithSideProducts(double priceSideProducts) {
-        this.totalPrice = totalPrice + priceSideProducts;
-        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+        this.totalPriceWithSideProducts = productTotalPrice + priceSideProducts;
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPriceWithSideProducts) + "€");
     }
 
     public void showDiscountPrice(double discountPrice, boolean isPaimentPage) {
@@ -533,8 +534,8 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
     }
 
-    public double getTotalPrice() {
-        return this.totalPrice;
+    public double getProductTotalPrice() {
+        return this.totalPriceWithSideProducts;
     }
 
 
