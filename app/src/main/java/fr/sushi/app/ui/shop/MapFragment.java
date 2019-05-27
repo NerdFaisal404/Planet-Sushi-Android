@@ -17,6 +17,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,7 +112,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         if (resultCode == Activity.RESULT_OK) {
             double latitude = data.getDoubleExtra(Constants.LATITUDE, 0);
             double longitude = data.getDoubleExtra(Constants.LONGITUDE, 0);
-            gotoLocation(latitude, longitude);
+            showSearchLocation(latitude, longitude);
         } else {
             //todo error message to user
 
@@ -251,10 +252,19 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.viewpager.setPadding(20, 0, 80, 0);
     }
 
+    private void showSearchLocation(double latitude, double longitude) {
+        showSearchMarker(latitude, longitude);
+        float zoom = mGoogleMap.getCameraPosition().zoom;
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
+        mGoogleMap.animateCamera(update);
+    }
+
     private void gotoLocation(double latitude, double longitude) {
         addMarker(latitude, longitude);
         float zoom = mGoogleMap.getCameraPosition().zoom;
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
         mGoogleMap.animateCamera(update);
     }
 
@@ -273,6 +283,23 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
         //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+    }
+
+    private void showSearchMarker(double latitude, double longitude) {
+        LatLng latLng = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        //markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_search_location));
+
+        if(moveMarker != null){
+            moveMarker.remove();
+        }
+
+        moveMarker = mGoogleMap.addMarker(markerOptions);
+
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
     }
 
 
@@ -323,6 +350,41 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             binding.tvAddressOne.setText(responseItem.getAddress());
             binding.tvAddressOne.setText(responseItem.getPostcode() + " " + responseItem.getCity());
             binding.tvName.setText(responseItem.getName());
+
+            String currentDay = Utils.getDay();
+            String itemDay = "";
+            if (!TextUtils.isEmpty(currentDay)) {
+                try {
+                    if (currentDay.equalsIgnoreCase("1")) {
+                        itemDay = responseItem.getSchedules().getDayOne().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("2")) {
+                        itemDay = responseItem.getSchedules().getDayTwo().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("3")) {
+                        itemDay = responseItem.getSchedules().getDayThree().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("4")) {
+                        itemDay = responseItem.getSchedules().getDayFour().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("5")) {
+                        itemDay = responseItem.getSchedules().getDayFive().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("6")) {
+                        itemDay = responseItem.getSchedules().getDaySix().getSchedule();
+                    } else if (currentDay.equalsIgnoreCase("7")) {
+                        itemDay = responseItem.getSchedules().getDaySeven().getSchedule();
+                    }
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            if (!TextUtils.isEmpty(itemDay)) {
+                binding.layoutDate.setVisibility(View.VISIBLE);
+
+                binding.tvOpeningTime.setText(itemDay);
+            } else {
+                binding.layoutDate.setVisibility(View.GONE);
+            }
+
             //  binding.tvOpeningTime.setText(responseItem.ge);
             binding.imgViewPhoneCall.setOnClickListener(this::onClick);
             container.addView(binding.getRoot());
