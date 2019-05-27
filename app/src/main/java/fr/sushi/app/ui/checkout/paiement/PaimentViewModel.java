@@ -17,7 +17,7 @@ import okhttp3.ResponseBody;
 public class PaimentViewModel extends ViewModel {
 
     private MutableLiveData<ResponseBody> deliveryAddressLiveData =new MutableLiveData<>();
-    private MutableLiveData<ResponseBody> paymentOrderMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<ResponseBody> paymentDiscountMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<ResponseBody> addressLiveData = new MutableLiveData<>();
 
     private void onError(Throwable throwable, ApiResponseError errorType) {
@@ -45,21 +45,21 @@ public class PaimentViewModel extends ViewModel {
     public void addCartDiscount(JsonObject paymentModel) {
         Repository.addCartDiscount(paymentModel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSuccessPaymentOrderRequest,
+                .subscribe(this::onSuccessPaymentDiscountRequest,
                         throwable -> onError(throwable, ApiResponseError.ErrorType));
     }
 
-    private void onSuccessPaymentOrderRequest(ResponseBody restuarentsResponse) {
+    private void onSuccessPaymentDiscountRequest(ResponseBody restuarentsResponse) {
 
         if (restuarentsResponse == null) return;
 
-        paymentOrderMutableLiveData.setValue(restuarentsResponse);
+        paymentDiscountMutableLiveData.setValue(restuarentsResponse);
 
 
     }
 
-    public MutableLiveData<ResponseBody> getPaymentOrderMutableLiveData() {
-        return paymentOrderMutableLiveData;
+    public MutableLiveData<ResponseBody> getDiscountrMutableLiveData() {
+        return paymentDiscountMutableLiveData;
     }
 
     public void addOrUpdateAddressInServer(ProfileAddressModel model) {

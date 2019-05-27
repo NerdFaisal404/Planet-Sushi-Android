@@ -143,6 +143,10 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
+
+        paimentViewModel.getDiscountrMutableLiveData().observe(this,responseBody -> {
+            DialogUtils.hideDialog();
+        });
     }
 
 
@@ -197,12 +201,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         String phoneNumber = Utils.getFormatedPhoneNumber(SharedPref.read(PrefKey.USER_PHONE, ""), getActivity());
         binding.tvMobileNo.setText(phoneNumber);
 
-        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendPayment();
-            }
-        });
 
         return view;
     }
@@ -345,6 +343,17 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
 
 
+                showDialog();
+
+
+            }
+        });
+
+        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
                 final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
                 LayoutInflater inflaters = getLayoutInflater();
                 View dialogView = inflaters.inflate(R.layout.layout_discount_alert, null);
@@ -371,20 +380,10 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         Utils.hideSoftKeyboard(getActivity());
                         dialogBuilder.dismiss();
                         discountCode = editText.getText().toString();
+                        sendPayment();
 
                     }
                 });
-
-
-            }
-        });
-
-        binding.layoutDiscount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                showDialog();
 
 
             }
