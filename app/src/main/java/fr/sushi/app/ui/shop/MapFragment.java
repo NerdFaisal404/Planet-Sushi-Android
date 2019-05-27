@@ -112,7 +112,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         if (resultCode == Activity.RESULT_OK) {
             double latitude = data.getDoubleExtra(Constants.LATITUDE, 0);
             double longitude = data.getDoubleExtra(Constants.LONGITUDE, 0);
-            gotoLocation(latitude, longitude);
+            showSearchLocation(latitude, longitude);
         } else {
             //todo error message to user
 
@@ -241,10 +241,19 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.viewpager.setPadding(20, 0, 80, 0);
     }
 
+    private void showSearchLocation(double latitude, double longitude) {
+        showSearchMarker(latitude, longitude);
+        float zoom = mGoogleMap.getCameraPosition().zoom;
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
+        mGoogleMap.animateCamera(update);
+    }
+
     private void gotoLocation(double latitude, double longitude) {
         addMarker(latitude, longitude);
         float zoom = mGoogleMap.getCameraPosition().zoom;
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
+
         mGoogleMap.animateCamera(update);
     }
 
@@ -254,6 +263,23 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         markerOptions.position(latLng);
         //markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_big));
+
+        if(moveMarker != null){
+            moveMarker.remove();
+        }
+
+        moveMarker = mGoogleMap.addMarker(markerOptions);
+
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+    }
+
+    private void showSearchMarker(double latitude, double longitude) {
+        LatLng latLng = new LatLng(latitude, longitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        //markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_search_location));
 
         if(moveMarker != null){
             moveMarker.remove();

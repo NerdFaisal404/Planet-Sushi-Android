@@ -36,6 +36,7 @@ import fr.sushi.app.databinding.ActivityMapAutoCompletePlaceBinding;
 import fr.sushi.app.misc.Constants;
 import fr.sushi.app.ui.adressPicker.adapter.PlaceAutocompleteAdapter;
 import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.Utils;
 import timber.log.Timber;
 
 public class MapAutoCompletePlaceActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, PlaceAutocompleteAdapter.PlaceAutoCompleteInterface {
@@ -52,6 +53,7 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map_auto_complete_place);
         setUpAdapter();
         binding.tvClose.setOnClickListener(v -> finish());
+        binding.editTextSearch.requestFocus();
     }
 
 
@@ -107,6 +109,7 @@ public class MapAutoCompletePlaceActivity extends AppCompatActivity implements G
     public void onPlaceClick(BaseAddress address) {
         if (address != null) {
             if (address instanceof PlaceAutocompleteAdapter.PlaceAutocomplete) {
+                Utils.hideSoftKeyboard(this);
                 try {
                     final String placeId = String.valueOf(((PlaceAutocompleteAdapter.PlaceAutocomplete) address).placeId);
                     PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
