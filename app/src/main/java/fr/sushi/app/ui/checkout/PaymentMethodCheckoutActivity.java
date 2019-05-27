@@ -81,16 +81,19 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     private ProfileAddressModel model;
     private String adyenPayload = "false";
     private int minimuOrderAmount;
+    public static double discountPrice = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_checkout);
 
-         AccompagnementsFragment.on().clear();
+        AccompagnementsFragment.on().clear();
         assert binding.viewpager != null;
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        binding.viewpager.setOffscreenPageLimit(0);
         binding.viewpager.setAdapter(pagerAdapter);
+
 
         observeData();
         // We keep last page for a "finishing" page
@@ -216,9 +219,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         super.onResume();
 
         SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
-        if (searchPlace!=null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)){
+        if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
             int minimumPrice = (int) this.totalPrice;
-            minimuOrderAmount= Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
+            minimuOrderAmount = Integer.parseInt(searchPlace.getOrder().getMinimumOrderAmount());
             if (minimumPrice < minimuOrderAmount) {
                 binding.layoutBottomCheckout.setEnabled(false);
                 binding.layoutBottomCheckout.setClickable(false);
@@ -226,7 +229,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 binding.layoutBottomCheckout.setEnabled(true);
                 binding.layoutBottomCheckout.setClickable(true);
             }
-        }else {
+        } else {
             binding.layoutBottomCheckout.setEnabled(true);
             binding.layoutBottomCheckout.setClickable(true);
         }
@@ -515,8 +518,24 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
     public void setPriceWithSideProducts(double priceSideProducts) {
-        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice + priceSideProducts) + "€");
+        this.totalPrice = totalPrice + priceSideProducts;
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
     }
+
+    public void showDiscountPrice(double discountPrice, boolean isPaimentPage) {
+        this.totalPrice = discountPrice;
+        if (isPaimentPage){
+            binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+        }else {
+            binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+        }
+
+    }
+
+    public double getTotalPrice() {
+        return this.totalPrice;
+    }
+
 
     public int getFreeSaucesCount() {
         return freeSaucesCount;

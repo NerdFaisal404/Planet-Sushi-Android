@@ -64,6 +64,8 @@ import fr.sushi.app.ui.adressPicker.bottom.AddressNameAdapter;
 import fr.sushi.app.ui.adressPicker.bottom.SliderLayoutManager;
 import fr.sushi.app.ui.adressPicker.bottom.WheelTimeAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
+import fr.sushi.app.ui.checkout.paiement.model.CartDiscountsItem;
+import fr.sushi.app.ui.checkout.paiement.model.DiscountResponse;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -92,6 +94,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private String returnAmount = "0";
     private String idAddress;
     private String discountCode = "";
+    private DiscountResponse discountResponse;
+    private String discountPrice;
 
 
     public PaiementFragment() {
@@ -144,8 +148,42 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        paimentViewModel.getDiscountrMutableLiveData().observe(this,responseBody -> {
+        paimentViewModel.getDiscountrMutableLiveData().observe(this, response -> {
             DialogUtils.hideDialog();
+            if (response != null) {
+                try {
+                    JSONObject responseObject = new JSONObject(response.string());
+                    boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+
+                    Log.e("JsonObject", "" + responseObject.toString());
+                    if (error == true) {
+                        errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
+                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+
+                    } else {
+                        discountResponse = new Gson().fromJson(responseObject.toString(), DiscountResponse.class);
+
+                        if (discountResponse != null) {
+                            CartDiscountsItem cartDiscountsItem = discountResponse.getResponse().getCartDiscounts().get(0);
+                            discountPrice = cartDiscountsItem.getDisplayAmount();
+                            int discountValue = Integer.parseInt(cartDiscountsItem.getValue());
+                            binding.tvDiscountAmount.setText("(" + discountPrice + ")");
+                            binding.tvDiscount.setText(cartDiscountsItem.getName());
+                            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() - discountValue;
+                            PaymentMethodCheckoutActivity.discountPrice = discountValue;
+                            ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice, true);
+                        }
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
         });
     }
 
@@ -633,6 +671,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
+        binding.tvDiscountAmount.setText("");
+        binding.tvDiscount.setText("+ Ajouter un code réduction");
 
     }
 
@@ -641,6 +681,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         super.onPause();
 
     }
+
 
     private Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();
 

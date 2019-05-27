@@ -91,7 +91,8 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         }
         return accompagnementsFragment;
     }
-    public void clear(){
+
+    public void clear() {
         accompagnementsFragment = null;
     }
 
@@ -195,6 +196,9 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+        double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
+        PaymentMethodCheckoutActivity.discountPrice = 0;
+        ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);
     }
 
     private void observeData() {
@@ -262,12 +266,12 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(saucesAdapter);
 
-        if(freeSaucesItemList.size() < freeSideProductCount){
+        if (freeSaucesItemList.size() < freeSideProductCount) {
             List<FreeSaucesItem> payingSaucesItemList =
                     new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
             List<Sauces> convertedList = new ArrayList<Sauces>(payingSaucesItemList);
             saucesAdapter.addItem(convertedList);
-        }else {
+        } else {
             List<PayingSaucesItem> payingSaucesItemList =
                     new ArrayList<>(accompagnementResponse.getResponse().getPayingSauces());
             List<Sauces> convertedList = new ArrayList<Sauces>(payingSaucesItemList);
@@ -315,12 +319,12 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         wasbiGingerAdapter = new WasbiGingerAdapter(getActivity(), selectCountWsabiMap);
         binding.recyclerViewAccompagnements.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.recyclerViewAccompagnements.setAdapter(wasbiGingerAdapter);
-        if(freeWasbiItemClicList.size() < freeSideProductCount) {
+        if (freeWasbiItemClicList.size() < freeSideProductCount) {
             List<FreeWasabiGingerItem> wasbiList =
                     new ArrayList<>(accompagnementResponse.getResponse().getFreeWasabiGinger());
             List<Wasbi> convertedList = new ArrayList<>(wasbiList);
             wasbiGingerAdapter.addItem(convertedList);
-        }else {
+        } else {
             List<PayingWasabiGingerItem> wasbiList =
                     new ArrayList<>(accompagnementResponse.getResponse().getPayingWasabiGinger());
             List<Wasbi> convertedList = new ArrayList<>(wasbiList);
@@ -471,12 +475,13 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         }
     };
 
-    private void removePaidSacucesItemItem(String id){
-        for(int i = 0; i < payingSaucesItems.size(); i++){
+    private void removePaidSacucesItemItem(String id) {
+        for (int i = 0; i < payingSaucesItems.size(); i++) {
             PayingSaucesItem item = payingSaucesItems.get(i);
 
-            if(id.equals(item.getIdProduct())){
-                payingSaucesItems.remove(i); break;
+            if (id.equals(item.getIdProduct())) {
+                payingSaucesItems.remove(i);
+                break;
             }
         }
     }
@@ -541,7 +546,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                     if (payingWasbiItemClicList.isEmpty()) {
                         //load free item
 
-                        FreeWasabiGingerItem freeItem = freeWasbiItemClicList.remove(freeWasbiItemClicList.size()-1);
+                        FreeWasabiGingerItem freeItem = freeWasbiItemClicList.remove(freeWasbiItemClicList.size() - 1);
 
                         freeItem.selectCount = freeItem.selectCount - 1;
 
@@ -592,12 +597,13 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         }
     };
 
-    private void removePaidWasbiItem(String id){
-        for(int i = 0; i < payingWasbiItemClicList.size(); i++){
+    private void removePaidWasbiItem(String id) {
+        for (int i = 0; i < payingWasbiItemClicList.size(); i++) {
             PayingWasabiGingerItem item = payingWasbiItemClicList.get(i);
 
-            if(id.equals(item.getIdProduct())){
-                payingSaucesItems.remove(i); break;
+            if (id.equals(item.getIdProduct())) {
+                payingSaucesItems.remove(i);
+                break;
             }
         }
     }

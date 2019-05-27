@@ -319,7 +319,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:checked="true"
                     android:clickable="false"
                     android:theme="@style/RadioButtonStyle" />
 
@@ -363,6 +362,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:clickable="false"
+                    android:checked="true"
                     android:theme="@style/RadioButtonStyle" />
 
 
