@@ -32,6 +32,7 @@ import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileViewModel;
 import fr.sushi.app.ui.emptyprofile.viewmodel.EmptyNewProfileViewModel;
+import fr.sushi.app.ui.forgotpassword.ForgotPasswordActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.login.LoginViewModel;
@@ -65,7 +66,7 @@ public class EmptyNewProfileActivity extends BaseActivity {
     @Override
     protected void startUI() {
         mBinding = (ActivityNewProfileBinding) getViewDataBinding();
-        setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin);
+        setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin,mBinding.tvForgetPassword);
         initViewModel();
 
         parseIntent();
@@ -103,6 +104,9 @@ public class EmptyNewProfileActivity extends BaseActivity {
                 break;
             case R.id.button_login:
                 signUp();
+                break;
+            case R.id.tv_forget_password:
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
         }
     }

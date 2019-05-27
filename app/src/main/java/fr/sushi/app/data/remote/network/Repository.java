@@ -222,4 +222,11 @@ public class Repository {
         object.addProperty("id_store", storeId);
         return apiInterface.getStoreProducts(object);
     }
+
+    public static Flowable<ResponseBody> forgetPassword(String email) {
+        ApiCall apiInterface = RetrofitClient.getAdyenRetrofitInstance().create(ApiCall.class);
+        JsonObject object = new JsonObject();
+        object.addProperty("email", email);
+        return apiInterface.forgetPassword(object);
+    }
 }

@@ -20,6 +20,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.forgotpassword.ForgotPasswordActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeSignup"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".ui.checkout.PaymentSuccssActivity"
             android:configChanges="locale"
