@@ -104,7 +104,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
             RestuarentsResponse restuarentsResponse = DataCacheUtil.getRestuarentsResponses();
 
             if (restuarentsResponse != null && restuarentsResponse.getResponse() != null) {
@@ -134,7 +134,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }
             }
-
+            PaymentMethodCheckoutActivity.ID_CART = "false";
             binding.tvDiscountAmount.setText("");
             binding.tvDiscount.setText("+ Ajouter un code réduction");
         }
