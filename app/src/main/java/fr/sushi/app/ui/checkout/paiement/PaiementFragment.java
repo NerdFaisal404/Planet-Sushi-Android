@@ -95,6 +95,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
     private String discountCode = "";
     private DiscountResponse discountResponse;
     private String discountPrice;
+    AlertDialog alerDialog = null;
 
 
     public PaiementFragment() {
@@ -432,7 +433,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
 
 
-                final AlertDialog dialogBuilder = new AlertDialog.Builder(getActivity()).create();
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflaters = getLayoutInflater();
                 View dialogView = inflaters.inflate(R.layout.layout_discount_alert, null);
 
@@ -445,7 +446,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     public void onClick(View view) {
                         InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                        dialogBuilder.dismiss();
+                        alerDialog.dismiss();
                         discountCode = editText.getText().toString();
                     }
                 });
@@ -456,7 +457,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                         InputMethodManager im = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         im.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                         Utils.hideSoftKeyboard(getActivity());
-                        dialogBuilder.dismiss();
+                        alerDialog.dismiss();
                         discountCode = editText.getText().toString();
                         sendPayment();
 
@@ -464,8 +465,9 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                 });
 
                 dialogBuilder.setView(dialogView);
-                dialogBuilder.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                dialogBuilder.show();
+                alerDialog = dialogBuilder.create();
+                alerDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                alerDialog.show();
 
             }
         });
