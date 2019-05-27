@@ -386,14 +386,13 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             product.setMaxCount(crossSellingItem.getQuantityMax());
                             product.setFree(crossSellingItem.getIsFree() == 1);
                             product.setRequired(crossSellingItem.getIsRequired() == 1);
-
+                            product.setCategoryName(crossSellingItem.getCategoryName());
                             if (product.isRequired()) {
                                 crossSellingItemRequiredList.put(product.getCategoryName(), String.valueOf(product.getMaxCount()));
                             }
                             if (!isItemRequired) {
                                 isItemRequired = product.isRequired();
                             }
-                            product.setCategoryName(crossSellingItem.getCategoryName());
                             product.setDescription(crossSellingItem.getDescription());
                             Log.w("CrossCategoryTest", "CatName: : " + product.getCategoryName() + " productName: " + product.getName());
                             crossSellingProductsItemList.add(product);

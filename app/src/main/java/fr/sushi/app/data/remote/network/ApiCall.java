@@ -64,4 +64,7 @@ public interface ApiCall {
 
     @POST("getStoreProducts")
     Flowable<ResponseBody> getStoreProducts(@Query("params") JsonObject address);
+
+    @POST("forgotPassword")
+    Flowable<ResponseBody> forgetPassword(@Query("params") JsonObject email);
 }
