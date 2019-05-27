@@ -385,6 +385,8 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
 
+                dialogBuilder.setView(dialogView);
+                dialogBuilder.show();
 
             }
         });
