@@ -50,11 +50,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_commade, container, false);
         View view = binding.getRoot();
-        initView();
-        observeData();
 
         return view;
     }
+
 
     private void observeData() {
 
@@ -65,6 +64,8 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     @Override
     public void onResume() {
         super.onResume();
+        initView();
+        observeData();
         SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
         if (searchPlace != null && !SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false)) {
             int minimumPrice = (int) this.totalPrice;

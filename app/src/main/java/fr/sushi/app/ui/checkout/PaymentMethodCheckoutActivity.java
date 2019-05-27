@@ -92,7 +92,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         AccompagnementsFragment.on().clear();
         assert binding.viewpager != null;
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        binding.viewpager.setOffscreenPageLimit(0);
         binding.viewpager.setAdapter(pagerAdapter);
 
 
@@ -494,7 +493,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
         this.freeSaucesCount = (int) totalPrice / 10;
-        binding.totalPriceTv.setText(Utils.getDecimalFormat(this.totalPrice) + "€");
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
         int minimumPrice = (int) this.totalPrice;
         if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {
             binding.layoutBottomCheckout.setEnabled(false);
