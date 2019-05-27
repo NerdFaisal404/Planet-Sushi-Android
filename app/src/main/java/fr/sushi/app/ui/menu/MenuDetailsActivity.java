@@ -5,7 +5,10 @@ import android.animation.ObjectAnimator;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
@@ -22,6 +25,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +53,7 @@ import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.DataCacheUtil;
+import fr.sushi.app.util.SpeedyLinearLayoutManager;
 import fr.sushi.app.util.Utils;
 import fr.sushi.app.util.flyanim.CircleAnimationUtil;
 import fr.sushi.app.util.swipanim.ItemTouchHelperExtension;
@@ -71,6 +77,9 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private SearchPlace mSearchPlace;
 
     private MenuDetailsViewModel menuDetailsViewModel;
+
+    private int sectionPos = -1;
+
 
     @Override
     protected int getLayoutId() {
@@ -136,7 +145,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
     private void setUpToMenuAdapter() {
 
-        binding.recyclerViewMenuTop.setLayoutManager(new LinearLayoutManager(this,
+        binding.recyclerViewMenuTop.setLayoutManager(new SpeedyLinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         itemViewLayoutManager = new LinearLayoutManager(this);
         binding.recyclerViewItems.setLayoutManager(itemViewLayoutManager);
@@ -212,18 +221,19 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int sectionPos = sectionedRecyclerViewAdapter.getSectionPosition(visiblePosition);
-                    scrollHeaderMenu(sectionPos);
+                    visiblePosition = itemViewLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    int lastSectionPos = sectionedRecyclerViewAdapter.getSectionPosition(visiblePosition);
+                    if (sectionPos != lastSectionPos) {
+                        scrollHeaderMenu(lastSectionPos);
+                        sectionPos = lastSectionPos;
+                    }
                 }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                visiblePosition = itemViewLayoutManager.findFirstCompletelyVisibleItemPosition();
-
             }
-
         });
     }
 
@@ -240,18 +250,39 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         manager.startSmoothScroll(smoothScroller);
         binding.recyclerViewMenuTop.smoothScrollToPosition(position);
         showHeaderImage(position);
-
+        topMenuAdapter.setSelectedItemPosition(position);
     }
 
     private void showHeaderImage(int position) {
         CategoriesItem categoriesItem = categoriesItems.get(position);
-        /*if (!TextUtils.isEmpty(categoriesItem.getPictureUrl()))
-            Picasso.get().load(categoriesItem.getPictureUrl())
-                    .into(binding.ivMenu);*/
-        Glide.with(this).load(categoriesItem.getPictureUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.ivMenu);
-        topMenuAdapter.setSelectedItemPosition(position);
+
+        Picasso.get()
+                .load(categoriesItem.getPictureUrl())
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        Drawable prev = binding.ivMenu.getDrawable();
+                        if (prev != null) {
+                            TransitionDrawable td = new TransitionDrawable(new Drawable[]{
+                                    prev,
+                                    new BitmapDrawable(bitmap)
+                            });
+                            binding.ivMenu.setImageDrawable(td);
+                            td.startTransition(300);
+                        }else
+                            binding.ivMenu.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
     }
 
 

@@ -59,7 +59,7 @@ public class TopMenuAdapter extends RecyclerView.Adapter<TopMenuAdapter.ViewHold
             if(selectedPosition == getAdapterPosition()){
                 binding.bottomView.setVisibility(View.VISIBLE);
             }else {
-                binding.bottomView.setVisibility(View.GONE);
+                binding.bottomView.setVisibility(View.INVISIBLE);
             }
             binding.textViewItemName.setText(item.getName());
         }
