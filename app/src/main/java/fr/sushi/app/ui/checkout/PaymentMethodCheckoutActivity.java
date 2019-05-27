@@ -90,7 +90,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_checkout);
 
         AccompagnementsFragment.on().clear();
-        assert binding.viewpager != null;
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         binding.viewpager.setAdapter(pagerAdapter);
 
