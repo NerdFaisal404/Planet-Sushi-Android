@@ -20,11 +20,13 @@ import java.util.List;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentNewEmptyProfileBinding;
 import fr.sushi.app.ui.base.BaseActivity;
+import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.createaccount.CreateAccountActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileViewModel;
@@ -52,6 +54,7 @@ import fr.sushi.app.util.Utils;
 public class EmptyNewProfileActivity extends BaseActivity {
     FragmentNewEmptyProfileBinding mBinding;
     LoginViewModel mViewModel;
+    boolean isFromCart;
 
     @Override
     protected int getLayoutId() {
@@ -64,7 +67,8 @@ public class EmptyNewProfileActivity extends BaseActivity {
         setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin);
         initViewModel();
 
-        initCreateAccountViewMode();
+        parseIntent();
+        initLoginAccountViewMode();
     }
 
     @Override
@@ -77,8 +81,12 @@ public class EmptyNewProfileActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 500) {
-            Log.d("LoginTest", "call fragment");
-            //MainActivity.goProfilePage();
+            if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                if (isFromCart) {
+                    startActivity(new Intent(EmptyNewProfileActivity.this, PaymentMethodCheckoutActivity.class));
+                }
+                finish();
+            }
         }
     }
 
@@ -99,6 +107,13 @@ public class EmptyNewProfileActivity extends BaseActivity {
     private void initViewModel() {
         mViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
+    }
+
+    private void parseIntent() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(IntentKey.KEY_IS_FROM_CART)) {
+            isFromCart = intent.getBooleanExtra(IntentKey.KEY_IS_FROM_CART, false);
+        }
     }
 
     private void signUp() {
@@ -122,7 +137,7 @@ public class EmptyNewProfileActivity extends BaseActivity {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void initCreateAccountViewMode() {
+    private void initLoginAccountViewMode() {
         mViewModel.getLoginAccountLiveData().observe(this, response -> {
             if (response != null) {
                 DialogUtils.hideDialog();
@@ -167,10 +182,10 @@ public class EmptyNewProfileActivity extends BaseActivity {
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 
-                        Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_OK, returnIntent);
+                        if (isFromCart) {
+                            startActivity(new Intent(EmptyNewProfileActivity.this, PaymentMethodCheckoutActivity.class));
+                        }
                         finish();
-
 
                     }
                 } catch (JSONException e) {

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
+import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.remote.network.RetrofitClient;
 import fr.sushi.app.databinding.ActivityMainBinding;
@@ -19,7 +20,9 @@ import fr.sushi.app.ui.cart.FoodMenuFragment;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
 import fr.sushi.app.ui.emptyprofile.EmptyNewProfileFragment;
 import fr.sushi.app.ui.emptyprofile.EmptyProfileFragment;
+import fr.sushi.app.ui.emptyprofile.activity.EmptyNewProfileActivity;
 import fr.sushi.app.ui.home.view.HomeFragment;
+import fr.sushi.app.ui.menu.MenuDetailsActivity;
 import fr.sushi.app.ui.profile.ProfileFragment;
 import fr.sushi.app.ui.shop.MapFragment;
 import fr.sushi.app.util.FragmentFunctions;
@@ -93,8 +96,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if (baseFragment == null) {
                     baseFragment = new ShoppingBagFragment();
                 }*/
-                needToRollback = true;
-                startActivity(new Intent(MainActivity.this, PaymentMethodCheckoutActivity.class));
+                if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                    needToRollback = true;
+                    startActivity(new Intent(MainActivity.this, PaymentMethodCheckoutActivity.class));
+                } else {
+                    Intent accountIntent = new Intent(MainActivity.this, EmptyNewProfileActivity.class);
+                    accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
+                    startActivity(accountIntent);
+                }
                 break;
 
             case R.id.navigation_profile:

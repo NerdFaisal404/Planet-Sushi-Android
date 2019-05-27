@@ -43,6 +43,7 @@ import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.cart.adapter.AddressAdapter;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
+import fr.sushi.app.ui.emptyprofile.activity.EmptyNewProfileActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
@@ -94,16 +95,27 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
 
         observeData();
 
-        binding.priceLayout.setOnClickListener(v -> startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class)));
+        binding.priceLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                    startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class));
+                } else {
+                    Intent accountIntent = new Intent(MenuDetailsActivity.this, EmptyNewProfileActivity.class);
+                    accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
+                    startActivity(accountIntent);
+                }
+            }
+        });
 
         binding.realtiveLayoutAddress.setOnClickListener(v -> {
             Intent intentAddress = new Intent(this, AddressPickerActivity.class);
             boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
             boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
             if (isLivarsion) {
-                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
-            }else if (isExporter){
-                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY, false);
+            } else if (isExporter) {
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY, true);
             }
             intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, false);
             startActivity(intentAddress);
@@ -265,7 +277,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     protected void onResume() {
         super.onResume();
         List<MyCartProduct> myCartProducts = DBManager.on().getAllProducts();
-        if(menuItemSwipeAdapter != null) {
+        if (menuItemSwipeAdapter != null) {
             menuItemSwipeAdapter.setSelected(myCartProducts);
         }
 
@@ -274,7 +286,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
             //binding.layoutSignup.setVisibility(View.GONE);
             binding.realtiveLayoutAddress.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.realtiveLayoutAddress.setVisibility(View.GONE);
         }
 

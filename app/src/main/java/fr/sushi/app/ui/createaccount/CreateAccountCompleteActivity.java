@@ -118,8 +118,6 @@ public class CreateAccountCompleteActivity extends BaseActivity {
                             CreateAccountActivity.sInstance.finish();
                         }
 
-                        //MainActivity.goProfilePage();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
