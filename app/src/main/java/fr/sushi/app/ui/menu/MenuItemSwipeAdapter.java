@@ -17,9 +17,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -333,8 +335,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
         crossSellingBottomSheet.setContentView(bottomSheet);
-
         crossSellingBottomSheet.setCanceledOnTouchOutside(true);
+        bottomSheet.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) bottomSheet.getParent());
+            mBehavior.setPeekHeight(bottomSheet.getHeight());
+        });
+
         crossSellingBottomSheet.show();
 
         TextView tvTitle = bottomSheet.findViewById(R.id.tvItemName);
