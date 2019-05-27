@@ -24,6 +24,7 @@ import fr.sushi.app.data.local.intentkey.IntentKey;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
+import fr.sushi.app.databinding.ActivityNewProfileBinding;
 import fr.sushi.app.databinding.FragmentNewEmptyProfileBinding;
 import fr.sushi.app.ui.base.BaseActivity;
 import fr.sushi.app.ui.checkout.PaymentMethodCheckoutActivity;
@@ -52,18 +53,18 @@ import fr.sushi.app.util.Utils;
 
 
 public class EmptyNewProfileActivity extends BaseActivity {
-    FragmentNewEmptyProfileBinding mBinding;
+    ActivityNewProfileBinding mBinding;
     LoginViewModel mViewModel;
     boolean isFromCart;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_new_empty_profile;
+        return R.layout.activity_new_profile;
     }
 
     @Override
     protected void startUI() {
-        mBinding = (FragmentNewEmptyProfileBinding) getViewDataBinding();
+        mBinding = (ActivityNewProfileBinding) getViewDataBinding();
         setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin);
         initViewModel();
 

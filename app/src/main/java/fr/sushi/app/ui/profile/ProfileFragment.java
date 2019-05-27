@@ -63,8 +63,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         } else {
             mBinding.groupTopView.setVisibility(View.VISIBLE);
             mBinding.textViewPoint.setText(quantity);
-            mBinding.textViewPointLeft.setText(totalQuantity + " pts manquants");
-            showPointValue(totalQuantity);
+            showPointValue("140");
         }
 
         mBinding.textViewName.setText(userName);
@@ -140,6 +139,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.progressBar.setMax(151);
             setProgressAnimate(currentPoint);
             index ="0";
+            mBinding.textViewPointLeft.setText(totalPoint + " pts manquants");
         } else if (currentPoint > 150 && currentPoint < 451) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_gold));
             mBinding.tvMember.setText("Membre Gold");
@@ -147,6 +147,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.progressBar.setMax(451);
             setProgressAnimate(currentPoint);
             index ="1";
+            mBinding.textViewPointLeft.setText(totalPoint + " pts manquants");
         } else if (currentPoint > 450) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_black));
             mBinding.tvMember.setText("Membre Black");
@@ -154,6 +155,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.progressBar.setMax(100);
             setProgressAnimate(100);
             index ="2";
+            mBinding.textViewPointLeft.setText(totalPoint + " pts cumulés");
         }
 
         mBinding.imageViewCard.setOnClickListener(v -> {
