@@ -63,7 +63,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
         } else {
             mBinding.groupTopView.setVisibility(View.VISIBLE);
             mBinding.textViewPoint.setText(quantity);
-            showPointValue("140");
+            showPointValue(totalQuantity);
         }
 
         mBinding.textViewName.setText(userName);
@@ -129,7 +129,7 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
     }
 
     private void showPointValue(String totalPoint) {
-
+        int remainingPoint;
         int currentPoint = Integer.parseInt(totalPoint);
 
         if (currentPoint > 0 && currentPoint < 151) {
@@ -138,35 +138,37 @@ public class ProfileFragment extends BaseFragment implements ItemClickListener<P
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_pink_progress));
             mBinding.progressBar.setMax(151);
             setProgressAnimate(currentPoint);
-            index ="0";
-            mBinding.textViewPointLeft.setText(totalPoint + " pts manquants");
+            index = "0";
+            remainingPoint = 151 - currentPoint;
+            mBinding.textViewPointLeft.setText(remainingPoint + " pts manquants");
         } else if (currentPoint > 150 && currentPoint < 451) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_gold));
             mBinding.tvMember.setText("Membre Gold");
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_gold_progress));
             mBinding.progressBar.setMax(451);
             setProgressAnimate(currentPoint);
-            index ="1";
-            mBinding.textViewPointLeft.setText(totalPoint + " pts manquants");
+            index = "1";
+            remainingPoint = 451 - currentPoint;
+            mBinding.textViewPointLeft.setText(remainingPoint + " pts manquants");
         } else if (currentPoint > 450) {
             mBinding.imageViewCard.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.card_black));
             mBinding.tvMember.setText("Membre Black");
             mBinding.progressBar.setProgressDrawable(getActivity().getResources().getDrawable(R.drawable.drawable_black_progress));
             mBinding.progressBar.setMax(100);
             setProgressAnimate(100);
-            index ="2";
+            index = "2";
             mBinding.textViewPointLeft.setText(totalPoint + " pts cumulés");
         }
 
         mBinding.imageViewCard.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(),SusuCardDetailsActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION,index);
+            Intent intent = new Intent(getActivity(), SusuCardDetailsActivity.class);
+            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION, index);
             startActivity(intent);
         });
 
         mBinding.textViewProgressDetails.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(),SusuCardDetailsActivity.class);
-            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION,index);
+            Intent intent = new Intent(getActivity(), SusuCardDetailsActivity.class);
+            intent.putExtra(IntentKey.KEY_IS_CARD_POSITION, index);
             startActivity(intent);
         });
 
