@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:paddingLeft="@dimen/dp16"
     android:paddingRight="@dimen/dp16"
-    android:background="@drawable/bg_home_image"
+    android:background="@drawable/bg_commade_image"
     android:id="@+id/view_list_main_content"
-    android:layout_height="70dp">
+    android:layout_height="wrap_content">
 
 
 
