@@ -117,7 +117,20 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             }
         });
 
-        binding.realtiveLayoutAddress.setOnClickListener(v -> {
+        binding.layoutAddress.setOnClickListener(v -> {
+            Intent intentAddress = new Intent(this, AddressPickerActivity.class);
+            boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
+            boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
+            if (isLivarsion) {
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY, false);
+            } else if (isExporter) {
+                intentAddress.putExtra(IntentKey.KEY_IS_TAKEWAY, true);
+            }
+            intentAddress.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, false);
+            startActivity(intentAddress);
+        });
+
+        binding.ivDownArrow.setOnClickListener(v -> {
             Intent intentAddress = new Intent(this, AddressPickerActivity.class);
             boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
             boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
@@ -134,6 +147,8 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
             setUpToMenuAdapter();
             loadCategoryItems();
         }
+
+        binding.ivClose.setOnClickListener(v -> finish());
 
     }
 

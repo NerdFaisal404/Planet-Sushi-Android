@@ -407,7 +407,7 @@
                                 android:layout_height="24dp"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="@dimen/dp8"
-                                app:srcCompat="@drawable/icon_rice_colored" />
+                                app:srcCompat="@drawable/icon_spoon_colored" />
 
                             <RelativeLayout
                                 android:id="@+id/rlCountForBaguettes"
