@@ -88,6 +88,20 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.etSearchContacts.setOnClickListener(v -> {
             startActivityForResult(new Intent(getContext(), MapAutoCompletePlaceActivity.class), REQUEST_ADDRESS);
         });
+
+        binding.ivMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mLastLocation != null) {
+                    binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_marker_around_me_pink));
+                    LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                }
+            }
+        });
     }
 
     @Override
@@ -309,6 +323,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private class PageListener extends ViewPager.SimpleOnPageChangeListener {
         public void onPageSelected(int position) {
             currentPage = position;
+            binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_around_me_black));
             if (currentPage == 0) {
                 binding.viewpager.setPadding(20, 0, 80, 0);
             } else {
