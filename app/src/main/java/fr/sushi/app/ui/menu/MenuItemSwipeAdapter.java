@@ -29,6 +29,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -261,7 +263,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         dialog.setCanceledOnTouchOutside(true);
         dialog.setOnShowListener(dia -> {
             BottomSheetDialog dialog = (BottomSheetDialog) dia;
-            FrameLayout bottomSheet1 =  dialog .findViewById(R.id.design_bottom_sheet);
+            FrameLayout bottomSheet1 = dialog.findViewById(R.id.design_bottom_sheet);
             BottomSheetBehavior.from(bottomSheet1).setState(BottomSheetBehavior.STATE_EXPANDED);
             BottomSheetBehavior.from(bottomSheet1).setSkipCollapsed(true);
             BottomSheetBehavior.from(bottomSheet1).setHideable(true);
@@ -428,10 +430,18 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+
         CrossSellingAdapter crossAdapter = new CrossSellingAdapter(crossSellingItemRequiredList);
 
         RecyclerView recyclerView = bottomSheet.findViewById(R.id.rc_cross_selling);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        Collections.sort(crossSellingProductsItemList, new Comparator<CrossSellingProductsItem>() {
+            @Override
+            public int compare(CrossSellingProductsItem o1, CrossSellingProductsItem o2) {
+                return Boolean.compare(o2.getMaxCount() > 1, o1.getMaxCount() > 1);
+            }
+        });
 
         crossAdapter.clear();
         crossAdapter.addItems(crossSellingProductsItemList);
