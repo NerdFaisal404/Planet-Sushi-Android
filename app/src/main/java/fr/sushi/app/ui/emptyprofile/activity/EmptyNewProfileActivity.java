@@ -69,6 +69,8 @@ public class EmptyNewProfileActivity extends BaseActivity {
 
         parseIntent();
         initLoginAccountViewMode();
+
+        mBinding.ivClose.setOnClickListener(v -> finish());
     }
 
     @Override

@@ -129,7 +129,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSignup"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ui.emptyprofile.activity.EmptyNewProfileActivity" />
+        <activity
+            android:name=".ui.emptyprofile.activity.EmptyNewProfileActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeSignup"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>
