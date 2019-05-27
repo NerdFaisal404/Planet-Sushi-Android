@@ -52,6 +52,7 @@
     <dimen name="sp18">18sp</dimen>
     <dimen name="sp20">20sp</dimen>
     <dimen name="dp60">60dp</dimen>
+    <dimen name="dp80">80dp</dimen>
 
     <dimen name="font_xxxlarge">20sp</dimen>
     <dimen name="font_medium">16sp</dimen>

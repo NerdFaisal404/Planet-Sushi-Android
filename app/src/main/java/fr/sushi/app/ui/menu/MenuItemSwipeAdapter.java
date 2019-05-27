@@ -377,12 +377,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             if (product.isRequired()) {
                                 crossSellingItemRequiredList.put(product.getCategoryName(), String.valueOf(product.getMaxCount()));
                             }
-                            Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
                             if (!isItemRequired) {
                                 isItemRequired = product.isRequired();
                             }
                             product.setCategoryName(crossSellingItem.getCategoryName());
                             product.setDescription(crossSellingItem.getDescription());
+                            Log.w("CrossCategoryTest", "CatName: : " + product.getCategoryName() + " productName: " + product.getName());
                             crossSellingProductsItemList.add(product);
                         }
                     }
@@ -428,7 +428,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.setAdapter(crossAdapter);
         RecyclerSectionItemDecoration sectionItemDecoration;
         sectionItemDecoration =
-                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp10),
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp80),
                         true,
                         getSectionCallback(crossSellingProductsItemList));
 
