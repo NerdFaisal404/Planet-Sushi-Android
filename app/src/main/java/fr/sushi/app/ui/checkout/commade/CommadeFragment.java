@@ -39,11 +39,21 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
     private CommadeViewModel commadeViewModel;
     private double totalPrice;
 
+    private static CommadeFragment commadeFragment;
 
-    public CommadeFragment() {
-        // Required empty public constructor
+    public static CommadeFragment getInstance(){
+        if(commadeFragment == null){
+            commadeFragment = new CommadeFragment();
+        }
+        return commadeFragment;
+    }
+    public void clear() {
+        commadeFragment = null;
     }
 
+
+
+    private boolean isTotalPriceCalculated;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,6 +93,11 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
     CommadeAdapter commadeAdapter;
 
+    public void calculatePriceAgain(){
+        isTotalPriceCalculated = false;
+        initView();
+    }
+
     private void initView() {
 
         //selectedProducts = MenuPrefUtil.getSaveItems();
@@ -99,8 +114,10 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         mItemTouchHelper.attachToRecyclerView(binding.rvCartItem);
         commadeAdapter.setItemTouchHelperExtension(mItemTouchHelper);
         binding.rvCartItem.setAdapter(commadeAdapter);
-
-        setTotalPrice();
+        if(!isTotalPriceCalculated) {
+            setTotalPrice();
+            isTotalPriceCalculated = true;
+        }
     }
 
     private void setTotalPrice() {

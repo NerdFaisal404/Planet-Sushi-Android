@@ -202,9 +202,9 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
+          /*  double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
             PaymentMethodCheckoutActivity.discountPrice = 0;
-            ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);
+            ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);*/
         }
 
     }

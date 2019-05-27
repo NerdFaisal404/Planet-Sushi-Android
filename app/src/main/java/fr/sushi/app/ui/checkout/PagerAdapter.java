@@ -24,7 +24,7 @@ class PagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new CommadeFragment();
+                return CommadeFragment.getInstance();
             case 1:
                 return AccompagnementsFragment.on();
             case 2:

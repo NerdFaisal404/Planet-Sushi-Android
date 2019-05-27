@@ -44,6 +44,7 @@ import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.data.model.restuarents.ResponseItem;
 import fr.sushi.app.databinding.ActivityPaymentCheckoutBinding;
 import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
+import fr.sushi.app.ui.checkout.commade.CommadeFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
 import fr.sushi.app.ui.checkout.model.payment_success.PaymentSuccessResponse;
@@ -90,6 +91,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment_checkout);
 
         AccompagnementsFragment.on().clear();
+        CommadeFragment.getInstance().clear();
+
+        assert binding.viewpager != null;
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         binding.viewpager.setAdapter(pagerAdapter);
 
@@ -137,6 +141,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                 if (position == 0) {
                     AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(1);
                     fragment.clearPreviousSelectedItem();
+
+                    CommadeFragment commadeFragment = (CommadeFragment) pagerAdapter.getItem(0);
+                    commadeFragment.calculatePriceAgain();
                 }
                 if (position == 2) {
                     binding.totalPriceTv.setVisibility(View.GONE);
