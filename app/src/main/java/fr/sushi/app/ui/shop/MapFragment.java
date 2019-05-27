@@ -128,6 +128,15 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 Log.e("MapFragment", "Style parsing failed.");
             }
 
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    int index = (int)marker.getTag();
+                    binding.viewpager.setCurrentItem(index);
+                    return false;
+                }
+            });
+
             checkPermissionAndPrepareClient();
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
@@ -194,7 +203,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
     }
 
-    private ClusterManager<ResponseItem> mClusterManager;
+    //private ClusterManager<ResponseItem> mClusterManager;
 
     private void loadMapItem() {
 
@@ -212,16 +221,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         mClusterManager.cluster();*/
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
-        mGoogleMap.setOnCameraIdleListener(mClusterManager);
-        mGoogleMap.setOnMarkerClickListener(mClusterManager);
+       // mGoogleMap.setOnCameraIdleListener(mClusterManager);
+        //mGoogleMap.setOnMarkerClickListener(mClusterManager);
 
-        for (ResponseItem item : mapItemList) {
+        for (int i=0; i <mapItemList.size(); i++) {
+            ResponseItem item = mapItemList.get(i);
             MarkerOptions markerOptions = new MarkerOptions();
             LatLng latLng = new LatLng(item.getLat(), item.getLng());
             markerOptions.position(latLng);
-            markerOptions.title(item.getName());
+            //markerOptions.title(item.getName());
             markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
-            mGoogleMap.addMarker(markerOptions);
+            Marker marker = mGoogleMap.addMarker(markerOptions);
+            marker.setTag(i);
             //move map camera
             //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
@@ -260,8 +271,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
 
         moveMarker = mGoogleMap.addMarker(markerOptions);
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
+        //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        //mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
     }
 
 
