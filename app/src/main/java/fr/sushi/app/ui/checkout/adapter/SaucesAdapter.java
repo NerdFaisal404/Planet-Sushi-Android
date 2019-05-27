@@ -136,9 +136,9 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
         @Override
         public void onClick(View v) {
             Sauces item = getItem(getAdapterPosition());
-            if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
+           /* if (v.getId() == R.id.imgViewMinus && item.selectCount <= 0) {
                 return;
-            }
+            }*/
             Integer value = selectCountSaucesMap.get(getAdapterPosition());
 
             if (v.getId() == R.id.imgViewPlus) {
@@ -148,11 +148,18 @@ public class SaucesAdapter extends BaseAdapter<Sauces> {
                     selectCountSaucesMap.put(getAdapterPosition(), value + 1);
                 }
             }else {
+                if(value != null && value > 0)
                 selectCountSaucesMap.put(getAdapterPosition(), value - 1);
             }
 
-            if (mItemClickListener != null)
-                mItemClickListener.onItemClick(v, item, getAdapterPosition());
+            if (mItemClickListener != null) {
+                if (v.getId() == R.id.imgViewPlus){
+                    mItemClickListener.onItemClick(v, item, getAdapterPosition());
+                }else if (value != null && value > 0){
+                    mItemClickListener.onItemClick(v, item, getAdapterPosition());
+                }
+
+            }
         }
     }
 }

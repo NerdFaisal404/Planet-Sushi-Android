@@ -113,7 +113,7 @@
 
         </RelativeLayout>
 
-        <android.support.v4.view.ViewPager
+        <fr.sushi.app.util.CustomSwipableViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

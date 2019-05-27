@@ -31,7 +31,7 @@
             android:configChanges="locale"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeAddressPickerCustom"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.carddetails.SusuCardDetailsActivity"
             android:configChanges="locale"

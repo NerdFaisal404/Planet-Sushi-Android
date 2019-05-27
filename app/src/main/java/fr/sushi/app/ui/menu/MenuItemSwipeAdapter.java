@@ -273,7 +273,9 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         tvCount.setText(String.valueOf(count));
 
-        totalPrice = Double.parseDouble(item.getPriceTtc());
+        double singleItemPrice = Double.parseDouble(item.getPriceTtc());
+
+        totalPrice = Double.parseDouble(item.getPriceTtc()) * count;
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -448,7 +450,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceTtc());
+        totalPrice = Double.parseDouble(item.getPriceTtc()) * count;
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {

@@ -238,7 +238,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         tvCount.setText(String.valueOf(count));
 
-        totalPrice = Double.parseDouble(item.getPriceTtc());
+        totalPrice = Double.parseDouble(item.getPriceTtc()) * count;
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
@@ -406,7 +406,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         String[] title = item.getName().split("\\s");
 
-        totalPrice = Double.parseDouble(item.getPriceTtc());
+        totalPrice = Double.parseDouble(item.getPriceTtc()) * count;
         tvPrice.setText(Utils.getDecimalFormat(totalPrice) + "€");
 
         if (title.length > 0) {
