@@ -196,9 +196,17 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
-        PaymentMethodCheckoutActivity.discountPrice = 0;
-        ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
+            PaymentMethodCheckoutActivity.discountPrice = 0;
+            ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);
+        }
+
     }
 
     private void observeData() {

@@ -494,7 +494,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
         this.freeSaucesCount = (int) totalPrice / 10;
-        binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+        binding.totalPriceTv.setText(Utils.getDecimalFormat(this.totalPrice) + "€");
         int minimumPrice = (int) this.totalPrice;
         if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {
             binding.layoutBottomCheckout.setEnabled(false);
@@ -520,11 +520,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
     public void showDiscountPrice(double discountPrice, boolean isPaimentPage) {
-        this.totalPrice = discountPrice;
         if (isPaimentPage) {
-            binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+            binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(discountPrice) + "€");
         } else {
-            binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            binding.totalPriceTv.setText(Utils.getDecimalFormat(discountPrice) + "€");
         }
 
     }

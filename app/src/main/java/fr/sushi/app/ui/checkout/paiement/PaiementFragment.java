@@ -102,6 +102,46 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
         // Required empty public constructor
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            RestuarentsResponse restuarentsResponse = DataCacheUtil.getRestuarentsResponses();
+
+            if (restuarentsResponse != null && restuarentsResponse.getResponse() != null) {
+                List<ResponseItem> response = restuarentsResponse.getResponse();
+                SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
+                for (ResponseItem responseItem : response) {
+                    if (searchPlace != null) {
+                        if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
+                            if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")) {
+                                binding.layoutCartPayment.setVisibility(View.GONE);
+                                binding.radioLivarsion.setChecked(true);
+                                binding.radioRestaurent.setChecked(false);
+                                binding.radioCart.setChecked(false);
+                                PaymentMethodCheckoutActivity.isAdyenSelected = false;
+                                PaymentMethodCheckoutActivity.isCashPayment = true;
+                                PaymentMethodCheckoutActivity.isDeliveryPayment = false;
+                            } else {
+                                binding.layoutCartPayment.setVisibility(View.VISIBLE);
+                                binding.radioLivarsion.setChecked(false);
+                                binding.radioRestaurent.setChecked(false);
+                                binding.radioCart.setChecked(true);
+                                PaymentMethodCheckoutActivity.isAdyenSelected = true;
+                                PaymentMethodCheckoutActivity.isCashPayment = false;
+                                PaymentMethodCheckoutActivity.isDeliveryPayment = false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            binding.tvDiscountAmount.setText("");
+            binding.tvDiscount.setText("+ Ajouter un code réduction");
+        }
+
+    }
+
     private void observeData() {
 
         paimentViewModel = ViewModelProviders.of(this).get(PaimentViewModel.class);
@@ -641,39 +681,6 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
             binding.layoutFullAddres.setEnabled(true);
         }
 
-
-        RestuarentsResponse restuarentsResponse = DataCacheUtil.getRestuarentsResponses();
-
-        if (restuarentsResponse != null && restuarentsResponse.getResponse() != null) {
-            List<ResponseItem> response = restuarentsResponse.getResponse();
-            SearchPlace searchPlace = PlaceUtil.getRecentSearchAddress();
-            for (ResponseItem responseItem : response) {
-                if (searchPlace != null) {
-                    if (searchPlace.getOrder().getStoreId().equalsIgnoreCase(responseItem.getIdStore())) {
-                        if (responseItem.getActiveOnlinePayment().equalsIgnoreCase("0")) {
-                            binding.layoutCartPayment.setVisibility(View.GONE);
-                            binding.radioLivarsion.setChecked(true);
-                            binding.radioRestaurent.setChecked(false);
-                            binding.radioCart.setChecked(false);
-                            PaymentMethodCheckoutActivity.isAdyenSelected = false;
-                            PaymentMethodCheckoutActivity.isCashPayment = true;
-                            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
-                        } else {
-                            binding.layoutCartPayment.setVisibility(View.VISIBLE);
-                            binding.radioLivarsion.setChecked(false);
-                            binding.radioRestaurent.setChecked(false);
-                            binding.radioCart.setChecked(true);
-                            PaymentMethodCheckoutActivity.isAdyenSelected = true;
-                            PaymentMethodCheckoutActivity.isCashPayment = false;
-                            PaymentMethodCheckoutActivity.isDeliveryPayment = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        binding.tvDiscountAmount.setText("");
-        binding.tvDiscount.setText("+ Ajouter un code réduction");
 
     }
 
