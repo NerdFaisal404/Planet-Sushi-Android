@@ -197,6 +197,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                 binding.radioItem.setVisibility(View.VISIBLE);
                 binding.checkItem.setVisibility(View.GONE);
 
+
                 if (item.getItemClickCount() > 0) {
                     binding.radioButton.setChecked(true);
 

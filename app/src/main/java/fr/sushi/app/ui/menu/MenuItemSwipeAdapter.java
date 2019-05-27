@@ -4,18 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +54,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         void onItemClick(ProductsItem item, ImageView imageView);
 
         void onItemDeselect(ProductsItem item);
+
         void onRefreshBottomView();
     }
 
@@ -71,17 +78,17 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setSelected(List<MyCartProduct> myCartProducts) {
         List<String> productsIds = new ArrayList<>();
         List<String> categoryIds = new ArrayList<>();
-        for(MyCartProduct item : myCartProducts){
+        for (MyCartProduct item : myCartProducts) {
             productsIds.add(item.getProductId());
-            if(!categoryIds.contains(item.getCategoryId()))
-            categoryIds.add(item.getCategoryId());
+            if (!categoryIds.contains(item.getCategoryId()))
+                categoryIds.add(item.getCategoryId());
         }
 
-        for(ProductsItem item :productsItems){
-            if(productsIds.contains(item.getIdProduct())
-                    && categoryIds.contains(item.getIdCategory())){
+        for (ProductsItem item : productsItems) {
+            if (productsIds.contains(item.getIdProduct())
+                    && categoryIds.contains(item.getIdCategory())) {
                 item.setSelected(true);
-            }else {
+            } else {
                 item.setSelected(false);
             }
         }
@@ -331,6 +338,11 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         BottomSheetDialog crossSellingBottomSheet = new BottomSheetDialog(mContext, R.style.BottomSheetDialogStyle);
         crossSellingBottomSheet.setContentView(bottomSheet);
         crossSellingBottomSheet.setCanceledOnTouchOutside(true);
+        bottomSheet.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) bottomSheet.getParent());
+            mBehavior.setPeekHeight(bottomSheet.getHeight());
+        });
+
         crossSellingBottomSheet.show();
 
         TextView tvTitle = bottomSheet.findViewById(R.id.tvItemName);
@@ -367,12 +379,12 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             if (product.isRequired()) {
                                 crossSellingItemRequiredList.put(product.getCategoryName(), String.valueOf(product.getMaxCount()));
                             }
-                            Log.w("CrossCategoryTest", "isRequired: " + product.isRequired());
                             if (!isItemRequired) {
                                 isItemRequired = product.isRequired();
                             }
                             product.setCategoryName(crossSellingItem.getCategoryName());
                             product.setDescription(crossSellingItem.getDescription());
+                            Log.w("CrossCategoryTest", "CatName: : " + product.getCategoryName() + " productName: " + product.getName());
                             crossSellingProductsItemList.add(product);
                         }
                     }
@@ -418,7 +430,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.setAdapter(crossAdapter);
         RecyclerSectionItemDecoration sectionItemDecoration;
         sectionItemDecoration =
-                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp10),
+                new RecyclerSectionItemDecoration(mContext.getResources().getDimensionPixelSize(R.dimen.dp80),
                         true,
                         getSectionCallback(crossSellingProductsItemList));
 

@@ -62,9 +62,9 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         View view = binding.getRoot();
         initView();
         observeData();
-
         return view;
     }
+
 
     private void observeData() {
 

@@ -95,7 +95,6 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
 
         assert binding.viewpager != null;
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        binding.viewpager.setOffscreenPageLimit(0);
         binding.viewpager.setAdapter(pagerAdapter);
 
 
@@ -526,11 +525,10 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
     }
 
     public void showDiscountPrice(double discountPrice, boolean isPaimentPage) {
-        this.totalPrice = discountPrice;
         if (isPaimentPage) {
-            binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPrice) + "€");
+            binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(discountPrice) + "€");
         } else {
-            binding.totalPriceTv.setText(Utils.getDecimalFormat(totalPrice) + "€");
+            binding.totalPriceTv.setText(Utils.getDecimalFormat(discountPrice) + "€");
         }
 
     }
