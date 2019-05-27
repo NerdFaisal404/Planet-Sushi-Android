@@ -105,6 +105,8 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         if(selectedProducts.isEmpty()) {
             getActivity().finish();
         }
+
+        if(binding == null) return;
         itemViewLayoutManager = new LinearLayoutManager(getActivity());
         binding.rvCartItem.setLayoutManager(itemViewLayoutManager);
 
