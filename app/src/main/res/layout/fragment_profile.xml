@@ -76,7 +76,7 @@
             android:id="@+id/groupTopView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="text_view_title,tvPts,text_view_point_left,image_view_card,middle_view,tv_member,text_view_progress_details,progress_bar,text_view_point" />
+            app:constraint_referenced_ids="tvPts,text_view_point_left,image_view_card,middle_view,tv_member,text_view_progress_details,progress_bar,text_view_point" />
 
         <View
             android:id="@+id/middle_view"
