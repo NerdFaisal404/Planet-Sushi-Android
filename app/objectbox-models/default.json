@@ -1,0 +1,135 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2747648761795666776",
+      "lastPropertyId": "7:8972694827056168745",
+      "name": "CrossSellingSelectedItem",
+      "properties": [
+        {
+          "id": "1:5857279216969239134",
+          "name": "id"
+        },
+        {
+          "id": "2:8419335556834290962",
+          "name": "mainProductId"
+        },
+        {
+          "id": "3:1869801636487518957",
+          "name": "productId"
+        },
+        {
+          "id": "4:673257657793955735",
+          "name": "productCount"
+        },
+        {
+          "id": "5:9109672244529257652",
+          "name": "productName"
+        },
+        {
+          "id": "6:471779574736744035",
+          "name": "productPrice"
+        },
+        {
+          "id": "7:8972694827056168745",
+          "name": "isFree"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:550218092767592614",
+      "lastPropertyId": "12:37026159942552263",
+      "name": "MyCartProduct",
+      "properties": [
+        {
+          "id": "1:5034281179448733580",
+          "name": "id"
+        },
+        {
+          "id": "2:8778519581291068911",
+          "name": "productId"
+        },
+        {
+          "id": "3:2200121814083536789",
+          "name": "name"
+        },
+        {
+          "id": "4:5162343529419467542",
+          "name": "coderUrl"
+        },
+        {
+          "id": "5:4486151204121739005",
+          "name": "shortDescription"
+        },
+        {
+          "id": "6:6489320634769893870",
+          "name": "categoryId"
+        },
+        {
+          "id": "7:386582553092891292",
+          "name": "categoryName"
+        },
+        {
+          "id": "8:5578201204950311967",
+          "name": "piece"
+        },
+        {
+          "id": "9:4680630564970566771",
+          "name": "priceHt"
+        },
+        {
+          "id": "10:7942845167207028008",
+          "name": "priceTtc"
+        },
+        {
+          "id": "11:4283303030177769116",
+          "name": "itemCount"
+        },
+        {
+          "id": "12:37026159942552263",
+          "name": "sellingProductInfo"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:3324450815054671328",
+          "name": "crossSellingSelectedItems"
+        }
+      ]
+    },
+    {
+      "id": "3:292037587928935567",
+      "lastPropertyId": "3:3202216276327401761",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:1945375021031832163",
+          "name": "id"
+        },
+        {
+          "id": "2:1745231889275803838",
+          "name": "name"
+        },
+        {
+          "id": "3:3202216276327401761",
+          "name": "userId"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:292037587928935567",
+  "lastIndexId": "0:0",
+  "lastRelationId": "1:3324450815054671328",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
