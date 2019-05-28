@@ -178,6 +178,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
     @Override
     public void onRefreshUi() {
+        isTotalPriceCalculated = false;
         initView();
     }
 }

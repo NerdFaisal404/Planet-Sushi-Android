@@ -193,6 +193,15 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
 
     }
 
+    public void setFreeSaucesCount(int freeCout) {
+        freeSideProductCount = freeCout;
+        String items = "" + freeSideProductCount;
+        String subTitle = "Choisissez vos <font color=\"#EA148A\">" + items + " sauce(s) gratuite(s),</font>" + " wasabi, gingembre et baguettes.\n Compléter votre commande d'un accompagnement, d'une boisson ou d'un dessert. Sauce(s) offertes";
+
+        if (binding != null)
+            binding.tvSubtitle.setText(Html.fromHtml(subTitle), TextView.BufferType.SPANNABLE);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -201,7 +210,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
           /*  double totalPrice = ((PaymentMethodCheckoutActivity) getActivity()).getProductTotalPrice() + PaymentMethodCheckoutActivity.discountPrice;
             PaymentMethodCheckoutActivity.discountPrice = 0;
             ((PaymentMethodCheckoutActivity) getActivity()).showDiscountPrice(totalPrice,false);*/
@@ -632,7 +641,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                     accomplishmentitemMap.put(item.getIdProduct(), item);
                 }
 
-            }else {
+            } else {
                 accomplishmentitemMap.remove(item.getIdProduct());
             }
         }
@@ -660,7 +669,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     boissonItemMap.put(item.getIdProduct(), item);
                 }
-            }else {
+            } else {
                 boissonItemMap.remove(item.getIdProduct());
             }
         }
@@ -687,7 +696,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     dessertItemMap.put(item.getIdProduct(), item);
                 }
-            }else {
+            } else {
                 dessertItemMap.remove(item.getIdProduct());
             }
         }
@@ -716,7 +725,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
                 } else {
                     baguettesItemMap.put(item.getIdProduct(), item);
                 }
-            }else {
+            } else {
                 baguettesItemMap.remove(item.getIdProduct());
             }
         }
@@ -827,42 +836,42 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         countWasbi = 0;
         countBauettes = 0;
 
-        if(accompagnementResponse != null){
+        if (accompagnementResponse != null) {
             List<FreeSaucesItem> freeSaucesItemList = new ArrayList<>(accompagnementResponse.getResponse().getFreeSauces());
-            for(FreeSaucesItem item : freeSaucesItemList){
+            for (FreeSaucesItem item : freeSaucesItemList) {
                 item.selectCount = 0;
             }
 
             List<PayingSaucesItem> payingSaucesItemList = new ArrayList<>(accompagnementResponse.getResponse().getPayingSauces());
-            for(PayingSaucesItem item : payingSaucesItemList){
+            for (PayingSaucesItem item : payingSaucesItemList) {
                 item.selectCount = 0;
             }
 
             List<UpsellItem> upsellItems = new ArrayList<>(accompagnementResponse.getResponse().getUpsell());
-            for(UpsellItem item : upsellItems){
+            for (UpsellItem item : upsellItems) {
                 item.selectCount = 0;
             }
 
             List<DrinksItem> drinksItems = new ArrayList<>(accompagnementResponse.getResponse().getDrinks());
-            for(DrinksItem item : drinksItems){
+            for (DrinksItem item : drinksItems) {
                 item.selectCount = 0;
             }
 
             List<DessertsItem> dessertsItems = new ArrayList<>(accompagnementResponse.getResponse().getDesserts());
-            for(DessertsItem item : dessertsItems){
+            for (DessertsItem item : dessertsItems) {
                 item.selectCount = 0;
             }
 
-            List<PayingWasabiGingerItem> payingWasbiList =new ArrayList<>(accompagnementResponse.getResponse().getPayingWasabiGinger());
-            for(PayingWasabiGingerItem item : payingWasbiList){
+            List<PayingWasabiGingerItem> payingWasbiList = new ArrayList<>(accompagnementResponse.getResponse().getPayingWasabiGinger());
+            for (PayingWasabiGingerItem item : payingWasbiList) {
                 item.selectCount = 0;
             }
             List<FreeWasabiGingerItem> freeWasbiList = new ArrayList<>(accompagnementResponse.getResponse().getFreeWasabiGinger());
-            for(FreeWasabiGingerItem item : freeWasbiList){
+            for (FreeWasabiGingerItem item : freeWasbiList) {
                 item.selectCount = 0;
             }
             List<ChopsticksItem> chopsticksItems = new ArrayList<>(accompagnementResponse.getResponse().getChopsticks());
-            for(ChopsticksItem item : chopsticksItems){
+            for (ChopsticksItem item : chopsticksItems) {
                 item.selectCount = 0;
             }
         }

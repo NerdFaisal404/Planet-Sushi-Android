@@ -500,6 +500,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         this.totalPriceWithSideProducts = productTotalPrice;
 
         this.freeSaucesCount = (int) productTotalPrice / 10;
+        AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(1);
+        fragment.setFreeSaucesCount(freeSaucesCount);
+
         binding.totalPriceTv.setText(Utils.getDecimalFormat(productTotalPrice) + "€");
         int minimumPrice = (int) this.productTotalPrice;
         if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {
