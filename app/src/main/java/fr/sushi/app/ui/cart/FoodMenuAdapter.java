@@ -63,7 +63,7 @@ public class FoodMenuAdapter extends FocusResizeAdapter<RecyclerView.ViewHolder>
                 .into(featuredViewHolder.ivBackground);*/
 
         Picasso.get().load(item.getPictureUrl())
-                .placeholder(holder.itemView.getContext().getResources().getDrawable(R.drawable.ic_place_holder))
+                .placeholder(holder.itemView.getContext().getResources().getDrawable(R.drawable.bg_home_image))
                 .into(featuredViewHolder.ivBackground);
     }
 
