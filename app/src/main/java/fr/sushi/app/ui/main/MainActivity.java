@@ -96,14 +96,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 if (baseFragment == null) {
                     baseFragment = new ShoppingBagFragment();
                 }*/
-                if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                startActivity(new Intent(MainActivity.this, PaymentMethodCheckoutActivity.class));
+
+                /*if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
                     needToRollback = true;
                     startActivity(new Intent(MainActivity.this, PaymentMethodCheckoutActivity.class));
                 } else {
                     Intent accountIntent = new Intent(MainActivity.this, EmptyNewProfileActivity.class);
                     accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
                     startActivity(accountIntent);
-                }
+                }*/
                 break;
 
             case R.id.navigation_profile:
