@@ -17,11 +17,15 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import fr.sushi.app.R;
 import fr.sushi.app.data.local.SharedPref;
 import fr.sushi.app.data.local.preference.PrefKey;
 import fr.sushi.app.data.model.ProfileAddressModel;
+import fr.sushi.app.data.model.address_picker.AddressResponse;
+import fr.sushi.app.data.model.address_picker.Order;
 import fr.sushi.app.data.model.address_picker.error.ErrorResponse;
 import fr.sushi.app.databinding.FragmentNewEmptyProfileBinding;
 import fr.sushi.app.ui.base.BaseFragment;
@@ -33,6 +37,7 @@ import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.login.LoginViewModel;
 import fr.sushi.app.ui.main.MainActivity;
 import fr.sushi.app.util.DialogUtils;
+import fr.sushi.app.util.ScheduleParser;
 import fr.sushi.app.util.Utils;
 /*
  *  ****************************************************************************
@@ -62,7 +67,7 @@ public class EmptyNewProfileFragment extends BaseFragment {
     protected void startUI() {
         mBinding = (FragmentNewEmptyProfileBinding) getViewDataBinding();
 
-        setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin,mBinding.tvForgetPassword);
+        setClickListener(mBinding.buttonCreateAccount, mBinding.buttonLogin, mBinding.tvForgetPassword);
 
         initViewModel();
 
@@ -177,7 +182,7 @@ public class EmptyNewProfileFragment extends BaseFragment {
                                 SharedPref.write(PrefKey.FIDELITY_IS_AVAILABLE, is_available);
                                 SharedPref.write(PrefKey.FIDELITY_TOTAL_QUANTITY, total_quantity);
                                 SharedPref.write(PrefKey.FIDELITY_QUANTITY, quantity);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 SharedPref.write(PrefKey.FIDELITY_GROUP, "");
                                 SharedPref.write(PrefKey.FIDELITY_AMOUNT, "");
                                 SharedPref.write(PrefKey.FIDELITY_IS_AVAILABLE, "");
@@ -204,7 +209,14 @@ public class EmptyNewProfileFragment extends BaseFragment {
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 
-                        ((MainActivity) getActivity()).goProfilePage();
+                        SearchPlace searchPlace = PlaceUtil.getDefaultSearchAddress();
+
+                        if (searchPlace != null) {
+                            mViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
+                                    searchPlace.getCity());
+                        } else {
+                            ((MainActivity) getActivity()).goProfilePage();
+                        }
 
 
                     }
@@ -217,7 +229,67 @@ public class EmptyNewProfileFragment extends BaseFragment {
 
             }
         });
+
+
+        mViewModel.getDeliveryAddressLiveData().observe(this, response -> {
+            try {
+                JSONObject responseObject = new JSONObject(response.string());
+                boolean error = Boolean.parseBoolean(responseObject.getString("error"));
+                if (error == true) {
+                    //Error occurred address not listed
+                } else {
+                    AddressResponse addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
+                    addressResponse = ScheduleParser.parseSchedule(responseObject, addressResponse);
+
+                    Map<String, List<Order>> scheduleOrderMap = new TreeMap<>();
+                    List<Order> schedulesList = addressResponse.getResponse().getSchedules().getOrderList();
+
+                    for (Order item : schedulesList) {
+
+                        String[] displayValue = item.getDisplayValue().split("à");
+
+                        List<Order> existList = scheduleOrderMap.get(displayValue[0]);
+
+                        Log.e("Orders", "value =" + item.getDisplayValue() + " time =" + item.getSchedule());
+
+                        if (existList == null) {
+                            List<Order> newList = new ArrayList<>();
+                            newList.add(item);
+                            scheduleOrderMap.put(displayValue[0], newList);
+                        } else {
+                            existList.add(item);
+                        }
+
+                    }
+
+                    if(!scheduleOrderMap.isEmpty()){
+                        for(Map.Entry<String,  List<Order>> item : scheduleOrderMap.entrySet()){
+                            String today = item.getKey();
+                            List<Order> orderList = item.getValue();
+                            Order timeSchedule = orderList.get(0);
+
+                            SearchPlace defaultSearchPlace = PlaceUtil.getDefaultSearchAddress();
+
+                            defaultSearchPlace.setTime(timeSchedule.getSchedule());
+                            defaultSearchPlace.setOrder(timeSchedule);
+                            defaultSearchPlace.setTitle(today);
+
+                            PlaceUtil.saveDefaultSearchPlace(defaultSearchPlace);
+                        }
+                    }
+                }
+
+                ((MainActivity) getActivity()).goProfilePage();
+            } catch (IOException e) {
+
+            } catch (JSONException e) {
+
+            }
+
+
+        });
     }
+
 
     private void saveAddress(JSONArray addressArray) {
 

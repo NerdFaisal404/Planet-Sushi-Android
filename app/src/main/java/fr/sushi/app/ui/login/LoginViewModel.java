@@ -52,4 +52,25 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<ResponseBody> getLoginAccountLiveData() {
         return loginLiveData;
     }
+
+
+    private MutableLiveData<ResponseBody> deliveryAddressLiveData = new MutableLiveData<>();
+
+    public void setDeliveryAddress(String address,
+                                   String postcode, String city) {
+        Repository.setDeliveryAddress(address, postcode, city).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccesssetDeliveryAddress,
+                        throwable -> onError(throwable, ApiResponseError.ErrorType));
+    }
+
+    private void onSuccesssetDeliveryAddress(ResponseBody responseBody) {
+        if (responseBody != null) {
+            deliveryAddressLiveData.setValue(responseBody);
+        }
+    }
+
+    public MutableLiveData<ResponseBody> getDeliveryAddressLiveData() {
+        return deliveryAddressLiveData;
+    }
 }
