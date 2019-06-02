@@ -279,6 +279,7 @@ public class EmptyNewProfileFragment extends BaseFragment {
                             defaultSearchPlace.setTitle(today);
 
                             PlaceUtil.saveDefaultSearchPlace(defaultSearchPlace);
+                            break;
                         }
                     }
                 }
