@@ -198,7 +198,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     Log.e("JsonObject", "" + responseObject.toString());
                     if (error == true) {
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
 
                     } else {
                         discountResponse = new Gson().fromJson(responseObject.toString(), DiscountResponse.class);
