@@ -209,12 +209,15 @@ public class EmptyNewProfileFragment extends BaseFragment {
 
                         SharedPref.write(PrefKey.IS_LOGINED, true);
 
+                        //Get default address and search in server
+
                         SearchPlace searchPlace = PlaceUtil.getDefaultSearchAddress();
 
                         if (searchPlace != null) {
                             mViewModel.setDeliveryAddress(searchPlace.getAddress(), searchPlace.getPostalCode(),
                                     searchPlace.getCity());
                         } else {
+
                             ((MainActivity) getActivity()).goProfilePage();
                         }
 
@@ -263,6 +266,7 @@ public class EmptyNewProfileFragment extends BaseFragment {
                     }
 
                     if(!scheduleOrderMap.isEmpty()){
+
                         for(Map.Entry<String,  List<Order>> item : scheduleOrderMap.entrySet()){
                             String today = item.getKey();
                             List<Order> orderList = item.getValue();
@@ -285,7 +289,6 @@ public class EmptyNewProfileFragment extends BaseFragment {
             } catch (JSONException e) {
 
             }
-
 
         });
     }
