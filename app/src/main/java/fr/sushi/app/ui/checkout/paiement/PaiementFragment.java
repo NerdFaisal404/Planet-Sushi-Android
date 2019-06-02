@@ -645,7 +645,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     binding.tvAddressHouse.setText(fullText);
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#394F61"));
                 } else {
-                    binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
+                    binding.tvAddressHouse.setText("Ajouter un code, étage, interphone");
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
                 }
 
