@@ -107,13 +107,17 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.priceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
-                    startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class));
+                startActivity(new Intent(MenuDetailsActivity.this,
+                        PaymentMethodCheckoutActivity.class));
+
+                /*if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                    startActivity(new Intent(MenuDetailsActivity.this,
+                            PaymentMethodCheckoutActivity.class));
                 } else {
                     Intent accountIntent = new Intent(MenuDetailsActivity.this, EmptyNewProfileActivity.class);
                     accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
                     startActivity(accountIntent);
-                }
+                }*/
             }
         });
 
@@ -368,6 +372,14 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private MenuItemSwipeAdapter.Listener selectListener = new MenuItemSwipeAdapter.Listener() {
         @Override
         public void onItemClick(ProductsItem item, ImageView imageView) {
+
+            if(!PlaceUtil.isAddressSaved()){
+                Intent intent = new Intent(MenuDetailsActivity.this,
+                        AddressPickerActivity.class);
+                startActivity(intent);
+                return;
+            }
+
             imageView.setVisibility(View.VISIBLE);
             //MenuPrefUtil.saveItem(item);
             DBManager.on().saveProductItem(item);

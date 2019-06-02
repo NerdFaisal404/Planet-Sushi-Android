@@ -2,6 +2,7 @@ package fr.sushi.app.ui.menu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -42,7 +43,9 @@ import fr.sushi.app.data.model.food_menu.CrossSellingCategoriesItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
+import fr.sushi.app.ui.adressPicker.AddressPickerActivity;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
@@ -140,8 +143,10 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.setSelected(true);
-                notifyDataSetChanged();
+                if (PlaceUtil.isAddressSaved()) {
+                    item.setSelected(true);
+                    notifyDataSetChanged();
+                }
                 itemClickListener.onItemClick(item, holder.imageViewItemAnim);
             }
         });
@@ -328,13 +333,23 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         ivDownArrow.setOnClickListener(v -> dialog.dismiss());
         adjustLayout.setOnClickListener(v -> {
+            if(!PlaceUtil.isAddressSaved()){
+                openAddressPickerActivity();
+                return;
+            }
             DBManager.on().saveProductItem(item, count);
             itemClickListener.onRefreshBottomView();
             dialog.dismiss();
         });
 
         Picasso.get().load(item.getPictureUrl()).into(ivItem);
+    }
 
+
+    private void openAddressPickerActivity() {
+        Intent intent = new Intent(mContext,
+                AddressPickerActivity.class);
+        mContext.startActivity(intent);
 
     }
 
@@ -513,6 +528,10 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         tvClose.setOnClickListener(v -> crossSellingBottomSheet.dismiss());
         adjustLayout.setOnClickListener(v -> {
+            if(!PlaceUtil.isAddressSaved()){
+                openAddressPickerActivity();
+                return;
+            }
             // What is this
             DBManager.on().saveProductItem(item, count);
 

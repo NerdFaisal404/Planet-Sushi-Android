@@ -12,6 +12,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -71,6 +72,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     private MapViewModel mapViewModel;
     private RestuarentsResponse restuarentsResponse;
     private List<ResponseItem> mapItemList;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_map;
@@ -93,14 +95,18 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         binding.ivMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mLastLocation != null) {
-                    binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_marker_around_me_pink));
-                    LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                LatLng latLng;
+                binding.ivMyLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_marker_around_me_pink));
+                if (mLastLocation != null) {
+                    latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                } else {
+                    latLng = new LatLng(48.864716, 2.349014);
                 }
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+
             }
         });
     }
@@ -147,7 +153,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    int index = (int)marker.getTag();
+                    int index = (int) marker.getTag();
                     binding.viewpager.setCurrentItem(index);
                     return false;
                 }
@@ -176,6 +182,28 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
             this.mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
             mGoogleMap.setMyLocationEnabled(true);
         }
+        if(!isLocationEnable()){
+            //Place current location marker
+            LatLng latLng = new LatLng(48.864716, 2.349014);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("Current Position");
+            //markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_small));
+            //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+        }
+    }
+
+    private boolean isLocationEnable() {
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        return gps_enabled;
     }
 
     private LocationCallback mLocationCallback = new LocationCallback() {
@@ -199,7 +227,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
                 //mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
             }
         }
@@ -237,10 +265,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         mClusterManager.cluster();*/
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
-       // mGoogleMap.setOnCameraIdleListener(mClusterManager);
+        // mGoogleMap.setOnCameraIdleListener(mClusterManager);
         //mGoogleMap.setOnMarkerClickListener(mClusterManager);
 
-        for (int i=0; i <mapItemList.size(); i++) {
+        for (int i = 0; i < mapItemList.size(); i++) {
             ResponseItem item = mapItemList.get(i);
             MarkerOptions markerOptions = new MarkerOptions();
             LatLng latLng = new LatLng(item.getLat(), item.getLng());
@@ -290,7 +318,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         //markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_big));
 
-        if(moveMarker != null){
+        if (moveMarker != null) {
             moveMarker.remove();
         }
 
@@ -307,7 +335,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
         //markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_search_location));
 
-        if(moveMarker != null){
+        if (moveMarker != null) {
             moveMarker.remove();
         }
 
@@ -321,6 +349,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback {
     /* Pager for bottom location card according to map marker */
     private int currentPage;
     private Marker moveMarker;
+
     private class PageListener extends ViewPager.SimpleOnPageChangeListener {
         public void onPageSelected(int position) {
             currentPage = position;

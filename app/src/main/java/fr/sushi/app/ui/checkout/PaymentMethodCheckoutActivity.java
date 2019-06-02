@@ -46,6 +46,7 @@ import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
 import fr.sushi.app.ui.checkout.commade.CommadeFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
+import fr.sushi.app.ui.emptyprofile.activity.EmptyNewProfileActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -150,6 +151,16 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
                     binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPriceWithSideProducts) + "€");
                     binding.ivRightArrow.setPadding(100, 0, 0, 0);
+
+                    if (!SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                        Intent accountIntent = new Intent(PaymentMethodCheckoutActivity.this,
+                                EmptyNewProfileActivity.class);
+
+                        accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
+                        startActivity(accountIntent);
+                        binding.viewpager.setCurrentItem(0);
+                    }
+
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
                     binding.midline.setVisibility(View.VISIBLE);
