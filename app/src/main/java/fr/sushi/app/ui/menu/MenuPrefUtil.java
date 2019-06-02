@@ -193,7 +193,7 @@ public class MenuPrefUtil {
         myCartProduct.setCategoryId(item.getIdCategory());
         myCartProduct.setCategoryName(item.getCategoryName());
         myCartProduct.setPiece(item.getNbrePiece());
-        myCartProduct.setPriceHt(item.getPriceHt());
+        myCartProduct.setPriceHt(item.getPriceTtc());
         myCartProduct.setPriceTtc(item.getPriceTtc());
         myCartProduct.setItemCount(1);
         myCartProduct.setSellingProductInfo(item.getDescriptionSecondary());
