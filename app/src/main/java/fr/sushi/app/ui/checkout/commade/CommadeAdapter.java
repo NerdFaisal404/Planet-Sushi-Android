@@ -178,7 +178,7 @@ public class CommadeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemName.setText(item.getName());
             }
 
-            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceHt()) * item.getItemCount()) + "€");
+            itemPrice.setText(Utils.getDecimalFormat(Double.parseDouble(item.getPriceTtc()) * item.getItemCount()) + "€");
             tvPice.setText(item.getPiece() + " Pieces ");
 
             List<CrossSellingSelectedItem> itemSideProducts = DBManager.on()

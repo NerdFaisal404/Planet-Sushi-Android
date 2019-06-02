@@ -151,6 +151,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
                     binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPriceWithSideProducts) + "€");
                     binding.ivRightArrow.setPadding(100, 0, 0, 0);
+                    binding.ivRightArrow.setVisibility(View.GONE);
 
                     if (!SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
                         Intent accountIntent = new Intent(PaymentMethodCheckoutActivity.this,
@@ -168,6 +169,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.layoutSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     binding.tvSubmit.setText("CONTINUER");
                     binding.ivRightArrow.setPadding(0, 0, 0, 0);
+                    binding.ivRightArrow.setVisibility(View.VISIBLE);
                 }
             }
         });

@@ -469,7 +469,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private String getTotalPrice() {
         double total = 0.0;
         for (MyCartProduct item : selectedProducts) {
-            total = total + (Double.valueOf(item.getPriceHt()) * item.getItemCount());
+            total = total + (Double.valueOf(item.getPriceTtc()) * item.getItemCount());
         }
 
         List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
