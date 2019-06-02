@@ -29,7 +29,8 @@ public class PaymentSuccssActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String successCard = intent.getStringExtra(IntentKey.KEY_ORDER_ID);
         if (successCard != null) {
-            binding.tvOrderId.setText("Votre commade #" + successCard + " a bien ete enregistree!!");
+            binding.tvOrderId.setText("Votre commade #" + successCard + " bien été enregistrée !!");
+            //Votre commande a bien été enregistrée !
         }
     }
 }
