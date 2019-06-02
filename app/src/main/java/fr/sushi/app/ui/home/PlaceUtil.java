@@ -127,4 +127,11 @@ public class PlaceUtil {
         if(TextUtils.isEmpty(jsonString)) return null;
         return new Gson().fromJson(jsonString, SearchPlace.class);
     }
+
+    public static boolean isAddressSaved(){
+       if(getRecentSearchAddress() != null || getDefaultSearchAddress() != null){
+           return true;
+       }
+       return false;
+    }
 }
