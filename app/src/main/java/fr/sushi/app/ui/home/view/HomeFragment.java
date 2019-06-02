@@ -261,7 +261,7 @@ public class HomeFragment extends BaseFragment {
                             currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
                             if (isDeafultAddressPress) {
-                                PlaceUtil.saveDefaultSearchPlace(currentSearchPlace);
+                                //PlaceUtil.saveDefaultSearchPlace(currentSearchPlace);
                             } else {
                                 PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
                             }

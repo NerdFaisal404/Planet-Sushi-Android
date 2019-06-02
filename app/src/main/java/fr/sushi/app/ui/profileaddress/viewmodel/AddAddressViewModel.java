@@ -48,7 +48,7 @@ public class AddAddressViewModel extends ViewModel {
         searchPlace.setInterphone(model.getInterphone());
         searchPlace.setFloor(model.getFloor());
         searchPlace.setAccessCode(model.getAccessCode());
-        PlaceUtil.saveDefaultSearchPlace(searchPlace);
+       // PlaceUtil.saveDefaultSearchPlace(searchPlace);
         String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
         List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
         itemList.add(model);
@@ -65,7 +65,7 @@ public class AddAddressViewModel extends ViewModel {
         searchPlace.setInterphone(model.getInterphone());
         searchPlace.setFloor(model.getFloor());
         searchPlace.setAccessCode(model.getAccessCode());
-        PlaceUtil.saveDefaultSearchPlace(searchPlace);
+       // PlaceUtil.saveDefaultSearchPlace(searchPlace);
 
         for (ProfileAddressModel item : itemList) {
             if (item.getId().equals(model.getId())) {

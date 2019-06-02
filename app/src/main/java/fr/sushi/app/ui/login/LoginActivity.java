@@ -251,11 +251,11 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (!addressList.isEmpty()) {
                 loginViewModel.addAddress(addressList);
-                ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
+               /* ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
                 SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                         addressModel.getLocation());
                 searchPlace.setAddressId(addressModel.getId());
-                PlaceUtil.saveDefaultSearchPlace(searchPlace);
+                PlaceUtil.saveDefaultSearchPlace(searchPlace);*/
             }
         }
     }
