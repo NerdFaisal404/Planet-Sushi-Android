@@ -2,6 +2,7 @@ package fr.sushi.app.ui.menu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -137,6 +138,14 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ProductsItem item = productsItems.get(index);
         BaseHolder holder = (BaseHolder) viewHolder;
 
+        if(Integer.parseInt(item.getOnlyAm())==0){
+            //show original color
+            holder.backgroundLayout.setBackgroundColor(0);
+        }else{
+            // show different color
+            holder.backgroundLayout.setBackgroundColor(Color.parseColor("#33000000"));
+        }
+
         holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,6 +180,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         View mViewContent, selectedView;
         View mActionContainer;
         ImageView imageViewItem, imageViewItemAnim, imageViewPlus;
+        RelativeLayout backgroundLayout;
 
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
@@ -183,6 +193,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             imageViewItemAnim = itemView.findViewById(R.id.imageViewItemAnim);
             imageViewPlus = itemView.findViewById(R.id.imageViewPlus);
             itemCount = itemView.findViewById(R.id.itemCount);
+            backgroundLayout = itemView.findViewById(R.id.layout_background);
         }
 
         private void bind(ProductsItem item) {
