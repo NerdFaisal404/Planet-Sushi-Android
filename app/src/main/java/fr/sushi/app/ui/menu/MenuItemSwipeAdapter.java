@@ -3,6 +3,7 @@ package fr.sushi.app.ui.menu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -140,6 +141,14 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ProductsItem item = productsItems.get(index);
         BaseHolder holder = (BaseHolder) viewHolder;
 
+        if(Integer.parseInt(item.getOnlyAm())==0){
+            //show original color
+            holder.backgroundLayout.setBackgroundColor(0);
+        }else{
+            // show different color
+            holder.backgroundLayout.setBackgroundColor(Color.parseColor("#33000000"));
+        }
+
         holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,6 +185,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         View mViewContent, selectedView;
         View mActionContainer;
         ImageView imageViewItem, imageViewItemAnim, imageViewPlus;
+        RelativeLayout backgroundLayout;
 
         public BaseHolder(@NonNull View itemView) {
             super(itemView);
@@ -188,6 +198,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
             imageViewItemAnim = itemView.findViewById(R.id.imageViewItemAnim);
             imageViewPlus = itemView.findViewById(R.id.imageViewPlus);
             itemCount = itemView.findViewById(R.id.itemCount);
+            backgroundLayout = itemView.findViewById(R.id.layout_background);
         }
 
         private void bind(ProductsItem item) {
@@ -399,6 +410,8 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         if (product.getIdCategory().equals(String.valueOf(crossSellingItem.getIdCategory()))) {
                             product.setItemClickCount(0);
                             product.setMaxCount(crossSellingItem.getQuantityMax());
+                            product.setOnlyAm(String.valueOf(crossSellingItem.getOnlyAm()));
+
                             product.setFree(crossSellingItem.getIsFree() == 1);
                             product.setRequired(crossSellingItem.getIsRequired() == 1);
                             product.setCategoryName(crossSellingItem.getCategoryName());
@@ -409,7 +422,7 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 isItemRequired = product.isRequired();
                             }
                             product.setDescription(crossSellingItem.getDescription());
-                            Log.w("CrossCategoryTest", "CatName: : " + product.getCategoryName() + " productName: " + product.getName());
+                            Log.w("CrossCategoryTest", "OnlyAM: : " + product.getOnlyAm());
                             crossSellingProductsItemList.add(product);
                         }
                     }

@@ -41,14 +41,15 @@ public class ProfileAddressActivity extends BaseActivity implements ItemClickLis
         mAddressViewModel.getAddressList().observe(this, addressList -> {
             mAdapter.clear();
             mAdapter.addItems(addressList);
-            ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
+
+            /*ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
             SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                     addressModel.getLocation());
             searchPlace.setAddressId(addressModel.getId());
             searchPlace.setInterphone(addressModel.getInterphone());
             searchPlace.setFloor(addressModel.getFloor());
             searchPlace.setAccessCode(addressModel.getAccessCode());
-            PlaceUtil.saveDefaultSearchPlace(searchPlace);
+            PlaceUtil.saveDefaultSearchPlace(searchPlace);*/
         });
     }
 
