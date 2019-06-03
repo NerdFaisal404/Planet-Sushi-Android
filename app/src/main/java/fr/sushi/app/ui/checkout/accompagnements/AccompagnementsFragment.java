@@ -154,7 +154,7 @@ public class AccompagnementsFragment extends Fragment implements View.OnClickLis
         freeSideProductCount = ((PaymentMethodCheckoutActivity) getActivity()).getFreeSaucesCount();
         String items = "" + freeSideProductCount;
 
-        String subTitle = "Choisissez vos <font color=\"#EA148A\">" + items + " sauce(s) gratuite(s),</font>" + " wasabi, gingembre et baguettes.\n Compléter votre commande d'un accompagnement, d'une boisson ou d'un dessert. Sauce(s) offertes";
+        String subTitle = "Choisissez vos <font color=\"#EA148A\">" + items + " sauce(s) gratuite(s),</font>" + " wasabi, gingembre et baguettes.\n Compléter votre commande d'un accompagnement, d'une boisson ou d'un dessert.";
 
 
         binding.tvSubtitle.setText(Html.fromHtml(subTitle), TextView.BufferType.SPANNABLE);
