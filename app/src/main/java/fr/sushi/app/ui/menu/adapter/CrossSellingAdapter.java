@@ -2,6 +2,7 @@ package fr.sushi.app.ui.menu.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -24,6 +25,7 @@ import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.databinding.ItemCrossSellingMenuBinding;
 import fr.sushi.app.ui.base.BaseAdapter;
 import fr.sushi.app.ui.base.BaseViewHolder;
+import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.util.Utils;
 /*
  *  ****************************************************************************
@@ -49,12 +51,18 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
     public List<CrossSellingProductsItem> selectedItemList = new ArrayList<>();
 
+    private String mOwnTime = "";
+
     public CrossSellingAdapter(Map<String, String> crossSellingItemRequiredList) {
         this.crossSellingItemRequiredList = new HashMap<>();
         radioButtonCheckList = new HashMap<>();
         radioSelectedItemList = new HashMap<>();
         crossSellingItemClickedList = new HashMap<>();
         this.crossSellingItemRequiredList = crossSellingItemRequiredList;
+
+        if (PlaceUtil.getRecentSearchAddress() != null) {
+            mOwnTime = PlaceUtil.getRecentSearchAddress().getOrder().getSchedule();
+        }
     }
 
     @Override
@@ -89,6 +97,29 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
 
         @Override
         public void bind(CrossSellingProductsItem item) {
+
+            if (Integer.parseInt(item.getOnlyAm()) == 0) {
+                //show original color
+                binding.backgroundLayout.setBackgroundColor(Color.WHITE);
+            } else {
+
+                if (TextUtils.isEmpty(mOwnTime)) {
+                    // show different color
+                    binding.backgroundLayout.setBackgroundColor(Color.parseColor("#40808080"));
+                } else {
+                    //check exist time or not
+
+                    String arr[] = mOwnTime.split(":");
+                    if (Integer.parseInt(arr[0]) >= 11 && Integer.parseInt(arr[0]) <= 15) {
+                        Log.d("TimeTest", "match: ");
+                        binding.backgroundLayout.setBackgroundColor(Color.WHITE);
+                    } else {
+                        binding.backgroundLayout.setBackgroundColor(Color.parseColor("#40808080"));
+                        Log.d("TimeTest", "not match 2: ");
+                    }
+                }
+            }
+
             if (item.getMaxCount() > 1) {
 
                 binding.checkItem.setVisibility(View.VISIBLE);

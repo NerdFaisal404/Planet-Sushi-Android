@@ -44,6 +44,7 @@ import fr.sushi.app.data.model.food_menu.CrossSellingItem;
 import fr.sushi.app.data.model.food_menu.CrossSellingProductsItem;
 import fr.sushi.app.data.model.food_menu.ProductsItem;
 import fr.sushi.app.ui.base.ItemClickListener;
+import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.menu.adapter.CrossSellingAdapter;
 import fr.sushi.app.ui.menu.model.CrossSellingSelectedItem;
 import fr.sushi.app.util.Utils;
@@ -72,10 +73,16 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
     double totalPrice;
     int count = 1;
 
+    private String mOwnTime = "";
+
     public MenuItemSwipeAdapter(Context context, List<ProductsItem> itemList, Listener listener) {
         this.mContext = context;
         this.productsItems = itemList;
         this.itemClickListener = listener;
+
+        if (PlaceUtil.getRecentSearchAddress() != null) {
+            mOwnTime = PlaceUtil.getRecentSearchAddress().getOrder().getSchedule();
+        }
     }
 
     public void setSelected(List<MyCartProduct> myCartProducts) {
@@ -138,13 +145,29 @@ public class MenuItemSwipeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ProductsItem item = productsItems.get(index);
         BaseHolder holder = (BaseHolder) viewHolder;
 
-        if(Integer.parseInt(item.getOnlyAm())==0){
+
+        if (Integer.parseInt(item.getOnlyAm()) == 0) {
             //show original color
             holder.backgroundLayout.setBackgroundColor(0);
-        }else{
-            // show different color
-            holder.backgroundLayout.setBackgroundColor(Color.parseColor("#33000000"));
+        } else {
+
+            if (TextUtils.isEmpty(mOwnTime)) {
+                // show different color
+                holder.backgroundLayout.setBackgroundColor(Color.parseColor("#40808080"));
+            } else {
+                //check exist time or not
+
+                String arr[] = mOwnTime.split(":");
+                if (Integer.parseInt(arr[0]) >= 11 && Integer.parseInt(arr[0]) <=15) {
+                    Log.d("TimeTest", "match: ");
+                    holder.backgroundLayout.setBackgroundColor(0);
+                } else {
+                    holder.backgroundLayout.setBackgroundColor(Color.parseColor("#40808080"));
+                    Log.d("TimeTest", "not match 2: ");
+                }
+            }
         }
+
 
         holder.imageViewPlus.setOnClickListener(new View.OnClickListener() {
             @Override
