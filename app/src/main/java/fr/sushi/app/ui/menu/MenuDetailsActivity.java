@@ -347,13 +347,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
         if (isLivarsion) {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         } else if (isExporter) {
             binding.tvDeliveryType.setText("A emporter");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         } else {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         }
 
         SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
