@@ -253,7 +253,7 @@
                     android:fontFamily="@font/robot_regular"
                     android:singleLine="true"
                     android:text="+ Ajouter un code réduction"
-                    android:textColor="#394F61"
+                    android:textColor="#99394F61"
                     android:textSize="@dimen/sp16" />
 
                 <TextView
