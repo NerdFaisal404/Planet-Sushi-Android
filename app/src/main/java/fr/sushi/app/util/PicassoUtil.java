@@ -41,7 +41,7 @@ public class PicassoUtil {
 
             @Override
             public void onError(Exception e) {
-                Picasso.get().load(path).placeholder(context.getResources().getDrawable(R.drawable.ic_place_holder)).into(imageView);
+                Picasso.get().load(path).placeholder(context.getResources().getDrawable(R.drawable.bg_home_image)).into(imageView);
             }
 
         });

@@ -2,8 +2,8 @@
 
 buildscript {
     ext{
-        versionCode = 1
-        versionName = '0.0.1'
+        versionCode = 3
+        versionName = '1.2'
 
         // Sdk and tools
         minSdkVersion = 21

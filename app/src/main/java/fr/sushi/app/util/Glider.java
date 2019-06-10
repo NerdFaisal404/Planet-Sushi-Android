@@ -23,7 +23,7 @@ public class Glider {
         RequestOptions requestOptions = new
                 RequestOptions();
 
-        requestOptions.placeholder(context.getResources().getDrawable(R.drawable.ic_place_holder));
+        requestOptions.placeholder(context.getResources().getDrawable(R.drawable.bg_home_image));
         Glide.with(context)
                 .load(path)
                 .listener(new RequestListener<Drawable>() {

@@ -220,7 +220,7 @@ public class CrossSellingAdapter extends BaseAdapter<CrossSellingProductsItem> {
                     binding.textViewRadioItem.setText(Html.fromHtml(getColorText(item.getName())), TextView.BufferType.SPANNABLE);
                 }
 
-                binding.textViewPrice.setText(item.getPriceHt() + "€");
+                binding.textViewPrice.setText(item.getPriceTtc() + "€");
 
                 binding.radioItem.setOnClickListener(new View.OnClickListener() {
                     @Override

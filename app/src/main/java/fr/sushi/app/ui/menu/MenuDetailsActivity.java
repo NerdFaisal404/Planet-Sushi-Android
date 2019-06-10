@@ -107,13 +107,17 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         binding.priceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
-                    startActivity(new Intent(MenuDetailsActivity.this, PaymentMethodCheckoutActivity.class));
+                startActivity(new Intent(MenuDetailsActivity.this,
+                        PaymentMethodCheckoutActivity.class));
+
+                /*if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                    startActivity(new Intent(MenuDetailsActivity.this,
+                            PaymentMethodCheckoutActivity.class));
                 } else {
                     Intent accountIntent = new Intent(MenuDetailsActivity.this, EmptyNewProfileActivity.class);
                     accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
                     startActivity(accountIntent);
-                }
+                }*/
             }
         });
 
@@ -343,13 +347,13 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
         boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
         if (isLivarsion) {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         } else if (isExporter) {
             binding.tvDeliveryType.setText("A emporter");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         } else {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour " );
         }
 
         SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
@@ -368,6 +372,14 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private MenuItemSwipeAdapter.Listener selectListener = new MenuItemSwipeAdapter.Listener() {
         @Override
         public void onItemClick(ProductsItem item, ImageView imageView) {
+
+            if(!PlaceUtil.isAddressSaved()){
+                Intent intent = new Intent(MenuDetailsActivity.this,
+                        AddressPickerActivity.class);
+                startActivity(intent);
+                return;
+            }
+
             imageView.setVisibility(View.VISIBLE);
             //MenuPrefUtil.saveItem(item);
             DBManager.on().saveProductItem(item);
@@ -457,7 +469,7 @@ public class MenuDetailsActivity extends BaseActivity implements TopMenuAdapter.
     private String getTotalPrice() {
         double total = 0.0;
         for (MyCartProduct item : selectedProducts) {
-            total = total + (Double.valueOf(item.getPriceHt()) * item.getItemCount());
+            total = total + (Double.valueOf(item.getPriceTtc()) * item.getItemCount());
         }
 
         List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();

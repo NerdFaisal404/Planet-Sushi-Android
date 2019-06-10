@@ -70,13 +70,13 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
         if (isLivarsion) {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour ");
         } else if (isExporter) {
             binding.tvDeliveryType.setText("A emporter");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour ");
         } else {
             binding.tvDeliveryType.setText("Livraison");
-            binding.tvDeliveryInfo.setText("prévue pour " + currentTime);
+            binding.tvDeliveryInfo.setText("prévue pour ");
         }
 
         SearchPlace recentSearchPlace = PlaceUtil.getRecentSearchAddress();
@@ -90,14 +90,14 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         binding.layoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  showBottomDialog();
+                //  showBottomDialog();
                 Intent intent = new Intent(getActivity(), AddressPickerActivity.class);
                 boolean isLivarsion = SharedPref.readBoolean(PrefKey.IS_LIBRATION_PRESSED, false);
                 boolean isExporter = SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false);
                 if (isLivarsion) {
-                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,false);
-                }else if (isExporter){
-                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY,true);
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY, false);
+                } else if (isExporter) {
+                    intent.putExtra(IntentKey.KEY_IS_TAKEWAY, true);
                 }
                 intent.putExtra(IntentKey.KEY_FROM_FOOD_CATEGORY, true);
                 startActivity(intent);
@@ -113,7 +113,7 @@ public class FoodMenuFragment extends BaseFragment implements FoodMenuAdapter.Li
         if (SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
             //binding.layoutSignup.setVisibility(View.GONE);
             binding.layoutAddress.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.layoutAddress.setVisibility(View.GONE);
         }
     }

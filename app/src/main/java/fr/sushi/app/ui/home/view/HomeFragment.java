@@ -247,7 +247,7 @@ public class HomeFragment extends BaseFragment {
                     if (error == true) {
                         DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
 
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
@@ -261,7 +261,7 @@ public class HomeFragment extends BaseFragment {
                             currentSearchPlace.setTime(selectedOrder.getSchedule());
                             currentSearchPlace.setType(binding.tvDelivery.getText().toString());
                             if (isDeafultAddressPress) {
-                                PlaceUtil.saveDefaultSearchPlace(currentSearchPlace);
+                                //PlaceUtil.saveDefaultSearchPlace(currentSearchPlace);
                             } else {
                                 PlaceUtil.saveRecentSearchAddress(currentSearchPlace);
                             }
@@ -547,7 +547,7 @@ public class HomeFragment extends BaseFragment {
                         if (error == true) {
                             DialogUtils.hideDialog();
                             errorResponse = new Gson().fromJson(response.toString(), ErrorResponse.class);
-                            Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                            Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
 
                         } else {
 

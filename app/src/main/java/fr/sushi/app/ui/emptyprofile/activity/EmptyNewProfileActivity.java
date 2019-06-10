@@ -57,6 +57,7 @@ public class EmptyNewProfileActivity extends BaseActivity {
     ActivityNewProfileBinding mBinding;
     LoginViewModel mViewModel;
     boolean isFromCart;
+    private int mDefaultAddress;
 
     @Override
     protected int getLayoutId() {
@@ -170,6 +171,8 @@ public class EmptyNewProfileActivity extends BaseActivity {
                         String phone = customerObj.getString("phone");
                         String id = customerObj.getString("id_customer");
 
+                        mDefaultAddress = customerObj.optInt("id_address");
+
                         // JSONObject bDayObj = customerObj.getJSONObject("birthday");
                         //int year = bDayObj.getInt("year");
                         // int month = bDayObj.getInt("month");
@@ -241,6 +244,18 @@ public class EmptyNewProfileActivity extends BaseActivity {
                     model.setZipCode(postcode);
                     model.setCity(city);
 
+                    if (mDefaultAddress != 0 && mDefaultAddress == Integer.parseInt(addressId)) {
+                        // we will save deafault address
+
+                        SearchPlace searchPlace = new SearchPlace(model.getZipCode(), model.getCity(),
+                                model.getLocation());
+                        searchPlace.setAddressId(model.getId());
+                        searchPlace.setInterphone(model.getInterphone());
+                        searchPlace.setFloor(model.getFloor());
+                        searchPlace.setAccessCode(model.getAccessCode());
+                        PlaceUtil.saveDefaultSearchPlace(searchPlace);
+                    }
+
                     addressList.add(model);
 
                 } catch (JSONException e) {
@@ -250,13 +265,13 @@ public class EmptyNewProfileActivity extends BaseActivity {
             if (!addressList.isEmpty()) {
                 mViewModel.addAddress(addressList);
                 ProfileAddressModel addressModel = addressList.get(addressList.size() - 1);
-                SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
+                /*SearchPlace searchPlace = new SearchPlace(addressModel.getZipCode(), addressModel.getCity(),
                         addressModel.getLocation());
                 searchPlace.setAddressId(addressModel.getId());
                 searchPlace.setInterphone(addressModel.getInterphone());
                 searchPlace.setFloor(addressModel.getFloor());
                 searchPlace.setAccessCode(addressModel.getAccessCode());
-                PlaceUtil.saveDefaultSearchPlace(searchPlace);
+                PlaceUtil.saveDefaultSearchPlace(searchPlace);*/
             }
         }
     }

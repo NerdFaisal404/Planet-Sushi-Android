@@ -2,6 +2,7 @@ package fr.sushi.app.ui.checkout;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -18,6 +19,7 @@ import fr.sushi.app.data.model.food_menu.FoodMenuResponse;
 import fr.sushi.app.data.remote.network.ApiResponseError;
 import fr.sushi.app.data.remote.network.Repository;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
+import fr.sushi.app.ui.home.SearchPlace;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -78,16 +80,34 @@ public class CheckoutViewModel extends ViewModel {
     public void updateAddress(ProfileAddressModel model) {
         String json = SharedPref.read(PrefKey.USER_ADDRESS, "");
         List<ProfileAddressModel> itemList = GsonHelper.on().convertJsonToNormalAddress(json);
+        SearchPlace searchPlace = new SearchPlace(model.getZipCode(), model.getCity(),
+                model.getLocation());
+        searchPlace.setAddressId(model.getId());
+        searchPlace.setInterphone(model.getInterphone());
+        searchPlace.setFloor(model.getFloor());
+        searchPlace.setAccessCode(model.getAccessCode());
+        // PlaceUtil.saveDefaultSearchPlace(searchPlace);
 
         for (ProfileAddressModel item : itemList) {
             if (item.getId().equals(model.getId())) {
-                //TODO update data of item
+                item.setAddressType(TextUtils.isEmpty(model.getAddressType()) ? "" : model.getAddressType());
+                item.setLocation(TextUtils.isEmpty(model.getLocation()) ? "" : model.getLocation());
+                item.setCity(TextUtils.isEmpty(model.getCity()) ? "" : model.getCity());
+                item.setZipCode(TextUtils.isEmpty(model.getZipCode()) ? "" : model.getZipCode());
+                item.setBuilding(TextUtils.isEmpty(model.getBuilding()) ? "" : model.getBuilding());
+                item.setFloor(TextUtils.isEmpty(model.getFloor()) ? "" : model.getFloor());
+                item.setAppartment(TextUtils.isEmpty(model.getAppartment()) ? "" : model.getAppartment());
+                item.setCompany(TextUtils.isEmpty(model.getCompany()) ? "" : model.getCompany());
+                item.setInterphone(TextUtils.isEmpty(model.getInterphone()) ? "" : model.getInterphone());
+                item.setAccessCode(TextUtils.isEmpty(model.getAccessCode()) ? "" : model.getAccessCode());
+                item.setInformation(TextUtils.isEmpty(model.getInformation()) ? "" : model.getInformation());
+
+
                 break;
             }
         }
         String finalJson = GsonHelper.on().convertAddressToJson(itemList);
         SharedPref.write(PrefKey.USER_ADDRESS, finalJson);
-
     }
 
     public void addOrUpdateAddressInServer(ProfileAddressModel model) {

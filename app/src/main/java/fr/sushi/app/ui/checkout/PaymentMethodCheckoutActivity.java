@@ -46,6 +46,7 @@ import fr.sushi.app.ui.checkout.accompagnements.AccompagnementsFragment;
 import fr.sushi.app.ui.checkout.commade.CommadeFragment;
 import fr.sushi.app.ui.checkout.model.PaymentModel;
 import fr.sushi.app.ui.checkout.model.PaymentSessionModel;
+import fr.sushi.app.ui.emptyprofile.activity.EmptyNewProfileActivity;
 import fr.sushi.app.ui.home.PlaceUtil;
 import fr.sushi.app.ui.home.SearchPlace;
 import fr.sushi.app.ui.menu.MyCartProduct;
@@ -150,6 +151,17 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.layoutSubmit.setGravity(Gravity.CENTER);
                     binding.tvSubmit.setText("PAYER " + Utils.getDecimalFormat(totalPriceWithSideProducts) + "€");
                     binding.ivRightArrow.setPadding(100, 0, 0, 0);
+                    binding.ivRightArrow.setVisibility(View.GONE);
+
+                    if (!SharedPref.readBoolean(PrefKey.IS_LOGINED, false)) {
+                        Intent accountIntent = new Intent(PaymentMethodCheckoutActivity.this,
+                                EmptyNewProfileActivity.class);
+
+                        accountIntent.putExtra(IntentKey.KEY_IS_FROM_CART, true);
+                        startActivity(accountIntent);
+                        binding.viewpager.setCurrentItem(0);
+                    }
+
                 } else {
                     binding.totalPriceTv.setVisibility(View.VISIBLE);
                     binding.midline.setVisibility(View.VISIBLE);
@@ -157,6 +169,7 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
                     binding.layoutSubmit.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                     binding.tvSubmit.setText("CONTINUER");
                     binding.ivRightArrow.setPadding(0, 0, 0, 0);
+                    binding.ivRightArrow.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -500,6 +513,9 @@ public class PaymentMethodCheckoutActivity extends AppCompatActivity {
         this.totalPriceWithSideProducts = productTotalPrice;
 
         this.freeSaucesCount = (int) productTotalPrice / 10;
+        AccompagnementsFragment fragment = (AccompagnementsFragment) pagerAdapter.getItem(1);
+        fragment.setFreeSaucesCount(freeSaucesCount);
+
         binding.totalPriceTv.setText(Utils.getDecimalFormat(productTotalPrice) + "€");
         int minimumPrice = (int) this.productTotalPrice;
         if (!SharedPref.readBoolean(PrefKey.IS_EMPORTER_PRESSED, false) && minimumPrice < minimuOrderAmount) {

@@ -127,7 +127,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
         totalPrice = 0.0;
 
         for (MyCartProduct item : selectedProducts) {
-            totalPrice = totalPrice + (Double.parseDouble(item.getPriceHt()) * item.getItemCount());
+            totalPrice = totalPrice + (Double.parseDouble(item.getPriceTtc()) * item.getItemCount());
         }
 
         List<CrossSellingSelectedItem> sellingSelectedItems = DBManager.on().getAllCrossSellingItems();
@@ -178,6 +178,7 @@ public class CommadeFragment extends Fragment implements CommadeAdapter.Listener
 
     @Override
     public void onRefreshUi() {
+        isTotalPriceCalculated = false;
         initView();
     }
 }

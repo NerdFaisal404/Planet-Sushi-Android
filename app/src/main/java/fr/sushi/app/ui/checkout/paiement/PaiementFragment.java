@@ -157,7 +157,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     if (error == true) {
                         DialogUtils.hideDialog();
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
 
                     } else {
                         addressResponse = new Gson().fromJson(responseObject.toString(), AddressResponse.class);
@@ -198,7 +198,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     Log.e("JsonObject", "" + responseObject.toString());
                     if (error == true) {
                         errorResponse = new Gson().fromJson(responseObject.toString(), ErrorResponse.class);
-                        Utils.showAlert(getActivity(), "Erreur!", "Nous sommes desole, Planet Sushi ne delivre actuellement pas cette zone.");
+                        Utils.showAlert(getActivity(), "Erreur!", errorResponse.getErrorString());
 
                     } else {
                         discountResponse = new Gson().fromJson(responseObject.toString(), DiscountResponse.class);
@@ -645,7 +645,7 @@ public class PaiementFragment extends Fragment implements OnMapReadyCallback {
                     binding.tvAddressHouse.setText(fullText);
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#394F61"));
                 } else {
-                    binding.tvAddressHouse.setText("Ajouter un code,étage,interphone");
+                    binding.tvAddressHouse.setText("Ajouter un code, étage, interphone");
                     binding.tvAddressHouse.setTextColor(Color.parseColor("#EA148A"));
                 }
 
